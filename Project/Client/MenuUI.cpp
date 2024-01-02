@@ -164,7 +164,7 @@ int MenuUI::render_update()
 
         if (ImGui::BeginMenu("Resource"))
         {
-            if (ImGui::MenuItem("Create Emty Material"))
+            if (ImGui::MenuItem("Create Empty Material"))
             {
                 CreateEmptyMaterial();
             }
@@ -195,8 +195,11 @@ void MenuUI::CreateEmptyObject()
 void MenuUI::CreateEmptyMaterial()
 {
     Ptr<CMaterial> pNewMtrl = new CMaterial;
-    CResMgr::GetInst()->AddRes<CMaterial>(L"material\\EmptyMtrl.mtrl", pNewMtrl);
-    pNewMtrl->Save(pNewMtrl->GetKey());
+    pNewMtrl->SetName(L"Material " + to_wstring(pNewMtrl->GetID()));
+    wstring strPath = L"material\\" + pNewMtrl->GetName() + L".mtrl";
+    CResMgr::GetInst()->AddRes<CMaterial>(strPath, pNewMtrl, strPath);
+    pNewMtrl->Save(strPath);
+
 }
 
 void MenuUI::AddComponent(COMPONENT_TYPE _type)

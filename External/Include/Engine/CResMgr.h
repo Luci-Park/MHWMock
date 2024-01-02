@@ -49,7 +49,7 @@ public:
     Ptr<T> FindRes(const wstring& _strKey);
 
     template<typename T>
-    void AddRes(const wstring& _strKey, Ptr<T>& _Res);
+    void AddRes(const wstring& _strKey, Ptr<T>& _Res, const wstring& _strRelativePath = L"");
 
     template<typename T>
     Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
@@ -105,7 +105,7 @@ inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
 
 
 template<typename T>
-inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T>& _Res)
+inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T>& _Res, const wstring& _strRelativePath)
 {
     // 중복키로 리소스 추가하려는 경우
     assert( ! FindRes<T>(_strKey).Get() );
@@ -113,6 +113,7 @@ inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T>& _Res)
     RES_TYPE type = GetResType<T>();
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
     _Res->SetKey(_strKey);
+    _Res->SetRelativePath(_strRelativePath);
 
     m_Changed = true;
 }
