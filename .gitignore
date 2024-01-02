@@ -6,7 +6,6 @@
 # User-specific files
 *.rsuser
 *.suo
-*.user
 *.userosscache
 *.sln.docstates
 
@@ -396,3 +395,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+!OutputFile/*
+unity_*
+#
