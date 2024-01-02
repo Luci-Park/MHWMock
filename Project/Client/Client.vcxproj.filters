@@ -233,6 +233,7 @@
     <ClInclude Include="CLevelSaveLoad.h">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
+    <ClInclude Include="CCustomResourceLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -364,5 +365,6 @@
     <ClCompile Include="CLevelSaveLoad.cpp">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
+    <ClCompile Include="CCustomResourceLoader.cpp" />
   </ItemGroup>
 </Project>
