@@ -6,6 +6,7 @@
 
 class CCamera;
 class CLight2D;
+class CLight3D;
 class CStructuredBuffer;
 class CMRT;
 
@@ -80,6 +81,7 @@ public:
 
 private:
     void UpdateData();
+    void render_shadowmap();
     void render_play();
     void render_editor();
     void Clear();

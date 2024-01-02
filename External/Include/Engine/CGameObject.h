@@ -45,7 +45,9 @@ public:
 
     void tick();        
     virtual void finaltick();
+    void finaltick_module();
     void render();
+    void render_shadowmap();
 
 public:
     void AddComponent(CComponent* _Component);
