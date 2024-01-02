@@ -78,12 +78,33 @@
     <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_d</TargetName>
     <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
+    <ReferencePath>$(VC_ReferencePath_x64);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <ReferencePath>$(VC_ReferencePath_x64);$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencePath_x64);$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencePath_x64);$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,6 +120,12 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)
+call ScriptCopy.bat
+cd $(SolutionDir)\OutputFile\bin_d\
+call CodeGen.exe</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -118,6 +145,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)
+call ScriptCopy.bat
+cd $(SolutionDir)\OutputFile\bin_d\
+call CodeGen.exe</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
