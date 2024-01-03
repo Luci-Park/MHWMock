@@ -398,4 +398,7 @@ FodyWeavers.xsd
 
 !OutputFile/*
 unity_*
-#
+External/Library/Engine/*
+External/Library/Script/*
+*.exe
+*.ini
