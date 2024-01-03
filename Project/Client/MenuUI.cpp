@@ -45,14 +45,15 @@ int MenuUI::render_update()
         {
             if (ImGui::MenuItem("Save Level"))
             {
-                // Level 저장
-                CLevelSaveLoad::SaveLevel(L"Level\\TestLevel.lv", CLevelMgr::GetInst()->GetCurLevel());                
+                CLevel* pLoadedLevel = CLevelMgr::GetInst()->GetCurLevel();
+                wstring strFilename = L"level\\" + pLoadedLevel->GetName() + L".lv";
+                assert(CLevelSaveLoad::SaveLevel(strFilename, pLoadedLevel) == S_OK);
             }
 
             if (ImGui::MenuItem("Load Level"))
             {
                 // Level 불러오기
-                CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"Level\\TestLevel.lv");
+                CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
 
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
@@ -60,7 +61,10 @@ int MenuUI::render_update()
 
                 CEventMgr::GetInst()->AddEvent(evn);
             }
-
+            if (ImGui::MenuItem("Create Level"))
+            {
+                //luci TODO: Create Level with name input
+            }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("GameObject"))
