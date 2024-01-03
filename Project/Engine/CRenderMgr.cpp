@@ -63,6 +63,7 @@ void CRenderMgr::render()
 void CRenderMgr::render_play()
 {
     // 카메라 기준 렌더링
+
     for (size_t i = 0; i < m_vecCam.size(); ++i)
     {
         if (nullptr == m_vecCam[i])
@@ -72,8 +73,11 @@ void CRenderMgr::render_play()
         // - 해당 카메라가 볼 수 있는 물체(레이어 분류)
         // - 재질에 따른 분류 (재질->쉐이더) 쉐이더 도메인
         //   쉐이더 도메인에 따라서 렌더링 순서분류
-        m_vecCam[i]->SortObject();
-        m_vecCam[i]->render();
+        m_vecCam[0]->SortObject();
+
+        m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
+
+        m_vecCam[0]->render();
     }
 }
 
