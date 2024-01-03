@@ -70,16 +70,21 @@ void OutlinerUI::ResetOutliner()
 		CLayer* pLayer = pCurLevel->GetLayer(i);
 		
 		// Layer OutlineUI에 띄우기
-		// Layer->GetName() = wstring이기 때문에 string이용하여 변환.
-		TreeNode* pCategory = m_Tree->AddItem(string(pLayer->GetName().begin(), pLayer->GetName().end()), 0);
-		pCategory->SetCategoryNode(true);
 
-		const vector<CGameObject*>& vecParentObj = pLayer->GetParentObject();
-		
-		// Layer의 하위객체로 GameObj 띄우기
-		for (size_t i = 0; i < vecParentObj.size(); ++i)
+
+		if (pLayer->GetName() != L"")
 		{
-			AddGameObject(vecParentObj[i], pCategory);
+			// Layer->GetName() = wstring이기 때문에 string이용하여 변환.
+			TreeNode* pCategory = m_Tree->AddItem(string(pLayer->GetName().begin(), pLayer->GetName().end()), 0);
+			pCategory->SetCategoryNode(true);
+
+			const vector<CGameObject*>& vecParentObj = pLayer->GetParentObject();
+
+			// Layer의 하위객체로 GameObj 띄우기
+			for (size_t i = 0; i < vecParentObj.size(); ++i)
+			{
+				AddGameObject(vecParentObj[i], pCategory);
+			}
 		}
 	}
 }
