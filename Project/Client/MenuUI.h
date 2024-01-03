@@ -19,6 +19,7 @@ private:
     void AddComponent(COMPONENT_TYPE _type);
     void AddScript(const wstring& _strScriptName);
 
+    vector<wstring> GetLevels();
 public:
     MenuUI();
     ~MenuUI();

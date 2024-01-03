@@ -2,6 +2,7 @@
 #include "MenuUI.h"
 
 #include "CLevelSaveLoad.h"
+
 #include <Engine\CEventMgr.h>
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
@@ -46,24 +47,47 @@ int MenuUI::render_update()
             if (ImGui::MenuItem("Save Level"))
             {
                 CLevel* pLoadedLevel = CLevelMgr::GetInst()->GetCurLevel();
-                wstring strFilename = L"level\\" + pLoadedLevel->GetName() + L".lv";
-                assert(CLevelSaveLoad::SaveLevel(strFilename, pLoadedLevel) == S_OK);
+
+                wstring strPath = L"level\\" + pLoadedLevel->GetName() + L".lv";
+                assert(CLevelSaveLoad::SaveLevel(strPath, pLoadedLevel) == S_OK);
             }
 
-            if (ImGui::MenuItem("Load Level"))
+            if (ImGui::BeginMenu("Load Level"))
             {
-                // Level 불러오기
-                CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+                auto vecLevels = GetLevels();
+                for (int i = 0; i < vecLevels.size(); i++)
+                {
+                    string strNarrow(vecLevels[i].begin(), vecLevels[i].end());
+                    if (ImGui::MenuItem(strNarrow.c_str()))
+                    {
+                        wstring filename = L"level\\" + vecLevels[i] + L".lv";
+                        // Level 불러오기
+                        CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(filename);
 
-                tEvent evn = {};
-                evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-                evn.wParam = (DWORD_PTR)pLoadedLevel;
+                        tEvent evn = {};
+                        evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+                        evn.wParam = (DWORD_PTR)pLoadedLevel;
 
-                CEventMgr::GetInst()->AddEvent(evn);
+                        CEventMgr::GetInst()->AddEvent(evn);
+                    }
+                }
+                ImGui::EndMenu();
             }
             if (ImGui::MenuItem("Create Level"))
             {
                 //luci TODO: Create Level with name input
+                CLevel* pNewLevel = new CLevel;
+                wstring strLevelName = L"New Level" + to_wstring(pNewLevel->GetID());
+                pNewLevel->SetName(strLevelName);
+
+                wstring strPath = L"level\\" + pNewLevel->GetName() + L".lv";
+                assert(CLevelSaveLoad::SaveLevel(strPath, pNewLevel) == S_OK);
+
+                tEvent evn = {};
+                evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+                evn.wParam = (DWORD_PTR)pNewLevel;
+
+                CEventMgr::GetInst()->AddEvent(evn);
             }
             ImGui::EndMenu();
         }
@@ -141,7 +165,7 @@ int MenuUI::render_update()
 
             if (ImGui::MenuItem("Play", nullptr, nullptr, PlayEnable))
             {                
-                CLevelSaveLoad::SaveLevel(L"Level\\Temp.lv", CurLevel);
+                CLevelSaveLoad::SaveLevel(L"level\\Temp.lv", CurLevel);
                 CurLevel->ChangeState(LEVEL_STATE::PLAY);
             }
             else if (ImGui::MenuItem("Pause", nullptr, nullptr, PauseEnable))
@@ -151,7 +175,7 @@ int MenuUI::render_update()
             else if (ImGui::MenuItem("Stop", nullptr, nullptr, StopEnable))
             {
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
-                CLevel* pNewLevel = CLevelSaveLoad::LoadLevel(L"Level\\Temp.lv");
+                CLevel* pNewLevel = CLevelSaveLoad::LoadLevel(L"level\\Temp.lv");
              
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
@@ -284,3 +308,26 @@ void MenuUI::AddScript(const wstring& _strScriptName)
 
     inspector->SetTargetObject(pSelectedObject);
 }
+
+std::vector<std::wstring> MenuUI::GetLevels()
+{
+    std::vector<std::wstring> levels;
+    wstring filename = CPathMgr::GetInst()->GetContentPath();
+    filename += L"level\\";
+    try {
+        path contentPath = filename;
+
+        for (const auto& entry : directory_iterator(contentPath)) {
+            if (is_regular_file(entry) && entry.path().extension() == L".lv") {
+                levels.push_back(entry.path().stem().wstring());
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        // Handle exceptions (e.g., display an error message, log the error)
+        // For example: std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return levels;
+}
+

@@ -6,5 +6,10 @@ how to change
 1. Create Level
 2. Load Level => show all levels
 	=> Done At Content UI
+	=> 로드한 레벨만 이름 설정이 가능하면 ok.
 3. save Level => Get Current LEvel
 	- ok, but needs to save better, no errors but.. doesn't come up correctly.
+
+질문)
+1. 이름이 고정이 안되는데 왜일까.
+2. level manager에서 레벨 전환과 다른 점이 무엇이지
