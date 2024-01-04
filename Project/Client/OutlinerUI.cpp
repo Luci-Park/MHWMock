@@ -70,8 +70,6 @@ void OutlinerUI::ResetOutliner()
 		CLayer* pLayer = pCurLevel->GetLayer(i);
 		
 		// Layer OutlineUI에 띄우기
-
-
 		if (pLayer->GetName() != L"")
 		{
 			// Layer->GetName() = wstring이기 때문에 string이용하여 변환.

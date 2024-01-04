@@ -43,11 +43,11 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::render()
 {
-    // 광원 및 전역 데이터 업데이트 및 바인딩
-    UpdateData();
-
     // MRT Clear    
     ClearMRT();
+
+    // 광원 및 전역 데이터 업데이트 및 바인딩
+    UpdateData();
 
     // Dynamic ShadowMap
     render_shadowmap();
