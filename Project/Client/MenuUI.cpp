@@ -183,7 +183,7 @@ void MenuUI::CreateEmptyObject()
     CGameObject* pNewObject = new CGameObject;
     pNewObject->AddComponent(new CTransform);
     pNewObject->SetName(L"New Object");
-    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), L"Default");
+    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), ToWString((LAYER_TYPE)0));
 
     // Outliner 를 가져온다.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");

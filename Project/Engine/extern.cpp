@@ -68,7 +68,7 @@ extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END] =
 	L"DECAL",
 };
 
-extern const char* COMPONENT_TYPE_STR[(UINT)LAYER_TYPE::END] =
+extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END] =
 {
 	"Default",
 	"Tile",
@@ -104,7 +104,7 @@ extern const char* COMPONENT_TYPE_STR[(UINT)LAYER_TYPE::END] =
 	"ViewPortUI",
 };
 
-extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)LAYER_TYPE::END] =
+extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END] =
 {
 	L"Default",
 	L"Tile",

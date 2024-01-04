@@ -70,7 +70,7 @@ void OutlinerUI::ResetOutliner()
 		CLayer* pLayer = pCurLevel->GetLayer(i);
 		
 		// Layer OutlineUI에 띄우기
-		if (pLayer->GetName() != L"")
+		if (ToString(pLayer->GetLayerType()) != "")
 		{
 			// Layer->GetName() = wstring이기 때문에 string이용하여 변환.
 			TreeNode* pCategory = m_Tree->AddItem(string(pLayer->GetName().begin(), pLayer->GetName().end()), 0);

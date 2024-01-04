@@ -14,6 +14,7 @@ CLevel::CLevel()
 	{
 		m_arrLayer[i] = new CLayer;
 		m_arrLayer[i]->m_iLayerIdx = i;
+		m_arrLayer[i]->SetName(ToWString((LAYER_TYPE)i));
 	}
 }
 
