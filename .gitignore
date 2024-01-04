@@ -397,8 +397,17 @@ FodyWeavers.xsd
 *.sln.iml
 
 !OutputFile/*
+External/Library/Engine/Engine_d.idb
+External/Library/Engine/Engine_d.lib
+External/Library/Engine/Engine.lib
+
+External/Library/Script/Script_d.idb
+External/Library/Script/Script_d.lib
+External/Library/Script/Script.lib
+
+OutputFile/bin/Client.exe
+OutputFile/bin_d/Client.exe
+
 unity_*
-External/Library/Engine/*
-External/Library/Script/*
 *.exe
 *.ini
