@@ -13,3 +13,5 @@ how to change
 질문)
 1. 이름이 고정이 안되는데 왜일까.
 2. level manager에서 레벨 전환과 다른 점이 무엇이지
+
+3. Frustrum Save how.
