@@ -278,14 +278,14 @@ void CCamera::render()
 	// Light MRT 로 변경
 	// 물체들에 적용될 광원을 그리기
 	// Deferred 물체에 광원 적용시키기
+	
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet(false);
-
 	const vector<CLight3D*>& vecLight3D = CRenderMgr::GetInst()->GetLight3D();
 	for (size_t i = 0; i < vecLight3D.size(); ++i)
 	{
 		vecLight3D[i]->render();
 	}
-	
+
 	// Deferred MRT 에 그린 물체에 Light MRT 출력한 광원과 합쳐서
 	// 다시 SwapChain 타겟으로 으로 그리기
 	// SwapChain MRT 로 변경

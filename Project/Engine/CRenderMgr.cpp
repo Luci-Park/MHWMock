@@ -68,16 +68,21 @@ void CRenderMgr::render_play()
     {
         if (nullptr == m_vecCam[i])
             continue;
+        
+
+        //UI Camera 제외
+        if (m_vecCam[i]->GetLayerMask() == (UINT)(1 << 31))
+           continue;
 
         // 물체 분류작업
         // - 해당 카메라가 볼 수 있는 물체(레이어 분류)
         // - 재질에 따른 분류 (재질->쉐이더) 쉐이더 도메인
         //   쉐이더 도메인에 따라서 렌더링 순서분류
-        m_vecCam[0]->SortObject();
+        m_vecCam[i]->SortObject();
 
         m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
 
-        m_vecCam[0]->render();
+        m_vecCam[i]->render();
     }
 }
 
