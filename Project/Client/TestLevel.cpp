@@ -77,7 +77,7 @@ void CreateTestLevel()
 
 	// ±¤¿ø Ãß°¡
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Point Light 1");
+	pLightObj->SetName(L"Directional Light");
 
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
@@ -112,7 +112,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 
-	pObject->Transform()->SetRelativeScale(Vec3(2000.f, 2000.f, 2000.f));
+	pObject->Transform()->SetRelativeScale(Vec3(8000.f, 8000.f, 8000.f));
 	pObject->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
