@@ -73,7 +73,7 @@ void CRenderMgr::CreateMRT()
     }
 
     // ====================
-    // Light MRT 만들기
+    // DEFERRED_DECAL MRT 만들기
     // ====================
     {
         m_MRT[(UINT)MRT_TYPE::DEFERRED_DECAL] = new CMRT;       
@@ -103,8 +103,11 @@ void CRenderMgr::CreateMRT()
         arrRTTex[1] = CResMgr::GetInst()->CreateTexture(L"SpecularTargetTex", vResol.x, vResol.y
                                 , DXGI_FORMAT_R8G8B8A8_UNORM
                                 , D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET);
+        arrRTTex[2] = CResMgr::GetInst()->CreateTexture(L"ShadowTargetTex", vResol.x, vResol.y
+            , DXGI_FORMAT_R32_FLOAT
+            , D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET);
 
-        m_MRT[(UINT)MRT_TYPE::LIGHT]->Create(arrRTTex, 2, nullptr);
+        m_MRT[(UINT)MRT_TYPE::LIGHT]->Create(arrRTTex, 3, nullptr);
     }
 
 

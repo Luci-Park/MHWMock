@@ -69,6 +69,14 @@ void CLight3D::render()
 	
 	// Light 재질 업데이트
 	m_Mtrl->SetScalarParam(INT_0, &m_LightIdx);
+
+	if (m_LightInfo.LightType == (UINT)LIGHT_TYPE::DIRECTIONAL)
+	{
+		Matrix matVP = m_pCamObj->Camera()->GetViewMat() * m_pCamObj->Camera()->GetProjMat();
+		m_Mtrl->SetScalarParam(MAT_0, &matVP);
+		m_Mtrl->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"DynamicShadowMapTex"));
+	}
+
 	m_Mtrl->UpdateData();
 
 	// 볼륨 메시 렌더
@@ -96,8 +104,8 @@ void CLight3D::SetLightType(LIGHT_TYPE _type)
 
 		m_pCamObj->Camera()->SetFar(100000.f);
 		m_pCamObj->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		m_pCamObj->Camera()->SetOrthoWidth(4000.f);
-		m_pCamObj->Camera()->SetOrthoHeight(4000.f);
+		m_pCamObj->Camera()->SetOrthoWidth(16000.f);
+		m_pCamObj->Camera()->SetOrthoHeight(16000.f);
 	}
 
 	else if (LIGHT_TYPE::POINT == (LIGHT_TYPE)m_LightInfo.LightType)
