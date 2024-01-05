@@ -541,5 +541,8 @@
     <FxCompile Include="light.fx">
       <Filter>Source\08. ShaderCode\Render</Filter>
     </FxCompile>
+    <FxCompile Include="tess.fx">
+      <Filter>Source\08. ShaderCode\Render</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
