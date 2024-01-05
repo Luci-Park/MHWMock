@@ -316,7 +316,8 @@ void CCamera::render()
 	render_postprocess();
 
 	// UI
-	render_ui();
+	// Canvas Component로 렌더링 예정
+	//render_ui();
 }
 
 void CCamera::render_shadowmap()
