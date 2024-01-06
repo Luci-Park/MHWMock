@@ -78,7 +78,7 @@ void CreateTestLevel()
 
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Point Light 1");
+	pLightObj->SetName(L"Directional Light");
 
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
@@ -86,9 +86,9 @@ void CreateTestLevel()
 	pLightObj->Transform()->SetRelativeRot(Vec3(XM_PI / 4.f, XM_PI / 4.f, 0.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLightObj->Light3D()->SetRadius(500.f);
-	pLightObj->Light3D()->SetLightColor(Vec3(1.f, 1.f, 1.f));	
+	pLightObj->Light3D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.f, 0.f, 0.f));
-	
+
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
 	// 오브젝트 생성
@@ -102,18 +102,18 @@ void CreateTestLevel()
 	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));	
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01.tga"));
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01_N.tga"));
 
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), L"Player");
-	
+	SpawnGameObject(pObject, Vec3(-1000.f, 0.f, 0.f), L"Player");
+
 	pObject = new CGameObject;
 	pObject->SetName(L"Plane");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 
-	pObject->Transform()->SetRelativeScale(Vec3(2000.f, 2000.f, 2000.f));
+	pObject->Transform()->SetRelativeScale(Vec3(8000.f, 8000.f, 8000.f));
 	pObject->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
@@ -123,22 +123,19 @@ void CreateTestLevel()
 
 	SpawnGameObject(pObject, Vec3(0.f, -1000.f, 0.f), L"Default");
 
-
 	pObject = new CGameObject;
-	pObject->SetName(L"Decal");
+	pObject->SetName(L"Tess Object");
 	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CDecal);
+	pObject->AddComponent(new CMeshRender);
 
 	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
 	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));
 
-	pObject->Decal()->SetDeferredDecal(true);
-	pObject->Decal()->ActivateEmissive(true);
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TessMtrl"));
+	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\Sky01.png"));
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 100.f), L"Default");
 
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 500.f), L"Default");
-
-
-	
 	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");	
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 }

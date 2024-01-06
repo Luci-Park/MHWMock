@@ -847,6 +847,31 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_LIGHT);
 
 	AddRes(pShader->GetKey(), pShader);
+
+	// =====================================
+	// Tess Shader
+	// MRT              : SwapChain
+	// Domain           : DOMAIN_OPAQUE	
+	// Rasterizer       : CULL_NONE
+	// DepthStencil     : LESS
+	// Blend            : Default
+	// =====================================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"TessShader");
+
+	pShader->CreateVertexShader(L"shader\\tess.fx", "VS_Tess");
+	pShader->CreateHullShader(L"shader\\tess.fx", "HS_Tess");
+	pShader->CreateDomainShader(L"shader\\tess.fx", "DS_Tess");
+	pShader->CreatePixelShader(L"shader\\tess.fx", "PS_Tess");
+
+	//pShader->SetRSType(RS_TYPE::WIRE_FRAME);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+
+	pShader->SetTopology(D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+
+	AddRes(pShader->GetKey(), pShader);
 }
 
 void CResMgr::CreateDefaultComputeShader()
@@ -977,5 +1002,8 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ShadowMapShader"));
 	AddRes(L"ShadowMapMtrl", pMtrl);
 
-	
+	// TessMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TessShader"));
+	AddRes(L"TessMtrl", pMtrl);
 }
