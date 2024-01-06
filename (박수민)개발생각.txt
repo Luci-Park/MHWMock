@@ -10,8 +10,13 @@ how to change
 3. save Level => Get Current LEvel
 	- ok, but needs to save better, no errors but.. doesn't come up correctly.
 
-질문)
-1. 이름이 고정이 안되는데 왜일까.
-2. level manager에서 레벨 전환과 다른 점이 무엇이지
 
-3. Frustrum Save how.
+Save Currently ok
+1. Resource는 key와 path로 저장을 한다.
+Key와 이름을 바꿔야 할 땐 어떻게 해야 하는 가.
+2. Script param은 저장=> ptr 타입은 어캐 하징
+
+Save Currently ok
+1. Resource는 key와 path로 저장을 한다.
+Key와 이름을 바꿔야 할 땐 어떻게 해야 하는 가.
+2. Script param은 저장=> ptr 타입은 어캐 하징
