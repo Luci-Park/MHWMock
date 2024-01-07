@@ -59,6 +59,19 @@ CLayer* CLevel::FindLayerByName(const wstring& _strName)
 	return nullptr;
 }
 
+int CLevel::FindLayerIdxByName(const string& _strName)
+{
+	const wstring& wsLayerName = wstring(_strName.begin(), _strName.end());
+
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		if (m_arrLayer[i]->GetName() == wsLayerName)
+			return i;
+	}
+
+	return -1;
+}
+
 
 void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx, bool _bMove)
 {

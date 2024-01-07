@@ -146,7 +146,7 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	if (nullptr != pDropNode && nullptr == (CGameObject*)pDropNode->GetData())
 	{
 		// 2. pDropNode의 이름 데이터를 이용하여 EventMgr에서 LayerChange 시켜주기.
-		//ChangeLayer();
+		ChangeLayer(_DragNode, _DropNode);
 		return;
 	}
 
@@ -155,7 +155,20 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 
 void OutlinerUI::ChangeLayer(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 {
+	TreeNode* pDragNode = (TreeNode*)_DragNode;
+	TreeNode* pDropNode = (TreeNode*)_DropNode;
 
+	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
+	const string& pDropLayerName = pDropNode->GetName();
+
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+	LAYER_TYPE pDropLayerType = (LAYER_TYPE)pCurLevel->FindLayerIdxByName(pDropLayerName);
+
+	tEvent evn = {};
+	evn.Type = EVENT_TYPE::LAYER_CHANGE;
+	evn.wParam = (DWORD_PTR)pDragObj;
+	evn.lParam = (DWORD_PTR)pDropLayerType;
+	CEventMgr::GetInst()->AddEvent(evn);
 }
 
 void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)

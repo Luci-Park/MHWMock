@@ -93,6 +93,21 @@ void CEventMgr::tick()
 		}
 
 			break;
+		case EVENT_TYPE::LAYER_CHANGE:
+			// wParam : Obj, lParam : DestLayerName
+		{
+			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			LAYER_TYPE DestType = (LAYER_TYPE)m_vecEvent[i].lParam;
+			int iPrevLayerIdx = pObj->GetLayerIndex();
+
+			// 부모인지 자식인지 체크
+
+			// 부모인경우 vecParentList + vecObject 둘다 삭제 후 DestLayer에 등록
+
+			// 자식인경우 vecObject 삭제 후 DestLayer에 등록.
+		}
+			break;
+		
 		case EVENT_TYPE::LEVEL_CHANGE:
 		{
 			// wParam : Level Adress
