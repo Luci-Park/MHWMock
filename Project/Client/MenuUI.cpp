@@ -40,6 +40,7 @@ void MenuUI::finaltick()
 
 int MenuUI::render_update()
 {
+    string popupflag = "";
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
@@ -160,8 +161,7 @@ int MenuUI::render_update()
                 PauseEnable = false;
                 StopEnable = false;
             }
-
-
+                
 
             if (ImGui::MenuItem("Play", nullptr, nullptr, PlayEnable))
             {                
@@ -194,13 +194,35 @@ int MenuUI::render_update()
         {
             if (ImGui::MenuItem("Create Empty Material"))
             {
-                CreateEmptyMaterial();
+                popupflag = "Mat";
             }
 
             ImGui::EndMenu();
         }
 
         ImGui::EndMainMenuBar();
+    }
+    if(popupflag == "Mat") ImGui::OpenPopup("Material Name");
+    if (ImGui::BeginPopup("Material Name"))
+    {
+        ImGui::Text("Enter Material Name:");
+        ImGui::InputText("##MaterialName", &m_strMatName);
+        if (ImGui::Button("Create"))
+        {
+            CreateEmptyMaterial(m_strMatName);
+            m_strMatName = "";
+            ImGui::CloseCurrentPopup(); // Close the popup after creating the material
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel"))
+        {
+            m_strMatName = "";
+            ImGui::CloseCurrentPopup(); // Close the popup without creating the material
+        }
+
+        ImGui::EndPopup();
     }
 
 	return 0;
@@ -220,10 +242,11 @@ void MenuUI::CreateEmptyObject()
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
 }
 
-void MenuUI::CreateEmptyMaterial()
+void MenuUI::CreateEmptyMaterial(string strName)
 {
+    wstring wstrName(strName.begin(), strName.end());
     Ptr<CMaterial> pNewMtrl = new CMaterial;
-    pNewMtrl->SetName(L"Material " + to_wstring(pNewMtrl->GetID()));
+    pNewMtrl->SetName(wstrName);
     wstring strPath = L"material\\" + pNewMtrl->GetName() + L".mtrl";
     CResMgr::GetInst()->AddRes<CMaterial>(strPath, pNewMtrl, strPath);
     pNewMtrl->Save(strPath);
