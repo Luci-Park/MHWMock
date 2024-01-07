@@ -6,7 +6,7 @@
 #include "CGameObject.h"
 #include "CResMgr.h"
 #include "CRenderMgr.h"
-
+#include "CLayer.h"
 
 CEventMgr::CEventMgr()
 	: m_LevelChanged(false)
@@ -101,10 +101,25 @@ void CEventMgr::tick()
 			int iPrevLayerIdx = pObj->GetLayerIndex();
 
 			// 부모인지 자식인지 체크
+			if (pObj->m_Parent)
+			{
+				// 자식인경우 LayerIndex 바꿔주면됨.
+				pObj->SetLayerIndex((int)DestType);
+			}
+			else
+			{
+				// 부모인경우 vecParentList삭제 후 DestLayer에 등록 + LayerIdx수정
+				//RemoveFromParentList
+				//AddParentList
+				CLayer* pPrevLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(iPrevLayerIdx);
+				CLayer* pDestLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)DestType);
 
-			// 부모인경우 vecParentList + vecObject 둘다 삭제 후 DestLayer에 등록
+				pPrevLayer->RemoveFromParentList(pObj);
+				pDestLayer->AddParentList(pObj);
+				pObj->SetLayerIndex((int)DestType);
+			}
 
-			// 자식인경우 vecObject 삭제 후 DestLayer에 등록.
+			m_LevelChanged = true;
 		}
 			break;
 		

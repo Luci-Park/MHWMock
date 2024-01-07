@@ -73,7 +73,7 @@ public:
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 
-
+    void SetLayerIndex(int _Idx) { m_iLayerIdx = _Idx; }
     int GetLayerIndex() { return m_iLayerIdx; }
 
     template<typename T>
