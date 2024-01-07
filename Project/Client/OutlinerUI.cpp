@@ -73,7 +73,7 @@ void OutlinerUI::ResetOutliner()
 		if (ToString(pLayer->GetLayerType()) != "")
 		{
 			// Layer->GetName() = wstring이기 때문에 string이용하여 변환.
-			TreeNode* pCategory = m_Tree->AddItem(string(pLayer->GetName().begin(), pLayer->GetName().end()), 0);
+			TreeNode* pCategory = m_Tree->AddItem(ToString(pLayer->GetLayerType()), 0);
 			pCategory->SetCategoryNode(true);
 
 			const vector<CGameObject*>& vecParentObj = pLayer->GetParentObject();
@@ -96,6 +96,8 @@ void OutlinerUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 	pInspector->SetTargetObject(pSelectObject);
 }
+
+
 
 
 void OutlinerUI::AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode)
@@ -134,12 +136,37 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	TreeNode* pDragNode = (TreeNode*)_DragNode;
 	TreeNode* pDropNode = (TreeNode*)_DropNode;
 
-	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
-	CGameObject* pDropObj = nullptr;
-	if (nullptr != pDropNode)
+	// DropNode가 없으면 return
+	if (nullptr == pDropNode)
+		return;
+
+	// pDragNode의 m_Data가 0 이라면 Obj가 아니다.
+	if (nullptr == (CLayer*)pDragNode->GetData())
+		return;
+
+	// 1. pDropNode가 Layer인지 판별 -> ParentName == Root
+	if (nullptr == (CLayer*)pDropNode->GetData())
 	{
-		pDropObj = (CGameObject*)pDropNode->GetData();
+		// 2. pDropNode의 이름 데이터를 이용하여 EventMgr에서 LayerChange 시켜주기.
+		//ChangeLayer();
+		return;
 	}
+
+	ChangeParent(_DragNode, _DropNode);
+}
+
+void OutlinerUI::ChangeLayer(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
+{
+
+}
+
+void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
+{
+	TreeNode* pDragNode = (TreeNode*)_DragNode;
+	TreeNode* pDropNode = (TreeNode*)_DropNode;
+
+	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
+	CGameObject* pDropObj = (CGameObject*)pDropNode->GetData();
 
 	// 자식으로 들어갈 오브젝트가 목적지 오브젝트의 조상(부모계층) 중 하나라면, 
 	// AddChild 처리하지 않는다.
@@ -149,6 +176,7 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 			return;
 	}
 
+
 	// 이벤트 매니저를 통해서 처리한다.
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::ADD_CHILD;
@@ -156,3 +184,4 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	evn.lParam = (DWORD_PTR)pDragObj;
 	CEventMgr::GetInst()->AddEvent(evn);
 }
+
