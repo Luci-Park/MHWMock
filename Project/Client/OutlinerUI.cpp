@@ -136,16 +136,14 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	TreeNode* pDragNode = (TreeNode*)_DragNode;
 	TreeNode* pDropNode = (TreeNode*)_DropNode;
 
-	// DropNode가 없으면 return
-	if (nullptr == pDropNode)
-		return;
-
 	// pDragNode의 m_Data가 0 이라면 Obj가 아니다.
-	if (nullptr == (CLayer*)pDragNode->GetData())
+	// pDragNode는 무조건 Obj여야함.
+	if (nullptr == (CGameObject*)pDragNode->GetData())
 		return;
 
-	// 1. pDropNode가 Layer인지 판별 -> ParentName == Root
-	if (nullptr == (CLayer*)pDropNode->GetData())
+	// 1. pDropNode가 Layer인지 판별
+	// DropNode가 존재하면서 pDropNode의 m_Data가 0 이라면 = LayerCategory
+	if (nullptr != pDropNode && nullptr == (CGameObject*)pDropNode->GetData())
 	{
 		// 2. pDropNode의 이름 데이터를 이용하여 EventMgr에서 LayerChange 시켜주기.
 		//ChangeLayer();
@@ -166,16 +164,20 @@ void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	TreeNode* pDropNode = (TreeNode*)_DropNode;
 
 	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
-	CGameObject* pDropObj = (CGameObject*)pDropNode->GetData();
+	CGameObject* pDropObj = nullptr;
 
 	// 자식으로 들어갈 오브젝트가 목적지 오브젝트의 조상(부모계층) 중 하나라면, 
 	// AddChild 처리하지 않는다.
+	if (nullptr != pDropNode)
+	{
+		pDropObj = (CGameObject*)pDropNode->GetData();
+	}
+
 	if (nullptr != pDropObj)
 	{
 		if (pDropObj->IsAncestor(pDragObj))
 			return;
 	}
-
 
 	// 이벤트 매니저를 통해서 처리한다.
 	tEvent evn = {};
