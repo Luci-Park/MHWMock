@@ -64,7 +64,7 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 {
 	// 이름
 	SaveWString(_Object->GetName(), _File);
-	
+
 	// 컴포넌트
 	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
 	{		
@@ -106,10 +106,10 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 	for (size_t i = 0; i < ChildCount; ++i)
 	{
-		SaveGameObject(vecChild[i], _File);		
+		SaveGameObject(vecChild[i], _File);
 	}
 
-	return 0;
+	return S_OK;
 }
 
 CLevel* CLevelSaveLoad::LoadLevel(const wstring& _LevelPath)

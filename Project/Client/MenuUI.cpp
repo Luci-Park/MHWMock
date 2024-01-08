@@ -15,6 +15,7 @@
 #include "ImGuiMgr.h"
 #include "OutlinerUI.h"
 #include "InspectorUI.h"
+#include "ContentUI.h"
 #include "CLevelSaveLoad.h"
 
 
@@ -69,6 +70,18 @@ int MenuUI::render_update()
             if (ImGui::MenuItem("Create Empty Object"))
             {
                 CreateEmptyObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Save Object"))
+            {
+                SaveObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Load Object"))
+            {
+                LoadObject();
             }
             ImGui::Separator();
 
@@ -183,13 +196,40 @@ void MenuUI::CreateEmptyObject()
     CGameObject* pNewObject = new CGameObject;
     pNewObject->AddComponent(new CTransform);
     pNewObject->SetName(L"New Object");
-    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), L"Default");
+    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), ToWString((LAYER_TYPE)0));
 
     // Outliner 를 가져온다.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
 
     // 새로추가된 오브젝트를 데이터로 하는 노드가 추가되면, 선택상태로 두게 한다.
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
+}
+
+void MenuUI::SaveObject()
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    CGameObject* pSelectedObject = outliner->GetSelectedObject();
+
+    FILE* emptyFile = nullptr;
+    wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    wstring strPath2 = L"obj\\" + pSelectedObject->GetName() + L".obj";
+    strPath += strPath2;
+    
+    _wfopen_s(&emptyFile, strPath.c_str(), L"wb");
+    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, emptyFile) == S_OK);
+}
+
+void MenuUI::LoadObject()
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    ContentUI* content = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
+    wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    content->Reload();
+    CGameObject* pSelectedObject = nullptr;
+    FILE* emptyFile = nullptr;
+    //_wfopen_s(&emptyFile, )
+    //CLevelSaveLoad::LoadGameObject()
+
 }
 
 void MenuUI::CreateEmptyMaterial()

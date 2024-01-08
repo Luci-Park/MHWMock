@@ -15,6 +15,8 @@ public:
 
 private:
     void CreateEmptyObject();
+    void SaveObject();
+    void LoadObject();
     void CreateEmptyMaterial();
     void AddComponent(COMPONENT_TYPE _type);
     void AddScript(const wstring& _strScriptName);
