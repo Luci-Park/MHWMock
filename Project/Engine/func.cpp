@@ -202,6 +202,16 @@ const char* ToString(COMPONENT_TYPE type)
 	return COMPONENT_TYPE_STR[(UINT)type];
 }
 
+const char* ToString(LAYER_TYPE _Type)
+{
+	return LAYER_TYPE_STR[(UINT)_Type];
+}
+
+const wchar_t* ToWString(LAYER_TYPE _Type)
+{
+	return LAYER_TYPE_WSTR[(UINT)_Type];
+}
+
 void SaveWString(const wstring& _str, FILE* _File)
 {	
 	UINT iLen = (UINT)_str.length();
