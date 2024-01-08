@@ -6,7 +6,7 @@ class MenuUI :
     public UI
 {
 private:
-
+    string m_strMatName;
 
 public:
     virtual void finaltick() override;
@@ -15,12 +15,11 @@ public:
 
 private:
     void CreateEmptyObject();
-    void SaveObject();
-    void LoadObject();
-    void CreateEmptyMaterial();
+    void CreateEmptyMaterial(string strName);
     void AddComponent(COMPONENT_TYPE _type);
     void AddScript(const wstring& _strScriptName);
 
+    vector<wstring> GetLevels();
 public:
     MenuUI();
     ~MenuUI();

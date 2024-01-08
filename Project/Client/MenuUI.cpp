@@ -2,6 +2,7 @@
 #include "MenuUI.h"
 
 #include "CLevelSaveLoad.h"
+
 #include <Engine\CEventMgr.h>
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
@@ -15,7 +16,6 @@
 #include "ImGuiMgr.h"
 #include "OutlinerUI.h"
 #include "InspectorUI.h"
-#include "ContentUI.h"
 #include "CLevelSaveLoad.h"
 
 
@@ -40,28 +40,56 @@ void MenuUI::finaltick()
 
 int MenuUI::render_update()
 {
+    string popupflag = "";
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("Save Level"))
             {
-                // Level 저장
-                CLevelSaveLoad::SaveLevel(L"Level\\TestLevel.lv", CLevelMgr::GetInst()->GetCurLevel());                
+                CLevel* pLoadedLevel = CLevelMgr::GetInst()->GetCurLevel();
+
+                wstring strPath = L"level\\" + pLoadedLevel->GetName() + L".lv";
+                assert(CLevelSaveLoad::SaveLevel(strPath, pLoadedLevel) == S_OK);
             }
 
-            if (ImGui::MenuItem("Load Level"))
+            if (ImGui::BeginMenu("Load Level"))
             {
-                // Level 불러오기
-                CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"Level\\TestLevel.lv");
+                auto vecLevels = GetLevels();
+                for (int i = 0; i < vecLevels.size(); i++)
+                {
+                    string strNarrow(vecLevels[i].begin(), vecLevels[i].end());
+                    if (ImGui::MenuItem(strNarrow.c_str()))
+                    {
+                        wstring filename = L"level\\" + vecLevels[i] + L".lv";
+                        // Level 불러오기
+                        CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(filename);
+
+                        tEvent evn = {};
+                        evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+                        evn.wParam = (DWORD_PTR)pLoadedLevel;
+
+                        CEventMgr::GetInst()->AddEvent(evn);
+                    }
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::MenuItem("Create Level"))
+            {
+                //luci TODO: Create Level with name input
+                CLevel* pNewLevel = new CLevel;
+                wstring strLevelName = L"New Level" + to_wstring(pNewLevel->GetID());
+                pNewLevel->SetName(strLevelName);
+
+                wstring strPath = L"level\\" + pNewLevel->GetName() + L".lv";
+                assert(CLevelSaveLoad::SaveLevel(strPath, pNewLevel) == S_OK);
 
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-                evn.wParam = (DWORD_PTR)pLoadedLevel;
+                evn.wParam = (DWORD_PTR)pNewLevel;
 
                 CEventMgr::GetInst()->AddEvent(evn);
             }
-
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("GameObject"))
@@ -70,18 +98,6 @@ int MenuUI::render_update()
             if (ImGui::MenuItem("Create Empty Object"))
             {
                 CreateEmptyObject();
-            }
-            ImGui::Separator();
-
-            if (ImGui::MenuItem("Save Object"))
-            {
-                SaveObject();
-            }
-            ImGui::Separator();
-
-            if (ImGui::MenuItem("Load Object"))
-            {
-                LoadObject();
             }
             ImGui::Separator();
 
@@ -145,12 +161,11 @@ int MenuUI::render_update()
                 PauseEnable = false;
                 StopEnable = false;
             }
-
-
+                
 
             if (ImGui::MenuItem("Play", nullptr, nullptr, PlayEnable))
             {                
-                CLevelSaveLoad::SaveLevel(L"Level\\Temp.lv", CurLevel);
+                CLevelSaveLoad::SaveLevel(L"level\\Temp.lv", CurLevel);
                 CurLevel->ChangeState(LEVEL_STATE::PLAY);
             }
             else if (ImGui::MenuItem("Pause", nullptr, nullptr, PauseEnable))
@@ -160,7 +175,7 @@ int MenuUI::render_update()
             else if (ImGui::MenuItem("Stop", nullptr, nullptr, StopEnable))
             {
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
-                CLevel* pNewLevel = CLevelSaveLoad::LoadLevel(L"Level\\Temp.lv");
+                CLevel* pNewLevel = CLevelSaveLoad::LoadLevel(L"level\\Temp.lv");
              
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
@@ -179,13 +194,35 @@ int MenuUI::render_update()
         {
             if (ImGui::MenuItem("Create Empty Material"))
             {
-                CreateEmptyMaterial();
+                popupflag = "Mat";
             }
 
             ImGui::EndMenu();
         }
 
         ImGui::EndMainMenuBar();
+    }
+    if(popupflag == "Mat") ImGui::OpenPopup("Material Name");
+    if (ImGui::BeginPopup("Material Name"))
+    {
+        ImGui::Text("Enter Material Name:");
+        ImGui::InputText("##MaterialName", &m_strMatName);
+        if (ImGui::Button("Create"))
+        {
+            CreateEmptyMaterial(m_strMatName);
+            m_strMatName = "";
+            ImGui::CloseCurrentPopup(); // Close the popup after creating the material
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel"))
+        {
+            m_strMatName = "";
+            ImGui::CloseCurrentPopup(); // Close the popup without creating the material
+        }
+
+        ImGui::EndPopup();
     }
 
 	return 0;
@@ -205,37 +242,11 @@ void MenuUI::CreateEmptyObject()
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
 }
 
-void MenuUI::SaveObject()
+void MenuUI::CreateEmptyMaterial(string strName)
 {
-    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
-    CGameObject* pSelectedObject = outliner->GetSelectedObject();
-
-    FILE* emptyFile = nullptr;
-    wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    wstring strPath2 = L"obj\\" + pSelectedObject->GetName() + L".obj";
-    strPath += strPath2;
-    
-    _wfopen_s(&emptyFile, strPath.c_str(), L"wb");
-    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, emptyFile) == S_OK);
-}
-
-void MenuUI::LoadObject()
-{
-    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
-    ContentUI* content = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
-    wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    content->Reload();
-    CGameObject* pSelectedObject = nullptr;
-    FILE* emptyFile = nullptr;
-    //_wfopen_s(&emptyFile, )
-    //CLevelSaveLoad::LoadGameObject()
-
-}
-
-void MenuUI::CreateEmptyMaterial()
-{
+    wstring wstrName(strName.begin(), strName.end());
     Ptr<CMaterial> pNewMtrl = new CMaterial;
-    pNewMtrl->SetName(L"Material " + to_wstring(pNewMtrl->GetID()));
+    pNewMtrl->SetName(wstrName);
     wstring strPath = L"material\\" + pNewMtrl->GetName() + L".mtrl";
     CResMgr::GetInst()->AddRes<CMaterial>(strPath, pNewMtrl, strPath);
     pNewMtrl->Save(strPath);
@@ -320,3 +331,26 @@ void MenuUI::AddScript(const wstring& _strScriptName)
 
     inspector->SetTargetObject(pSelectedObject);
 }
+
+std::vector<std::wstring> MenuUI::GetLevels()
+{
+    std::vector<std::wstring> levels;
+    wstring filename = CPathMgr::GetInst()->GetContentPath();
+    filename += L"level\\";
+    try {
+        path contentPath = filename;
+
+        for (const auto& entry : directory_iterator(contentPath)) {
+            if (is_regular_file(entry) && entry.path().extension() == L".lv") {
+                levels.push_back(entry.path().stem().wstring());
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        // Handle exceptions (e.g., display an error message, log the error)
+        // For example: std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return levels;
+}
+

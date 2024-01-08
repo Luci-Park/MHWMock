@@ -207,7 +207,6 @@ const char* ToString(LAYER_TYPE _Type)
 	return LAYER_TYPE_STR[(UINT)_Type];
 }
 
-
 const wchar_t* ToWString(LAYER_TYPE _Type)
 {
 	return LAYER_TYPE_WSTR[(UINT)_Type];
