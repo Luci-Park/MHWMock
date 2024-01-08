@@ -48,6 +48,7 @@ public:
     void finaltick_module();
     void render();
     void render_shadowmap();
+    void Release();
 
 public:
     void AddComponent(CComponent* _Component);
