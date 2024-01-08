@@ -56,6 +56,7 @@ public:
 
     void SetLayerMask(int _iLayer, bool _Visible);
     void SetLayerMaskAll(bool _Visible);
+    UINT GetLayerMask() { return m_iLayerMask; }
 
     void SetFOV(float _Radian) { m_FOV = _Radian; }
     float GetFOV() { return m_FOV; }
