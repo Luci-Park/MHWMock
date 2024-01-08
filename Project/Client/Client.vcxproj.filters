@@ -110,12 +110,6 @@
     <Filter Include="Manager\LevelSaveLoad">
       <UniqueIdentifier>{bd45bcb0-5b2d-4b83-a548-af8817de8f6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\InspectorUI\ObjectInfoUI">
-      <UniqueIdentifier>{4e82ebbb-c86e-4389-b38e-b2f2537934f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\InspectorUI\ObjectInfoUI\LayerInfo">
-      <UniqueIdentifier>{2ccb90de-b644-47ba-8fb7-f39b2014a930}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -239,12 +233,11 @@
     <ClInclude Include="CLevelSaveLoad.h">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
-    <ClInclude Include="CCustomResourceLoader.h" />
-    <ClInclude Include="LayerInfoUI.h">
-      <Filter>UI\InspectorUI\ObjectInfoUI\LayerInfo</Filter>
+    <ClInclude Include="CCustomResourceLoader.h">
+      <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectInfoUI.h">
-      <Filter>UI\InspectorUI\ObjectInfoUI</Filter>
+    <ClInclude Include="ImGui\imgui_stdlib.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,12 +370,11 @@
     <ClCompile Include="CLevelSaveLoad.cpp">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
-    <ClCompile Include="CCustomResourceLoader.cpp" />
-    <ClCompile Include="LayerInfoUI.cpp">
-      <Filter>UI\InspectorUI\ObjectInfoUI\LayerInfo</Filter>
+    <ClCompile Include="CCustomResourceLoader.cpp">
+      <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectInfoUI.cpp">
-      <Filter>UI\InspectorUI\ObjectInfoUI</Filter>
+    <ClCompile Include="ImGui\imgui_stdlib.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
