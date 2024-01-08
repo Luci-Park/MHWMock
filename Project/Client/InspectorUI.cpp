@@ -24,16 +24,23 @@
 #include "MaterialUI.h"
 #include "ScriptUI.h"
 
-
+#include "LayerInfoUI.h"
 
 InspectorUI::InspectorUI()
 	: UI("##Inspector")
 	, m_pTargetObj(nullptr)
+	, m_arrObjInfoUI{}
 	, m_arrComUI{}	
 	, m_arrResUI{}
 {
 	SetName("Inspector");
 
+	// LayerInfoUI
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::LAYER] = new LayerInfoUI;
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::LAYER]->SetSize(0.f, 50.f);
+	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::LAYER]);
+
+	// Component UI
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetSize(0.f, 150.f);	
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
@@ -124,6 +131,14 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 	// 타겟오브젝트 정보 노출
 	m_pTargetObj = _Target;
 
+	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
+	{
+		if (nullptr == m_arrObjInfoUI[i])
+			continue;
+
+		m_arrObjInfoUI[i]->SetTarget(m_pTargetObj);
+	}
+
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr == m_arrComUI[i])
@@ -200,6 +215,14 @@ void InspectorUI::ClearTargetObject()
 {
 	// 타겟오브젝트 정보 노출
 	m_pTargetObj = nullptr;
+
+	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
+	{
+		if (nullptr == m_arrObjInfoUI[i])
+			continue;
+
+		m_arrObjInfoUI[i]->SetTarget(nullptr);
+	}
 
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{

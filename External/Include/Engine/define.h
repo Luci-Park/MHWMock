@@ -90,6 +90,12 @@ enum class LAYER_TYPE
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END];
 extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END];
 
+enum class OBJINFO_TYPE
+{
+	LAYER,
+	END,
+};
+
 enum class CB_TYPE
 {
 	TRANSFORM,	// b0
