@@ -20,6 +20,7 @@ public:
 
 public:
     int GetLayerIndex() { return m_iLayerIdx; }
+    LAYER_TYPE GetLayerType() { return (LAYER_TYPE)m_iLayerIdx; }
     const vector<CGameObject*>& GetParentObject() { return m_vecParentObj; }
     const vector<CGameObject*>& GetObjects() { return m_vecObject; }
 
