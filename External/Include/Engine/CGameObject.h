@@ -48,7 +48,6 @@ public:
     void finaltick_module();
     void render();
     void render_shadowmap();
-    void Release();
 
 public:
     void AddComponent(CComponent* _Component);
@@ -74,7 +73,7 @@ public:
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 
-    void SetLayerIndex(int _Idx) { m_iLayerIdx = _Idx; }
+
     int GetLayerIndex() { return m_iLayerIdx; }
 
     template<typename T>

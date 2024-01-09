@@ -14,7 +14,6 @@ CLevel::CLevel()
 	{
 		m_arrLayer[i] = new CLayer;
 		m_arrLayer[i]->m_iLayerIdx = i;
-		m_arrLayer[i]->SetName(ToWString((LAYER_TYPE)i));
 	}
 }
 
@@ -57,19 +56,6 @@ CLayer* CLevel::FindLayerByName(const wstring& _strName)
 	}
 
 	return nullptr;
-}
-
-int CLevel::FindLayerIdxByName(const string& _strName)
-{
-	const wstring& wsLayerName = wstring(_strName.begin(), _strName.end());
-
-	for (int i = 0; i < MAX_LAYER; ++i)
-	{
-		if (m_arrLayer[i]->GetName() == wsLayerName)
-			return i;
-	}
-
-	return -1;
 }
 
 

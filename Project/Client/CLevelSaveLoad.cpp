@@ -64,7 +64,7 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 {
 	// 이름
 	SaveWString(_Object->GetName(), _File);
-
+	
 	// 컴포넌트
 	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
 	{		
@@ -106,10 +106,10 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 	for (size_t i = 0; i < ChildCount; ++i)
 	{
-		SaveGameObject(vecChild[i], _File);
+		SaveGameObject(vecChild[i], _File);		
 	}
 
-	return S_OK;
+	return 0;
 }
 
 CLevel* CLevelSaveLoad::LoadLevel(const wstring& _LevelPath)
@@ -190,7 +190,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			Component = new CCollider2D;
 			break;
 		case COMPONENT_TYPE::COLLIDER3D:
-			//Component = new CCollider3D;
+			//Component = new CCollider2D;
 			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			Component = new CAnimator2D;
@@ -201,7 +201,6 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			Component = new CLight2D;
 			break;
 		case COMPONENT_TYPE::LIGHT3D:
-			Component = new CLight3D;
 			break;
 		case COMPONENT_TYPE::CAMERA:
 			Component = new CCamera;
@@ -215,19 +214,14 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 		case COMPONENT_TYPE::TILEMAP:
 			Component = new CTileMap;
 			break;
-		case COMPONENT_TYPE::LANDSCAPE:	
-			//Component = new CLandScape;
+		case COMPONENT_TYPE::LANDSCAPE:			
 			break;
-		case COMPONENT_TYPE::SKYBOX:
-			Component = new CSkyBox;
-			break;
-		case COMPONENT_TYPE::DECAL:
-			Component = new CDecal;
+		case COMPONENT_TYPE::DECAL:			
 			break;
 		}
 
-		pObject->AddComponent(Component);
 		Component->LoadFromLevelFile(_File);
+		pObject->AddComponent(Component);
 	}
 
 

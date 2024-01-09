@@ -44,8 +44,6 @@ const wchar_t* ToWSTring(RES_TYPE);
 const char* ToString(COMPONENT_TYPE);
 const wchar_t* ToWSTring(COMPONENT_TYPE);
 
-const char* ToString(LAYER_TYPE);
-const wchar_t* ToWString(LAYER_TYPE);
 
 // Save / Load
 void SaveWString(const wstring& _str, FILE* _File);

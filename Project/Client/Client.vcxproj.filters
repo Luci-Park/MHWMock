@@ -239,6 +239,7 @@
     <ClInclude Include="CLevelSaveLoad.h">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="CCustomResourceLoader.h">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
@@ -251,6 +252,9 @@
     <ClInclude Include="ObjLayerInfoUI.h">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="CCustomResourceLoader.h" />
+>>>>>>> parent of 7152695 (Revert "Revert "Merge branch 'main' of https://github.com/Luci-Park/MHWMock"")
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -382,6 +386,7 @@
     <ClCompile Include="CLevelSaveLoad.cpp">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="CCustomResourceLoader.cpp">
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
@@ -394,5 +399,8 @@
     <ClCompile Include="ObjLayerInfoUI.cpp">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="CCustomResourceLoader.cpp" />
+>>>>>>> parent of 7152695 (Revert "Revert "Merge branch 'main' of https://github.com/Luci-Park/MHWMock"")
   </ItemGroup>
 </Project>

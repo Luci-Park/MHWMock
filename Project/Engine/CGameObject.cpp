@@ -159,10 +159,6 @@ void CGameObject::render_shadowmap()
 		m_RenderCom->render_shadowmap();
 }
 
-void CGameObject::Release()
-{
-}
-
 void CGameObject::AddComponent(CComponent* _Component)
 {
 	_Component->m_pOwner = this;

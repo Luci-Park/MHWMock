@@ -23,7 +23,7 @@ private:
     ComPtr<ID3DBlob>                m_HSBlob;
     ComPtr<ID3DBlob>                m_DSBlob;
     ComPtr<ID3DBlob>                m_GSBlob;
-    ComPtr<ID3DBlob>                m_PSBlob;
+    ComPtr<ID3DBlob>                m_PSBlob;    
 
     ComPtr<ID3D11VertexShader>      m_VS;
     ComPtr<ID3D11HullShader>        m_HS;
@@ -45,8 +45,6 @@ private:
 
 public:
     void CreateVertexShader(const wstring& _strFileName, const string& _strFuncName);
-    void CreateHullShader(const wstring& _strFileName, const string& _strFuncName);
-    void CreateDomainShader(const wstring& _strFileName, const string& _strFuncName);
     void CreateGeometryShader(const wstring& _strFileName, const string& _strFuncName);
     void CreatePixelShader(const wstring& _strFileName, const string& _strFuncName);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
@@ -58,8 +56,8 @@ public:
     SHADER_DOMAIN GetDomain() { return m_Domain; }
     virtual void UpdateData() override;
 
-    void AddScalarParam(SCALAR_PARAM _Param, const string& _desc) { m_vecScalarParam.push_back(tScalarParam{ _Param, _desc }); }
-    void AddTexParam(TEX_PARAM _Param, const string& _desc) { m_vecTexParam.push_back(tTexParam{ _Param, _desc }); }
+    void AddScalarParam(SCALAR_PARAM _Param, const string& _desc) { m_vecScalarParam.push_back(tScalarParam{ _Param, _desc });}
+    void AddTexParam(TEX_PARAM _Param, const string& _desc) { m_vecTexParam.push_back(tTexParam{_Param, _desc}); }
 
     const vector<tScalarParam>& GetScalarParam() { return m_vecScalarParam; }
     const vector<tTexParam>& GetTexParam() { return m_vecTexParam; }

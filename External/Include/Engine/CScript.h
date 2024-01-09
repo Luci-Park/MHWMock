@@ -42,7 +42,7 @@ public:
     void Destroy() { DestroyObject(GetOwner()); }
     void SetLifeSpan(float _Time) { GetOwner()->SetLifeSpan(_Time); }
     UINT GetScriptType() { return m_iScriptType; }
-    const vector<tScriptParam>& GetScriptParam() { return m_vecParam; }
+    const vector<tScriptParam>& GetScritpParam() { return m_vecParam; }
 
 public:   
     virtual void finaltick() final {};

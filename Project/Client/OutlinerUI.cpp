@@ -62,27 +62,18 @@ void OutlinerUI::ResetOutliner()
 	m_Tree->Clear();
 	m_Tree->AddItem("Root", 0);
 
-	// 레벨 매니저에서 현재 레밸 받아옴.
+	// 리소스 매니저에서 현재 모든 리소스 목록 받아옴
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	for (UINT i = 0; i < (UINT)MAX_LAYER; ++i)
 	{
 		CLayer* pLayer = pCurLevel->GetLayer(i);
-		
-		// Layer OutlineUI에 띄우기
-		if (ToString(pLayer->GetLayerType()) != "")
+
+		const vector<CGameObject*>& vecParentObj = pLayer->GetParentObject();
+
+		for (size_t i = 0; i < vecParentObj.size(); ++i)
 		{
-			// Layer->GetName() = wstring이기 때문에 string이용하여 변환.
-			TreeNode* pCategory = m_Tree->AddItem(ToString(pLayer->GetLayerType()), 0);
-			pCategory->SetCategoryNode(true);
-
-			const vector<CGameObject*>& vecParentObj = pLayer->GetParentObject();
-
-			// Layer의 하위객체로 GameObj 띄우기
-			for (size_t i = 0; i < vecParentObj.size(); ++i)
-			{
-				AddGameObject(vecParentObj[i], pCategory);
-			}
+			AddGameObject(vecParentObj[i], nullptr);			
 		}
 	}
 }
@@ -96,8 +87,6 @@ void OutlinerUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 	pInspector->SetTargetObject(pSelectObject);
 }
-
-
 
 
 void OutlinerUI::AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode)
@@ -136,56 +125,15 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	TreeNode* pDragNode = (TreeNode*)_DragNode;
 	TreeNode* pDropNode = (TreeNode*)_DropNode;
 
-	// pDragNode의 m_Data가 0 이라면 Obj가 아니다.
-	// pDragNode는 무조건 Obj여야함.
-	if (nullptr == (CGameObject*)pDragNode->GetData())
-		return;
-
-	// 1. pDropNode가 Layer인지 판별
-	// DropNode가 존재하면서 pDropNode의 m_Data가 0 이라면 = LayerCategory
-	if (nullptr != pDropNode && nullptr == (CGameObject*)pDropNode->GetData())
-	{
-		// 2. pDropNode의 이름 데이터를 이용하여 EventMgr에서 LayerChange 시켜주기.
-		ChangeLayer(_DragNode, _DropNode);
-		return;
-	}
-
-	ChangeParent(_DragNode, _DropNode);
-}
-
-void OutlinerUI::ChangeLayer(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
-{
-	TreeNode* pDragNode = (TreeNode*)_DragNode;
-	TreeNode* pDropNode = (TreeNode*)_DropNode;
-
-	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
-	const string& pDropLayerName = pDropNode->GetName();
-
-	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
-	LAYER_TYPE pDropLayerType = (LAYER_TYPE)pCurLevel->FindLayerIdxByName(pDropLayerName);
-
-	tEvent evn = {};
-	evn.Type = EVENT_TYPE::LAYER_CHANGE;
-	evn.wParam = (DWORD_PTR)pDragObj;
-	evn.lParam = (DWORD_PTR)pDropLayerType;
-	CEventMgr::GetInst()->AddEvent(evn);
-}
-
-void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
-{
-	TreeNode* pDragNode = (TreeNode*)_DragNode;
-	TreeNode* pDropNode = (TreeNode*)_DropNode;
-
 	CGameObject* pDragObj = (CGameObject*)pDragNode->GetData();
 	CGameObject* pDropObj = nullptr;
-
-	// 자식으로 들어갈 오브젝트가 목적지 오브젝트의 조상(부모계층) 중 하나라면, 
-	// AddChild 처리하지 않는다.
 	if (nullptr != pDropNode)
 	{
 		pDropObj = (CGameObject*)pDropNode->GetData();
 	}
 
+	// 자식으로 들어갈 오브젝트가 목적지 오브젝트의 조상(부모계층) 중 하나라면, 
+	// AddChild 처리하지 않는다.
 	if (nullptr != pDropObj)
 	{
 		if (pDropObj->IsAncestor(pDragObj))
@@ -199,4 +147,3 @@ void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	evn.lParam = (DWORD_PTR)pDragObj;
 	CEventMgr::GetInst()->AddEvent(evn);
 }
-

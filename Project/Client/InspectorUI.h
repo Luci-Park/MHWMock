@@ -4,7 +4,6 @@
 class CGameObject;
 class ComponentUI;
 class ResUI;
-class ObjectInfoUI;
 
 #include <Engine\ptr.h>
 #include <Engine\CRes.h>
@@ -16,7 +15,6 @@ class InspectorUI :
 {
 private:
     CGameObject*        m_pTargetObj;    
-    ObjectInfoUI*          m_arrObjInfoUI[(UINT)OBJINFO_TYPE::END];
     ComponentUI*        m_arrComUI[(UINT)COMPONENT_TYPE::END];
     vector<ScriptUI*>   m_vecScriptUI;
 
