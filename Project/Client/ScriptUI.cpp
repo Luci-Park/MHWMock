@@ -35,7 +35,7 @@ int ScriptUI::render_update()
 	ImGui::NewLine();
 
 	// Script 에서 요구하는 ScalarParameter 를 UI 에 노출	
-	const vector<tScriptParam>& vecScriptParam = m_pTargetScript->GetScritpParam();
+	const vector<tScriptParam>& vecScriptParam = m_pTargetScript->GetScriptParam();
 	if (vecScriptParam.empty())
 		return 1;
 	

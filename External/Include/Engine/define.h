@@ -74,8 +74,15 @@ extern const char* RES_TYPE_STR[(UINT)RES_TYPE::END];
 extern const wchar_t* RES_TYPE_WSTR[(UINT)RES_TYPE::END];
 
 
+enum class LAYER_TYPE
+{
+	Default,
+	Tile,
+	Player,
+	Monster,
+	PlayerProjectile,
+	MonsterProjectile,
 
-<<<<<<< HEAD
 	ViewPortUI = 31,
 	END,
 };
@@ -88,8 +95,6 @@ enum class OBJINFO_TYPE
 	Obj_Layer,
 	END,
 };
-=======
->>>>>>> parent of 7152695 (Revert "Revert "Merge branch 'main' of https://github.com/Luci-Park/MHWMock"")
 
 enum class CB_TYPE
 {
@@ -233,6 +238,8 @@ enum class EVENT_TYPE
 	ADD_CHILD,
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
+
+	LAYER_CHANGE,
 
 	LEVEL_CHANGE,	
 };

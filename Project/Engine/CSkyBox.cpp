@@ -73,3 +73,17 @@ void CSkyBox::render()
 	// ·»´õ
 	GetMesh()->render();
 }
+
+void CSkyBox::SaveToLevelFile(FILE* _File)
+{
+	CRenderComponent::SaveToLevelFile(_File);
+	fwrite(&m_Type, sizeof(UINT), 1, _File);
+	SaveResRef(m_SkyBoxTex.Get(), _File);
+}
+
+void CSkyBox::LoadFromLevelFile(FILE* _File)
+{
+	CRenderComponent::LoadFromLevelFile(_File);
+	fread(&m_Type, sizeof(UINT), 1, _File);
+	LoadResRef(m_SkyBoxTex, _File);
+}
