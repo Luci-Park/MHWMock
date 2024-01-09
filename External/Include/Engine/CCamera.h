@@ -11,11 +11,11 @@ private:
 
     float       m_fAspectRatio;
     float       m_fScale;           // Orthograpic 에서 사용하는 카메라 배율
-    float       m_fFar;
-    float       m_fFOV;
+    float       m_Far;
+    float       m_FOV;
 
-    float       m_fOrthoWidth;       // Orthgraphic 에서의 가로 투영 범위
-    float       m_fOrthoHeight;      // OrthGraphic 에서의 세로 투영 범위
+    float       m_OrthoWidth;       // Orthgraphic 에서의 가로 투영 범위
+    float       m_OrthoHeight;      // OrthGraphic 에서의 세로 투영 범위
 
     PROJ_TYPE   m_ProjType;
 
@@ -51,21 +51,20 @@ public:
     void SetScale(float _fScale) { m_fScale = _fScale; }
     float GetScale() { return m_fScale; }
 
-    void SetFar(float _Far) { m_fFar = _Far; }
-    float GetFar() { return m_fFar; }
+    void SetFar(float _Far) { m_Far = _Far; }
+    float GetFar() { return m_Far; }
 
     void SetLayerMask(int _iLayer, bool _Visible);
     void SetLayerMaskAll(bool _Visible);
-    UINT GetLayerMask() { return m_iLayerMask; }
 
-    void SetFOV(float _Radian) { m_fFOV = _Radian; }
-    float GetFOV() { return m_fFOV; }
+    void SetFOV(float _Radian) { m_FOV = _Radian; }
+    float GetFOV() { return m_FOV; }
 
-    void SetOrthoWidth(float _width) { m_fOrthoWidth = _width; }
-    void SetOrthoHeight(float _height) { m_fOrthoHeight = _height; }
+    void SetOrthoWidth(float _width) { m_OrthoWidth = _width; }
+    void SetOrthoHeight(float _height) { m_OrthoHeight = _height; }
 
-    float GetorthoWidth() { return m_fOrthoWidth; }
-    float GetOrthoHeight() { return m_fOrthoHeight; }
+    float GetorthoWidth() { return m_OrthoWidth; }
+    float GetOrthoHeight() { return m_OrthoHeight; }
 
     void SetCameraIndex(int _idx);
 

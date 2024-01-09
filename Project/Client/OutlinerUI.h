@@ -28,10 +28,6 @@ public:
     }
 
 private:
-    void ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
-    void ChangeLayer(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
-
-private:
     void AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode);
     void DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
 

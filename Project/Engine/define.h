@@ -74,27 +74,7 @@ extern const char* RES_TYPE_STR[(UINT)RES_TYPE::END];
 extern const wchar_t* RES_TYPE_WSTR[(UINT)RES_TYPE::END];
 
 
-enum class LAYER_TYPE
-{
-	Default,
-	Tile,
-	Player,
-	Monster,
-	PlayerProjectile,
-	MonsterProjectile,
 
-	ViewPortUI = 31,
-	END,
-};
-
-extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END];
-extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END];
-
-enum class OBJINFO_TYPE
-{
-	LAYER,
-	END,
-};
 
 enum class CB_TYPE
 {
@@ -238,8 +218,6 @@ enum class EVENT_TYPE
 	ADD_CHILD,
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
-
-	LAYER_CHANGE,
 
 	LEVEL_CHANGE,	
 };

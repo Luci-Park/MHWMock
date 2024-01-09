@@ -138,16 +138,11 @@ void CLight3D::render_shadowmap()
 
 void CLight3D::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_LightInfo, sizeof(tLightInfo), 1, _File);
-	fwrite(&m_bShowRange, sizeof(bool), 1, _File);
+
 }
 
 void CLight3D::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
-	SetLightType((LIGHT_TYPE)m_LightInfo.LightType);
-	SetRadius(m_LightInfo.Radius);
 
-	fread(&m_bShowRange, sizeof(bool), 1, _File);
 }
 
