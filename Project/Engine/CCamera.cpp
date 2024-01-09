@@ -27,10 +27,10 @@ CCamera::CCamera()
 	, m_Frustum(this)
 	, m_fAspectRatio(1.f)
 	, m_fScale(1.f)
-	, m_Far(10000.f)
-	, m_FOV(XM_PI / 2.f)
-	, m_OrthoWidth(0.f)
-	, m_OrthoHeight(0.f)
+	, m_fFar(10000.f)
+	, m_fFOV(XM_PI / 2.f)
+	, m_fOrthoWidth(0.f)
+	, m_fOrthoHeight(0.f)
 	, m_ProjType(PROJ_TYPE::ORTHOGRAPHIC)
 	, m_iLayerMask(0)
 	, m_iCamIdx(-1)
@@ -40,8 +40,8 @@ CCamera::CCamera()
 	Vec2 vRenderResol = CDevice::GetInst()->GetRenderResolution();
 	m_fAspectRatio = vRenderResol.x / vRenderResol.y;
 
-	m_OrthoWidth = vRenderResol.x;
-	m_OrthoHeight = vRenderResol.y;
+	m_fOrthoWidth = vRenderResol.x;
+	m_fOrthoHeight = vRenderResol.y;
 }
 
 CCamera::CCamera(const CCamera& _Other)
@@ -49,9 +49,9 @@ CCamera::CCamera(const CCamera& _Other)
 	, m_Frustum(this)
 	, m_fAspectRatio(_Other.m_fAspectRatio)
 	, m_fScale(_Other.m_fScale)
-	, m_FOV(_Other.m_FOV)
-	, m_OrthoWidth(_Other.m_OrthoWidth)
-	, m_OrthoHeight(_Other.m_OrthoHeight)
+	, m_fFOV(_Other.m_fFOV)
+	, m_fOrthoWidth(_Other.m_fOrthoWidth)
+	, m_fOrthoHeight(_Other.m_fOrthoHeight)
 	, m_ProjType(_Other.m_ProjType)
 	, m_iLayerMask(_Other.m_iLayerMask)
 	, m_iCamIdx(-1)
@@ -119,12 +119,12 @@ void CCamera::CalcProjMat()
 	{
 		// 직교 투영
 		Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
-		m_matProj =  XMMatrixOrthographicLH(m_OrthoWidth * (1.f / m_fScale), m_OrthoHeight * (1.f / m_fScale), 1.f, 10000.f);
+		m_matProj =  XMMatrixOrthographicLH(m_fOrthoWidth * (1.f / m_fScale), m_fOrthoHeight * (1.f / m_fScale), 1.f, 10000.f);
 	}
 	else
 	{	
 		// 원근 투영
-		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_fAspectRatio, 1.f, m_Far);
+		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, m_fAspectRatio, 1.f, m_fFar);
 	}
 
 	// 투영행렬 역행렬 구하기
@@ -278,14 +278,14 @@ void CCamera::render()
 	// Light MRT 로 변경
 	// 물체들에 적용될 광원을 그리기
 	// Deferred 물체에 광원 적용시키기
+	
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet(false);
-
 	const vector<CLight3D*>& vecLight3D = CRenderMgr::GetInst()->GetLight3D();
 	for (size_t i = 0; i < vecLight3D.size(); ++i)
 	{
 		vecLight3D[i]->render();
 	}
-	
+
 	// Deferred MRT 에 그린 물체에 Light MRT 출력한 광원과 합쳐서
 	// 다시 SwapChain 타겟으로 으로 그리기
 	// SwapChain MRT 로 변경
@@ -317,7 +317,8 @@ void CCamera::render()
 	render_postprocess();
 
 	// UI
-	render_ui();
+	// Canvas Component로 렌더링 예정
+	//render_ui();
 }
 
 void CCamera::render_shadowmap()
@@ -418,6 +419,10 @@ void CCamera::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_fAspectRatio, sizeof(float), 1, _File);
 	fwrite(&m_fScale, sizeof(float), 1, _File);
+	fwrite(&m_fFar, sizeof(float), 1, _File);
+	fwrite(&m_fFOV, sizeof(float), 1, _File);
+	fwrite(&m_fOrthoWidth, sizeof(float), 1, _File);
+	fwrite(&m_fOrthoHeight, sizeof(float), 1, _File);
 	fwrite(&m_ProjType, sizeof(UINT), 1, _File);
 	fwrite(&m_iLayerMask, sizeof(UINT), 1, _File);
 	fwrite(&m_iCamIdx, sizeof(int), 1, _File);
@@ -427,6 +432,10 @@ void CCamera::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_fAspectRatio, sizeof(float), 1, _File);
 	fread(&m_fScale, sizeof(float), 1, _File);
+	fread(&m_fFar, sizeof(float), 1, _File);
+	fread(&m_fFOV, sizeof(float), 1, _File);
+	fread(&m_fOrthoWidth, sizeof(float), 1, _File);
+	fread(&m_fOrthoHeight, sizeof(float), 1, _File);
 	fread(&m_ProjType, sizeof(UINT), 1, _File);
 	fread(&m_iLayerMask, sizeof(UINT), 1, _File);
 	fread(&m_iCamIdx, sizeof(int), 1, _File);

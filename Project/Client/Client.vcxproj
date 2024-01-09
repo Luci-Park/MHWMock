@@ -188,7 +188,9 @@
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="ImGui\imgui_impl_win32.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imgui_stdlib.h" />
     <ClInclude Include="InspectorUI.h" />
+    <ClInclude Include="LayerInfoUI.h" />
     <ClInclude Include="Light2DUI.h" />
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="MaterialUI.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="MeshDataUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
     <ClInclude Include="MeshUI.h" />
+    <ClInclude Include="ObjectInfoUI.h" />
     <ClInclude Include="OutlinerUI.h" />
     <ClInclude Include="ParamUI.h" />
     <ClInclude Include="pch.h" />
@@ -230,9 +233,11 @@
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_stdlib.cpp" />
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="InspectorUI.cpp" />
+    <ClCompile Include="LayerInfoUI.cpp" />
     <ClCompile Include="Light2DUI.cpp" />
     <ClCompile Include="ListUI.cpp" />
     <ClCompile Include="main.cpp" />
@@ -241,6 +246,7 @@
     <ClCompile Include="MeshDataUI.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
     <ClCompile Include="MeshUI.cpp" />
+    <ClCompile Include="ObjectInfoUI.cpp" />
     <ClCompile Include="OutlinerUI.cpp" />
     <ClCompile Include="ParamUI.cpp" />
     <ClCompile Include="pch.cpp">
