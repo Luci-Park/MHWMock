@@ -170,6 +170,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animator2DUI.h" />
+    <ClInclude Include="AssimpTest.h" />
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CCustomResourceLoader.h" />
     <ClInclude Include="CEditorObjMgr.h" />
@@ -217,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator2DUI.cpp" />
+    <ClCompile Include="AssimpTest.cpp" />
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CCustomResourceLoader.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />

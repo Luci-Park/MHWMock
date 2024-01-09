@@ -24,7 +24,8 @@ int LayerInfoUI::render_update()
 	string strLayerName = ToString((LAYER_TYPE)iLayerIdx);
 
 	char szBuff[50] = {};
-	strcpy(szBuff, strLayerName.c_str());
+	size_t length = min(strLayerName.length(), sizeof(szBuff) - 1); // -1 to ensure space for null terminator
+	strcpy_s(szBuff, length + 1, strLayerName.c_str());
 	ImGui::Text("Layer		");
 	ImGui::SameLine();
 	ImGui::Text(szBuff);
@@ -37,7 +38,8 @@ int LayerInfoUI::render_update()
 	string sTargetName;
 	sTargetName.assign(TargetName.begin(), TargetName.end());
 	char szTargetName_buff[50] = {};
-	strcpy(szTargetName_buff, sTargetName.c_str());
+	length = min(sTargetName.length(), sizeof(szTargetName_buff) - 1); // -1 to ensure space for null terminator
+	strcpy_s(szTargetName_buff, length + 1, sTargetName.c_str());
 
 
 	ImGui::Text("ObjectName ");

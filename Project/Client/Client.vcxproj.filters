@@ -110,6 +110,9 @@
     <Filter Include="Manager\LevelSaveLoad">
       <UniqueIdentifier>{bd45bcb0-5b2d-4b83-a548-af8817de8f6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ModelControl">
+      <UniqueIdentifier>{c6c5232f-9576-4717-b76c-849652feeccc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -239,6 +242,9 @@
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="LayerInfoUI.h" />
+    <ClInclude Include="ObjectInfoUI.h" />
+    <ClInclude Include="AssimpTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -376,5 +382,8 @@
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="LayerInfoUI.cpp" />
+    <ClCompile Include="ObjectInfoUI.cpp" />
+    <ClCompile Include="AssimpTest.cpp" />
   </ItemGroup>
 </Project>
