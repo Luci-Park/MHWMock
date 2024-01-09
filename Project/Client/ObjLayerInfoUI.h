@@ -3,12 +3,12 @@
 
 class CGameObject;
 
-class LayerInfoUI : public ObjectInfoUI
+class ObjLayerInfoUI : public ObjectInfoUI
 {
 public:
     virtual int render_update() override;
 public:
-    LayerInfoUI();
-    ~LayerInfoUI();
+    ObjLayerInfoUI();
+    ~ObjLayerInfoUI();
 };
 

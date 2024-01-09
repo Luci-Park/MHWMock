@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "LayerInfoUI.h"
+#include "ObjLayerInfoUI.h"
 
 #include <Engine\CGameObject.h>
 #include <Engine\CLayer.h>
 
-LayerInfoUI::LayerInfoUI()
-	: ObjectInfoUI("##Layer", OBJINFO_TYPE::LAYER)
+ObjLayerInfoUI::ObjLayerInfoUI()
+	: ObjectInfoUI("##Obj_Layer", OBJINFO_TYPE::Obj_Layer)
 {
-	SetName("Layer");
+	SetName("Obj_Layer");
 }
 
 
-LayerInfoUI::~LayerInfoUI()
+ObjLayerInfoUI::~ObjLayerInfoUI()
 {
 }
-int LayerInfoUI::render_update()
+int ObjLayerInfoUI::render_update()
 {
 	if (FALSE == ObjectInfoUI::render_update())
 		return FALSE;
