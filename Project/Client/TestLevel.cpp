@@ -12,6 +12,7 @@
 
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
+#include <Script/CCameraMoveScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -23,6 +24,7 @@ void CreateTestLevel()
 {
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	pCurLevel->SetName(L"TestLevel");
 
 	// Layer 이름설정
 	pCurLevel->GetLayer(0)->SetName(L"Default");
@@ -40,8 +42,9 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
+	pMainCam->AddComponent(new CCameraMoveScript);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.

@@ -18,6 +18,7 @@ public:
 
 public:
     CLayer* FindLayerByName(const wstring& _strName);
+    int FindLayerIdxByName(const string& _strName);
     CLayer* GetLayer(int _iLayerIdx) { assert(!(_iLayerIdx < 0)); return m_arrLayer[_iLayerIdx]; }
 
     CGameObject* FindObjectByName(const wstring& _Name);
