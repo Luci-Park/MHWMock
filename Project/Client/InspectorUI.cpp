@@ -40,11 +40,12 @@ InspectorUI::InspectorUI()
 	// ObjInfoUI
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name] = new ObjNameInfoUI;
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSize(0.f, 50.f);
-	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name], false);
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSeparator(false);
+	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]);
 
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer] = new ObjLayerInfoUI;
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer]->SetSize(0.f, 20.f);
-	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer], false);
+	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer]);
 
 
 	// Component UI

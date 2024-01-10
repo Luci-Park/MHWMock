@@ -7,7 +7,7 @@ UI::UI(const string& _ID)
 	, m_ParentUI(nullptr)
 	, m_Modal(false)
 	, m_Active(false)
-	, m_bUseSeparator(false)
+	, m_bUseSeparator(true)
 {
 	
 }
@@ -43,9 +43,12 @@ void UI::finaltick()
 				m_vecChildUI[i]->finaltick();
 
 
-				// 자식 UI 간의 구분선
-				if (i != m_vecChildUI.size() - 1)
-					ImGui::Separator();
+				if (m_vecChildUI[i]->m_bUseSeparator)
+				{
+					// 자식 UI 간의 구분선
+					if (i != m_vecChildUI.size() - 1)
+						ImGui::Separator();
+				}
 			}
 
 			ImGui::End();
@@ -70,9 +73,12 @@ void UI::finaltick()
 
 					m_vecChildUI[i]->finaltick();
 
-					// 자식 UI 간의 구분선
-					if (i != m_vecChildUI.size() - 1)
-						ImGui::Separator();
+					if (m_vecChildUI[i]->m_bUseSeparator)
+					{
+						// 자식 UI 간의 구분선
+						if (i != m_vecChildUI.size() - 1)
+							ImGui::Separator();
+					}
 				}
 
 				ImGui::EndPopup();
@@ -91,9 +97,12 @@ void UI::finaltick()
 		{
 			m_vecChildUI[i]->finaltick();
 
-			// 자식 UI 간의 구분선
-			if (i != m_vecChildUI.size() - 1)
-				ImGui::Separator();
+			if (m_vecChildUI[i]->m_bUseSeparator)
+			{	
+				// 자식 UI 간의 구분선
+				if (i != m_vecChildUI.size() - 1)
+					ImGui::Separator();
+			}
 		}
 
 		ImGui::EndChild();
