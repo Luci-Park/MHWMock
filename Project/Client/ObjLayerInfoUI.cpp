@@ -30,22 +30,6 @@ int ObjLayerInfoUI::render_update()
 	ImGui::Text(szBuff);
 
 	//ImGui::InputText("##LayerName", szBuff, 50, ImGuiInputTextFla5gs_ReadOnly);
-
-
-	// GameObj 이름 변경
-	wstring TargetName = GetTarget()->GetName();
-	string sTargetName;
-	sTargetName.assign(TargetName.begin(), TargetName.end());
-	char szTargetName_buff[50] = {};
-	strcpy(szTargetName_buff, sTargetName.c_str());
-
-
-	ImGui::Text("ObjectName ");
-	ImGui::SameLine();
-	ImGui::InputText(" ", szTargetName_buff, 50, ImGuiInputTextFlags_AlwaysOverwrite);
-
-	sTargetName = szTargetName_buff;
-	GetTarget()->SetName(TargetName.assign(sTargetName.begin(), sTargetName.end()));
 	
 	return TRUE;
 }

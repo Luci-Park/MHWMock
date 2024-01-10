@@ -116,6 +116,9 @@
     <Filter Include="UI\InspectorUI\ObjectInfoUI\Obj_Layer">
       <UniqueIdentifier>{08cec373-309e-4a0c-92b6-a0b8547b1c75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ObjectInfoUI\Obj_Name">
+      <UniqueIdentifier>{f9042f2d-99b4-46d3-95f5-afc30f274700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="ObjLayerInfoUI.h">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjNameInfoUI.h">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="ObjLayerInfoUI.cpp">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjNameInfoUI.cpp">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

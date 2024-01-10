@@ -7,6 +7,7 @@ UI::UI(const string& _ID)
 	, m_ParentUI(nullptr)
 	, m_Modal(false)
 	, m_Active(false)
+	, m_bUseSeparator(false)
 {
 	
 }
@@ -40,6 +41,7 @@ void UI::finaltick()
 					continue;
 
 				m_vecChildUI[i]->finaltick();
+
 
 				// 자식 UI 간의 구분선
 				if (i != m_vecChildUI.size() - 1)
@@ -89,6 +91,7 @@ void UI::finaltick()
 		{
 			m_vecChildUI[i]->finaltick();
 
+			// 자식 UI 간의 구분선
 			if (i != m_vecChildUI.size() - 1)
 				ImGui::Separator();
 		}

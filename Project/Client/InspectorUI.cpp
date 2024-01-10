@@ -24,6 +24,7 @@
 #include "MaterialUI.h"
 #include "ScriptUI.h"
 
+#include "ObjNameInfoUI.h"
 #include "ObjLayerInfoUI.h"
 
 InspectorUI::InspectorUI()
@@ -35,10 +36,16 @@ InspectorUI::InspectorUI()
 {
 	SetName("Inspector");
 
-	// LayerInfoUI
+
+	// ObjInfoUI
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name] = new ObjNameInfoUI;
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSize(0.f, 50.f);
+	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name], false);
+
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer] = new ObjLayerInfoUI;
-	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer]->SetSize(0.f, 100.f);
-	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer]);
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer]->SetSize(0.f, 20.f);
+	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Layer], false);
+
 
 	// Component UI
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;

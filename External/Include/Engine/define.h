@@ -92,6 +92,7 @@ extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END];
 
 enum class OBJINFO_TYPE
 {
+	Obj_Name,
 	Obj_Layer,
 	END,
 };

@@ -18,6 +18,7 @@ private:
 	bool			m_Modal;		// 모달 or 모달리스
 	bool			m_Active;		// UI 활성화 체크
 
+	bool			m_bUseSeparator;
 public:
 	virtual void init() {}
 	virtual void tick() {}
@@ -42,10 +43,12 @@ public:
 
 	void SetSize(float _width, float _height) { m_vSize = ImVec2(_width, _height); }
 
-	void AddChildUI(UI* _UI)
+	// _bUsemSeparator : UI끼리 구분선 사용할지 안할지.
+	void AddChildUI(UI* _UI, bool _bUsemSeparator = true)
 	{
 		_UI->m_ParentUI = this;
 		m_vecChildUI.push_back(_UI);
+		m_bUseSeparator = _bUsemSeparator;
 	}
 
 
