@@ -61,8 +61,8 @@ enum class RES_TYPE
 	PREFAB,
 
 	MODEL,
-	MESH,
-	TEXTURE,
+	MESH,			// 형태
+	TEXTURE,		// 이미지
 
 	SOUND,
 
