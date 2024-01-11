@@ -10,19 +10,18 @@
 void TestAssimp()
 {
 	Assimp::Importer importer;
-	string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
+	//string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
+	string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
 
 	const aiScene* scene = importer.ReadFile(filename
 		, aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices
 		| aiProcess_MakeLeftHanded | aiProcess_Triangulate | aiProcess_ValidateDataStructure
 		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
 
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		int i = 0;
-	}
+	assert(!(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode));
+
 	string strModelName = scene->mName.C_Str();
 	wstring wstrModelName(strModelName.begin(), strModelName.end());
-
 	for (int m = 0; m < scene->mNumMeshes; m++)
 	{
 		aiMesh* aMesh = scene->mMeshes[m];
@@ -60,5 +59,6 @@ void TestAssimp()
 		Ptr<CMesh> pMesh = new CMesh();
 		pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 		CResMgr::GetInst()->AddRes(wstrMeshName, pMesh);
+		OutputDebugStringW(wstrMeshName.c_str());
 	}
 }

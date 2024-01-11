@@ -94,12 +94,13 @@ void ContentUI::Reload()
 	// 리소스의 원본파일 체크
 	for (UINT i = 0; i < UINT(RES_TYPE::END); ++i)
 	{
+		if (i == (UINT)(RES_TYPE::MESH)) continue;
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResources((RES_TYPE)i);
 
 		for (const auto& pair : mapRes)
 		{
 			if (pair.second->IsEngineRes())
-				continue;
+				continue;			
 
 			wstring strFilePath = strContentPath + pair.first;
 			if (!filesystem::exists(strFilePath))

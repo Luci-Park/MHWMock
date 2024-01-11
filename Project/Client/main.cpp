@@ -50,6 +50,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CEditorObjMgr::GetInst()->init();
     
     LoadCustomResources();
+    TestAssimp();
 
     // ImGui 초기화
     ImGuiMgr::GetInst()->init(g_hWnd);
@@ -61,7 +62,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
     MSG msg;
 
-    TestAssimp();
    
 
 
