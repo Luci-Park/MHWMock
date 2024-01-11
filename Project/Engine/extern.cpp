@@ -103,7 +103,7 @@ extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END] =
 	"",
 	"",
 	"",
-	"ViewPortUI",
+	"ViewPort UI",
 };
 
 extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END] =
@@ -139,5 +139,5 @@ extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END] =
 	L"",
 	L"",
 	L"",
-	L"ViewPortUI",
+	L"ViewPort UI",
 };

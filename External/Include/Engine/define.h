@@ -86,7 +86,7 @@ enum class LAYER_TYPE
 	MonsterProjectile,
 
 	ViewPortUI = 31,
-	END,
+	END = 32,
 };
 
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END];
@@ -94,7 +94,8 @@ extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END];
 
 enum class OBJINFO_TYPE
 {
-	LAYER,
+	Obj_Name,
+	Obj_Layer,
 	END,
 };
 

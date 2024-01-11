@@ -110,6 +110,15 @@
     <Filter Include="Manager\LevelSaveLoad">
       <UniqueIdentifier>{bd45bcb0-5b2d-4b83-a548-af8817de8f6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ObjectInfoUI">
+      <UniqueIdentifier>{ad8eaea2-4cfc-4efc-a501-4fc9079ff03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ObjectInfoUI\Obj_Layer">
+      <UniqueIdentifier>{08cec373-309e-4a0c-92b6-a0b8547b1c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ObjectInfoUI\Obj_Name">
+      <UniqueIdentifier>{f9042f2d-99b4-46d3-95f5-afc30f274700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -239,9 +248,15 @@
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="LayerInfoUI.h" />
-    <ClInclude Include="ObjectInfoUI.h" />
-    <ClInclude Include="AssimpTest.h" />
+    <ClInclude Include="ObjectInfoUI.h">
+      <Filter>UI\InspectorUI\ObjectInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLayerInfoUI.h">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjNameInfoUI.h">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -379,8 +394,14 @@
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="LayerInfoUI.cpp" />
-    <ClCompile Include="ObjectInfoUI.cpp" />
-    <ClCompile Include="AssimpTest.cpp" />
+    <ClCompile Include="ObjectInfoUI.cpp">
+      <Filter>UI\InspectorUI\ObjectInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLayerInfoUI.cpp">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjNameInfoUI.cpp">
+      <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
