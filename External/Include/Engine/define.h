@@ -60,8 +60,10 @@ enum class RES_TYPE
 	MATERIAL,
 	PREFAB,
 
-	MESH,			// 형태
-	TEXTURE,		// 이미지
+	MODEL,
+	MESH,
+	TEXTURE,
+
 	SOUND,
 
 	GRAPHICS_SHADER,

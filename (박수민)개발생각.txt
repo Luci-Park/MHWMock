@@ -20,3 +20,10 @@ Save Currently ok
 1. Resource는 key와 path로 저장을 한다.
 Key와 이름을 바꿔야 할 땐 어떻게 해야 하는 가.
 2. Script param은 저장=> ptr 타입은 어캐 하징
+
+1/10
+- anjanath animation
+	- mMeshes
+	- mMaterials
+	- mAnimations
+	=> 애초에 스켈레톤은 없다.

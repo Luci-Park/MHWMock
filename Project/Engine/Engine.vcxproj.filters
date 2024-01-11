@@ -166,6 +166,9 @@
     <ClInclude Include="CFrustum.h">
       <Filter>Source\06. Component\3. Camera\Frustum</Filter>
     </ClInclude>
+    <ClInclude Include="CModel.h">
+      <Filter>Source\07. Resource\7. Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -320,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="CFrustum.cpp">
       <Filter>Source\06. Component\3. Camera\Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="CModel.cpp">
+      <Filter>Source\07. Resource\7. Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +490,9 @@
     </Filter>
     <Filter Include="Source\06. Component\3. Camera\Frustum">
       <UniqueIdentifier>{1e62c98e-684f-4033-a010-82c739ed155f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\7. Model">
+      <UniqueIdentifier>{b36c0892-e4d0-448d-baa4-9d1398766edc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

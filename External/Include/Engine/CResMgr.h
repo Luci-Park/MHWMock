@@ -9,6 +9,7 @@
 #include "CMaterial.h"
 #include "CPrefab.h"
 #include "CSound.h"
+#include "CModel.h"
 
 #include "CPathMgr.h"
 
@@ -63,6 +64,7 @@ private:
 template<typename T>
 RES_TYPE GetResType()
 {
+    const type_info& model = typeid(CModel);
     const type_info& mesh = typeid(CMesh);
     //const type_info& meshdata = typeid(CMeshData);
     const type_info& material = typeid(CMaterial);
@@ -72,6 +74,8 @@ RES_TYPE GetResType()
     const type_info& gs = typeid(CGraphicsShader);
     const type_info& cs = typeid(CComputeShader);
 
+    if (typeid(T).hash_code() == model.hash_code())
+        return RES_TYPE::MODEL;
     if (typeid(T).hash_code() == mesh.hash_code())
         return RES_TYPE::MESH;
     if (typeid(T).hash_code() == gs.hash_code())
