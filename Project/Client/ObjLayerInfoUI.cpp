@@ -11,14 +11,42 @@
 
 ObjLayerInfoUI::ObjLayerInfoUI()
 	: ObjectInfoUI("##Obj_Layer", OBJINFO_TYPE::Obj_Layer)
+	, items{}
+	, item_current_idx(-1)
+	, combo_preview_value(nullptr)
+	, is_selected(false)
 {
 	SetName("Obj_Layer");
+
+	int size = sizeof(LAYER_TYPE_STR) / sizeof(LAYER_TYPE_STR[0]);
+	char cSubChar[] = "-";
+
+	for (int i = 0; i < size; i++)
+	{
+
+		// LAYER_TYPE이 비어있을 경우 "-" 를 넣어줌.
+		if (LAYER_TYPE_STR[i] == "")
+		{
+			items[i] = new char[strlen(LAYER_TYPE_STR[i]) + 2];
+			strcpy(const_cast<char*>(items[i]), cSubChar);
+		}
+		else
+		{
+			items[i] = new char[strlen(LAYER_TYPE_STR[i]) + 1];
+			strcpy(const_cast<char*>(items[i]), LAYER_TYPE_STR[i]);
+		}
+	}
 }
 
 
 ObjLayerInfoUI::~ObjLayerInfoUI()
 {
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		free(items[i]);
+	}
 }
+
 int ObjLayerInfoUI::render_update()
 {
 	if (FALSE == ObjectInfoUI::render_update())
@@ -26,32 +54,14 @@ int ObjLayerInfoUI::render_update()
 
 	// Layer ComboBox.
 	{
-		const char* items[MAX_LAYER] = {0};
-		const int size = sizeof(LAYER_TYPE_STR) / sizeof(LAYER_TYPE_STR[0]);
-		
-		for (int i = 0; i < size; i++)
-		{
-			items[i] = new char[strlen(LAYER_TYPE_STR[i]) + 1];
+		item_current_idx = GetTarget()->GetLayerIndex(); 
 
-			// LAYER_TYPE이 비어있을 경우 "-" 를 넣어줌.
-			if (LAYER_TYPE_STR[i] == "")
-			{
-				strcpy(const_cast<char*>(items[i]), "-");
-			}
-			else
-			{
-				strcpy(const_cast<char*>(items[i]), LAYER_TYPE_STR[i]);
-			}
-		}
-
-		int item_current_idx = GetTarget()->GetLayerIndex(); 
-
-		const char* combo_preview_value = items[item_current_idx];  
+		combo_preview_value = items[item_current_idx];  
 		if (ImGui::BeginCombo("Layer", combo_preview_value, ImGuiComboFlags_NoArrowButton))
 		{
 			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
 			{
-				const bool is_selected = (item_current_idx == n);
+				is_selected = (item_current_idx == n);
 				if (ImGui::Selectable(items[n], is_selected))
 				{
 					item_current_idx = n;
