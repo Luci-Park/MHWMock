@@ -16,6 +16,8 @@ void DeleteArray(T* (&Arr)[_Size])
 class CGameObject;
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx);
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, const wstring& _LayerName);
+void SpawnGameObject(CGameObject* _NewObject, const wstring& _LayerName);
+void SpawnGameObject(CGameObject* _NewObject);
 
 // 오브젝트 삭제
 void DestroyObject(CGameObject* _DeletObject);
@@ -73,13 +75,6 @@ void LoadResRef(Ptr<T>& _Res, FILE* _File)
 		_Res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
 	}
 }
-
-
-
-
-
-
-
 
 
 template<typename T, UINT Size>

@@ -1,5 +1,6 @@
 #pragma once
 #include "CRes.h"
+#include "assimp/scene.h"
 
 class CMesh
 	: public CRes
@@ -8,12 +9,11 @@ private:
 	ComPtr<ID3D11Buffer>	m_VB;
 	D3D11_BUFFER_DESC		m_tVBDesc;
 	UINT					m_VtxCount;
+	void*					m_pVtxSys;
 
 	ComPtr<ID3D11Buffer>	m_IB;
 	D3D11_BUFFER_DESC		m_tIBDesc;
 	UINT					m_IdxCount;
-
-	void*					m_pVtxSys;
 	void*					m_pIdxSys;
 
 public:

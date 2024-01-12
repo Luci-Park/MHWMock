@@ -36,6 +36,28 @@ void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, const wstring& _L
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
+void SpawnGameObject(CGameObject* _NewObject, const wstring& _LayerName)
+{
+	tEvent evn = {};
+
+	evn.Type = EVENT_TYPE::CREATE_OBJECT;
+	evn.wParam = (DWORD_PTR)_NewObject;
+	evn.lParam = CLevelMgr::GetInst()->GetCurLevel()->FindLayerByName(_LayerName)->GetLayerIndex();
+
+	CEventMgr::GetInst()->AddEvent(evn);
+}
+
+void SpawnGameObject(CGameObject* _NewObject)
+{
+	tEvent evn = {};
+
+	evn.Type = EVENT_TYPE::CREATE_OBJECT;
+	evn.wParam = (DWORD_PTR)_NewObject;
+	evn.lParam = 0;
+
+	CEventMgr::GetInst()->AddEvent(evn);
+}
+
 void DestroyObject(CGameObject* _DeletObject)
 {
 	if (_DeletObject->IsDead())

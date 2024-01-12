@@ -3,11 +3,16 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <stack>
+#include <queue>
 #include <string>
 
 using std::vector;
 using std::list;
 using std::map;
+using std::queue;
+using std::stack;
+using std::priority_queue;
 using std::make_pair;
 using std::wstring;
 using std::string;

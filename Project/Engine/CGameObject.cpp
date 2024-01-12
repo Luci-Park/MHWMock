@@ -194,22 +194,29 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 void CGameObject::AddChild(CGameObject* _Object)
 {
-	if (_Object->m_Parent)
+	if (_Object->m_Parent != this)
 	{
-		// 기존 부모가 있으면 연결 해제 후 연결
-		_Object->DisconnectFromParent();
-	}
-	
-	else
-	{
-		// 기존 부모가 없으면, 소속 레이어에서 최상위부모 목록에서 제거된 후 연결
-		_Object->ChangeToChildType();
-	}
-	
+		if (_Object->m_Parent)
+		{
+			// 기존 부모가 있으면 연결 해제 후 연결
+			_Object->DisconnectFromParent();
+		}
 
-	// 부모 자식 연결
-	_Object->m_Parent = this;
+		else
+		{
+			// 기존 부모가 없으면, 소속 레이어에서 최상위부모 목록에서 제거된 후 연결
+			_Object->ChangeToChildType();
+		}
+		// 부모 자식 연결
+		_Object->m_Parent = this;
+	}
 	m_vecChild.push_back(_Object);
+}
+
+void CGameObject::SetParent(CGameObject* _Object)
+{
+	if(_Object != nullptr)
+		_Object->AddChild(this);
 }
 
 

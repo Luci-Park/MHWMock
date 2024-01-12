@@ -24,7 +24,6 @@ CMesh::~CMesh()
 		delete m_pIdxSys;
 }
 
-
 void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount)
 {
 	m_VtxCount = _iVtxCount;
