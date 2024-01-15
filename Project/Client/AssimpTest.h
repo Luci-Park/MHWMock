@@ -1,8 +1,13 @@
 #pragma once
-class aiMesh;
-class aiTexture;
-class aiMaterial;
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 void TestAssimp();
 void ExportMesh(aiMesh* _aiMesh);
 void ExportTexture(aiTexture* _aiTexture);
 void ExportMaterial(aiMaterial* _aiMaterial);
+void ExportAnimation(aiAnimation* _aiAnimation);
+
+void ProcessBone(aiBone* _aiBone);

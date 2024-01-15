@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "AssimpTest.h"
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include <Engine/CMesh.h>
 #include <Engine/CResMgr.h>
 
@@ -39,8 +36,7 @@ void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
 		pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(wstrName));
 		
 		pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
-		if (node->mNumMeshes > 1)
-			int p = 0;
+
 	}
 	SpawnGameObject(pObject, pObject->Transform()->GetRelativePos(), 0);
 	
@@ -58,7 +54,7 @@ void TestAssimp()
 	//string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
 
 	const aiScene* scene = importer.ReadFile(filename
-		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality
+		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
 		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
 
 	assert(!(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode));
@@ -72,6 +68,8 @@ void TestAssimp()
 	{ 
 		ExportMaterial(scene->mMaterials[i]);
 	}
+	for (int i = 0; i < scene->mNumAnimations; i++)
+		ExportAnimation(scene->mAnimations[i]);
 
 
 	//CreateGameObject(scene, scene->mRootNode, nullptr);
@@ -111,9 +109,15 @@ void ExportMesh(aiMesh* _aiMesh)
 			vecIdx[f * 3 + i] = _aiMesh->mFaces[f].mIndices[i];
 	}
 
+	for (int i = 0; i < _aiMesh->mNumBones; i++)
+	{
+		assert(_aiMesh->mBones[i]->mName == _aiMesh->mBones[i]->mNode->mName);
+		//ProcessBone(_aiMesh->mBones[i]);
+	}
 	Ptr<CMesh> pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	CResMgr::GetInst()->AddRes(wstrName, pMesh);
+
 }
 
 void ExportTexture(aiTexture* _aiTexture)
@@ -124,10 +128,33 @@ void ExportMaterial(aiMaterial* _aiMaterial)
 {
 	string strName = _aiMaterial->GetName().C_Str();
 	wstring wstrName(strName.begin(), strName.end());
-	for (int i = 0; i < _aiMaterial->mNumProperties; i++)
+	//for (int i = 0; i < _aiMaterial->mNumProperties; i++)
+	//{
+	//	aiMaterialProperty* prop = _aiMaterial->mProperties[i];
+	//	OutputDebugStringA(("Property Name: " + string(prop->mKey.C_Str()) + "\n").c_str());
+	//	OutputDebugStringA(("Property Type: " + std::to_string((UINT)prop->mType) + "\n").c_str());
+	//}
+}
+
+void ExportAnimation(aiAnimation* _aiAnimation)
+{
+	string strName = _aiAnimation->mName.C_Str();
+	wstring wstrName(strName.begin(), strName.end());
+	for (int i = 0; i < _aiAnimation->mNumChannels; i++)
 	{
-		aiMaterialProperty* prop = _aiMaterial->mProperties[i];
-		OutputDebugStringA(("Property Name: " + string(prop->mKey.C_Str()) + "\n").c_str());
-		OutputDebugStringA(("Property Type: " + std::to_string((UINT)prop->mType) + "\n").c_str());
 	}
+}
+
+void ProcessBone(aiBone* _aiBone)
+{
+	string bug = "======================================\n";
+	OutputDebugStringA(bug.c_str());
+	string output = _aiBone->mName.C_Str();
+	output += "\n";
+	output += _aiBone->mArmature->mName.C_Str();
+	output += "\n";
+	output += _aiBone->mNode->mName.C_Str();
+	output += "\n";
+	OutputDebugStringA(output.c_str());
+	OutputDebugStringA(bug.c_str());
 }
