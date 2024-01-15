@@ -198,13 +198,13 @@ int CMesh::Load(const wstring& _strFilePath)
 	return S_OK;
 }
 
-int CMesh::Save(const wstring& _strFilePath)
+int CMesh::Save(const wstring& _strRelativePath)
 {
 	// 상대경로 저장
-	SetRelativePath(_strFilePath);
+	SetRelativePath(_strRelativePath);
 
 	// 파일 경로 만들기
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strFilePath;
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	// 파일 쓰기모드로 열기
 	FILE* pFile = nullptr;

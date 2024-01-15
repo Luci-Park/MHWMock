@@ -6,6 +6,7 @@ class CModel :
 private:
 
 public:
+
     virtual int Save(const wstring& _strRelativePath) { return S_OK; }
 private:
     virtual int Load(const wstring& _strFilePath);
