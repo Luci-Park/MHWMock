@@ -8,15 +8,15 @@ private:
     const RES_TYPE  m_Type;
     int             m_iRefCount;
 
-    wstring         m_strKey;
     wstring         m_strRelativePath;
 
     bool            m_bEngine;  // 엔진이 관리하는 리소스
 
-private:
-    void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
+protected:
+    void SetKey(const wstring& _strKey) { SetRelativePath(_strKey); }
     void SetRelativePath(const wstring& _strPath) { m_strRelativePath = _strPath; }
 
+private:
     void AddRef() { ++m_iRefCount; }
     void Release();
 
@@ -30,13 +30,13 @@ private:
 
 public:
     // 파일로 저장
-    virtual int Save(const wstring&) = 0;
+    virtual int Save(const wstring& _strFilePath) = 0;
 
     // 리소스는 Clone 을 구현하지 않는다.
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 public:
-    const wstring& GetKey() { return m_strKey; }
+    const wstring& GetKey() { return m_strRelativePath; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
     RES_TYPE GetType() { return m_Type; }
     bool IsEngineRes() { return m_bEngine; }

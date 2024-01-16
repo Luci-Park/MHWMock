@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CModel.h"
 #include "CResMgr.h"
+#include "CMesh.h"
+#include "CMaterial.h"
+#include "CPathMgr.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -13,62 +16,110 @@ CModel::CModel()
 
 CModel::~CModel()
 {
+	if (m_pRootNode != nullptr)
+	{
+		delete m_pRootNode;
+		m_pRootNode = nullptr;
+	}
+}
+
+Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
+{
+	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
+	string strFilename(_strRelativePath.begin(), _strRelativePath.end());
+	
+	Assimp::Importer importer;
+	const aiScene* pScene = importer.ReadFile(strFilename
+		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
+		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
+
+	assert(!(!pScene || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !pScene->mRootNode));
+	
+	path filepath(_strRelativePath);
+	Ptr<CModel> pModel = new CModel();
+	pModel->SetName(filepath.stem());
+	wstring strTopKey = filepath.parent_path() / filepath.stem();
+	pModel->SetKey(strTopKey + L".model");
+
+	pModel->m_vecMeshes.resize(pScene->mNumMeshes);
+	for (int i = 0; i < pScene->mNumMeshes; i++)
+	{
+		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i]);
+		if (nullptr != pMesh)
+		{
+			pModel->m_vecMeshes[i] = pMesh;
+			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
+
+			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
+			pMesh->Save(strMeshKey);
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
+	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
+	for (int i = 0; i < pScene->mNumMaterials; i++)
+	{
+		Ptr<CMaterial> pNewMtrl = new CMaterial;
+		string strName = pScene->mMaterials[i]->GetName().C_Str();
+		wstring wstrName(strName.begin(), strName.end());
+		pNewMtrl->SetName(wstrName);
+
+		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
+		pNewMtrl->Save(strMtrlKey);
+	}
+
+	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
+
+	return pModel;
 }
 
 int CModel::Load(const wstring& _strFilePath)
 {
-	Assimp::Importer importer;
+	return S_OK;
+}
 
-	const aiScene* scene = importer.ReadFile(string(_strFilePath.begin(), _strFilePath.end())
-		, aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices
-		| aiProcess_MakeLeftHanded | aiProcess_Triangulate | aiProcess_ValidateDataStructure
-		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
+tModelNode::~tModelNode()
+{
+	Safe_Del_Vec(vecChildren);
+}
 
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		int i = 0;
-		return S_FALSE;
-	}
-	string strModelName = scene->mName.C_Str();
-	wstring wstrModelName(strModelName.begin(), strModelName.end());
+tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel)
+{
+	tModelNode* pNewNode = new tModelNode();
+	string strTemp = _aiNode->mName.C_Str();
+	pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
 
-	for (int m = 0; m < scene->mNumMeshes; m++)
+	aiVector3t<float> scale, rot, pos;
+	_aiNode->mTransformation.Decompose(scale, rot, pos);
+	pNewNode->vPos = Vec3(pos.x, pos.y, pos.z);
+	pNewNode->vRot = Vec3(rot.x, rot.y, rot.z);
+	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
+
+	if (_aiNode->mNumMeshes > 0)
 	{
-		aiMesh* aMesh = scene->mMeshes[m];
-		string strMeshName = aMesh->mName.C_Str();
-		wstring wstrMeshName(strMeshName.begin(), strMeshName.end());
-		wstrMeshName = wstrModelName + L"/" + wstrMeshName;
-
-		vector<Vtx> vecVtx(aMesh->mNumVertices);
-		vector<UINT> vecIdx(aMesh->mNumFaces * 3);
-
-		for (int v = 0; v < aMesh->mNumVertices; v++)
+		if (1 == (UINT)_aiNode->mMeshes)
 		{
-			if(aMesh->HasPositions())
-				vecVtx[v].vPos = Vec3(aMesh->mVertices[v].x, aMesh->mVertices[v].y, aMesh->mVertices[v].z);			
-			if(aMesh->HasVertexColors(v)) 
-				vecVtx[v].vColor = Vec4((aMesh->mColors[v][0]).r, (aMesh->mColors[v][0]).g, (aMesh->mColors[v][0]).b, (aMesh->mColors[v][0]).a);
-			if(aMesh->HasTextureCoords(v))
-				vecVtx[v].vUV = Vec2(aMesh->mTextureCoords[v][0].x, aMesh->mTextureCoords[v][0].y);
-
-			if(aMesh->HasNormals())
-				vecVtx[v].vNormal = Vec3(aMesh->mNormals[v].x, aMesh->mNormals[v].y, aMesh->mNormals[v].z);
-			if (aMesh->HasTangentsAndBitangents())
+			pNewNode->pMesh = _pModel->GetMesh(_aiNode->mMeshes[0]);
+			pNewNode->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[0]]->mMaterialIndex);
+		}
+		else
+		{
+			for (int i = 0; i < _aiNode->mNumMeshes; i++)
 			{
-				vecVtx[v].vNormal = Vec3(aMesh->mTangents[v].x, aMesh->mTangents[v].y, aMesh->mTangents[v].z);
-				vecVtx[v].vBinormal = Vec3(aMesh->mBitangents[v].x, aMesh->mBitangents[v].y, aMesh->mBitangents[v].z);
+				tModelNode* pNewChild = new tModelNode();
+				pNewChild->strName = pNewNode->strName + std::to_wstring(i);
+				pNewChild->pMesh = _pModel->GetMesh(_aiNode->mMeshes[i]);
+				pNewChild->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[i]]->mMaterialIndex);
 			}
 		}
-
-		for (int f = 0; f < aMesh->mNumFaces; f++)
-		{
-			for(int i = 0; i < 3; i++)
-				vecIdx[f * 3 + i] = aMesh->mFaces[f].mIndices[i];
-		}
-
-		Ptr<CMesh> pMesh = new CMesh();
-		pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
-		CResMgr::GetInst()->AddRes(wstrMeshName, pMesh);
 	}
 
-	return S_OK;
+	for (size_t i = 0; i < _aiNode->mNumChildren; i++)
+	{
+		pNewNode->vecChildren.push_back(CreateFromAssimp(_aiScene, _aiNode->mChildren[i], _pModel));
+	}
+	return pNewNode;
 }

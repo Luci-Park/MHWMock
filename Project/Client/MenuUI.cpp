@@ -284,11 +284,11 @@ void MenuUI::LoadObject()
 
 void MenuUI::CreateEmptyMaterial(string strName)
 {
-    wstring wstrName(strName.begin(), strName.end());
     Ptr<CMaterial> pNewMtrl = new CMaterial;
+    wstring wstrName(strName.begin(), strName.end());
     pNewMtrl->SetName(wstrName);
     wstring strPath = L"material\\" + pNewMtrl->GetName() + L".mtrl";
-    CResMgr::GetInst()->AddRes<CMaterial>(strPath, pNewMtrl, strPath);
+    CResMgr::GetInst()->AddRes<CMaterial>(strPath, pNewMtrl);
     pNewMtrl->Save(strPath);
 
 }

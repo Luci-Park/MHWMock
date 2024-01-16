@@ -142,60 +142,73 @@ int CMesh::Load(const wstring& _strFilePath)
 	// 읽기모드로 파일열기
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
-
-	// 키값, 상대경로
-	wstring strName, strKey, strRelativePath;
-	LoadWString(strName, pFile);
-	LoadWString(strKey, pFile);
-	LoadWString(strRelativePath, pFile);
-
-	SetName(strName);
-	SetKey(strKey);
-	SetRelativePath(strRelativePath);
-
-	// 정점데이터
-	UINT iByteSize = 0;
-	fread(&iByteSize, sizeof(int), 1, pFile);
-
-	m_pVtxSys = (Vtx*)malloc(iByteSize);
-	fread(m_pVtxSys, 1, iByteSize, pFile);
-
-	m_VtxCount = iByteSize / sizeof(Vtx);
-
-	D3D11_BUFFER_DESC tDesc = {};
-	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	tDesc.ByteWidth = iByteSize;
-	tDesc.Usage = D3D11_USAGE_DEFAULT;
-
-	D3D11_SUBRESOURCE_DATA tSubData = {};
-	tSubData.pSysMem = m_pVtxSys;
-
-	if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())))
+	if (nullptr != pFile)
 	{
-		assert(nullptr);
+		// 키값, 상대경로
+		wstring strName, strKey, strRelativePath;
+		LoadWString(strName, pFile);
+		LoadWString(strKey, pFile);
+		LoadWString(strRelativePath, pFile);
+
+		SetName(strName);
+		SetKey(strKey);
+		SetRelativePath(strRelativePath);
+
+		// 정점데이터
+		UINT iByteSize = 0;
+		fread(&iByteSize, sizeof(int), 1, pFile);
+		if (iByteSize == 0)
+		{
+			fclose(pFile);
+			return E_FAIL;
+		}
+		m_pVtxSys = (Vtx*)malloc(iByteSize);
+		fread(m_pVtxSys, 1, iByteSize, pFile);
+
+		m_VtxCount = iByteSize / sizeof(Vtx);
+
+		D3D11_BUFFER_DESC tDesc = {};
+		tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		tDesc.ByteWidth = iByteSize;
+		tDesc.Usage = D3D11_USAGE_DEFAULT;
+
+		D3D11_SUBRESOURCE_DATA tSubData = {};
+		tSubData.pSysMem = m_pVtxSys;
+
+		if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())))
+		{
+			assert(nullptr);
+		}
+
+		// 정점데이터
+		fread(&iByteSize, sizeof(int), 1, pFile);
+
+		if (iByteSize == 0)
+		{
+			fclose(pFile);
+			return E_FAIL;
+		}
+
+		m_pIdxSys = (UINT*)malloc(iByteSize);
+		fread(m_pIdxSys, 1, iByteSize, pFile);
+
+		m_IdxCount = iByteSize / sizeof(UINT);
+
+		m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+		m_tIBDesc.CPUAccessFlags = 0;
+		m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;
+		m_tIBDesc.ByteWidth = iByteSize; //sizeof(UINT) * m_IdxCount;
+
+		tSubData.pSysMem = m_pIdxSys;
+		if (FAILED(DEVICE->CreateBuffer(&m_tIBDesc, &tSubData, m_IB.GetAddressOf())))
+		{
+			assert(nullptr);
+		}
+
+		fclose(pFile);
+		return S_OK;
 	}
-
-	// 정점데이터
-	fread(&iByteSize, sizeof(int), 1, pFile);
-
-	m_pIdxSys = (UINT*)malloc(iByteSize);
-	fread(m_pIdxSys, 1, iByteSize, pFile);
-
-	m_IdxCount = iByteSize / sizeof(UINT);
-
-	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-	m_tIBDesc.CPUAccessFlags = 0;
-	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;
-	m_tIBDesc.ByteWidth = iByteSize; //sizeof(UINT) * m_IdxCount;
-
-	tSubData.pSysMem = m_pIdxSys;
-	if (FAILED(DEVICE->CreateBuffer(&m_tIBDesc, &tSubData, m_IB.GetAddressOf())))
-	{
-		assert(nullptr);
-	}
-
-	fclose(pFile);
-	return S_OK;
+	return E_FAIL;
 }
 
 int CMesh::Save(const wstring& _strRelativePath)

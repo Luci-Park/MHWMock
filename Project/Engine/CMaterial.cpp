@@ -159,31 +159,38 @@ int CMaterial::Save(const wstring& _strRelativePath)
 
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _strRelativePath;
-	
+
+	path parentFolder(strFilePath);
+	filesystem::create_directories(parentFolder.parent_path());
+		
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-
-	// Entity
-	SaveWString(GetName(), pFile);
-	
-	// Res
-	SaveWString(GetKey(), pFile);	
-	
-	// Shader
-	SaveResRef(m_pShader.Get(), pFile);
-
-	// Constant
-	fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
-
-	// Texture
-	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+	if (pFile != nullptr)
 	{
-		SaveResRef(m_arrTex[i].Get(), pFile);
-	}
-	
-	fclose(pFile);
+		// Entity
+		SaveWString(GetName(), pFile);
 
-	return S_OK;
+		// Res
+		SaveWString(GetKey(), pFile);
+
+		// Shader
+		SaveResRef(m_pShader.Get(), pFile);
+
+		// Constant
+		fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
+
+		// Texture
+		for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+		{
+			SaveResRef(m_arrTex[i].Get(), pFile);
+		}
+
+		fclose(pFile);
+
+		return S_OK;
+	}
+	else
+		return E_FAIL;
 }
 
 
@@ -192,28 +199,35 @@ int CMaterial::Load(const wstring& _strFilePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
-	// Entity
-	wstring strName;
-	LoadWString(strName, pFile);
-	SetName(strName);
-
-	// Res
-	wstring strKey;
-	LoadWString(strKey, pFile);
-	
-	// Shader
-	LoadResRef(m_pShader, pFile);
-
-	// Constant
-	fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
-
-	// Texture
-	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+	if (pFile != nullptr)
 	{
-		LoadResRef(m_arrTex[i], pFile);
+		// Entity
+		wstring strName;
+		LoadWString(strName, pFile);
+		SetName(strName);
+
+		// Res
+		wstring strKey;
+		LoadWString(strKey, pFile);
+
+		// Shader
+		LoadResRef(m_pShader, pFile);
+
+		// Constant
+		fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
+
+		// Texture
+		for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+		{
+			LoadResRef(m_arrTex[i], pFile);
+		}
+
+		fclose(pFile);
+
+		return S_OK;
 	}
-
-	fclose(pFile);
-
-	return S_OK;
+	else
+	{
+		return E_FAIL;
+	}
 }

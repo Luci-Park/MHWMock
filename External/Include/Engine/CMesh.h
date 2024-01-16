@@ -1,7 +1,7 @@
 #pragma once
 #include "CRes.h"
-#include "assimp/scene.h"
 
+class aiMesh;
 class CMesh
 	: public CRes
 {
@@ -17,12 +17,13 @@ private:
 	void*					m_pIdxSys;
 
 public:
+	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:
-	virtual int Load(const wstring& _strFilePath) { return S_OK; }
+	virtual int Load(const wstring& _strFilePath);
 public:
-	virtual int Save(const wstring& _strRelativePath) { return S_OK; }
+	virtual int Save(const wstring& _strRelativePath);
 
 
 	void render();

@@ -53,6 +53,10 @@ void TestAssimp()
 	string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
 	//string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
 
+	path filepath(filename);
+	wstring a = filepath.stem();
+	wstring b = filepath.parent_path() / filepath.stem();
+
 	const aiScene* scene = importer.ReadFile(filename
 		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
 		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
