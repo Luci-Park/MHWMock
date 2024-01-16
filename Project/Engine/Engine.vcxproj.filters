@@ -169,6 +169,9 @@
     <ClInclude Include="CLandScape.h">
       <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
     </ClInclude>
+    <ClInclude Include="CModel.h">
+      <Filter>Source\07. Resource\7. Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -326,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="CLandScape.cpp">
       <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="CModel.cpp">
+      <Filter>Source\07. Resource\7. Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,6 +502,9 @@
     </Filter>
     <Filter Include="Source\08. ShaderCode\Render\3D">
       <UniqueIdentifier>{255068cb-1d33-45cb-9da8-26e76071793c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\7. Model">
+      <UniqueIdentifier>{6dd865e7-ff40-49a9-b9d1-0b714ba97a68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
