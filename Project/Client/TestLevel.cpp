@@ -93,50 +93,22 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
-	// 오브젝트 생성
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);
+	// LandScape Object
+	CGameObject* pLandScape = new CGameObject;
+	pLandScape->SetName(L"LandScape");
 
-	pObject->Transform()->SetRelativeScale(Vec3(1000.f, 1000.f, 1000.f));
-	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));
+	pLandScape->AddComponent(new CTransform);
+	pLandScape->AddComponent(new CLandScape);
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01.tga"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01_N.tga"));
+	pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
 
-	SpawnGameObject(pObject, Vec3(-1000.f, 0.f, 0.f), L"Player");
+	pLandScape->LandScape()->SetFace(32, 32);
+	pLandScape->LandScape()->SetFrustumCheck(false);
+	pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
+	pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
 
-	pObject = new CGameObject;
-	pObject->SetName(L"Plane");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
+	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
-	pObject->Transform()->SetRelativeScale(Vec3(8000.f, 8000.f, 8000.f));
-	pObject->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
-
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01.tga"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_01_N.tga"));
-
-	SpawnGameObject(pObject, Vec3(0.f, -1000.f, 0.f), L"Default");
-
-	pObject = new CGameObject;
-	pObject->SetName(L"Tess Object");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-
-	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));
-
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TessMtrl"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\Sky01.png"));
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 100.f), L"Default");
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
