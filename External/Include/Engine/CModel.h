@@ -50,5 +50,5 @@ struct tModelNode
     Ptr<CMesh> pMesh;
     Ptr<CMaterial> pMaterial;
 
-    static tModelNode* CreateFromAssimp(aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
+    static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
 };

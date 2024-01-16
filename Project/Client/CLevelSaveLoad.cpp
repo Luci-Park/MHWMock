@@ -50,7 +50,10 @@ int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 		// 각 게임오브젝트
 		for (size_t i = 0; i < objCount; ++i)
 		{
-			SaveGameObject(vecParent[i], pFile);
+			if (FAILED(SaveGameObject(vecParent[i], pFile)))
+			{
+
+			}
 		}
 	}
 

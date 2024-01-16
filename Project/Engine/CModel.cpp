@@ -75,15 +75,134 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 
 	return pModel;
 }
+int CModel::Save(const wstring& _strRelativePath)
+{
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
 
+	path parentFolder(strFilePath);
+	filesystem::create_directories(parentFolder.parent_path());
+	
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+	if (pFile != nullptr)
+	{
+		SaveWString(GetName(), pFile);
+		SaveWString(GetKey(), pFile);
+
+		UINT iSize = m_vecMeshes.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (int i = 0; i < m_vecMeshes.size(); i++)
+		{
+			SaveResRef(m_vecMeshes[i].Get(), pFile);
+		}
+
+		UINT iSize = m_vecMaterials.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (size_t i = 0; i < m_vecMaterials.size(); i++)
+		{
+			SaveResRef(m_vecMaterials[i].Get(), pFile);
+		}
+
+		if (FAILED(m_pRootNode->Save(pFile)))
+		{
+			MessageBox(nullptr, L"리소스 저장 실패", L"Model Node 저장 실패", MB_OK);
+		}
+
+		fclose(pFile);
+
+		return S_OK;
+	}
+	else
+		return E_FAIL;
+}
 int CModel::Load(const wstring& _strFilePath)
 {
-	return S_OK;
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strFilePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+	if (pFile != nullptr)
+	{
+		wstring str;
+		LoadWString(str, pFile);
+		SetName(str);
+		LoadWString(str, pFile);
+		SetKey(str);
+
+		UINT iSize;
+		fread(&iSize, sizeof(UINT), 1, pFile);
+		m_vecMeshes.resize(iSize);
+		for (int i = 0; i < m_vecMeshes.size(); i++)
+		{
+			LoadResRef(m_vecMeshes[i], pFile);
+		}
+
+		UINT iSize;
+		fread(&iSize, sizeof(UINT), 1, pFile);
+		m_vecMaterials.resize(iSize);
+		for (size_t i = 0; i < m_vecMaterials.size(); i++)
+		{
+			LoadResRef(m_vecMaterials[i], pFile);
+		}
+
+		m_pRootNode = new tModelNode;
+		if (FAILED(m_pRootNode->Load(pFile)))
+		{
+			MessageBox(nullptr, L"리소스 로드 실패", L"Model Node 로드 실패", MB_OK);
+		}
+
+		fclose(pFile);
+
+		return S_OK;
+	}
+	else
+		return E_FAIL;
 }
 
 tModelNode::~tModelNode()
 {
 	Safe_Del_Vec(vecChildren);
+}
+
+int tModelNode::Save(FILE* _File)
+{
+	SaveWString(strName, _File);
+	fwrite(&vPos, sizeof(Vec3), 1, _File);
+	fwrite(&vRot, sizeof(Vec3), 1, _File);
+	fwrite(&vScale, sizeof(Vec3), 1, _File);
+	SaveResRef(pMesh.Get(), _File);
+	SaveResRef(pMaterial.Get() , _File);
+	for (int i = 0; i < vecChildren.size(); i++)
+		vecChildren[i]->Save(_File);
+	return S_OK;
+}
+
+int tModelNode::Load(FILE* _File)
+{
+	try
+	{
+		LoadWString(strName, _File);
+		fread(&vPos, sizeof(Vec3), 1, _File);
+		fread(&vRot, sizeof(Vec3), 1, _File);
+		fread(&vScale, sizeof(Vec3), 1, _File);
+		LoadResRef(pMesh, _File);
+		LoadResRef(pMaterial, _File);
+		for (int i = 0; i < vecChildren.size(); i++)
+		{
+			tModelNode* pNewChild = new tModelNode();
+			pNewChild->Load(_File);
+			vecChildren.push_back(pNewChild);
+		}
+		return S_OK;
+	}
+	catch(const std::exception&)
+	{
+		return E_FAIL;
+	}
 }
 
 tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel)

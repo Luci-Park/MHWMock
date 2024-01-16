@@ -219,6 +219,9 @@ int CMesh::Save(const wstring& _strRelativePath)
 	// 파일 경로 만들기
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
+	path parentFolder(strFilePath);
+	filesystem::create_directories(parentFolder.parent_path());
+
 	// 파일 쓰기모드로 열기
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");

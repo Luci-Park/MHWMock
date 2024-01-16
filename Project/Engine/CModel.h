@@ -19,7 +19,7 @@ public:
     Ptr<CMesh> GetMesh(UINT _idx) { return _idx < m_vecMeshes.size() ? m_vecMeshes[_idx] : nullptr; }
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
 
-    virtual int Save(const wstring& _strRelativePath) { return S_OK; }
+    virtual int Save(const wstring& _strRelativePath);
 private:
     virtual int Load(const wstring& _strRelativePath);
 
@@ -50,5 +50,9 @@ struct tModelNode
     Ptr<CMesh> pMesh;
     Ptr<CMaterial> pMaterial;
 
-    static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
+    int Save(FILE* _File);
+    int Load(FILE* _File);
+
+    static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);   
+
 };
