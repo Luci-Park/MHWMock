@@ -166,8 +166,8 @@
     <ClInclude Include="CFrustum.h">
       <Filter>Source\06. Component\3. Camera\Frustum</Filter>
     </ClInclude>
-    <ClInclude Include="CModel.h">
-      <Filter>Source\07. Resource\7. Model</Filter>
+    <ClInclude Include="CLandScape.h">
+      <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -324,8 +324,8 @@
     <ClCompile Include="CFrustum.cpp">
       <Filter>Source\06. Component\3. Camera\Frustum</Filter>
     </ClCompile>
-    <ClCompile Include="CModel.cpp">
-      <Filter>Source\07. Resource\7. Model</Filter>
+    <ClCompile Include="CLandScape.cpp">
+      <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -491,8 +491,11 @@
     <Filter Include="Source\06. Component\3. Camera\Frustum">
       <UniqueIdentifier>{1e62c98e-684f-4033-a010-82c739ed155f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\07. Resource\7. Model">
-      <UniqueIdentifier>{b36c0892-e4d0-448d-baa4-9d1398766edc}</UniqueIdentifier>
+    <Filter Include="Source\08. ShaderCode\Render\2D">
+      <UniqueIdentifier>{11a60ae1-56d0-4dab-b747-1428861bf727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\08. ShaderCode\Render\3D">
+      <UniqueIdentifier>{255068cb-1d33-45cb-9da8-26e76071793c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -511,23 +514,11 @@
     <FxCompile Include="test.fx">
       <Filter>Source\08. ShaderCode</Filter>
     </FxCompile>
-    <FxCompile Include="std3d.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
-    </FxCompile>
-    <FxCompile Include="std2d.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
-    </FxCompile>
     <FxCompile Include="func.fx">
       <Filter>Source\08. ShaderCode\Util</Filter>
     </FxCompile>
     <FxCompile Include="value.fx">
       <Filter>Source\08. ShaderCode\Util</Filter>
-    </FxCompile>
-    <FxCompile Include="particle_render.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
-    </FxCompile>
-    <FxCompile Include="debugshape.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
     </FxCompile>
     <FxCompile Include="postprocess.fx">
       <Filter>Source\08. ShaderCode\PostProcess</Filter>
@@ -535,23 +526,38 @@
     <FxCompile Include="struct.fx">
       <Filter>Source\08. ShaderCode\Util</Filter>
     </FxCompile>
-    <FxCompile Include="tilemap.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
-    </FxCompile>
-    <FxCompile Include="skybox.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
-    </FxCompile>
     <FxCompile Include="decal.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
-    <FxCompile Include="std3d_deferred.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
+    <FxCompile Include="tilemap.fx">
+      <Filter>Source\08. ShaderCode\Render\2D</Filter>
+    </FxCompile>
+    <FxCompile Include="std2d.fx">
+      <Filter>Source\08. ShaderCode\Render\2D</Filter>
+    </FxCompile>
+    <FxCompile Include="debugshape.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
     <FxCompile Include="light.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="particle_render.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="std3d.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="std3d_deferred.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
     <FxCompile Include="tess.fx">
-      <Filter>Source\08. ShaderCode\Render</Filter>
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="landscape.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
