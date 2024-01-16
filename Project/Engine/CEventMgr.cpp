@@ -131,7 +131,13 @@ void CEventMgr::tick()
 			CRenderMgr::GetInst()->ClearCamera();
 			m_LevelChanged = true;
 		}
-			break;		
+			break;
+
+		case EVENT_TYPE::CHANGE_OBJECT:
+		{
+			m_LevelChanged = true;
+		}
+		break;
 		}
 	}
 

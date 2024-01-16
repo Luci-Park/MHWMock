@@ -171,6 +171,11 @@ void OutlinerUI::ChangeLayer(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
+void OutlinerUI::UpdateObjName()
+{
+	GetSelectedObject();	
+}
+
 void OutlinerUI::ChangeParent(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 {
 	TreeNode* pDragNode = (TreeNode*)_DragNode;
