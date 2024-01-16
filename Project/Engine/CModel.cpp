@@ -98,7 +98,7 @@ int CModel::Save(const wstring& _strRelativePath)
 			SaveResRef(m_vecMeshes[i].Get(), pFile);
 		}
 
-		UINT iSize = m_vecMaterials.size();
+		iSize = m_vecMaterials.size();
 		fwrite(&iSize, sizeof(UINT), 1, pFile);
 		for (size_t i = 0; i < m_vecMaterials.size(); i++)
 		{
@@ -141,7 +141,7 @@ int CModel::Load(const wstring& _strFilePath)
 			LoadResRef(m_vecMeshes[i], pFile);
 		}
 
-		UINT iSize;
+		iSize;
 		fread(&iSize, sizeof(UINT), 1, pFile);
 		m_vecMaterials.resize(iSize);
 		for (size_t i = 0; i < m_vecMaterials.size(); i++)
