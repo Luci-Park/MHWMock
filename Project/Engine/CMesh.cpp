@@ -31,7 +31,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	string strName = _aiMesh->mName.C_Str();
 	wstring wstrName(strName.begin(), strName.end());
 
-	CMesh* pMesh = new CMesh();
+	CMesh* pMesh = new CMesh(true);
 	pMesh->SetName(wstrName);
 	pMesh->SetKey(wstrName);
 

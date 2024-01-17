@@ -2,6 +2,7 @@
 #include "CRes.h"
 class CMesh;
 class CMaterial;
+class CGameObject;
 class aiScene;
 class aiNode;
 struct tModelNode;
@@ -18,6 +19,7 @@ public:
     static Ptr<CModel> LoadFromFbx(const wstring& _strRelativePath);
     Ptr<CMesh> GetMesh(UINT _idx) { return _idx < m_vecMeshes.size() ? m_vecMeshes[_idx] : nullptr; }
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
+    void CreateGameObjectFromModel();
 
     virtual int Save(const wstring& _strRelativePath);
 private:
@@ -54,5 +56,5 @@ struct tModelNode
     int Load(FILE* _File);
 
     static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);   
-
+    void CreateGameObjectFromNode(CGameObject* _pParent = nullptr);
 };

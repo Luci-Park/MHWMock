@@ -4,6 +4,9 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CPathMgr.h"
+#include "CGameObject.h"
+#include "CTransform.h"
+#include "CMeshRender.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -51,7 +54,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
 
 			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
-			pMesh->Save(strMeshKey);
+			//pMesh->Save(strMeshKey);
 		}
 		else
 		{
@@ -62,19 +65,25 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
-		Ptr<CMaterial> pNewMtrl = new CMaterial;
+		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
 		string strName = pScene->mMaterials[i]->GetName().C_Str();
 		wstring wstrName(strName.begin(), strName.end());
 		pNewMtrl->SetName(wstrName);
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
-		pNewMtrl->Save(strMtrlKey);
+		//pNewMtrl->Save(strMtrlKey);
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
 
 	return pModel;
 }
+
+void CModel::CreateGameObjectFromModel()
+{
+	m_pRootNode->CreateGameObjectFromNode();
+}
+
 int CModel::Save(const wstring& _strRelativePath)
 {
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
@@ -241,4 +250,28 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 		pNewNode->vecChildren.push_back(CreateFromAssimp(_aiScene, _aiNode->mChildren[i], _pModel));
 	}
 	return pNewNode;
+}
+
+void tModelNode::CreateGameObjectFromNode(CGameObject* _pParent)
+{
+	CGameObject* pGameObject = new CGameObject;
+	pGameObject->SetName(strName);
+	pGameObject->SetParent(_pParent);
+
+	pGameObject->AddComponent(new CTransform);
+	pGameObject->Transform()->SetRelativePos(vPos);
+	pGameObject->Transform()->SetRelativePos(vRot);
+	pGameObject->Transform()->SetRelativePos(vScale);
+
+	if (pMesh != nullptr)
+	{
+		pGameObject->AddComponent(new CMeshRender);
+		pGameObject->MeshRender()->SetMesh(pMesh);
+		pGameObject->MeshRender()->SetMaterial(pMaterial);
+	}
+	SpawnGameObject(pGameObject);
+	for (int i = 0; i < vecChildren.size(); i++)
+	{
+		CreateGameObjectFromNode(pGameObject);
+	}
 }
