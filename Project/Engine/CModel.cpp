@@ -13,7 +13,7 @@
 #include <assimp/postprocess.h>
 
 CModel::CModel()
-	:CRes(RES_TYPE::MODEL)
+	:CRes(RES_TYPE::MODEL, true)
 {
 }
 
@@ -39,7 +39,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	assert(!(!pScene || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !pScene->mRootNode));
 	
 	path filepath(_strRelativePath);
-	Ptr<CModel> pModel = new CModel();
+	Ptr<CModel> pModel = new CModel;
 	pModel->SetName(filepath.stem());
 	wstring strTopKey = filepath.parent_path() / filepath.stem();
 	pModel->SetKey(strTopKey + L".model");
