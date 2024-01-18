@@ -72,6 +72,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
 		//pNewMtrl->Save(strMtrlKey);
+		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);

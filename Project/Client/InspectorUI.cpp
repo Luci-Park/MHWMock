@@ -23,6 +23,7 @@
 #include "ComputeShaderUI.h"
 #include "MaterialUI.h"
 #include "ScriptUI.h"
+#include "ModelUI.h"
 
 #include "ObjNameInfoUI.h"
 #include "ObjLayerInfoUI.h"
@@ -85,6 +86,10 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::MESH] = new MeshUI;
 	m_arrResUI[(UINT)RES_TYPE::MESH]->SetSize(0.f, 0.f);
 	AddChildUI(m_arrResUI[(UINT)RES_TYPE::MESH]);
+
+	m_arrResUI[(UINT)RES_TYPE::MODEL] = new ModelUI;
+	m_arrResUI[(UINT)RES_TYPE::MODEL]->SetSize(0.f, 0.f);
+	AddChildUI(m_arrResUI[(UINT)RES_TYPE::MODEL]);
 
 	m_arrResUI[(UINT)RES_TYPE::TEXTURE] = new TextureUI;
 	m_arrResUI[(UINT)RES_TYPE::TEXTURE]->SetSize(0.f, 0.f);
