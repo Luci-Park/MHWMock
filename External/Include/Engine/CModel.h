@@ -27,7 +27,7 @@ private:
 
     virtual void UpdateData() {}
 public:
-    CModel(bool );
+    CModel();
     ~CModel();
 };
 

@@ -29,10 +29,9 @@ CModel::~CModel()
 Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 {
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
-	string strFilename(_strRelativePath.begin(), _strRelativePath.end());
 	
 	Assimp::Importer importer;
-	const aiScene* pScene = importer.ReadFile(strFilename
+	const aiScene* pScene = importer.ReadFile(string(strFullPath.begin(), strFullPath.end())
 		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
 		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
 
@@ -71,11 +70,12 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		pNewMtrl->SetName(wstrName);
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
+		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
 		//pNewMtrl->Save(strMtrlKey);
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
-
+	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
 }
 
