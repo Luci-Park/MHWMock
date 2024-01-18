@@ -31,7 +31,7 @@ int ModelUI::render_update()
     string strKey = string(pModel->GetKey().begin(), pModel->GetKey().end());
     ImGui::InputText("##ModelUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
 
-    render_update_node(pModel->GetRootNode());
+    //render_update_node(pModel->GetRootNode());
     return 0;
 }
 

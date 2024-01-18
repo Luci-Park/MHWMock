@@ -2,7 +2,9 @@
 #include "UI.h"
 
 class TreeUI;
-
+class TreeNode;
+class CModel;
+struct tModelNode;
 class ContentUI :
     public UI
 {
@@ -24,7 +26,7 @@ private:
     void FindFileName(const wstring& _FolderPath);
     RES_TYPE GetResTypeByExt(const wstring& _relativepath);
     void DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
-
+    void ResetModelNodeContent(tModelNode* _pNode, TreeNode* _ParentNode);
 public:
     ContentUI();
     ~ContentUI();

@@ -137,7 +137,12 @@ void ContentUI::ResetContent()
 
 		for (const auto& pair : mapRes)
 		{
-			m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
+			TreeNode* pNode = m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
+			if (i == (UINT)RES_TYPE::MODEL)
+			{				
+				Ptr<CModel> pModel = (CModel*)pair.second.Get();
+				ResetModelNodeContent(pModel->GetRootNode(), pNode);
+			}
 		}
 	}
 }
@@ -222,3 +227,12 @@ void ContentUI::DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	}
 }
 
+void ContentUI::ResetModelNodeContent(tModelNode* _pNode, TreeNode* _ParentNode)
+{
+	TreeNode* pNode = m_Tree->AddItem(string(_pNode->strName.begin(), _pNode->strName.end())
+									,(DWORD_PTR)_pNode, _ParentNode);
+	for (int i = 0; i < _pNode->vecChildren.size(); i++)
+	{
+		ResetModelNodeContent(_pNode->vecChildren[i], pNode);
+	}
+}

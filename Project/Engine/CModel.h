@@ -19,6 +19,7 @@ public:
     static Ptr<CModel> LoadFromFbx(const wstring& _strRelativePath);
     Ptr<CMesh> GetMesh(UINT _idx) { return _idx < m_vecMeshes.size() ? m_vecMeshes[_idx] : nullptr; }
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
+    tModelNode* GetRootNode() { return m_pRootNode; }
     void CreateGameObjectFromModel();
 
     virtual int Save(const wstring& _strRelativePath);
