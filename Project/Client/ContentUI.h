@@ -27,6 +27,7 @@ private:
     RES_TYPE GetResTypeByExt(const wstring& _relativepath);
     void DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
     void ResetModelNodeContent(tModelNode* _pNode, TreeNode* _ParentNode);
+    void ResetModelNodeContentRec(tModelNode* _pNode, TreeNode* _ParentNode);
 public:
     ContentUI();
     ~ContentUI();

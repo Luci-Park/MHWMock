@@ -4,7 +4,7 @@
 #include <Engine\CResMgr.h>
 #include <Engine\CPathMgr.h>
 #include <Engine\CEventMgr.h>
-#include <Engine/components.h>
+#include <Engine\CModel.h>
 
 #include "TreeUI.h"
 #include "ImGuiMgr.h"
@@ -150,14 +150,21 @@ void ContentUI::ResetContent()
 void ContentUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 {
 	TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
-	CRes* pSelectObject = (CRes*)pSelectedNode->GetData();
 
-	if (nullptr == pSelectObject)
-		return;
-
-	// Inspector 에 선택된 Resource 를 알려준다.	
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-	pInspector->SetTargetResource(pSelectObject);
+	CRes* pSelectObject = reinterpret_cast<CRes*>(pSelectedNode->GetData());
+
+	if (nullptr != pSelectObject)
+	{
+		pInspector->SetTargetResource(pSelectObject);
+		return;
+	}
+
+	tModelNode* pModel = reinterpret_cast<tModelNode*>(pSelectedNode->GetData());
+	if (nullptr != pModel)
+	{
+		return;
+	}
 }
 
 
@@ -228,11 +235,19 @@ void ContentUI::DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 }
 
 void ContentUI::ResetModelNodeContent(tModelNode* _pNode, TreeNode* _ParentNode)
-{
-	TreeNode* pNode = m_Tree->AddItem(string(_pNode->strName.begin(), _pNode->strName.end())
-									,(DWORD_PTR)_pNode, _ParentNode);
+{	
 	for (int i = 0; i < _pNode->vecChildren.size(); i++)
 	{
-		ResetModelNodeContent(_pNode->vecChildren[i], pNode);
+		ResetModelNodeContentRec(_pNode->vecChildren[i], _ParentNode);
+	}
+}
+
+void ContentUI::ResetModelNodeContentRec(tModelNode* _pNode, TreeNode* _ParentNode)
+{
+	TreeNode* pNode = m_Tree->AddItem(string(_pNode->strName.begin(), _pNode->strName.end())
+		, (DWORD_PTR)_pNode, _ParentNode);
+	for (int i = 0; i < _pNode->vecChildren.size(); i++)
+	{
+		ResetModelNodeContentRec(_pNode->vecChildren[i], pNode);
 	}
 }
