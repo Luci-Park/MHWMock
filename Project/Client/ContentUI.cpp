@@ -4,6 +4,7 @@
 #include <Engine\CResMgr.h>
 #include <Engine\CPathMgr.h>
 #include <Engine\CEventMgr.h>
+#include <Engine/components.h>
 
 #include "TreeUI.h"
 #include "ImGuiMgr.h"
@@ -23,6 +24,7 @@ ContentUI::ContentUI()
     m_Tree->ShowRoot(false);
 
 	m_Tree->AddDynamic_Select(this, (UI_DELEGATE_1)&ContentUI::SetTargetToInspector);
+	m_Tree->AddDynamic_DragDrop(this, (UI_DELEGATE_2)&ContentUI::DragDropResource);
 	m_Tree->SetDragDropID("Resource");
     AddChildUI(m_Tree);   
 }
@@ -207,5 +209,16 @@ RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath)
 		return RES_TYPE::SOUND;
 	else
 		return RES_TYPE::END;
+}
+
+void ContentUI::DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
+{
+	TreeNode* pDragNode = (TreeNode*)_DragNode;
+	TreeNode* pDropNode = (TreeNode*)_DropNode;
+	if ((CModel*)pDragNode->GetData() != nullptr)
+	{
+		CModel* pModel = (CModel*)pDragNode->GetData();
+		pModel->CreateGameObjectFromModel();
+	}
 }
 

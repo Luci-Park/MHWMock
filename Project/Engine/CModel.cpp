@@ -269,9 +269,11 @@ void tModelNode::CreateGameObjectFromNode(CGameObject* _pParent)
 		pGameObject->MeshRender()->SetMesh(pMesh);
 		pGameObject->MeshRender()->SetMaterial(pMaterial);
 	}
+
 	SpawnGameObject(pGameObject);
+	
 	for (int i = 0; i < vecChildren.size(); i++)
 	{
-		CreateGameObjectFromNode(pGameObject);
+		vecChildren[i]->CreateGameObjectFromNode(pGameObject);
 	}
 }
