@@ -222,8 +222,16 @@ int tModelNode::Load(FILE* _File)
 tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel)
 {
 	tModelNode* pNewNode = new tModelNode();
-	string strTemp = _aiNode->mName.C_Str();
-	pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
+	
+	if (_aiNode == _aiScene->mRootNode)
+	{
+		pNewNode->strName = _pModel->GetName();
+	}
+	else
+	{
+		string strTemp = _aiNode->mName.C_Str();
+		pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
+	}
 
 	aiVector3t<float> scale, rot, pos;
 	_aiNode->mTransformation.Decompose(scale, rot, pos);
@@ -233,7 +241,7 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 
 	if (_aiNode->mNumMeshes > 0)
 	{
-		if (1 == (UINT)_aiNode->mMeshes)
+		if (1 == _aiNode->mNumMeshes)
 		{
 			pNewNode->pMesh = _pModel->GetMesh(_aiNode->mMeshes[0]);
 			pNewNode->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[0]]->mMaterialIndex);
@@ -246,6 +254,7 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 				pNewChild->strName = pNewNode->strName + std::to_wstring(i);
 				pNewChild->pMesh = _pModel->GetMesh(_aiNode->mMeshes[i]);
 				pNewChild->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[i]]->mMaterialIndex);
+				pNewChild->CreateGameObjectFromNode();
 			}
 		}
 	}

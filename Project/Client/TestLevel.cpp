@@ -94,20 +94,20 @@ void CreateTestLevel()
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
 	// LandScape Object
-	CGameObject* pLandScape = new CGameObject;
-	pLandScape->SetName(L"LandScape");
-
-	pLandScape->AddComponent(new CTransform);
-	pLandScape->AddComponent(new CLandScape);
-
-	pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
-
-	pLandScape->LandScape()->SetFace(32, 32);
-	pLandScape->LandScape()->SetFrustumCheck(false);
-	pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
-
-	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+	//CGameObject* pLandScape = new CGameObject;
+	//pLandScape->SetName(L"LandScape");
+	//
+	//pLandScape->AddComponent(new CTransform);
+	//pLandScape->AddComponent(new CLandScape);
+	//
+	//pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
+	//
+	//pLandScape->LandScape()->SetFace(32, 32);
+	//pLandScape->LandScape()->SetFrustumCheck(false);
+	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
+	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
+	//
+	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
 
 	// 충돌 시킬 레이어 짝 지정

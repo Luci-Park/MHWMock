@@ -26,16 +26,16 @@ int MeshRenderUI::render_update()
 {
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
-
-	char szBuff[50] = {};
+	const int buffsize = 250;
+	char szBuff[buffsize] = {};
 
 	Ptr<CMesh> pMesh = GetTarget()->MeshRender()->GetMesh();
 	Ptr<CMaterial> pMtrl = GetTarget()->MeshRender()->GetMaterial();
 		
 	ImGui::Text("Mesh    ");
 	ImGui::SameLine();	
-	GetResKey(pMesh.Get(), szBuff, 50);
-	ImGui::InputText("##MeshName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
+	GetResKey(pMesh.Get(), szBuff, buffsize);
+	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
 	// Mesh 드랍 체크
 	if (ImGui::BeginDragDropTarget())
@@ -76,8 +76,8 @@ int MeshRenderUI::render_update()
 		
 	ImGui::Text("Material");
 	ImGui::SameLine();
-	GetResKey(pMtrl.Get(), szBuff, 50);
-	ImGui::InputText("##MtrlName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
+	GetResKey(pMtrl.Get(), szBuff, buffsize);
+	ImGui::InputText("##MtrlName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::BeginDragDropTarget())
 	{
