@@ -82,7 +82,6 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 
 void CModel::CreateGameObjectFromModel()
 {
-	//m_pRootNode->CreateGameObjectFromNode();
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
 	SpawnGameObject(pNewObject);
 }
@@ -255,6 +254,7 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 				pNewChild->pMesh = _pModel->GetMesh(_aiNode->mMeshes[i]);
 				pNewChild->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[i]]->mMaterialIndex);
 				pNewChild->CreateGameObjectFromNode();
+				pNewNode->vecChildren.push_back(pNewChild);
 			}
 		}
 	}
@@ -276,8 +276,8 @@ void tModelNode::CreateGameObjectFromNode()
 
 	pGameObject->AddComponent(new CTransform);
 	pGameObject->Transform()->SetRelativePos(vPos);
-	pGameObject->Transform()->SetRelativePos(vRot);
-	pGameObject->Transform()->SetRelativePos(vScale);
+	pGameObject->Transform()->SetRelativeRot(vRot);
+	pGameObject->Transform()->SetRelativeScale(vScale);
 
 	if (pMesh != nullptr)
 	{
@@ -285,13 +285,6 @@ void tModelNode::CreateGameObjectFromNode()
 		pGameObject->MeshRender()->SetMesh(pMesh);
 		pGameObject->MeshRender()->SetMaterial(pMaterial);
 	}
-
-	//SpawnGameObject(pGameObject);
-	
-	//for (int i = 0; i < vecChildren.size(); i++)
-	//{
-	//	vecChildren[i]->CreateGameObjectFromNode();
-	//}
 }
 
 CGameObject* tModelNode::SpawnGameObjectFromNode()
