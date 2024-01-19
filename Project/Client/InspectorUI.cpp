@@ -5,6 +5,7 @@
 #include <Engine\CTransform.h>
 #include <Engine\CLevelMgr.h>
 #include <Engine\CKeyMgr.h>
+#include <Engine/CModel.h>
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
@@ -222,6 +223,11 @@ void InspectorUI::SetTargetResource(Ptr<CRes> _Res)
 
 	m_arrResUI[(UINT)type]->SetActive(true);
 	m_arrResUI[(UINT)type]->SetTargetRes(_Res);	
+}
+
+void InspectorUI::SetTargetModelNode(tModelNode* _ModelNode)
+{
+	SetTargetObject(_ModelNode->pGameObject);
 }
 
 void InspectorUI::ClearTargetObject()

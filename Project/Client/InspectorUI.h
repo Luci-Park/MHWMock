@@ -5,6 +5,7 @@ class CGameObject;
 class ComponentUI;
 class ResUI;
 class ObjectInfoUI;
+class tModelNode;
 
 #include <Engine\ptr.h>
 #include <Engine\CRes.h>
@@ -34,6 +35,7 @@ public:
 public:
     void SetTargetObject(CGameObject* _Target);
     void SetTargetResource(Ptr<CRes> _Res);
+    void SetTargetModelNode(tModelNode* _ModelNode);
 
 private:
     void ClearTargetObject();

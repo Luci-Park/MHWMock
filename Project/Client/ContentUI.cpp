@@ -138,6 +138,7 @@ void ContentUI::ResetContent()
 		for (const auto& pair : mapRes)
 		{
 			TreeNode* pNode = m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
+			pNode->SetDataType(TREEDATA_TYPE::RES);
 			if (i == (UINT)RES_TYPE::MODEL)
 			{				
 				Ptr<CModel> pModel = (CModel*)pair.second.Get();
@@ -152,18 +153,13 @@ void ContentUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 	TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
 
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-	CRes* pSelectObject = reinterpret_cast<CRes*>(pSelectedNode->GetData());
-
-	if (nullptr != pSelectObject)
+	if (TREEDATA_TYPE::RES == pSelectedNode->GetDataType())
 	{
-		pInspector->SetTargetResource(pSelectObject);
-		return;
+		pInspector->SetTargetResource((CRes*)pSelectedNode->GetData());
 	}
-
-	tModelNode* pModel = reinterpret_cast<tModelNode*>(pSelectedNode->GetData());
-	if (nullptr != pModel)
+	else if (TREEDATA_TYPE::MODELNODE == pSelectedNode->GetDataType())
 	{
-		return;
+		pInspector->SetTargetModelNode((tModelNode*)pSelectedNode->GetData());
 	}
 }
 
@@ -246,6 +242,7 @@ void ContentUI::ResetModelNodeContentRec(tModelNode* _pNode, TreeNode* _ParentNo
 {
 	TreeNode* pNode = m_Tree->AddItem(string(_pNode->strName.begin(), _pNode->strName.end())
 		, (DWORD_PTR)_pNode, _ParentNode);
+	pNode->SetDataType(TREEDATA_TYPE::MODELNODE);
 	for (int i = 0; i < _pNode->vecChildren.size(); i++)
 	{
 		ResetModelNodeContentRec(_pNode->vecChildren[i], pNode);

@@ -82,7 +82,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 
 void CModel::CreateGameObjectFromModel()
 {
-	m_pRootNode->CreateGameObjectFromNode();
+	//m_pRootNode->CreateGameObjectFromNode();
 }
 
 int CModel::Save(const wstring& _strRelativePath)
@@ -176,6 +176,8 @@ int CModel::Load(const wstring& _strFilePath)
 tModelNode::~tModelNode()
 {
 	Safe_Del_Vec(vecChildren);
+	if (pGameObject != nullptr)
+		delete pGameObject;
 }
 
 int tModelNode::Save(FILE* _File)
@@ -245,7 +247,7 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 			}
 		}
 	}
-
+	pNewNode->CreateGameObjectFromNode();
 	for (size_t i = 0; i < _aiNode->mNumChildren; i++)
 	{
 		pNewNode->vecChildren.push_back(CreateFromAssimp(_aiScene, _aiNode->mChildren[i], _pModel));
@@ -253,11 +255,13 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	return pNewNode;
 }
 
-void tModelNode::CreateGameObjectFromNode(CGameObject* _pParent)
+void tModelNode::CreateGameObjectFromNode()
 {
-	CGameObject* pGameObject = new CGameObject;
+	if (pGameObject != nullptr)
+		delete pGameObject;
+
+	pGameObject = new CGameObject;
 	pGameObject->SetName(strName);
-	pGameObject->SetParent(_pParent);
 
 	pGameObject->AddComponent(new CTransform);
 	pGameObject->Transform()->SetRelativePos(vPos);
@@ -271,10 +275,10 @@ void tModelNode::CreateGameObjectFromNode(CGameObject* _pParent)
 		pGameObject->MeshRender()->SetMaterial(pMaterial);
 	}
 
-	SpawnGameObject(pGameObject);
+	//SpawnGameObject(pGameObject);
 	
-	for (int i = 0; i < vecChildren.size(); i++)
-	{
-		vecChildren[i]->CreateGameObjectFromNode(pGameObject);
-	}
+	//for (int i = 0; i < vecChildren.size(); i++)
+	//{
+	//	vecChildren[i]->CreateGameObjectFromNode();
+	//}
 }

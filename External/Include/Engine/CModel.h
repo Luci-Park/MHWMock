@@ -41,6 +41,7 @@ struct tModelNode
         , vecChildren(0)
         , pMesh(nullptr)
         , pMaterial(nullptr)
+        , pGameObject(nullptr)
     {
 
     }
@@ -52,10 +53,12 @@ struct tModelNode
     vector<tModelNode*> vecChildren;
     Ptr<CMesh> pMesh;
     Ptr<CMaterial> pMaterial;
+    CGameObject* pGameObject;
 
     int Save(FILE* _File);
     int Load(FILE* _File);
 
-    static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);   
-    void CreateGameObjectFromNode(CGameObject* _pParent = nullptr);
+    static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
+    void CreateGameObjectFromNode();
+
 };
