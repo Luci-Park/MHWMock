@@ -15,7 +15,7 @@ void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
 	wstring wstrName(strName.begin(), strName.end());
 	
 	pObject->SetName(wstrName);
-	pObject->SetParent(parent);
+	//pObject->SetParent(parent);
 
 	pObject->AddComponent(new CTransform);
 	

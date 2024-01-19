@@ -83,6 +83,8 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	//m_pRootNode->CreateGameObjectFromNode();
+	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
+	SpawnGameObject(pNewObject);
 }
 
 int CModel::Save(const wstring& _strRelativePath)
@@ -281,4 +283,14 @@ void tModelNode::CreateGameObjectFromNode()
 	//{
 	//	vecChildren[i]->CreateGameObjectFromNode();
 	//}
+}
+
+CGameObject* tModelNode::SpawnGameObjectFromNode()
+{
+	CGameObject* pNewGameObject = pGameObject->Clone();
+	for (int i = 0; i < vecChildren.size(); i++)
+	{
+		pNewGameObject->AddChild(vecChildren[i]->SpawnGameObjectFromNode());
+	}
+	return pNewGameObject;
 }

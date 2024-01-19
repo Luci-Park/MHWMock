@@ -213,11 +213,11 @@ void CGameObject::AddChild(CGameObject* _Object)
 	m_vecChild.push_back(_Object);
 }
 
-void CGameObject::SetParent(CGameObject* _Object)
-{
-	if(_Object != nullptr)
-		_Object->AddChild(this);
-}
+//void CGameObject::SetParent(CGameObject* _Object)
+//{
+//	if(_Object != nullptr)
+//		_Object->AddChild(this);
+//}
 
 
 bool CGameObject::IsAncestor(CGameObject* _Target)

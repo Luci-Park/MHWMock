@@ -60,5 +60,6 @@ struct tModelNode
 
     static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
     void CreateGameObjectFromNode();
+    CGameObject* SpawnGameObjectFromNode();
 
 };
