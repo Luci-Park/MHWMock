@@ -39,7 +39,7 @@ void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const stri
 
 
 	// InputLayout »ý¼º
-	D3D11_INPUT_ELEMENT_DESC LayoutDesc[6] = {};
+	D3D11_INPUT_ELEMENT_DESC LayoutDesc[8] = {};
 
 	LayoutDesc[0].SemanticName = "POSITION";
 	LayoutDesc[0].SemanticIndex = 0;
@@ -90,7 +90,23 @@ void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const stri
 	LayoutDesc[5].AlignedByteOffset = 60;
 	LayoutDesc[5].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 
-	if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 6
+	LayoutDesc[6].SemanticName = "BLENDWEIGHT";
+	LayoutDesc[6].SemanticIndex = 0;
+	LayoutDesc[6].AlignedByteOffset = 72;
+	LayoutDesc[6].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	LayoutDesc[6].InputSlot = 0;
+	LayoutDesc[6].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	LayoutDesc[6].InstanceDataStepRate = 0;
+
+	LayoutDesc[7].SemanticName = "BLENDINDICES";
+	LayoutDesc[7].SemanticIndex = 0;
+	LayoutDesc[7].AlignedByteOffset = 88;
+	LayoutDesc[7].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	LayoutDesc[7].InputSlot = 0;
+	LayoutDesc[7].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	LayoutDesc[7].InstanceDataStepRate = 0;
+
+	if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 8
 		, m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
 		, m_Layout.GetAddressOf())))
 	{

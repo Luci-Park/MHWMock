@@ -58,17 +58,35 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		}
 	}
 
+	pMesh->m_vecBones.resize(_aiMesh->mNumBones);
+	for (int i = 0; i < _aiMesh->mNumBones; i++)
+	{
+		aiBone* pBone = _aiMesh->mBones[i];
+		string name = pBone->mName.C_Str();
+		pMesh->m_vecBones[i].wstrName = wstring(name.begin(), name.end());
+
+		for (int j = 0; j < pBone->mNumWeights; j++)
+		{
+			int idx = pBone->mWeights[j].mVertexId;
+			for (int k = 0; k < 4; k++)
+			{
+				if (vecVtx[idx].vWeights[k] <= 0)
+				{
+					vecVtx[idx].vIndices[k] = i;
+					vecVtx[idx].vWeights[k] = pBone->mWeights[j].mWeight;
+					break;
+				}
+			}
+		}
+
+	}
+
 	for (int f = 0; f < _aiMesh->mNumFaces; f++)
 	{
 		for (int i = 0; i < 3; i++)
 			vecIdx[f * 3 + i] = _aiMesh->mFaces[f].mIndices[i];
 	}
 
-	for (int i = 0; i < _aiMesh->mNumBones; i++)
-	{
-		assert(_aiMesh->mBones[i]->mName == _aiMesh->mBones[i]->mNode->mName);
-		//ProcessBone(_aiMesh->mBones[i]);
-	}
 
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	return pMesh;

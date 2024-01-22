@@ -12,6 +12,9 @@ struct VS_IN
     float3 vNormal : NORMAL;
     float3 vTangent : TANGENT;
     float3 vBinormal : BINORMAL;
+    
+    float4 vWeights : BLENDWEIGHT;
+    float4 vIndices : BLENDINDICES;
 };
 
 struct VS_OUT

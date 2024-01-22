@@ -16,6 +16,8 @@ private:
 	UINT					m_IdxCount;
 	void*					m_pIdxSys;
 
+	vector<tBone> m_vecBones;
+
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);

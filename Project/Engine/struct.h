@@ -11,9 +11,17 @@ struct tVertex
 	Vec3 vNormal;
 	Vec3 vTangent;
 	Vec3 vBinormal;
+
+	Vec4 vWeights;
+	Vec4 vIndices;
 };
 
 typedef tVertex Vtx;
+
+struct tBone
+{
+	wstring wstrName;
+};
 
 
 
