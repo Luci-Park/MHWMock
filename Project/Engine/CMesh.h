@@ -21,6 +21,9 @@ private:
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
+	vector<wstring>& GetBoneNames() { return m_vecBones; }
+	int GetNumberOfBones() { return m_vecBones.size(); }
+	bool HasBones() { return m_vecBones.size() != 0; }
 
 private:
 	virtual int Load(const wstring& _strFilePath);

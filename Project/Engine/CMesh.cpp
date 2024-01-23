@@ -14,6 +14,7 @@ CMesh::CMesh(bool _bEngine)
 	, m_IdxCount(0)
 	, m_pVtxSys(nullptr)
 	, m_pIdxSys(nullptr)
+	, m_vecBones(0)
 {
 }
 
