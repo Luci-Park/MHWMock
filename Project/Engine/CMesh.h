@@ -16,7 +16,7 @@ private:
 	UINT					m_IdxCount;
 	void*					m_pIdxSys;
 
-	vector<tBone> m_vecBones;
+	vector<wstring>			m_vecBones;
 
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);

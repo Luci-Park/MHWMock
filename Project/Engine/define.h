@@ -37,6 +37,7 @@ enum class COMPONENT_TYPE
 
 	// render
 	MESHRENDER,		// 기본적인 렌더링
+	SKINNEDMESHRENDER,
 	PARTICLESYSTEM, // 입자 렌더링
 	TILEMAP,		// 2차원 타일
 	LANDSCAPE,		// 3차원 지형

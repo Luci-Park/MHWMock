@@ -172,6 +172,9 @@
     <ClInclude Include="CModel.h">
       <Filter>Source\07. Resource\7. Model</Filter>
     </ClInclude>
+    <ClInclude Include="CSkinnedMeshRender.h">
+      <Filter>Source\06. Component\RenderComponent\1. MeshRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -332,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="CModel.cpp">
       <Filter>Source\07. Resource\7. Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkinnedMeshRender.cpp">
+      <Filter>Source\06. Component\RenderComponent\1. MeshRender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -63,7 +63,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	{
 		aiBone* pBone = _aiMesh->mBones[i];
 		string name = pBone->mName.C_Str();
-		pMesh->m_vecBones[i].wstrName = wstring(name.begin(), name.end());
+		pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
 
 		for (int j = 0; j < pBone->mNumWeights; j++)
 		{

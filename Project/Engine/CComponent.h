@@ -33,6 +33,7 @@ public:
 public:  
     GET_OTHER_COMPONENT(Transform);
     GET_OTHER_COMPONENT(MeshRender);
+    GET_OTHER_COMPONENT(SkinnedMeshRender);
     GET_OTHER_COMPONENT(Camera);
     GET_OTHER_COMPONENT(Collider2D);
     GET_OTHER_COMPONENT(Light2D);
