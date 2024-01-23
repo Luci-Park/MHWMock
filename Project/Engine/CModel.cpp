@@ -68,6 +68,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		string strName = pScene->mMaterials[i]->GetName().C_Str();
 		wstring wstrName(strName.begin(), strName.end());
 		pNewMtrl->SetName(wstrName);
+		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"Std3D_DeferredShader"));
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);

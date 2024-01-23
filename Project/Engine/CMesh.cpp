@@ -53,7 +53,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 			vecVtx[i].vNormal = Vec3(_aiMesh->mNormals[i].x, _aiMesh->mNormals[i].y, _aiMesh->mNormals[i].z);
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
-			vecVtx[i].vNormal = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
+			vecVtx[i].vTangent = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
 			vecVtx[i].vBinormal = Vec3(_aiMesh->mBitangents[i].x, _aiMesh->mBitangents[i].y, _aiMesh->mBitangents[i].z);
 		}
 	}
