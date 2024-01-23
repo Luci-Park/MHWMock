@@ -50,7 +50,7 @@ void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
 void TestAssimp()
 {
 	Assimp::Importer importer;
-	string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
+	string filename = "C:\\Users\\MOON\\Documents\\GitHub\\MHWMock\\anjanathanjanath_body_w_Anim.fbx";
 	//string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
 
 	path filepath(filename);

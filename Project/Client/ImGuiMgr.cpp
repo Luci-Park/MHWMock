@@ -1,5 +1,7 @@
 #include "pch.h"
-#include "ImGuiMgr.h"
+#include "ImGuiMgr.h" 
+#include "ImGuizmo.h"
+
 
 #include <Engine\CDevice.h>
 #include <Engine\CLevelMgr.h>
