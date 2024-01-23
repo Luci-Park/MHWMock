@@ -2,6 +2,7 @@
 #include "CSkinnedMeshRender.h"
 
 #include "CTransform.h"
+#include "CStructuredBuffer.h"
 
 CSkinnedMeshRender::CSkinnedMeshRender()
 	:CRenderComponent(COMPONENT_TYPE::SKINNEDMESHRENDER)
@@ -19,7 +20,7 @@ void CSkinnedMeshRender::finaltick()
 		return;
 
 	Transform()->UpdateData();
-	
+
 	// 재질 업데이트
 	GetMaterial()->UpdateData();
 

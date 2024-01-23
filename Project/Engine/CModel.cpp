@@ -7,6 +7,7 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+#include "CSkinnedMeshRender.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -282,10 +283,13 @@ void tModelNode::CreateGameObjectFromNode()
 
 	if (pMesh != nullptr)
 	{
-		
-		pGameObject->AddComponent(new CMeshRender);
-		pGameObject->MeshRender()->SetMesh(pMesh);
-		pGameObject->MeshRender()->SetMaterial(pMaterial);
+		if (pMesh->HasBones())
+			pGameObject->AddComponent(new CSkinnedMeshRender);
+		else
+			pGameObject->AddComponent(new CMeshRender);
+
+		pGameObject->GetRenderComponent()->SetMesh(pMesh);
+		pGameObject->GetRenderComponent()->SetMaterial(pMaterial);
 	}
 }
 
