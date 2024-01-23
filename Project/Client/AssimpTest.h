@@ -11,3 +11,4 @@ void ExportMaterial(aiMaterial* _aiMaterial);
 void ExportAnimation(aiAnimation* _aiAnimation);
 
 void ProcessBone(aiBone* _aiBone);
+void ProcessSkeleton(aiSkeleton* _aiSkeleton);

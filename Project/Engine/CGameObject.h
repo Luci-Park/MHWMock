@@ -5,6 +5,7 @@
 class CComponent;
 class CTransform;
 class CMeshRender;
+class CSkinnedMeshRender;
 class CParticleSystem;
 class CCollider2D;
 class CAnimator2D;
@@ -63,6 +64,7 @@ public:
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
+    GET_COMPONENT(SkinnedMeshRender, SKINNEDMESHRENDER);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Camera, CAMERA);
     GET_COMPONENT(Collider2D, COLLIDER2D);

@@ -282,6 +282,7 @@ void tModelNode::CreateGameObjectFromNode()
 
 	if (pMesh != nullptr)
 	{
+		
 		pGameObject->AddComponent(new CMeshRender);
 		pGameObject->MeshRender()->SetMesh(pMesh);
 		pGameObject->MeshRender()->SetMaterial(pMaterial);
@@ -296,4 +297,17 @@ CGameObject* tModelNode::SpawnGameObjectFromNode()
 		pNewGameObject->AddChild(vecChildren[i]->SpawnGameObjectFromNode());
 	}
 	return pNewGameObject;
+}
+
+tModelNode* tModelNode::FindNode(wstring _strName)
+{
+	if (_strName == strName)
+		return this;
+
+	for (size_t i = 0; i < vecChildren.size(); i++)
+	{
+		auto pNode = vecChildren[i]->FindNode(_strName);
+		if (pNode) return pNode;
+	}
+	return nullptr;
 }

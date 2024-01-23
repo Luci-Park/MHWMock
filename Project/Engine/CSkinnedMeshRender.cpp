@@ -28,3 +28,7 @@ void CSkinnedMeshRender::finaltick()
 
 }
 
+void CSkinnedMeshRender::render()
+{
+}
+

@@ -8,45 +8,6 @@
 #include <Engine/CTransform.h>
 #include <Engine/CMeshRender.h>
 
-void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
-{
-	CGameObject* pObject = new CGameObject;
-	string strName = node->mName.C_Str();
-	wstring wstrName(strName.begin(), strName.end());
-	
-	pObject->SetName(wstrName);
-	//pObject->SetParent(parent);
-
-	pObject->AddComponent(new CTransform);
-	
-	aiMatrix4x4 mat = node->mTransformation;
-	aiVector3t<float> scale, rot, pos;
-	mat.Decompose(scale, rot, pos);
-	pObject->Transform()->SetRelativePos(pos.x, pos.y, pos.z);
-	pObject->Transform()->SetRelativeRot(rot.x, rot.y, rot.z);
-	pObject->Transform()->SetRelativeScale(scale.x, scale.y, scale.z);
-
-	
-	if (node->mNumMeshes > 0)
-	{
-		pObject->AddComponent(new CMeshRender);
-		aiMesh* _aiMesh = scene->mMeshes[node->mMeshes[0]];
-		strName = _aiMesh->mName.C_Str();
-		wstrName = wstring(strName.begin(), strName.end());
-		pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(wstrName));
-		
-		pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
-
-	}
-	SpawnGameObject(pObject, pObject->Transform()->GetRelativePos(), 0);
-	
-	for (int i = 0; i < node->mNumChildren; i++)
-	{
-		CreateGameObject(scene, node->mChildren[i], pObject);
-	}
-	
-}
-
 void TestAssimp()
 {
 	Assimp::Importer importer;
@@ -62,21 +23,14 @@ void TestAssimp()
 		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
 
 	assert(!(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode));
-
-	string strModelName = scene->mName.C_Str();
-	wstring wstrModelName(strModelName.begin(), strModelName.end());
 	for (int i = 0; i < scene->mNumMeshes; i++)
+	{
 		ExportMesh(scene->mMeshes[i]);
-
-	for(int i = 0; i < scene->mNumMaterials; i++)
-	{ 
-		ExportMaterial(scene->mMaterials[i]);
 	}
-	for (int i = 0; i < scene->mNumAnimations; i++)
-		ExportAnimation(scene->mAnimations[i]);
-
-
-	//CreateGameObject(scene, scene->mRootNode, nullptr);
+	for (int i = 0; i < scene->mNumSkeletons; i++)
+	{
+		ProcessSkeleton(scene->mSkeletons[i]);
+	}
 }
 
 void ExportMesh(aiMesh* _aiMesh)
@@ -161,4 +115,23 @@ void ProcessBone(aiBone* _aiBone)
 	output += "\n";
 	OutputDebugStringA(output.c_str());
 	OutputDebugStringA(bug.c_str());
+}
+
+void ProcessSkeleton(aiSkeleton* _aiSkeleton)
+{
+	OutputDebugStringA("========================\n");
+	OutputDebugStringA(_aiSkeleton->mName.C_Str());
+	OutputDebugStringA("\n\n");
+	for (size_t i = 0; i < _aiSkeleton->mNumBones; i++)
+	{
+		auto bone = _aiSkeleton->mBones[i];
+		string str = "name = ";
+		str += bone->mArmature->mName.C_Str();
+		str += "\n";
+		str += bone->mMeshId->mName.C_Str();
+		str += "\n";
+		OutputDebugStringA(str.c_str());
+		OutputDebugStringA("========================\n");
+	}
+	OutputDebugStringA("========================\n");
 }

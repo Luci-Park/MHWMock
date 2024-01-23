@@ -127,12 +127,6 @@
     <ClInclude Include="CTileMap.h">
       <Filter>Source\06. Component\RenderComponent\3. TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="CAnimator2D.h">
-      <Filter>Source\06. Component\6. Animator2D</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnim2D.h">
-      <Filter>Source\06. Component\6. Animator2D</Filter>
-    </ClInclude>
     <ClInclude Include="CComputeShader.h">
       <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
     </ClInclude>
@@ -174,6 +168,15 @@
     </ClInclude>
     <ClInclude Include="CSkinnedMeshRender.h">
       <Filter>Source\06. Component\RenderComponent\1. MeshRender</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnim2D.h">
+      <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator3D.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,12 +288,6 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>Source\06. Component\RenderComponent\3. TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="CAnimator2D.cpp">
-      <Filter>Source\06. Component\6. Animator2D</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnim2D.cpp">
-      <Filter>Source\06. Component\6. Animator2D</Filter>
-    </ClCompile>
     <ClCompile Include="CComputeShader.cpp">
       <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
     </ClCompile>
@@ -338,6 +335,15 @@
     </ClCompile>
     <ClCompile Include="CSkinnedMeshRender.cpp">
       <Filter>Source\06. Component\RenderComponent\1. MeshRender</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnim2D.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator3D.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +488,6 @@
     <Filter Include="Source\06. Component\5. Light3D">
       <UniqueIdentifier>{f77d9737-0c18-4b57-bc1f-0e4a650b0a9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\06. Component\6. Animator2D">
-      <UniqueIdentifier>{7d787944-7b75-432b-91a9-8452604ba075}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\06. Component\RenderComponent\6. SkyBox">
       <UniqueIdentifier>{cdaf2dfe-96ef-4fd7-a1c9-a117acce104d}</UniqueIdentifier>
     </Filter>
@@ -511,6 +514,15 @@
     </Filter>
     <Filter Include="Source\07. Resource\7. Model">
       <UniqueIdentifier>{6dd865e7-ff40-49a9-b9d1-0b714ba97a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\6. Animator">
+      <UniqueIdentifier>{7d787944-7b75-432b-91a9-8452604ba075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\6. Animator\Animator2D">
+      <UniqueIdentifier>{a4956395-393e-4b06-99be-a49261e68f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\6. Animator\Animator3D">
+      <UniqueIdentifier>{5f7a85e5-b6d6-4063-83ef-4db5cee745e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
