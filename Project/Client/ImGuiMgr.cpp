@@ -41,6 +41,9 @@ void ImGuiMgr::init(HWND _hWnd)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
+    
+
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -69,6 +72,8 @@ void ImGuiMgr::init(HWND _hWnd)
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(m_hMainHwnd);
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);
+
+
 
     // Tool ¿ë UI »ý¼º
     CreateUI();
@@ -99,9 +104,15 @@ void ImGuiMgr::begin()
 {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
+
+    ImGui::GetForegroundDrawList();
+    ImGuizmo::SetDrawlist();
     ImGui::NewFrame();
+    
+    ImGuizmo::BeginFrame();
 
     ParamUI::g_NextId = 0;
+
 }
 
 void ImGuiMgr::tick()

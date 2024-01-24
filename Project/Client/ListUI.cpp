@@ -23,7 +23,7 @@ void ListUI::finaltick()
         SetActive(false);
 
         // 모든 UI 포커스 해제
-        ImGui::SetWindowFocus(nullptr); 
+        ImGui::SetWindowFocus(nullptr);
     }
 }
 
