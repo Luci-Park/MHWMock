@@ -50,11 +50,6 @@ void UI::finaltick()
 						ImGui::Separator();
 				}
 			}
-
-			//Gizmos
-
-
-
 			ImGui::End();
 		}
 

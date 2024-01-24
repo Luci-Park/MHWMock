@@ -2,7 +2,6 @@
 #include "ImGuiMgr.h" 
 #include "ImGuizmo.h"
 
-
 #include <Engine\CDevice.h>
 #include <Engine\CLevelMgr.h>
 #include <Engine\CKeyMgr.h>
@@ -12,7 +11,9 @@
 
 #include "UI.h"
 #include "ParamUI.h"
-
+#include "Engine\CRenderMgr.h"
+#include "Engine\CCamera.h"
+#include "Engine\CTransform.h"
 
 ImGuiMgr::ImGuiMgr()
     : m_hMainHwnd(nullptr)   
@@ -41,7 +42,6 @@ void ImGuiMgr::init(HWND _hWnd)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
     
 
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -104,12 +104,8 @@ void ImGuiMgr::begin()
 {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
-
-    ImGui::GetForegroundDrawList();
-    ImGuizmo::SetDrawlist();
     ImGui::NewFrame();
-    
-    ImGuizmo::BeginFrame();
+
 
     ParamUI::g_NextId = 0;
 
@@ -139,6 +135,36 @@ void ImGuiMgr::finaltick()
 
     if (KEY_TAP(KEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
+
+    //Gizmo
+    InspectorUI* ui = (InspectorUI*)FindUI("##Inspector");
+    CGameObject* selectedObj = ui->GetTargetObject();
+    if ( nullptr != selectedObj )
+    {
+        //use perspective and use our current window
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist();
+
+
+        //Set Viewport
+        float windowWidth = (float)ImGui::GetWindowWidth();
+        float windowHeight = (float)ImGui::GetWindowHeight();
+        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+        //GetCamera Matrix
+        CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
+        XMMATRIX viewMat = editorCamera->GetViewMat();
+        XMMATRIX projMat = editorCamera->GetProjMat();
+
+        
+        //Get ojectTransformMatrix
+        auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
+        XMMATRIX objMat = objTransform->GetWorldMat();
+
+        //Render Gizmo
+        ImGuizmo::Manipulate(matrix_to_float_array(viewMat), matrix_to_float_array(projMat), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, matrix_to_float_array(objMat));
+
+    }
 }
 
 void ImGuiMgr::render()
