@@ -27,6 +27,7 @@ private:
     virtual int Load(const wstring& _strRelativePath);
 
     virtual void UpdateData() {}
+    void IterateSkinnedMeshRender(CGameObject* _pObj);
 public:
     CModel();
     ~CModel();
@@ -61,5 +62,5 @@ struct tModelNode
     static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
     void CreateGameObjectFromNode();
     CGameObject* SpawnGameObjectFromNode();
-
+    tModelNode* FindNode(wstring _strName);
 };

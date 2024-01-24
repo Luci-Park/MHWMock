@@ -233,11 +233,11 @@ CGameObject* CGameObject::FindChildByName(wstring _strName)
 	return nullptr;
 }
 
-//void CGameObject::SetParent(CGameObject* _Object)
-//{
-//	if(_Object != nullptr)
-//		_Object->AddChild(this);
-//}
+void CGameObject::SetParent(CGameObject* _Object)
+{
+	if(_Object != nullptr)
+		_Object->AddChild(this);
+}
 
 
 bool CGameObject::IsAncestor(CGameObject* _Target)

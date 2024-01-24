@@ -13,6 +13,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+
 CModel::CModel()
 	:CRes(RES_TYPE::MODEL, true)
 {
@@ -86,6 +87,17 @@ void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
 	SpawnGameObject(pNewObject);
+	IterateSkinnedMeshRender(pNewObject);
+}
+
+void CModel::IterateSkinnedMeshRender(CGameObject* _pObj)
+{
+	CSkinnedMeshRender* pSkinnedMeshRender = _pObj->SkinnedMeshRender();
+	if (pSkinnedMeshRender != nullptr)
+		pSkinnedMeshRender->FindBones();
+	auto vecObj = _pObj->GetChildren();
+	for (int i = 0; i < vecObj.size(); i++)
+		IterateSkinnedMeshRender(vecObj[i]);
 }
 
 int CModel::Save(const wstring& _strRelativePath)

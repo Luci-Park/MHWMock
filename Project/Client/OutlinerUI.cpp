@@ -108,7 +108,7 @@ void OutlinerUI::AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode)
 									, _ParentNode);
 
 	// 오브젝트의 자식오브젝트 들을 오브젝트 노드를 부모로 해서 그 밑으로 다시 넣어준다.
-	const vector<CGameObject*>& vecChild = _Obj->GetChild();
+	const vector<CGameObject*>& vecChild = _Obj->GetChildren();
 	for (size_t i = 0; i < vecChild.size(); ++i)
 	{
 		AddGameObject(vecChild[i], pNode);

@@ -103,7 +103,7 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 
 	// 자식 오브젝트
-	const vector<CGameObject*>& vecChild = _Object->GetChild();
+	const vector<CGameObject*>& vecChild = _Object->GetChildren();
 	size_t ChildCount = vecChild.size();
 	fwrite(&ChildCount, sizeof(size_t), 1, _File);
 

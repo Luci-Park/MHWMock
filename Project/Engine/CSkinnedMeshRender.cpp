@@ -14,6 +14,23 @@ CSkinnedMeshRender::~CSkinnedMeshRender()
 
 }
 
+void CSkinnedMeshRender::FindBones()
+{
+	if (GetMesh() == nullptr) return;
+	
+	auto boneNames = GetMesh()->GetBoneNames();
+	if (boneNames.size() == 0) return;
+
+	CGameObject* pRoot = GetOwner()->GetRoot();
+	m_vecBones.resize(boneNames.size());
+	for (size_t i = 0; i < boneNames.size(); i++)
+	{
+		CGameObject* pObj = pRoot->FindChildByName(boneNames[i]);
+		assert(pObj);
+		m_vecBones[i] = pObj->Transform();
+	}
+}
+
 void CSkinnedMeshRender::finaltick()
 {
 	if (nullptr == GetMesh() || nullptr == GetMaterial())
