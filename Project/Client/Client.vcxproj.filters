@@ -257,6 +257,9 @@
     <ClInclude Include="ObjNameInfoUI.h">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
     </ClInclude>
+    <ClInclude Include="Light3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -402,6 +405,9 @@
     </ClCompile>
     <ClCompile Include="ObjNameInfoUI.cpp">
       <Filter>UI\InspectorUI\ObjectInfoUI\Obj_Name</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

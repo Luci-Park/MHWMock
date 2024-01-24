@@ -79,6 +79,12 @@ int MeshRenderUI::render_update()
 	GetResKey(pMtrl.Get(), szBuff, 50);
 	ImGui::InputText("##MtrlName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
 
+	ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+	ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+	ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+
+
 	if (ImGui::BeginDragDropTarget())
 	{
 		// 해당 노드에서 마우스 뗀 경우, 지정한 PayLoad 키값이 일치한 경우
@@ -113,6 +119,13 @@ int MeshRenderUI::render_update()
 		// 항목 선택시 호출받을 델리게이트 등록
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMaterial);
 	}
+
+	for (size_t i = 0; i < 12; i++)
+	{
+		if (pMtrl.Get()->GetTexParam((TEX_PARAM)i) != nullptr)
+			ImGui::Image((ImTextureID)pMtrl.Get()->GetTexParam((TEX_PARAM)i)->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+	}
+
 
 	return TRUE;
 }

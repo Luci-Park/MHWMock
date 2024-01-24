@@ -13,6 +13,8 @@
 #include "Animator2DUI.h"
 #include "TileMapUI.h"
 #include "Light2DUI.h"
+#include "Light3DUI.h"
+
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -39,7 +41,7 @@ InspectorUI::InspectorUI()
 
 	// ObjInfoUI
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name] = new ObjNameInfoUI;
-	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSize(0.f, 50.f);
+	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSize(0.f, 20.f);
 	m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]->SetSeparator(false);
 	AddChildUI(m_arrObjInfoUI[(UINT)OBJINFO_TYPE::Obj_Name]);
 
@@ -72,6 +74,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D] = new Light3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(0.f, 150.f);
