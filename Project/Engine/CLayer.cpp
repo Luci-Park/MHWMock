@@ -62,9 +62,9 @@ void CLayer::AddGameObject(CGameObject* _Object, bool _bMove)
 		CGameObject* pObject = queue.front();
 		queue.pop_front();
 
-		for (size_t i = 0; i < pObject->m_vecChild.size(); ++i)
+		for (size_t i = 0; i < pObject->m_vecChildren.size(); ++i)
 		{
-			queue.push_back(pObject->m_vecChild[i]);			
+			queue.push_back(pObject->m_vecChildren[i]);			
 		}
 
 		// 부모타입 or 소속 레이어가 없는경우 or 부모와 같이 이동하는 경우

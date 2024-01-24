@@ -32,7 +32,7 @@ private:
     vector<CScript*>        m_vecScript;
 
     CGameObject*            m_Parent;
-    vector<CGameObject*>    m_vecChild;
+    vector<CGameObject*>    m_vecChildren;
 
     int                     m_iLayerIdx; // 소속된 레이어 인덱스값
     bool                    m_bDead;
@@ -58,9 +58,11 @@ public:
     //void SetParent(CGameObject* _Object);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
-    const vector<CGameObject*>& GetChild() { return m_vecChild; }
+    const vector<CGameObject*>& GetChild() { return m_vecChildren; }
 
     CGameObject* GetParent() const { return m_Parent; }
+    CGameObject* GetRoot() const;
+    CGameObject* FindChildByName(wstring _strName);
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
