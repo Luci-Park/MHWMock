@@ -156,13 +156,18 @@ void ImGuiMgr::finaltick()
         XMMATRIX viewMat = editorCamera->GetViewMat();
         XMMATRIX projMat = editorCamera->GetProjMat();
 
+        DirectX::XMFLOAT4X4 v = change_mat(viewMat);
+        DirectX::XMFLOAT4X4 p = change_mat(projMat);
+
         
         //Get ojectTransformMatrix
         auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
         XMMATRIX objMat = objTransform->GetWorldMat();
-
+        DirectX::XMFLOAT4X4 w = change_mat(objMat);
+        
         //Render Gizmo
-        ImGuizmo::Manipulate(matrix_to_float_array(viewMat), matrix_to_float_array(projMat), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, matrix_to_float_array(objMat));
+        ImGuizmo::Manipulate(&v.m[0][0], &p.m[0][0], ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, &w.m[0][0]);
+
 
     }
 }
