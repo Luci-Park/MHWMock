@@ -141,16 +141,22 @@ void ImGuiMgr::finaltick()
     CGameObject* selectedObj = ui->GetTargetObject();
     if ( nullptr != selectedObj )
     {
+        ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
         //use perspective and use our current window
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
 
-
-        //Set Viewport
-        float windowWidth = (float)ImGui::GetWindowWidth();
-        float windowHeight = (float)ImGui::GetWindowHeight();
-        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-
+        //Set Gizmo Viewport
+        //1280 * 768
+        float x = ImGui::GetMainViewport()->WorkPos.x;
+        float y = ImGui::GetMainViewport()->WorkPos.y;
+        float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
+        float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
+        ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
+        //float windowWidth = (float)ImGui::GetWindowWidth();
+        //float windowHeight = (float)ImGui::GetWindowHeight();
+        //ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+        
         //GetCamera Matrix
         CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
         XMMATRIX viewMat = editorCamera->GetViewMat();
