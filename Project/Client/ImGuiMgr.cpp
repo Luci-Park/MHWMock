@@ -14,6 +14,7 @@
 #include "Engine\CRenderMgr.h"
 #include "Engine\CCamera.h"
 #include "Engine\CTransform.h"
+#include "OutlinerUI.h"
 
 ImGuiMgr::ImGuiMgr()
     : m_hMainHwnd(nullptr)   
@@ -92,6 +93,7 @@ void ImGuiMgr::progress()
     tick();
     finaltick();
 
+    renderGizmo();
     render();
 
     // Content 폴더 변경 감시
@@ -136,13 +138,17 @@ void ImGuiMgr::finaltick()
     if (KEY_TAP(KEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
 
+
+}
+
+void ImGuiMgr::renderGizmo()
+{
     //Gizmo
-    InspectorUI* ui = (InspectorUI*)FindUI("##Inspector");
-    CGameObject* selectedObj = ui->GetTargetObject();
-    if ( nullptr != selectedObj )
+    //InspectorUI* ui = (InspectorUI*)FindUI("##Inspector");
+    OutlinerUI* ui = (OutlinerUI*)FindUI("##Outliner");
+    CGameObject* selectedObj = ui->GetSelectedObject();
+    if (nullptr != selectedObj)
     {
-
-
         //GetCamera Matrix
         CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
         XMMATRIX viewMat = editorCamera->GetViewMat();
@@ -151,12 +157,11 @@ void ImGuiMgr::finaltick()
         XMFLOAT4X4 v = change_mat(viewMat);
         XMFLOAT4X4 p = change_mat(projMat);
 
-        
         //Get ojectTransformMatrix
         auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
         XMMATRIX objMat = objTransform->GetWorldMat();
         DirectX::XMFLOAT4X4 w = change_mat(objMat);
-        
+
 
         Vec3 pos = objTransform->GetRelativePos();
         Vec3 rot = objTransform->GetRelativeRot();
@@ -165,7 +170,6 @@ void ImGuiMgr::finaltick()
         XMMATRIX viewInv = editorCamera->GetViewInvMat();
         XMFLOAT4X4 iv = change_mat(viewInv);
 
-        
         ImGui::Begin("Zmo");
         //ImGuizmo::BeginFrame();
         //ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());

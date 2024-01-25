@@ -42,6 +42,7 @@ private:
     void begin();
     void tick();
     void finaltick();
+    void renderGizmo();
     void render();
 
     DirectX::XMFLOAT4X4 change_mat(DirectX::XMMATRIX mat)
