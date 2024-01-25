@@ -141,10 +141,37 @@ void ImGuiMgr::finaltick()
     CGameObject* selectedObj = ui->GetTargetObject();
     if ( nullptr != selectedObj )
     {
-        ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
+
+
+        //GetCamera Matrix
+        CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
+        XMMATRIX viewMat = editorCamera->GetViewMat();
+        XMMATRIX projMat = editorCamera->GetProjMat();
+
+        XMFLOAT4X4 v = change_mat(viewMat);
+        XMFLOAT4X4 p = change_mat(projMat);
+
+        
+        //Get ojectTransformMatrix
+        auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
+        XMMATRIX objMat = objTransform->GetWorldMat();
+        DirectX::XMFLOAT4X4 w = change_mat(objMat);
+        
+
+        Vec3 pos = objTransform->GetRelativePos();
+        Vec3 rot = objTransform->GetRelativeRot();
+        Vec3 sca = objTransform->GetRelativeScale();
+
+        XMMATRIX viewInv = editorCamera->GetViewInvMat();
+        XMFLOAT4X4 iv = change_mat(viewInv);
+
+        
+        ImGui::Begin("Zmo");
+        //ImGuizmo::BeginFrame();
+        //ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
         //use perspective and use our current window
         ImGuizmo::SetOrthographic(false);
-        ImGuizmo::SetDrawlist();
+        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
 
         //Set Gizmo Viewport
         //1280 * 768
@@ -156,25 +183,11 @@ void ImGuiMgr::finaltick()
         //float windowWidth = (float)ImGui::GetWindowWidth();
         //float windowHeight = (float)ImGui::GetWindowHeight();
         //ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-        
-        //GetCamera Matrix
-        CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
-        XMMATRIX viewMat = editorCamera->GetViewMat();
-        XMMATRIX projMat = editorCamera->GetProjMat();
 
-        DirectX::XMFLOAT4X4 v = change_mat(viewMat);
-        DirectX::XMFLOAT4X4 p = change_mat(projMat);
-
-        
-        //Get ojectTransformMatrix
-        auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
-        XMMATRIX objMat = objTransform->GetWorldMat();
-        DirectX::XMFLOAT4X4 w = change_mat(objMat);
-        
         //Render Gizmo
-        ImGuizmo::Manipulate(&v.m[0][0], &p.m[0][0], ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, &w.m[0][0]);
+        ImGuizmo::Manipulate(*v.m, *p.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::WORLD, *w.m);
 
-
+        ImGui::End();
     }
 }
 
