@@ -119,6 +119,7 @@ void SkinnedMeshRenderUI::SelectMesh(DWORD_PTR _Key)
 	string strKey = (char*)_Key;
 	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(wstring(strKey.begin(), strKey.end()));
 	GetTarget()->SkinnedMeshRender()->SetMesh(pMesh);
+	GetTarget()->SkinnedMeshRender()->FindBones();
 }
 
 void SkinnedMeshRenderUI::SelectMaterial(DWORD_PTR _Key)

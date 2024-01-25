@@ -134,7 +134,12 @@ enum SCALAR_PARAM
 	MAT_0,
 	MAT_1,
 	MAT_2,
-	MAT_3,	
+	MAT_3,
+
+	ANIM_0,
+	ANIM_1,
+	ANIM_2,
+	ANIM_3,
 };
 
 enum TEX_PARAM

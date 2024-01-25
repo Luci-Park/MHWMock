@@ -7,7 +7,7 @@ class CSkinnedMeshRender :
 {
 private:
 	vector<CTransform*> m_vecBones;
-	CStructuredBuffer* m_pBoneMatBuffer;
+	CStructuredBuffer* m_pBoneTransforms;
 public:
 	void FindBones();
 public:
@@ -18,6 +18,7 @@ public:
 
 public:
 	CSkinnedMeshRender();
+	CSkinnedMeshRender(const CSkinnedMeshRender& _origin);
 	~CSkinnedMeshRender();
 };
 

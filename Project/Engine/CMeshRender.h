@@ -12,6 +12,7 @@ public:
     CLONE(CMeshRender);
 public:
     CMeshRender();
+    CMeshRender(CMeshRender& _origin);
     ~CMeshRender();
 };
 

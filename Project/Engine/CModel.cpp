@@ -53,6 +53,11 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		{
 			pModel->m_vecMeshes[i] = pMesh;
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
+			int num = 1;
+			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
+			{
+				strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + std::to_wstring(num++) + L".mesh";
+			}
 
 			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
 			//pMesh->Save(strMeshKey);

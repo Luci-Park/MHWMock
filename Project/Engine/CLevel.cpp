@@ -126,7 +126,7 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 	return nullptr;
 }
 
-void CLevel::FindObjectByName(const wstring& _Name, vector<CGameObject*>& _Out)
+void CLevel::FindObjectsByName(const wstring& _Name, vector<CGameObject*>& _Out)
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{

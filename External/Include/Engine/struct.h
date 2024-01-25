@@ -202,6 +202,8 @@ struct tMtrlConst
 
 	// 텍스쳐 세팅 true / false 용도
 	int arrTex[(UINT)TEX_PARAM::TEX_END];
+
+	int arrAnimData[4];
 };
 
 

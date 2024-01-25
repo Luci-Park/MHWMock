@@ -41,6 +41,7 @@ public:
 
 public:
     CRenderComponent(COMPONENT_TYPE _type);
+    CRenderComponent(const CRenderComponent& _origin);
     ~CRenderComponent();
 };
 

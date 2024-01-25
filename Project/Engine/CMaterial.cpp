@@ -85,7 +85,13 @@ void CMaterial::SetScalarParam(SCALAR_PARAM _Param, const void* _Src)
 	case MAT_2:
 	case MAT_3:
 		m_Const.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
-		break;	
+		break;
+
+	case ANIM_0:
+	case ANIM_1:
+	case ANIM_2:
+	case ANIM_3:
+		m_Const.arrAnimData[_Param - ANIM_0] = *((int*)_Src);
 	}
 }
 

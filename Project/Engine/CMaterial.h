@@ -22,6 +22,7 @@ public:
     void GetScalarParam(SCALAR_PARAM _param, void* _pData);
     Ptr<CTexture> GetTexParam(TEX_PARAM _param) { return m_arrTex[(UINT)_param]; }
 
+    void SetNumberOfBones(int _iNumBones) { m_Const.arrAnimData[0] = _iNumBones; }
 
 
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
