@@ -48,7 +48,7 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
      
     if(BoneCount > 0)
     {
-        Skinning(_in.vPos, _in.vNormal, _in.vTangent, _in.vBinormal, _in.vWeights, _in.vIndices);
+        //Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
     }
     // 로컬에서의 Normal 방향을 월드로 이동      
     output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
