@@ -58,6 +58,7 @@ void CSkinnedMeshRender::render()
 		for (int i = 0; i < m_vecBones.size(); i++)
 		{
 			vecBoneTransforms[i] = m_vecBones[i]->GetWorldMat();
+
 		}
 		m_pBoneTransforms->Clear();
 		m_pBoneTransforms->Create(sizeof(Matrix), vecBoneTransforms.size(), SB_TYPE::READ_ONLY, false, vecBoneTransforms.data());

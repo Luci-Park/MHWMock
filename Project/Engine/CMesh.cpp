@@ -79,7 +79,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 				}
 			}
 		}
-
 	}
 
 	for (int f = 0; f < _aiMesh->mNumFaces; f++)

@@ -181,14 +181,14 @@ void Skinning(inout float3 _vPos, inout float3 _vNormal, inout float3 _vTangent,
     
     for (int i = 0; i < 4; i++)
     {
-        if (0.f == _vWeight[i])
+        if (0.f <= _vWeight[i])
             continue;
         matrix matBone = g_arrBoneMat[_vIndices[i]];        
 
         info.vPos += (mul(float4(_vPos, 1.f), matBone) * _vWeight[i]).xyz;
+        info.vNormal += (mul(float4(_vNormal, 0.f), matBone) * _vWeight[i]).xyz;
         info.vTangent += (mul(float4(_vTangent, 0.f), matBone) * _vWeight[i]).xyz;
         info.vBinormal += (mul(float4(_vBinormal, 0.f), matBone) * _vWeight[i]).xyz;
-        info.vNormal += (mul(float4(_vNormal, 0.f), matBone) * _vWeight[i]).xyz;
     }
 
     _vPos = info.vPos;
