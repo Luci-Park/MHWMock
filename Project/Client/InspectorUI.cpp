@@ -9,6 +9,7 @@
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
+#include "SkinnedMeshRenderUI.h"
 #include "Collider2DUI.h"
 #include "CameraUI.h"
 #include "Animator2DUI.h"
@@ -58,6 +59,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::SKINNEDMESHRENDER] = new SkinnedMeshRenderUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::SKINNEDMESHRENDER]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::SKINNEDMESHRENDER]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetSize(0.f, 150.f);

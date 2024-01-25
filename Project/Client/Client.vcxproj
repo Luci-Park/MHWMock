@@ -181,6 +181,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="ContentUI.h" />
+    <ClInclude Include="SkinnedMeshRenderUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsShaderUI.h" />
     <ClInclude Include="ImGuiMgr.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
+    <ClCompile Include="SkinnedMeshRenderUI.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />
     <ClCompile Include="ImGuiMgr.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
