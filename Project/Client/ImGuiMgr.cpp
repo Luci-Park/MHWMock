@@ -144,38 +144,59 @@ void ImGuiMgr::finaltick()
 void ImGuiMgr::renderGizmo()
 {
     //Gizmo
-    //InspectorUI* ui = (InspectorUI*)FindUI("##Inspector");
+    
     OutlinerUI* ui = (OutlinerUI*)FindUI("##Outliner");
     CGameObject* selectedObj = ui->GetSelectedObject();
+
     if (nullptr != selectedObj)
     {
+        //ImGui::Begin("Zmo");
+        //ImGuizmo::BeginFrame();
+        
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::AllowAxisFlip(false);
+        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+        //ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+        //ImGuizmo::SetDrawlist(ImGui::GetForegroundDrawList());
+        //ImGuizmo::SetDrawlist();
+
         //GetCamera Matrix
         CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
         XMMATRIX viewMat = editorCamera->GetViewMat();
+        //XMMATRIX calauProMat = XMMatrixPerspectiveLH(editorCamera->GetorthoWidth(), editorCamera->GetOrthoHeight(), 1.f, 10000.f);
+        //XMMATRIX calauProMat = XMMatrixPerspectiveFovLH(XM_PI / 2.f, 1.f, 1.f, 10000.f);
+
+
         XMMATRIX projMat = editorCamera->GetProjMat();
 
         XMFLOAT4X4 v = change_mat(viewMat);
         XMFLOAT4X4 p = change_mat(projMat);
+        //XMFLOAT4X4 p = change_mat(calauProMat);
 
         //Get ojectTransformMatrix
         auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
         XMMATRIX objMat = objTransform->GetWorldMat();
         DirectX::XMFLOAT4X4 w = change_mat(objMat);
 
+        //v.m[0][2] = -v.m[0][2];
+        //v.m[1][2] = -v.m[1][2];
+        //v.m[2][2] = -v.m[2][2];
 
-        Vec3 pos = objTransform->GetRelativePos();
-        Vec3 rot = objTransform->GetRelativeRot();
-        Vec3 sca = objTransform->GetRelativeScale();
+        //p.m[0][1] = -p.m[0][1];
+        //p.m[1][1] = -p.m[1][1];
+        //p.m[2][1] = -p.m[2][1];
 
-        XMMATRIX viewInv = editorCamera->GetViewInvMat();
-        XMFLOAT4X4 iv = change_mat(viewInv);
+        //XMMATRIX viewInv = editorCamera->GetViewInvMat();
+        //XMFLOAT4X4 iv = change_mat(viewInv);
 
-        ImGui::Begin("Zmo");
-        //ImGuizmo::BeginFrame();
-        //ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
-        //use perspective and use our current window
-        ImGuizmo::SetOrthographic(false);
-        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left, false))
+        {
+            ImVec2 mousePos = ImGui::GetCursorPos();
+            ImVec2 mouseScreenPos = ImGui::GetCursorScreenPos();
+            int a = 0;
+        }
+
+
 
         //Set Gizmo Viewport
         //1280 * 768
@@ -183,15 +204,30 @@ void ImGuiMgr::renderGizmo()
         float y = ImGui::GetMainViewport()->WorkPos.y;
         float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
         float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
+
+        //float x = ImGui::GetMainViewport()->Pos.x;
+        //float y = ImGui::GetMainViewport()->Pos.y;
+        //float windowWidth = ImGui::GetMainViewport()->Size.x;
+        //float windowHeight = ImGui::GetMainViewport()->Size.y;
         ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
-        //float windowWidth = (float)ImGui::GetWindowWidth();
-        //float windowHeight = (float)ImGui::GetWindowHeight();
-        //ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+        if (ImGuizmo::IsOver())
+        {
+            int a = 0;
+        }
+
+        if (ImGuizmo::IsUsing())
+        {
+            int a = 0;
+        }
 
         //Render Gizmo
-        ImGuizmo::Manipulate(*v.m, *p.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::WORLD, *w.m);
+        //ImGuizmo::DrawCubes(*v.m, *p.m, *w.m,6);
+        //ImGuizmo::Enable(true);
+        //ImGuizmo::DrawGrid(*v.m, *p.m, *w.m, 10);
+        ImGuizmo::Manipulate(*v.m, *p.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *w.m);
 
-        ImGui::End();
+        //ImGui::End();
     }
 }
 
