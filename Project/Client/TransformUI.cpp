@@ -20,8 +20,8 @@ TransformUI::~TransformUI()
 
 void TransformUI::Gizmo()
 {
-    static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
-    static ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+    //static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
+    //static ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 
     CGameObject* selectedObj = GetTarget();
     if (nullptr != selectedObj)
@@ -29,20 +29,20 @@ void TransformUI::Gizmo()
         ImGui::Begin("Gizmo");
         ImGuizmo::AllowAxisFlip(false);
 
-        if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
-            mCurrentGizmoMode = ImGuizmo::LOCAL;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
-            mCurrentGizmoMode = ImGuizmo::WORLD;
+        //if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+        //    mCurrentGizmoMode = ImGuizmo::LOCAL;
+        //ImGui::SameLine();
+        //if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+        //    mCurrentGizmoMode = ImGuizmo::WORLD;
 
-        if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
-            mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-            mCurrentGizmoOperation = ImGuizmo::ROTATE;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
-            mCurrentGizmoOperation = ImGuizmo::SCALE;
+        //if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+        //    mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+        //ImGui::SameLine();
+        //if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+        //    mCurrentGizmoOperation = ImGuizmo::ROTATE;
+        //ImGui::SameLine();
+        //if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+        //    mCurrentGizmoOperation = ImGuizmo::SCALE;
 
         //ImGui::GetBackgroundDrawList();
         ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
@@ -89,7 +89,7 @@ void TransformUI::Gizmo()
         ImGuizmo::RecomposeMatrixFromComponents(pos, rot, scl, *w.m);
 
         //Render Gizmo
-        ImGuizmo::Manipulate(*v.m, *p.m, mCurrentGizmoOperation, mCurrentGizmoMode, *w.m);
+        //ImGuizmo::Manipulate(*v.m, *p.m, mCurrentGizmoOperation, mCurrentGizmoMode, *w.m);
         ImGuizmo::ViewManipulate(*v.m, 0.5f, ImVec2(viewManipulateRight, viewManipulateTop), ImVec2(128, 128), 0x10101010);
         if(ImGuizmo::IsOver())
         {
@@ -119,7 +119,7 @@ int TransformUI::render_update()
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
 
-    Gizmo();
+    //Gizmo();
 
 	Vec3 vPos = GetTarget()->Transform()->GetRelativePos();
 	Vec3 vScale = GetTarget()->Transform()->GetRelativeScale();
