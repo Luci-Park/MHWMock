@@ -264,6 +264,9 @@
     <ClInclude Include="ModelUI.h">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
     </ClInclude>
+    <ClInclude Include="Light3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -413,6 +416,9 @@
     <ClCompile Include="AssimpTest.cpp" />
     <ClCompile Include="ModelUI.cpp">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

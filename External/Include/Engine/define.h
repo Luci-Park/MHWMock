@@ -237,6 +237,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,	// wParam : GameObject, lParam : Layer Index
 	DELETE_OBJECT,  // wParam : GameObject
+	CHANGE_OBJECT,
 
 	ADD_CHILD,
 
@@ -245,6 +246,7 @@ enum class EVENT_TYPE
 	LAYER_CHANGE,
 
 	LEVEL_CHANGE,	
+
 };
 
 
