@@ -116,6 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -139,6 +140,7 @@ call CodeGen.exe</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -165,6 +167,7 @@ call CodeGen.exe</Command>
       <MinFilesInUnityFile>10</MinFilesInUnityFile>
       <MaxFilesInUnityFile>20</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -191,6 +194,7 @@ call CodeGen.exe</Command>
       <MinFilesInUnityFile>10</MinFilesInUnityFile>
       <MaxFilesInUnityFile>20</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
