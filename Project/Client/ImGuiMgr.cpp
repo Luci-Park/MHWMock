@@ -93,7 +93,7 @@ void ImGuiMgr::progress()
     tick();
     finaltick();
 
-    renderGizmo();
+    //renderGizmo();
     render();
 
     // Content 폴더 변경 감시
@@ -108,6 +108,13 @@ void ImGuiMgr::begin()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
+    float x = ImGui::GetMainViewport()->WorkPos.x;
+    float y = ImGui::GetMainViewport()->WorkPos.y;
+    float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
+    float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
+
+    ImGuizmo::SetOrthographic(false);
+    ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
 
     ParamUI::g_NextId = 0;
 
@@ -150,12 +157,15 @@ void ImGuiMgr::renderGizmo()
 
     if (nullptr != selectedObj)
     {
-        //ImGui::Begin("Zmo");
+        ImGui::Begin("Zmo");
         //ImGuizmo::BeginFrame();
         
+
+
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::AllowAxisFlip(false);
         ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+        //ImGuizmo::SetDrawlist();
         //ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
         //ImGuizmo::SetDrawlist(ImGui::GetForegroundDrawList());
         //ImGuizmo::SetDrawlist();
@@ -178,9 +188,9 @@ void ImGuiMgr::renderGizmo()
         XMMATRIX objMat = objTransform->GetWorldMat();
         DirectX::XMFLOAT4X4 w = change_mat(objMat);
 
-        //v.m[0][2] = -v.m[0][2];
-        //v.m[1][2] = -v.m[1][2];
-        //v.m[2][2] = -v.m[2][2];
+        v.m[0][2] = -v.m[0][2];
+        v.m[1][2] = -v.m[1][2];
+        v.m[2][2] = -v.m[2][2];
 
         //p.m[0][1] = -p.m[0][1];
         //p.m[1][1] = -p.m[1][1];
@@ -188,15 +198,14 @@ void ImGuiMgr::renderGizmo()
 
         //XMMATRIX viewInv = editorCamera->GetViewInvMat();
         //XMFLOAT4X4 iv = change_mat(viewInv);
+        ImGuiIO& io = ImGui::GetIO();
 
-        if (ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left, false))
-        {
-            ImVec2 mousePos = ImGui::GetCursorPos();
-            ImVec2 mouseScreenPos = ImGui::GetCursorScreenPos();
-            int a = 0;
-        }
-
-
+        //if (ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left, false))
+        //{
+        //    ImVec2 mousePos = io.MousePos;
+        //    ImVec2 mouseScreenPos = ImGui::GetCursorScreenPos();
+        //    int a = 0;
+        //}
 
         //Set Gizmo Viewport
         //1280 * 768
@@ -204,16 +213,23 @@ void ImGuiMgr::renderGizmo()
         float y = ImGui::GetMainViewport()->WorkPos.y;
         float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
         float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
-
-        //float x = ImGui::GetMainViewport()->Pos.x;
-        //float y = ImGui::GetMainViewport()->Pos.y;
-        //float windowWidth = ImGui::GetMainViewport()->Size.x;
-        //float windowHeight = ImGui::GetMainViewport()->Size.y;
         ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
+
+
+        //float windowWidth = io.DisplaySize.x;
+        //float windowHeight = io.DisplaySize.y;
+        //ImGuizmo::SetRect(0, 0, windowWidth, windowHeight);
+
+        ImGui::Text(ImGuizmo::IsOver() ? "Over gizmo" : "not over");
+        ImGui::SameLine();
+        ImGui::Text(ImGuizmo::IsOver(ImGuizmo::TRANSLATE) ? "Over translate gizmo" : "");
+        ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 
         if (ImGuizmo::IsOver())
         {
-            int a = 0;
+            ImVec2 a = io.MousePos;
+            ImVec2 b = ImGui::GetMousePos();
+            int c = 0;
         }
 
         if (ImGuizmo::IsUsing())
@@ -226,8 +242,8 @@ void ImGuiMgr::renderGizmo()
         //ImGuizmo::Enable(true);
         //ImGuizmo::DrawGrid(*v.m, *p.m, *w.m, 10);
         ImGuizmo::Manipulate(*v.m, *p.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *w.m);
-
-        //ImGui::End();
+        //ImGuizmo::ViewManipulate(*v.m, *p.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *w.m);
+        ImGui::End();
     }
 }
 
