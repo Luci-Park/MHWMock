@@ -93,6 +93,23 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
+	CGameObject* pParentObj = new CGameObject;
+	pParentObj->SetName(L"Parent");
+	pParentObj->AddComponent(new CTransform);
+	pParentObj->AddComponent(new CMeshRender);
+	pParentObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pParentObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+
+	CGameObject* pChildObj = new CGameObject;
+	pChildObj->SetName(L"Parent");
+	pChildObj->AddComponent(new CTransform);
+	pChildObj->AddComponent(new CMeshRender);
+	pChildObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pChildObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	pParentObj->AddChild(pChildObj);
+
+	SpawnGameObject(pParentObj);
+
 	// LandScape Object
 	//CGameObject* pLandScape = new CGameObject;
 	//pLandScape->SetName(L"LandScape");

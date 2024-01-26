@@ -172,12 +172,15 @@ struct tParticleModule
 
 struct tAnimationKey
 {
-	double	dTime;
+	double	dTime;//in ticks.
 	Vec3	vValue;
 };
 
 struct tAnimationChannel
 {
+	wstring					strBoneName;
+	AnimBehaviour			ePreState;
+	AnimBehaviour			ePostState;
 	vector<tAnimationKey>	vecPositionKeys;
 	vector<tAnimationKey>	vecScaleKeys;
 	vector<tAnimationKey>	vecRotationKeys;

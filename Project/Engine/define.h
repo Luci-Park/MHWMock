@@ -321,3 +321,11 @@ enum class MRT_TYPE
 
 	END,
 };
+
+enum class AnimBehaviour
+{
+	DEFAULT, //The value from the default node transformation is taken
+	CONSTANT, //The nearest key value is used without interpolation
+	LINEAR, //The value of the nearest two keys is linearly extrapolated for the current time value
+	REPEAT, // The animation is repeated.If the animation key go from n to m and the current time is t, use the value at(t - n) % (| m - n | )
+};

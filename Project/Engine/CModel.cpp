@@ -33,9 +33,14 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 	
 	Assimp::Importer importer;
-	const aiScene* pScene = importer.ReadFile(string(strFullPath.begin(), strFullPath.end())
-		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
-		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
+	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Quality
+		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph;
+	unsigned int excludeFlags = aiProcess_FindInvalidData | aiProcess_RemoveRedundantMaterials;
+
+	const aiScene* pScene = importer.ReadFile(
+		string(strFullPath.begin(), strFullPath.end()),
+		originalFlags & (~excludeFlags)
+	);
 
 	assert(!(!pScene || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !pScene->mRootNode));
 	
@@ -252,10 +257,15 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	}
 
 	aiVector3t<float> scale, rot, pos;
-	_aiNode->mTransformation.Decompose(scale, rot, pos);
-	pNewNode->vPos = Vec3(pos.x, pos.y, pos.z);
-	pNewNode->vRot = Vec3(rot.x, rot.y, rot.z);
-	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
+	//_aiNode->mTransformation.Transpose();
+	//_aiNode->mTransformation.Decompose(scale, rot, pos);
+	//pNewNode->vPos = Vec3(pos.x, pos.y, pos.z);
+	//pNewNode->vRot = Vec3(rot.x, rot.y, rot.z);
+	//pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
+
+	pNewNode->vPos = Vec3(0, 0, 0);
+	pNewNode->vRot = Vec3(0, 0, 0);
+	pNewNode->vScale = Vec3(1, 1, 1);
 
 	if (_aiNode->mNumMeshes > 0)
 	{

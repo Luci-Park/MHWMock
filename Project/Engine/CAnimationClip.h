@@ -10,12 +10,14 @@ private:
     double                    m_dTicksPerSecond;
     vector<tAnimationChannel> m_vecChannels;
     vector<wstring>           m_BoneNames;
+    vector<tAnimationChannel> m_vecRsltChannel;
+public:
+    //vector<tAnimationChannel>& GetTransformsAtFrame(double _dTick);
 private:
-    // 파일로부터 로딩
+    Vec3 FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);
     virtual int Load(const wstring& _strFilePath);
 
 public:
-    // 파일로 저장
     virtual int Save(const wstring& _strFilePath);
 
     static CAnimationClip* LoadFromAssimp(aiAnimation* _aiAnimation);

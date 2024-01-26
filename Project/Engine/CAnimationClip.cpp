@@ -23,15 +23,21 @@ CAnimationClip* CAnimationClip::LoadFromAssimp(aiAnimation* _aiAnimation)
 	pAnim->m_dTicksPerSecond = _aiAnimation->mTicksPerSecond;
 	pAnim->m_BoneNames.resize(_aiAnimation->mNumChannels);
 	pAnim->m_vecChannels.resize(_aiAnimation->mNumChannels);
+	pAnim->m_vecRsltChannel.resize(_aiAnimation->mNumChannels);
 
 	for (size_t i = 0; i < _aiAnimation->mNumChannels; i++)
 	{
 		aiNodeAnim* pChannel = _aiAnimation->mChannels[i];
 		string strBName = pChannel->mNodeName.C_Str();
 		pAnim->m_BoneNames[i] = wstring(strBName.begin(), strBName.end());
+		pAnim->m_vecRsltChannel[i].strBoneName = pAnim->m_BoneNames[i];
 		pAnim->m_vecChannels[i].vecPositionKeys.resize(pChannel->mNumPositionKeys);
 		pAnim->m_vecChannels[i].vecRotationKeys.resize(pChannel->mNumRotationKeys);
 		pAnim->m_vecChannels[i].vecScaleKeys.resize(pChannel->mNumScalingKeys);
+
+		pAnim->m_vecChannels[i].ePreState = (AnimBehaviour)pChannel->mPreState;
+		pAnim->m_vecChannels[i].ePostState = (AnimBehaviour)pChannel->mPostState;
+
 		for (size_t j = 0; j < pChannel->mNumPositionKeys; j++)
 		{
 			auto v3 = pChannel->mPositionKeys[j].mValue;
@@ -64,9 +70,21 @@ CAnimationClip* CAnimationClip::LoadFromAssimp(aiAnimation* _aiAnimation)
 				pChannel->mScalingKeys[j].mTime;
 		}
 	}
-	
 
 	return pAnim;
+}
+
+//vector<tAnimationChannel>& CAnimationClip::GetTransformsAtFrame(double _dTick)
+//{
+//	for (int i = 0; i < m_vecChannels.size(); i++)
+//	{
+//	}
+//	return m_vecChannels;
+//}
+
+Vec3 CAnimationClip::FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
+{
+	return Vec3();
 }
 
 int CAnimationClip::Load(const wstring& _strFilePath)
