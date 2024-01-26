@@ -749,6 +749,7 @@ namespace DirectX
             void Inverse(Quaternion& result) const;
 
             float Dot(const Quaternion& Q) const;
+            Vector3 ToEuler() const noexcept;
 
             // Static functions
             static Quaternion CreateFromAxisAngle(const Vector3& axis, float angle);

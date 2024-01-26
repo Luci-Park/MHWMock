@@ -34,6 +34,7 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	, m_LifeTime(0.f)
 	, m_CurLifeTime(0.f)
 	, m_bLifeSpan(false)
+	, m_bIsBone(_Other.m_bIsBone)
 {
 	// Component บนป็
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)

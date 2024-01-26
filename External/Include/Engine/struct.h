@@ -170,7 +170,18 @@ struct tParticleModule
 	int		ModuleCheck[(UINT)PARTICLE_MODULE::END];
 };
 
+struct tAnimationKey
+{
+	double	dTime;
+	Vec3	vValue;
+};
 
+struct tAnimationChannel
+{
+	vector<tAnimationKey>	vecPositionKeys;
+	vector<tAnimationKey>	vecScaleKeys;
+	vector<tAnimationKey>	vecRotationKeys;
+};
 
 // ===================
 // 상수버퍼 대응 구조체

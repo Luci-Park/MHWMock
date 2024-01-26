@@ -125,6 +125,9 @@
     <Filter Include="UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI">
       <UniqueIdentifier>{5402e564-4ce2-40f1-ae80-9cd8b868bd95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ResUI\AnimationUI">
+      <UniqueIdentifier>{a76c60ea-5806-4e8f-9c34-e32ff149fc8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -269,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="SkinnedMeshRenderUI.h">
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationUI.h">
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -422,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="SkinnedMeshRenderUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationUI.cpp">
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -64,6 +64,7 @@ enum class RES_TYPE
 	MODEL,
 	MESH,			// 형태
 	TEXTURE,		// 이미지
+	ANIMATION,
 
 	SOUND,
 

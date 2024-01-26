@@ -39,6 +39,7 @@ private:
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
+    bool                    m_bIsBone;
 
 public:
     // 레벨이 시작될 때 호출 or 시작 된 레벨에 합류할 때 호출
