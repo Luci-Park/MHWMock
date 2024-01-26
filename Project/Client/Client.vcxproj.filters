@@ -122,6 +122,9 @@
     <Filter Include="UI\InspectorUI\ResUI\ModelUI">
       <UniqueIdentifier>{b5048296-420b-4c27-8857-2e91f4e45589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\10. LandScapeUI">
+      <UniqueIdentifier>{464763cc-3992-46df-a8ae-a07203f932b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="Light3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
+    </ClInclude>
+    <ClInclude Include="LandScapeUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\10. LandScapeUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="Light3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LandScapeUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\10. LandScapeUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
