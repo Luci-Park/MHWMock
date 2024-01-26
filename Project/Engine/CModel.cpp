@@ -255,13 +255,25 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 		string strTemp = _aiNode->mName.C_Str();
 		pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
 	}
+	const auto transform = XMMatrixTranspose(XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&_aiNode->mTransformation)));
 
-	aiVector3t<float> scale, rot, pos;
-	//_aiNode->mTransformation.Transpose();
-	//_aiNode->mTransformation.Decompose(scale, rot, pos);
-	//pNewNode->vPos = Vec3(pos.x, pos.y, pos.z);
-	//pNewNode->vRot = Vec3(rot.x, rot.y, rot.z);
-	//pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
+	XMVECTOR positionVector = transform.r[3];
+	XMFLOAT3 position;
+	XMStoreFloat3(&position, positionVector);
+
+	// Extract rotation
+	XMFLOAT4 rotationQuaternion;
+	XMStoreFloat4(&rotationQuaternion, XMQuaternionRotationMatrix(transform));
+
+	// Extract scale
+	XMFLOAT3 scale;
+	scale.x = XMVectorGetX(XMVector3Length(transform.r[0]));
+	scale.y = XMVectorGetY(XMVector3Length(transform.r[1]));
+	scale.z = XMVectorGetZ(XMVector3Length(transform.r[2]));
+
+	pNewNode->vPos = Vec3(position.x, position.y, position.z);
+	pNewNode->vRot = Quaternion(rotationQuaternion).ToEuler();
+	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
 
 	pNewNode->vPos = Vec3(0, 0, 0);
 	pNewNode->vRot = Vec3(0, 0, 0);

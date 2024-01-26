@@ -101,7 +101,7 @@ void CreateTestLevel()
 	pParentObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 
 	CGameObject* pChildObj = new CGameObject;
-	pChildObj->SetName(L"Parent");
+	pChildObj->SetName(L"Child");
 	pChildObj->AddComponent(new CTransform);
 	pChildObj->AddComponent(new CMeshRender);
 	pChildObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
