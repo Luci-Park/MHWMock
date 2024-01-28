@@ -14,7 +14,7 @@ public:
     ~TransformUI();
 
     void Gizmo();
-    void EditTransform(float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition);
+    void GizmoGui(ImGuiIO& io);
 
     DirectX::XMFLOAT4X4 change_mat(DirectX::XMMATRIX mat)
     {
