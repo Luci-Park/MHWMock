@@ -264,6 +264,9 @@
     <ClInclude Include="ModelUI.h">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\ImGuizmo.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -413,6 +416,9 @@
     <ClCompile Include="AssimpTest.cpp" />
     <ClCompile Include="ModelUI.cpp">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGuizmo.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

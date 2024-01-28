@@ -25,45 +25,28 @@ TransformUI::~TransformUI()
 
 void TransformUI::Gizmo()
 {
-    static bool useSnap = false;
-    static float snap[3] = { 1.f, 1.f, 1.f };
-    static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
-    static float boundsSnap[] = { 0.1f, 0.1f, 0.1f };
-    static bool boundSizing = false;
-    static bool boundSizingSnap = false;
-
     ImGuiIO& io = ImGui::GetIO();
     ImGuizmo::SetOrthographic(false);
-    if (useWindow)
-    {
-        ImGui::SetNextWindowSize(ImVec2(800, 400), ImGuiCond_Appearing);
-        ImGui::SetNextWindowPos(ImVec2(400, 20), ImGuiCond_Appearing);
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, (ImVec4)ImColor(0.35f, 0.3f, 0.3f));
-        ImGui::Begin("Gizmo", 0, gizmoWindowFlags);
-        ImGuizmo::SetDrawlist();
-        float windowWidth = (float)ImGui::GetWindowWidth();
-        float windowHeight = (float)ImGui::GetWindowHeight();
-        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-        ImGuiWindow* window = ImGui::GetCurrentWindow();
-        gizmoWindowFlags = ImGui::IsWindowHovered() && ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max) ? ImGuiWindowFlags_NoMove : 0;
-    }
-    else
-    {
-        ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-    }
 
-    //float x = ImGui::GetMainViewport()->WorkPos.x;
-    //float y = ImGui::GetMainViewport()->WorkPos.y;
-    //float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
-    //float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
-
-    //
-    //ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
+    float x = ImGui::GetMainViewport()->WorkPos.x;
+    float y = ImGui::GetMainViewport()->WorkPos.y;
+    float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
+    float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
+    
 
     CGameObject* selectedObj = GetTarget();
     if (nullptr != selectedObj)
     {
-        ImGui::Begin("Gizmo",0,gizmoWindowFlags);
+
+        ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight), ImGuiCond_Appearing);
+        ImGui::SetNextWindowPos(ImVec2(x, y), ImGuiCond_Appearing);
+        //gizmoWindowFlags = ImGuiWindowFlags_NoMove;
+        //ImGui::Begin("##Gizmo",0,gizmoWindowFlags);
+
+        
+        //ImGuiWindow* window = ImGui::GetCurrentWindow();
+        //gizmoWindowFlags = ImGui::IsWindowHovered() && ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max) ? ImGuiWindowFlags_NoMove : 0;
+
         ImGuizmo::AllowAxisFlip(false);
 
         if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
@@ -80,10 +63,13 @@ void TransformUI::Gizmo()
         ImGui::SameLine();
         if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
             mCurrentGizmoOperation = ImGuizmo::SCALE;
-
-        //ImGui::GetBackgroundDrawList();
+        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        
+        //ImGuizmo::SetDrawlist();
         //ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
-        //ImGuizmo::SetDrawlist(ImGui::GetForegroundDrawList());
+        //ImGuizmo::SetDrawlist();
+
+        ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
         //ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
 
         //Set Gizmo Viewport
@@ -94,13 +80,13 @@ void TransformUI::Gizmo()
         //float windowWidth = ImGui::GetWindowSize().x;
         //float windowHeight = ImGui::GetWindowSize().y;
 
-        //ImGuiIO& io = ImGui::GetIO();
-        //float viewManipulateRight = ImGui::GetWindowSize().x;
-        //float viewManipulateTop = 0;
-        //viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetWindowSize().x;
-        //viewManipulateTop = ImGui::GetWindowPos().y;
-        //ImGuiWindow* window = ImGui::GetCurrentWindow();
-        //gizmoWindowFlags = ImGui::IsWindowHovered() && ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max) ? ImGuiWindowFlags_NoMove : 0;
+        ImGuiIO& io = ImGui::GetIO();
+        float viewManipulateRight = ImGui::GetWindowSize().x;
+        float viewManipulateTop = 0;
+        viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetWindowSize().x;
+        viewManipulateTop = ImGui::GetWindowPos().y;
+
+
         
 
         CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
@@ -115,10 +101,7 @@ void TransformUI::Gizmo()
         auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
         XMMATRIX objMat = objTransform->GetWorldMat();
         XMMATRIX objInvMat = objTransform->GetWorldInvMat();
-        DirectX::XMFLOAT4X4 w = change_mat((objMat*objInvMat));
-
-        XMMATRIX viewInv = editorCamera->GetViewInvMat();
-        XMFLOAT4X4 iv = change_mat(viewInv);
+        DirectX::XMFLOAT4X4 w = change_mat((objMat));
 
         //Render Gizmo
         ImGuizmo::Manipulate(*v.m, *p.m, mCurrentGizmoOperation, mCurrentGizmoMode, *w.m);
@@ -127,12 +110,8 @@ void TransformUI::Gizmo()
         ImGui::SameLine();
         ImGui::Text(ImGuizmo::IsOver(ImGuizmo::TRANSLATE) ? "Over translate gizmo" : "");
         ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
-
-        if (useWindow)
-        {
-            ImGui::End();
-            ImGui::PopStyleColor(1);
-        }
+        
+        //ImGui::End();
     }
 }
 

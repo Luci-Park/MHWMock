@@ -1,13 +1,14 @@
 #pragma once
 #include <Engine\CSingleton.h>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include "ImGui\imgui.h"
 #include "ImGui\imgui_stdlib.h"
 #include "ImGui\imgui_impl_dx11.h"
 #include "ImGui\imgui_impl_win32.h"
-#include "ImGui\imgui_internal.h"
 
-#include "ImGuizmo.h"
+#include "ImGui\ImGuizmo.h"
+#include "ImGui\imgui_internal.h"
 
 
 // ========
