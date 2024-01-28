@@ -273,11 +273,13 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 
 	pNewNode->vPos = Vec3(position.x, position.y, position.z);
 	pNewNode->vRot = Quaternion(rotationQuaternion).ToEuler();
+	pNewNode->vRot.x *= -1;
+	pNewNode->vRot.z *= -1;
 	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
 
-	pNewNode->vPos = Vec3(0, 0, 0);
-	pNewNode->vRot = Vec3(0, 0, 0);
-	pNewNode->vScale = Vec3(1, 1, 1);
+	//pNewNode->vPos = Vec3(0, 0, 0);
+	//pNewNode->vRot = Vec3(0, 0, 0);
+	//pNewNode->vScale = Vec3(1, 1, 1);
 
 	if (_aiNode->mNumMeshes > 0)
 	{

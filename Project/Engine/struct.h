@@ -186,6 +186,14 @@ struct tAnimationChannel
 	vector<tAnimationKey>	vecRotationKeys;
 };
 
+struct tAnimationKeyFrame
+{
+	wstring strBoneName;
+	Vec3 vPos;
+	Vec3 vRot;
+	Vec3 vScale;
+};
+
 // ===================
 // 상수버퍼 대응 구조체
 // ===================

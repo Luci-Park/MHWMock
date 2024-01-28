@@ -10,9 +10,9 @@ private:
     double                    m_dTicksPerSecond;
     vector<tAnimationChannel> m_vecChannels;
     vector<wstring>           m_BoneNames;
-    vector<tAnimationChannel> m_vecRsltChannel;
+    vector<tAnimationKeyFrame> m_vecRsltChannel;
 public:
-    //vector<tAnimationChannel>& GetTransformsAtFrame(double _dTick);
+    vector<tAnimationKeyFrame>& GetTransformsAtFrame(double _dTick);
 private:
     Vec3 FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);
     virtual int Load(const wstring& _strFilePath);
