@@ -2,9 +2,12 @@
 #include <Engine\CSingleton.h>
 
 #include "ImGui\imgui.h"
-#include "ImGui/imgui_stdlib.h"
+#include "ImGui\imgui_stdlib.h"
 #include "ImGui\imgui_impl_dx11.h"
 #include "ImGui\imgui_impl_win32.h"
+#include "ImGui\imgui_internal.h"
+
+#include "ImGuizmo.h"
 
 
 // ========
@@ -42,7 +45,6 @@ private:
     void begin();
     void tick();
     void finaltick();
-    void renderGizmo();
     void render();
 
     DirectX::XMFLOAT4X4 change_mat(DirectX::XMMATRIX mat)
