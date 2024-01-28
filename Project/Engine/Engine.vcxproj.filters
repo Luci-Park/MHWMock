@@ -181,6 +181,9 @@
     <ClInclude Include="CAnimationClip.h">
       <Filter>Source\07. Resource\8. Animation</Filter>
     </ClInclude>
+    <ClInclude Include="AssimpFunctions.h">
+      <Filter>Source\07. Resource\7. Model\AssimpUtil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -532,6 +535,9 @@
     </Filter>
     <Filter Include="Source\07. Resource\8. Animation">
       <UniqueIdentifier>{631ed60e-ef0c-4d38-9965-1c1e8b01b763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\7. Model\AssimpUtil">
+      <UniqueIdentifier>{9cf5b4e6-a759-46a0-b2ad-b2151dacb53b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -199,6 +199,7 @@ call EngineCopy.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssimpFunctions.h" />
     <ClInclude Include="CAnim2D.h" />
     <ClInclude Include="CAnimationClip.h" />
     <ClInclude Include="CAnimator2D.h" />
