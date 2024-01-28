@@ -3,7 +3,7 @@
 
 #include "CDevice.h"
 #include "CPathMgr.h"
-#include "AssimpFunctions.h"
+#include <assimp/scene.h>
 
 
 CMesh::CMesh(bool _bEngine)
@@ -42,20 +42,20 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
 		if (_aiMesh->HasPositions())
-			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
+			vecVtx[i].vPos = Vec3(_aiMesh->mVertices[i].x, _aiMesh->mVertices[i].y, _aiMesh->mVertices[i].z);
 		if (_aiMesh->HasVertexColors(i))
-			vecVtx[i].vColor = aiColor4ToVec4(_aiMesh->mColors[0][i]);
+			vecVtx[i].vColor = Vec4((_aiMesh->mColors[i][0]).r, (_aiMesh->mColors[i][0]).g, (_aiMesh->mColors[i][0]).b, (_aiMesh->mColors[i][0]).a);
 		if (_aiMesh->HasTextureCoords(i))
 		{
 			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[i][0].x, _aiMesh->mTextureCoords[i][0].y);
 		}
 
 		if (_aiMesh->HasNormals())
-			vecVtx[i].vNormal = aiVec3ToVec3(_aiMesh->mNormals[i]);
+			vecVtx[i].vNormal = Vec3(_aiMesh->mNormals[i].x, _aiMesh->mNormals[i].y, _aiMesh->mNormals[i].z);
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
-			vecVtx[i].vTangent = aiVec3ToVec3(_aiMesh->mTangents[i]);
-			vecVtx[i].vBinormal = aiVec3ToVec3(_aiMesh->mBitangents[i]);
+			vecVtx[i].vTangent = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
+			vecVtx[i].vBinormal = Vec3(_aiMesh->mBitangents[i].x, _aiMesh->mBitangents[i].y, _aiMesh->mBitangents[i].z);
 		}
 	}
 
