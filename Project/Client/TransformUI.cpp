@@ -7,10 +7,9 @@
 #include <Engine\CGameObject.h>
 #include <Engine\CTransform.h>
 
-
 static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
 static ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-static ImGuiWindowFlags gizmoWindowFlags = 0;
+//static ImGuiWindowFlags gizmoWindowFlags = 0;
 bool useWindow = true;
 
 TransformUI::TransformUI()
@@ -25,29 +24,68 @@ TransformUI::~TransformUI()
 
 void TransformUI::Gizmo()
 {
-    ImGuiIO& io = ImGui::GetIO();
-    ImGuizmo::SetOrthographic(false);
-
-    float x = ImGui::GetMainViewport()->WorkPos.x;
-    float y = ImGui::GetMainViewport()->WorkPos.y;
-    float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
-    float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
-    
-
     CGameObject* selectedObj = GetTarget();
     if (nullptr != selectedObj)
     {
+        ImGuiIO& io = ImGui::GetIO();
+        ImGuiWindow* window = ImGui::GetCurrentWindow();
 
-        ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight), ImGuiCond_Appearing);
-        ImGui::SetNextWindowPos(ImVec2(x, y), ImGuiCond_Appearing);
-        //gizmoWindowFlags = ImGuiWindowFlags_NoMove;
-        //ImGui::Begin("##Gizmo",0,gizmoWindowFlags);
 
-        
-        //ImGuiWindow* window = ImGui::GetCurrentWindow();
-        //gizmoWindowFlags = ImGui::IsWindowHovered() && ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max) ? ImGuiWindowFlags_NoMove : 0;
+        //Set Gizmo Viewport
+        //1280 * 768
+        float x = ImGui::GetMainViewport()->WorkPos.x;
+        float y = ImGui::GetMainViewport()->WorkPos.y;
+        float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
+        float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
 
+
+        float viewManipulateRight = ImGui::GetWindowSize().x;
+        float viewManipulateTop = 0;
+        viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetWindowSize().x;
+        viewManipulateTop = ImGui::GetWindowPos().y;
+
+        ImGui::Begin("Gizmo");
         ImGuizmo::AllowAxisFlip(false);
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+
+        ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
+
+        //Get Camera View Projection Matrix
+        CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
+
+        XMMATRIX viewMat = editorCamera->GetViewMat();
+        XMMATRIX projMat = editorCamera->GetProjMat();
+
+        XMFLOAT4X4 v = change_mat(viewMat);
+        XMFLOAT4X4 p = change_mat(projMat);
+
+        //Get OjectTransform Matrix
+        auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
+        XMMATRIX objMat = objTransform->GetWorldMat();
+        DirectX::XMFLOAT4X4 w = change_mat((objMat));
+
+        //Render Gizmo
+        ImGuizmo::Manipulate(*v.m, *p.m, mCurrentGizmoOperation, mCurrentGizmoMode, *w.m);
+        ImGuizmo::ViewManipulate(*v.m, 0.5f, ImVec2(viewManipulateRight, viewManipulateTop), ImVec2(128, 128), 0x10101010);
+
+        if (ImGuizmo::IsUsing())
+        {
+            float _scale[3];
+            float _rotation[3];
+            float _translation[3];
+
+            ImGuizmo::DecomposeMatrixToComponents(*w.m, _translation, _rotation, _scale);
+
+            for (int i = 0; i < 3; i++)
+            {
+                _rotation[i] *= XM_PI / 180.0f;
+            }
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativePos(Vec3(_translation[0], _translation[1], _translation[2]));
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeRot(Vec3(_rotation[0], _rotation[1], _rotation[2]));
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeScale(Vec3(_scale[0], _scale[1], _scale[2]));
+        }
+
 
         if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
             mCurrentGizmoMode = ImGuizmo::LOCAL;
@@ -63,55 +101,13 @@ void TransformUI::Gizmo()
         ImGui::SameLine();
         if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
             mCurrentGizmoOperation = ImGuizmo::SCALE;
-        ImGuiWindow* window = ImGui::GetCurrentWindow();
-        
-        //ImGuizmo::SetDrawlist();
-        //ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
-        //ImGuizmo::SetDrawlist();
 
-        ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
-        //ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
-
-        //Set Gizmo Viewport
-        //1280 * 768
-
-        //float x = ImGui::GetWindowPos().x;
-        //float y = ImGui::GetWindowPos().y;
-        //float windowWidth = ImGui::GetWindowSize().x;
-        //float windowHeight = ImGui::GetWindowSize().y;
-
-        ImGuiIO& io = ImGui::GetIO();
-        float viewManipulateRight = ImGui::GetWindowSize().x;
-        float viewManipulateTop = 0;
-        viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetWindowSize().x;
-        viewManipulateTop = ImGui::GetWindowPos().y;
-
-
-        
-
-        CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
-
-        XMMATRIX viewMat = editorCamera->GetViewMat();
-        XMMATRIX projMat = editorCamera->GetProjMat();
-
-        XMFLOAT4X4 v = change_mat(viewMat);
-        XMFLOAT4X4 p = change_mat(projMat);
-
-        //Get ojectTransformMatrix
-        auto objTransform = selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform();
-        XMMATRIX objMat = objTransform->GetWorldMat();
-        XMMATRIX objInvMat = objTransform->GetWorldInvMat();
-        DirectX::XMFLOAT4X4 w = change_mat((objMat));
-
-        //Render Gizmo
-        ImGuizmo::Manipulate(*v.m, *p.m, mCurrentGizmoOperation, mCurrentGizmoMode, *w.m);
-        //ImGuizmo::ViewManipulate(*v.m, 0.5f, ImVec2(viewManipulateRight, viewManipulateTop), ImVec2(128, 128), 0x10101010);
         ImGui::Text(ImGuizmo::IsOver() ? "Over gizmo" : "not over");
         ImGui::SameLine();
         ImGui::Text(ImGuizmo::IsOver(ImGuizmo::TRANSLATE) ? "Over translate gizmo" : "");
         ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
         
-        //ImGui::End();
+        ImGui::End();
     }
 }
 
