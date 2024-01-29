@@ -274,7 +274,10 @@
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
     </ClInclude>
     <ClInclude Include="AnimationUI.h">
-      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>      
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGuizmo.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -430,7 +433,10 @@
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
     </ClCompile>
     <ClCompile Include="AnimationUI.cpp">
-      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>      
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGuizmo.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

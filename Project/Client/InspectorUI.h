@@ -36,6 +36,8 @@ public:
     void SetTargetObject(CGameObject* _Target);
     void SetTargetResource(Ptr<CRes> _Res);
     void SetTargetModelNode(tModelNode* _ModelNode);
+    
+    CGameObject* GetTargetObject() { return m_pTargetObj; }
 
 private:
     void ClearTargetObject();
