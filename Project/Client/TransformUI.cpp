@@ -27,7 +27,10 @@ void TransformUI::Gizmo()
     CGameObject* selectedObj = GetTarget();
     if (nullptr != selectedObj)
     {
+        ImGuizmo::AllowAxisFlip(false);
         ImGui::Begin("Gizmo");
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
 
         //Set Gizmo Viewport
         //1280 * 768
@@ -37,9 +40,12 @@ void TransformUI::Gizmo()
         float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
         float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
         
-        ImGuizmo::AllowAxisFlip(false);
-        ImGuizmo::SetOrthographic(false);
-        ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+
+        //float x = ImGui::GetMainViewport()->Pos.x;
+        //float y = ImGui::GetMainViewport()->Pos.y;
+        //float windowWidth = ImGui::GetMainViewport()->Size.x;
+        //float windowHeight = ImGui::GetMainViewport()->Size.y;
+
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
 
@@ -53,6 +59,7 @@ void TransformUI::Gizmo()
         XMFLOAT4X4 objMat = change_mat(objTransform->GetWorldMat());
 
         //Render Gizmo
+        ImGuizmo::DrawCubes(*viewMat.m, *projMat.m,*objMat.m,1);
         ImGuizmo::Manipulate(*viewMat.m, *projMat.m, mCurrentGizmoOperation, mCurrentGizmoMode, *objMat.m);
 
         if (ImGuizmo::IsUsing())
