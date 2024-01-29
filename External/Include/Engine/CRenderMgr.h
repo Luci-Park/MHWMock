@@ -42,6 +42,7 @@ public:
     void render();
 
 public:
+    CCamera* GetEditorCamera() { return m_pEditorCam; }
     int  RegisterCamera(CCamera* _Cam, int _idx);
     void RegisterEditorCamera(CCamera* _Cam) { m_pEditorCam = _Cam; }
     void SetRenderFunc(bool _IsPlay);
@@ -74,8 +75,6 @@ public:
 
         return m_vecCam[0];
     }
-
-    CCamera* GetEditorCamera() { return m_pEditorCam; }
 
     void CopyRenderTarget();
 

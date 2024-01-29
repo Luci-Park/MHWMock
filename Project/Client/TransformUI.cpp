@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "TransformUI.h"
 #include "OutlinerUI.h"
-#include "Engine\CRenderMgr.h"
-#include "Engine\CCamera.h"
+#include <Engine/CRenderMgr.h>
+#include <Engine\CCamera.h>
 
 #include <Engine\CGameObject.h>
 #include <Engine\CTransform.h>
