@@ -1,6 +1,7 @@
 #pragma once
 #include "CRes.h"
 
+class CStructuredBuffer;
 class aiMesh;
 class CMesh
 	: public CRes
@@ -17,6 +18,8 @@ private:
 	void*					m_pIdxSys;
 
 	vector<wstring>			m_vecBones;
+
+	CStructuredBuffer*		m_pBoneOffset;
 
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);

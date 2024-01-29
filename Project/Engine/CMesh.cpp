@@ -3,6 +3,7 @@
 
 #include "CDevice.h"
 #include "CPathMgr.h"
+#include "CStructuredBuffer.h"
 #include <assimp/scene.h>
 
 
@@ -25,6 +26,9 @@ CMesh::~CMesh()
 
 	if (nullptr != m_pIdxSys)
 		delete m_pIdxSys;
+
+	if (nullptr != m_pBoneOffset)
+		delete m_pBoneOffset;
 }
 
 CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
@@ -59,28 +63,34 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		}
 	}
 
-	pMesh->m_vecBones.resize(_aiMesh->mNumBones);
-	for (int i = 0; i < _aiMesh->mNumBones; i++)
+	if (_aiMesh->HasBones())
 	{
-		aiBone* pBone = _aiMesh->mBones[i];
-		string name = pBone->mName.C_Str();
-		pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
-
-		for (int j = 0; j < pBone->mNumWeights; j++)
+		pMesh->m_vecBones.resize(_aiMesh->mNumBones);
+		vector<Matrix>vecOffset(_aiMesh->mNumBones);
+		for (int i = 0; i < _aiMesh->mNumBones; i++)
 		{
-			int idx = pBone->mWeights[j].mVertexId;
-			for (int k = 0; k < 4; k++)
+			aiBone* pBone = _aiMesh->mBones[i];
+			string name = pBone->mName.C_Str();
+			pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
+
+			vecOffset[i] = XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&pBone->mOffsetMatrix));
+			for (int j = 0; j < pBone->mNumWeights; j++)
 			{
-				if (vecVtx[idx].vWeights[k] <= 0)
+				int idx = pBone->mWeights[j].mVertexId;
+				for (int k = 0; k < 4; k++)
 				{
-					vecVtx[idx].vIndices[k] = i;
-					vecVtx[idx].vWeights[k] = pBone->mWeights[j].mWeight;
-					break;
+					if (vecVtx[idx].vWeights[k] <= 0)
+					{
+						vecVtx[idx].vIndices[k] = i;
+						vecVtx[idx].vWeights[k] = pBone->mWeights[j].mWeight;
+						break;
+					}
 				}
 			}
 		}
+		pMesh->m_pBoneOffset = new CStructuredBuffer;
+		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, false, vecOffset.data());
 	}
-
 	for (int f = 0; f < _aiMesh->mNumFaces; f++)
 	{
 		for (int i = 0; i < 3; i++)
@@ -138,6 +148,9 @@ void CMesh::UpdateData()
 
 	CONTEXT->IASetVertexBuffers(0, 1, m_VB.GetAddressOf(), &iStride, &iOffset);
 	CONTEXT->IASetIndexBuffer(m_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	if(m_pBoneOffset)
+		m_pBoneOffset->UpdateData(29, PIPELINE_STAGE::PS_VERTEX);
 }
 
 void CMesh::render()

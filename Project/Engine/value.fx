@@ -92,6 +92,7 @@ Texture2DArray g_arrtex_1 : register(t11);
 StructuredBuffer<tLightInfo> g_Light2DBuffer : register(t12);
 StructuredBuffer<tLightInfo> g_Light3DBuffer : register(t13);
 
+StructuredBuffer<Matrix> g_arrBoneOffset : register(t29);
 StructuredBuffer<Matrix> g_arrBoneMat : register(t30);
 
 
