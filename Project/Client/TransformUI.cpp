@@ -53,6 +53,7 @@ void TransformUI::Gizmo()
         XMFLOAT4X4 objMat = change_mat(objTransform->GetWorldMat());
 
         //Render Gizmo
+        ImGuizmo::DrawCubes(*viewMat.m, *projMat.m, *objMat.m, 1);
         ImGuizmo::Manipulate(*viewMat.m, *projMat.m, mCurrentGizmoOperation, mCurrentGizmoMode, *objMat.m);
 
         if (ImGuizmo::IsUsing())
