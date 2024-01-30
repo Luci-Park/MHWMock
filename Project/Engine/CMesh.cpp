@@ -46,7 +46,10 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
 		if (_aiMesh->HasPositions())
+		{
 			vecVtx[i].vPos = Vec3(_aiMesh->mVertices[i].x, _aiMesh->mVertices[i].y, _aiMesh->mVertices[i].z);
+			pMesh->m_vecVerticies.push_back(vecVtx[i].vPos);
+		}
 		if (_aiMesh->HasVertexColors(i))
 			vecVtx[i].vColor = Vec4((_aiMesh->mColors[i][0]).r, (_aiMesh->mColors[i][0]).g, (_aiMesh->mColors[i][0]).b, (_aiMesh->mColors[i][0]).a);
 		if (_aiMesh->HasTextureCoords(i))
@@ -156,6 +159,10 @@ void CMesh::UpdateData()
 void CMesh::render()
 {
 	UpdateData();
+	for (auto v : m_vecVerticies)
+	{
+		DrawDebugSphere(v, 1, Vec4( 1, 1, 1,1 ), Vec3(0, 0, 0), 0, true);
+	}
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }
