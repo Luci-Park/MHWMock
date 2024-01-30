@@ -17,8 +17,10 @@ private:
 	UINT					m_IdxCount;
 	void*					m_pIdxSys;
 
-	vector<wstring>			m_vecBones;
+	vector<Vec3>			m_vecVerticies;
+	vector<Vec3>			m_vecNormals;
 
+	vector<wstring>			m_vecBones;
 	CStructuredBuffer*		m_pBoneOffset;
 
 public:

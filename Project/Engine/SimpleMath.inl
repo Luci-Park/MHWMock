@@ -3246,6 +3246,33 @@ inline Quaternion Quaternion::Concatenate(const Quaternion& q1, const Quaternion
     return result;
 }
 
+inline Quaternion Quaternion::FromToRotation(const Vector3& fromDir, const Vector3& toDir) noexcept
+{
+    Quaternion result;
+    FromToRotation(fromDir, toDir, result);
+    return result;
+}
+
+inline Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& up) noexcept
+{
+    Quaternion result;
+    LookRotation(forward, up, result);
+    return result;
+}
+
+inline float Quaternion::Angle(const Quaternion& q1, const Quaternion& q2) noexcept
+{
+    using namespace DirectX;
+    const XMVECTOR Q0 = XMLoadFloat4(&q1);
+    const XMVECTOR Q1 = XMLoadFloat4(&q2);
+
+    // We can use the conjugate here instead of inverse assuming q1 & q2 are normalized.
+    XMVECTOR R = XMQuaternionMultiply(XMQuaternionConjugate(Q0), Q1);
+
+    const float rs = XMVectorGetW(R);
+    R = XMVector3Length(R);
+    return 2.f * atan2f(XMVectorGetX(R), rs);
+}
 
 /****************************************************************************
  *

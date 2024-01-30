@@ -328,7 +328,7 @@ void CCamera::render_shadowmap()
 
 	for (size_t i = 0; i < m_vecShadow.size(); ++i)
 	{
-		//m_vecShadow[i]->render_shadowmap();
+		m_vecShadow[i]->render_shadowmap();
 	}
 }
 

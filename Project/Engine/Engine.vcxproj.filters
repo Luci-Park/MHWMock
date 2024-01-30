@@ -351,6 +351,9 @@
     <ClCompile Include="CAnimationClip.cpp">
       <Filter>Source\07. Resource\8. Animation</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>Source\09. Module\SimpleMath</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

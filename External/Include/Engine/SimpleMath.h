@@ -765,6 +765,14 @@ namespace DirectX
             static void Concatenate(const Quaternion& q1, const Quaternion& q2, Quaternion& result);
             static Quaternion Concatenate(const Quaternion& q1, const Quaternion& q2);
 
+            static void __cdecl FromToRotation(const Vector3& fromDir, const Vector3& toDir, Quaternion& result) noexcept;
+            static Quaternion FromToRotation(const Vector3& fromDir, const Vector3& toDir) noexcept;
+
+            static void __cdecl LookRotation(const Vector3& forward, const Vector3& up, Quaternion& result) noexcept;
+            static Quaternion LookRotation(const Vector3& forward, const Vector3& up) noexcept;
+
+            static float Angle(const Quaternion& q1, const Quaternion& q2) noexcept;
+
             // Constants
             static const Quaternion Identity;
         };

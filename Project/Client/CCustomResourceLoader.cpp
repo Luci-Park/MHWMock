@@ -34,5 +34,6 @@ void LoadCustomResources()
 	LoadCustomShader();
 
 	//CModel::LoadFromFbx(L"model\\anjanath_tail.fbx");
-	CModel::LoadFromFbx(L"model\\Character Running.fbx");
+	//CModel::LoadFromFbx(L"model\\Character Running.fbx");
+	CModel::LoadFromFbx(L"model\\cube.fbx");
 }
