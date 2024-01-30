@@ -52,17 +52,17 @@ void CreateTestLevel()
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 
 	// UI cameara
-	CGameObject* pUICam = new CGameObject;
-	pUICam->SetName(L"UICamera");
+	//CGameObject* pUICam = new CGameObject;
+	//pUICam->SetName(L"UICamera");
 
-	pUICam->AddComponent(new CTransform);
-	pUICam->AddComponent(new CCamera);
+	//pUICam->AddComponent(new CTransform);
+	//pUICam->AddComponent(new CCamera);
 
-	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pUICam->Camera()->SetCameraIndex(1);		// Sub 카메라로 지정
-	pUICam->Camera()->SetLayerMask(31, true);	// 31번 레이어만 체크
+	//pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pUICam->Camera()->SetCameraIndex(1);		// Sub 카메라로 지정
+	//pUICam->Camera()->SetLayerMask(31, true);	// 31번 레이어만 체크
 
-	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
+	//SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
 
 
 	// SkyBox 추가
@@ -93,12 +93,30 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
+<<<<<<< Updated upstream
 	// 오브젝트 생성
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CPlayerScript);
+=======
+	// LandScape Object
+	//CGameObject* pLandScape = new CGameObject;
+	//pLandScape->SetName(L"LandScape");
+	//
+	//pLandScape->AddComponent(new CTransform);
+	//pLandScape->AddComponent(new CLandScape);
+	//
+	//pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
+	//
+	//pLandScape->LandScape()->SetFace(32, 32);
+	//pLandScape->LandScape()->SetFrustumCheck(false);
+	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
+	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
+	//
+	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+>>>>>>> Stashed changes
 
 	pObject->Transform()->SetRelativeScale(Vec3(1000.f, 1000.f, 1000.f));
 	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));

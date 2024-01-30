@@ -36,11 +36,7 @@ int LandScapeUI::render_update()
     ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
     ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
 
-    for (size_t i = 0; i < 12; i++)
-    {
-        if (vHeightMap != nullptr)
-            ImGui::Image(vHeightMap->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
-    }
+    ImGui::Image(vHeightMap->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
 
     GetTarget()->LandScape()->SetFace(viFaceX, viFaceZ);
     //GetTarget()->LandScape()->SetHeightMap(vHeightMap);
