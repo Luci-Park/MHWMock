@@ -26,7 +26,7 @@ void CreateTestLevel()
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 	pCurLevel->SetName(L"TestLevel");
 
-	// Layer ÀÌ¸§¼³Á¤
+	// Layer ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	pCurLevel->GetLayer(0)->SetName(L"Default");
 	pCurLevel->GetLayer(1)->SetName(L"Tile");
 	pCurLevel->GetLayer(2)->SetName(L"Player");
@@ -36,7 +36,7 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
 
-	// Main Camera Object »ý¼º
+	// Main Camera Object ï¿½ï¿½ï¿½ï¿½
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
 
@@ -45,9 +45,9 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCameraMoveScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera ·Î ¼³Á¤
-	pMainCam->Camera()->SetLayerMaskAll(true);	// ¸ðµç ·¹ÀÌ¾î Ã¼Å©
-	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer ´Â ·»´õ¸µÇÏÁö ¾Ê´Â´Ù.
+	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	pMainCam->Camera()->SetLayerMaskAll(true);	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ Ã¼Å©
+	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 
@@ -59,13 +59,13 @@ void CreateTestLevel()
 	//pUICam->AddComponent(new CCamera);
 
 	//pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pUICam->Camera()->SetCameraIndex(1);		// Sub Ä«¸Þ¶ó·Î ÁöÁ¤
-	//pUICam->Camera()->SetLayerMask(31, true);	// 31¹ø ·¹ÀÌ¾î¸¸ Ã¼Å©
+	//pUICam->Camera()->SetCameraIndex(1);		// Sub Ä«ï¿½Þ¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//pUICam->Camera()->SetLayerMask(31, true);	// 31ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾î¸¸ Ã¼Å©
 
 	//SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
 
 
-	// SkyBox Ãß°¡
+	// SkyBox ï¿½ß°ï¿½
 	CGameObject* pSkyBox = new CGameObject;
 	pSkyBox->SetName(L"SkyBox");
 
@@ -78,7 +78,7 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	// ±¤¿ø Ãß°¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	CGameObject* pLightObj = new CGameObject;
 	pLightObj->SetName(L"Directional Light");
 
@@ -93,14 +93,12 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
-<<<<<<< Updated upstream
-	// ¿ÀºêÁ§Æ® »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CPlayerScript);
-=======
 	// LandScape Object
 	//CGameObject* pLandScape = new CGameObject;
 	//pLandScape->SetName(L"LandScape");
@@ -116,7 +114,6 @@ void CreateTestLevel()
 	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
 	//
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
->>>>>>> Stashed changes
 
 	pObject->Transform()->SetRelativeScale(Vec3(1000.f, 1000.f, 1000.f));
 	pObject->Transform()->SetRelativeRot(Vec3(0.f, 0.f, 0.f));
@@ -156,6 +153,6 @@ void CreateTestLevel()
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\Sky01.png"));
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 100.f), L"Default");
 
-	// Ãæµ¹ ½ÃÅ³ ·¹ÀÌ¾î Â¦ ÁöÁ¤
+	// ï¿½æµ¹ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Ì¾ï¿½ Â¦ ï¿½ï¿½ï¿½ï¿½
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 }

@@ -48,7 +48,7 @@ int CameraUI::render_update()
             {
                 check[i] = GetTarget()->Camera()->GetLayerMaskVisible(i);
                 items[i] = new char[strlen(LAYER_TYPE_STR[i])];
-                strcpy(const_cast<char*>(items[i]), LAYER_TYPE_STR[i]);
+                strcpy_s(const_cast<char*>(items[i]),strlen(LAYER_TYPE_STR[i]), LAYER_TYPE_STR[i]);
                 ImGui::Checkbox(items[i], &check[i]);
             }
         }

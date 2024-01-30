@@ -34,8 +34,8 @@ public:
     void SetModuleData(tParticleModule _Module) { m_ModuleData = _Module; }
     tParticleModule GetModuleData() { return m_ModuleData; }
     
-    void SetParticleMaterial(Ptr<CTexture> _Texture) { m_ParticleTexture = _Texture; }
-    Ptr<CTexture> GetParticleMaterial() { return m_ParticleTexture; }
+    void SetParticleTexture(Ptr<CTexture> _Texture) { m_ParticleTexture = _Texture; }
+    Ptr<CTexture> GetParticleTexture() { return m_ParticleTexture; }
 
 
 public:

@@ -260,15 +260,6 @@
     <ClInclude Include="Light3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
-=======
-    <ClInclude Include="LandScapeUI.h">
-      <Filter>UI\InspectorUI\ComponentUI\10. LandScapeUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystemUI.h">
-      <Filter>UI\InspectorUI\ComponentUI\08. ParticleSystemUI</Filter>
-    </ClInclude>
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -418,14 +409,11 @@
     <ClCompile Include="Light3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClCompile>
-<<<<<<< Updated upstream
-=======
     <ClCompile Include="LandScapeUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\10. LandScapeUI</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystemUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\08. ParticleSystemUI</Filter>
     </ClCompile>
->>>>>>> Stashed changes
   </ItemGroup>
 </Project>
