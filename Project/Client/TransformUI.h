@@ -23,5 +23,8 @@ public:
 
         return temp;
     }
+private:
+    float _DebugMeshScale;
+    bool _useDebug;
 };
 
