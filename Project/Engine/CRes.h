@@ -13,7 +13,7 @@ private:
 
     bool            m_bEngine;  // 엔진이 관리하는 리소스
 
-private:
+protected:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strPath) { m_strRelativePath = _strPath; }
 
