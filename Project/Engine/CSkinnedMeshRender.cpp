@@ -39,6 +39,8 @@ void CSkinnedMeshRender::FindBones()
 		assert(pObj);
 		m_vecBones[i] = pObj->Transform();
 	}
+	m_pBoneTransforms->Clear();
+	m_pBoneTransforms->Create(sizeof(Matrix), boneNames.size(), SB_TYPE::READ_ONLY, false, nullptr);
 }
 
 void CSkinnedMeshRender::finaltick()
@@ -57,12 +59,13 @@ void CSkinnedMeshRender::render()
 		vector<Matrix> vecBoneTransforms(m_vecBones.size());
 		for (int i = 0; i < m_vecBones.size(); i++)
 		{
-			vecBoneTransforms[i] = m_vecBones[i]->GetWorldMat();
+			vecBoneTransforms[i] = m_vecBones[i]->GetWorldMat().Transpose();
 
 		}
+		//m_pBoneTransforms->SetData(vecBoneTransforms.data());
+
 		m_pBoneTransforms->Clear();
 		m_pBoneTransforms->Create(sizeof(Matrix), vecBoneTransforms.size(), SB_TYPE::READ_ONLY, false, vecBoneTransforms.data());
-
 		//change needed for slot later on.
 		m_pBoneTransforms->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
 	}
