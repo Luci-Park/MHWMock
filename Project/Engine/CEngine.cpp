@@ -14,6 +14,7 @@
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
+	, _UsingGUI(false)
 {
 }
 
@@ -80,7 +81,9 @@ void CEngine::tick()
 	// Manager Tick
 	CResMgr::GetInst()->tick();
 	CTimeMgr::GetInst()->tick(); // DT(DeltaTime), FPS ±¸ÇÏ±â
-	CKeyMgr::GetInst()->tick();	
+
+	if(!_UsingGUI)
+		CKeyMgr::GetInst()->tick();	
 
 	// FMOD Update
 	CSound::g_pFMOD->update();
