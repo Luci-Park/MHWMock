@@ -41,7 +41,8 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	pMesh->SetKey(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
-	vector<UINT> vecIdx(_aiMesh->mNumFaces * 3);
+	vector<UINT> vecIdx;
+	vecIdx.reserve(_aiMesh->mNumFaces * 3);
 
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
@@ -94,10 +95,11 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		pMesh->m_pBoneOffset = new CStructuredBuffer;
 		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, false, vecOffset.data());
 	}
-	for (int f = 0; f < _aiMesh->mNumFaces; f++)
+	for (int i = 0; i < _aiMesh->mNumFaces; i++)
 	{
-		for (int i = 0; i < 3; i++)
-			vecIdx[f * 3 + i] = _aiMesh->mFaces[f].mIndices[i];
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[0]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[1]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
 	}
 
 
