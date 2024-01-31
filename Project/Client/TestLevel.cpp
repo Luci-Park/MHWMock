@@ -48,6 +48,7 @@ void CreateTestLevel()
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera �� ����
 	pMainCam->Camera()->SetLayerMaskAll(true);	// ��� ���̾� üũ
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer �� ���������� �ʴ´�.
+	pMainCam->Camera()->SetLayerMask(1, false);// UI Layer �� ���������� �ʴ´�.
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 

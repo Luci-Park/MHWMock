@@ -57,10 +57,6 @@ CCamera::CCamera(const CCamera& _Other)
 	, m_iLayerMask(_Other.m_iLayerMask)
 	, m_iCamIdx(-1)
 {
-	for (size_t i = 0; i < MAX_LAYER; i++)
-	{
-		m_iLayerMaskVis[i] = true;
-	}
 }
 
 CCamera::~CCamera()
@@ -144,11 +140,11 @@ void CCamera::SetLayerMask(int _iLayer, bool _Visible)
 
 	if (m_iLayerMaskVis[_iLayer])
 	{
-		m_iLayerMask |= 1 << m_iLayerMaskVis[_iLayer];
+		m_iLayerMask |= 1 << _iLayer;
 	}
 	else
 	{
-		m_iLayerMask &= ~(1 << m_iLayerMaskVis[_iLayer]);
+		m_iLayerMask &= ~(1 << _iLayer);
 	}
 }
 

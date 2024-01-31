@@ -7,8 +7,8 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
-#include <Engine/CLevelMgr.h>
-
+#include <Engine\CLevelMgr.h>
+#include <Engine\CLayer.h>
 #include <Script\CScriptMgr.h>
 
 
@@ -111,6 +111,12 @@ int MenuUI::render_update()
             if (ImGui::MenuItem("Load Object"))
             {
                 LoadObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Delete Object"))
+            {
+                DeleteObject();
             }
             ImGui::Separator();
 
@@ -260,13 +266,13 @@ void MenuUI::SaveObject()
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
-    FILE* emptyFile = nullptr;
+    FILE* saveFile;
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    wstring strPath2 = L"obj\\" + pSelectedObject->GetName() + L".obj";
-    strPath += strPath2;
-    
-    _wfopen_s(&emptyFile, strPath.c_str(), L"wb");
-    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, emptyFile) == S_OK);
+    wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
+    strPath += filename;
+    errno_t err;
+    err = _wfopen_s(&saveFile, strPath.c_str(), L"wb");
+    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, saveFile) == S_OK);
 }
 
 void MenuUI::LoadObject()
@@ -280,6 +286,13 @@ void MenuUI::LoadObject()
     //_wfopen_s(&emptyFile, )
     //CLevelSaveLoad::LoadGameObject()
 
+}
+
+void MenuUI::DeleteObject()
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    CGameObject* pSelectedObject = outliner->GetSelectedObject();
+    DestroyObject(pSelectedObject);
 }
 
 void MenuUI::CreateEmptyMaterial(string strName)

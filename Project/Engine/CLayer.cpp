@@ -34,14 +34,13 @@ void CLayer::finaltick()
 	vector<CGameObject*>::iterator iter = m_vecParentObj.begin();
 	for (; iter != m_vecParentObj.end(); )
 	{
-		(*iter)->finaltick();
-
 		if ((*iter)->IsDead())
 		{
 			iter = m_vecParentObj.erase(iter);
 		}
 		else
 		{
+			(*iter)->finaltick();
 			++iter;
 		}
 	}	
@@ -68,7 +67,7 @@ void CLayer::AddGameObject(CGameObject* _Object, bool _bMove)
 		}
 
 		// 부모타입 or 소속 레이어가 없는경우 or 부모와 같이 이동하는 경우
-		if(nullptr == pObject->m_Parent || -1 == pObject->m_iLayerIdx || _bMove)
+		if (nullptr == pObject->m_Parent || -1 == pObject->m_iLayerIdx || _bMove)
 			pObject->m_iLayerIdx = m_iLayerIdx;
 	}	
 }

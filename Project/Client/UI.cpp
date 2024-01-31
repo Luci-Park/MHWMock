@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "UI.h"
-
+#include <Engine\CGameObject.h>
 
 UI::UI(const string& _ID)
 	: m_strID(_ID)
@@ -91,6 +91,7 @@ void UI::finaltick()
 	{
 		ImGui::BeginChild(strFullName.c_str(), m_vSize);
 
+		
 		render_update();
 
 		for (size_t i = 0; i < m_vecChildUI.size(); ++i)

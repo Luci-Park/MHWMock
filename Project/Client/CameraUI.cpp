@@ -38,7 +38,6 @@ int CameraUI::render_update()
     ImGui::Text("ARatio ");
     ImGui::SameLine();
     ImGui::DragFloat("##ARatio", &vRatio);
-    char* items[MAX_LAYER];
     bool check[MAX_LAYER];
     if (ImGui::CollapsingHeader("Layer Mask"))
     {
@@ -47,22 +46,21 @@ int CameraUI::render_update()
             if (LAYER_TYPE_STR[i] != "")
             {
                 check[i] = GetTarget()->Camera()->GetLayerMaskVisible(i);
-                items[i] = new char[strlen(LAYER_TYPE_STR[i])+2];
-                strcpy_s(const_cast<char*>(items[i]),strlen(items[i]), LAYER_TYPE_STR[i]);
-                ImGui::Checkbox(items[i], &check[i]);
+                ImGui::Checkbox(LAYER_TYPE_STR[i], &check[i]);
             }
         }
     }
     for (size_t i = 0; i < MAX_LAYER; i++)
     {
-        GetTarget()->Camera()->SetLayerMask(i, check[i]);
+        if (LAYER_TYPE_STR[i] != "")
+            GetTarget()->Camera()->SetLayerMask(i, check[i]);
+
     }
 
     GetTarget()->Camera()->SetFar(vFar);
     GetTarget()->Camera()->SetNear(vNear);
     GetTarget()->Camera()->SetFOV(vFOV);
     GetTarget()->Camera()->SetAspectRatio(vRatio);
-
 
     return TRUE;
 }

@@ -27,6 +27,9 @@ int ObjNameInfoUI::render_update()
 	if (FALSE == ObjectInfoUI::render_update())
 		return FALSE;
 
+	if (GetTarget()->IsDead())
+		return FALSE;
+
 	// GameObj 이름 변경
 	wstring TargetName = GetTarget()->GetName();
 	string sTargetName;

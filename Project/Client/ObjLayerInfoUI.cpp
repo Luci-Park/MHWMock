@@ -52,6 +52,9 @@ int ObjLayerInfoUI::render_update()
 	if (FALSE == ObjectInfoUI::render_update())
 		return FALSE;
 
+	if (GetTarget()->IsDead())
+		return FALSE;
+
 	// Layer ComboBox.
 	{
 		item_current_idx = GetTarget()->GetLayerIndex(); 

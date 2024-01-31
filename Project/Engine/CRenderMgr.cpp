@@ -51,7 +51,7 @@ void CRenderMgr::render()
 
     // Dynamic ShadowMap
     render_shadowmap();
-
+        
     // 렌더 함수 호출
     (this->*RENDER_FUNC)();
     
