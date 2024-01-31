@@ -80,7 +80,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		string strName = pScene->mMaterials[i]->GetName().C_Str();
 		wstring wstrName(strName.begin(), strName.end());
 		pNewMtrl->SetName(wstrName);
-		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"Std3D_DeferredShader"));
+		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
@@ -262,15 +262,6 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	pNewNode->vPos = Vec3(position.x, position.y, position.z);
 	pNewNode->vRot = Quaternion(rotation.x, rotation.y, rotation.z, rotation.w).ToEuler();
 	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
-	//string debug += std::to_string(matTransform._11) + " " + std::to_string(matTransform._12) + " " + std::to_string(matTransform._13) + " " + std::to_string(matTransform._14) + "\n" +
-	//	std::to_string(matTransform._21) + " " + std::to_string(matTransform._22) + " " + std::to_string(matTransform._23) + " " + std::to_string(matTransform._24) + "\n" +
-	//	std::to_string(matTransform._31) + " " + std::to_string(matTransform._32) + " " + std::to_string(matTransform._33) + " " + std::to_string(matTransform._34) + "\n" +
-	//	std::to_string(matTransform._41) + " " + std::to_string(matTransform._42) + " " + std::to_string(matTransform._43) + " " + std::to_string(matTransform._44) + "\n";
-	//debug += std::to_string(pos.x) + std::to_string(pos.y) + std::to_string(pos.z) + "\n";
-	//debug += std::to_string(scale.x) + std::to_string(scale.y) + std::to_string(scale.z) + "\n";
-	//debug += std::to_string(pNewNode->vRot.x) + std::to_string(pNewNode->vRot.y) + std::to_string(pNewNode->vRot.z) + "\n";
-
-	//OutputDebugStringA(debug.c_str());
 
 	//pNewNode->vPos = Vec3(0, 0, 0);
 	//pNewNode->vRot = Vec3(0, 0, 0);

@@ -1,5 +1,5 @@
-#ifndef _STD3D_DEFFERED
-#define _STD3D_DEFERRED
+#ifndef _SKINNING
+#define _SKINNING
 
 #include "value.fx"
 #include "func.fx"
@@ -30,7 +30,7 @@ struct VS_OUT
 };
 
 // ===============
-// Std3D_Deferred
+// SKINING
 // DOMAIN : Deferred
 // MRT    : DEFERRED MRT
 // Rasterizer State     : CULL_BACK
@@ -42,11 +42,11 @@ struct VS_OUT
 #define     BoneCount   g_anim_0
 // ===============
 
-VS_OUT VS_Std3D_Deferred(VS_IN _in)
+VS_OUT vert(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
      
-    if(BoneCount > 0)
+    if (BoneCount > 0)
     {
         Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
         output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
@@ -76,14 +76,14 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
 
 struct PS_OUT
 {
-    float4 vColor       : SV_Target0;
-    float4 vNormal      : SV_Target1;
-    float4 vPosition    : SV_Target2;
-    float4 vEmissive    : SV_Target3;
-    float4 vData        : SV_Target4;
+    float4 vColor : SV_Target0;
+    float4 vNormal : SV_Target1;
+    float4 vPosition : SV_Target2;
+    float4 vEmissive : SV_Target3;
+    float4 vData : SV_Target4;
 };
 
-PS_OUT PS_Std3D_Deferred(VS_OUT _in)
+PS_OUT frag(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
    
@@ -93,7 +93,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     
     if (g_btex_0)
     {
-        output.vColor = g_tex_0.Sample(g_sam_0, _in.vUV);        
+        output.vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }
     
     if (g_btex_1)
@@ -111,7 +111,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
         };
         
         vViewNormal = normalize(mul(vNormal, vRotateMat));
-    }   
+    }
     
     output.vNormal = float4(vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);

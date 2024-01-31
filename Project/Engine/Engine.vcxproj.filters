@@ -598,5 +598,8 @@
     <FxCompile Include="landscape.fx">
       <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
+    <FxCompile Include="skinning.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
