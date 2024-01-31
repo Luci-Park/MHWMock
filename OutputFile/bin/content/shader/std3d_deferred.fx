@@ -49,26 +49,16 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
     if(BoneCount > 0)
     {
         Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
-        output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
-    
-        output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matView)).xyz;
-        output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matView)).xyz;
-        output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matView)).xyz;
-               
-        output.vPosition = mul(float4(_in.vPos, 1.f), mul(g_matView, g_matProj));
-        output.vUV = _in.vUV;
     }
-    else
-    {
-        output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
+    // 로컬에서의 Normal 방향을 월드로 이동   
+    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
     
-        output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
-        output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
-        output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
+    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
+    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
+    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
                
-        output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-        output.vUV = _in.vUV;
-    }
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+    output.vUV = _in.vUV;
       
     return output;
 }

@@ -159,10 +159,6 @@ void CMesh::UpdateData()
 void CMesh::render()
 {
 	UpdateData();
-	//for (auto v : m_vecVerticies)
-	//{
-	//	DrawDebugSphere(v, 1, Vec4( 1, 1, 1,1 ), Vec3(0, 0, 0), 0, true);
-	//}
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }

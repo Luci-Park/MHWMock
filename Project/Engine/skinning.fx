@@ -46,30 +46,38 @@ VS_OUT vert(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
      
-    if (BoneCount > 0)
-    {
-        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
-        output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
+    //if (BoneCount > 0)
+    //{
+    //    Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
+    //    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
     
-        output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matView)).xyz;
-        output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matView)).xyz;
-        output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matView)).xyz;
+    //    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matView)).xyz;
+    //    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matView)).xyz;
+    //    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matView)).xyz;
                
-        output.vPosition = mul(float4(_in.vPos, 1.f), mul(g_matView, g_matProj));
-        output.vUV = _in.vUV;
-    }
-    else
-    {
-        output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
+    //    output.vPosition = mul(float4(_in.vPos, 1.f), mul(g_matView, g_matProj));
+    //    output.vUV = _in.vUV;
+    //}
+    //else
+    //{
+    //    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
     
-        output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
-        output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
-        output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
+    //    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
+    //    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
+    //    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
                
-        output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-        output.vUV = _in.vUV;
-    }
+    //    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+    //    output.vUV = _in.vUV;
+    //}
       
+    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
+    
+    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
+    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
+    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
+               
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+    output.vUV = _in.vUV;
     return output;
 }
 
