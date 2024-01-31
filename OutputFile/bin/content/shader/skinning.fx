@@ -46,7 +46,7 @@ VS_OUT vert(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
      
-    if (BoneCount > 0)
+    if (BoneCount < 0)
     {
         Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
         output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
