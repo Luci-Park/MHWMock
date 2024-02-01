@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CEditorObjMgr.h"
 
-
-
 #include "CGameObjectEx.h"
 #include <Engine\components.h>
 

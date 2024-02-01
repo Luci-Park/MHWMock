@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 struct tVertex
 {
 	Vec3 vPos;
@@ -41,6 +40,17 @@ struct tDebugShapeInfo
 };
 
 
+struct tDebugShapeInfo3D
+{
+	Matrix			matWorld;
+	Vec3				vWorldPos;
+	Vec3				vWorldScale;
+	Vec3				vWorldRotation;
+	Vec4				vColor;
+	float				fMaxTime;
+	float				fCurTime;
+	bool				bDepthTest;
+};
 
 struct tLightColor
 {
