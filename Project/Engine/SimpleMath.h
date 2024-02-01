@@ -41,7 +41,6 @@ namespace DirectX
         struct Matrix;
         struct Quaternion;
         struct Plane;
-
         //------------------------------------------------------------------------------
         // 2D rectangle
         struct Rectangle
@@ -750,6 +749,7 @@ namespace DirectX
 
             float Dot(const Quaternion& Q) const;
             Vector3 ToEuler() const noexcept;
+            static Quaternion FromEuler(const Vector3& v) noexcept;
 
             // Static functions
             static Quaternion CreateFromAxisAngle(const Vector3& axis, float angle);
