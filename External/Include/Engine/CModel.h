@@ -21,7 +21,6 @@ public:
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
     tModelNode* GetRootNode() { return m_pRootNode; }
     void CreateGameObjectFromModel();
-    void SetBoneMatrix(aiNode* _root, Ptr<CMesh> _mesh);
 
     virtual int Save(const wstring& _strRelativePath);
 private:

@@ -71,8 +71,6 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		}
 	}
 
-	pModel->SetBoneMatrix(pScene->mRootNode, pModel->m_vecMeshes[0]);
-
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
@@ -98,29 +96,6 @@ void CModel::CreateGameObjectFromModel()
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
 	SpawnGameObject(pNewObject);
 	IterateSkinnedMeshRender(pNewObject);
-}
-
-void CModel::SetBoneMatrix(aiNode* _root, Ptr<CMesh> _mesh)
-{
-	auto names = _mesh->GetBoneNames();
-	vector<Matrix> pos(names.size());
-	for (int i = 0; i < names.size(); i++)
-	{
-		string name(names[i].begin(), names[i].end());
-		aiNode* node = _root->FindNode(name.c_str());
-		Matrix mat = aiMatToMat(node->mTransformation);
-		aiNode* parent = node->mParent;
-		while (parent)
-		{
-			mat *= aiMatToMat(parent->mTransformation);
-			parent = parent->mParent;
-		}
-		pos[i] = mat.Transpose();
-	}
-
-	CStructuredBuffer* pBuffer = new CStructuredBuffer;
-	pBuffer->Create(sizeof(Matrix), names.size(), SB_TYPE::READ_ONLY, false, pos.data());
-	_mesh->SetBoneMat(pBuffer);
 }
 
 void CModel::IterateSkinnedMeshRender(CGameObject* _pObj)
