@@ -22,6 +22,7 @@ private:
 
 	vector<wstring>			m_vecBones;
 	CStructuredBuffer*		m_pBoneOffset;
+	CStructuredBuffer*		m_pBoneMat;
 
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);
@@ -29,6 +30,7 @@ public:
 	vector<wstring>& GetBoneNames() { return m_vecBones; }
 	int GetNumberOfBones() { return m_vecBones.size(); }
 	bool HasBones() { return m_vecBones.size() != 0; }
+	void SetBoneMat(CStructuredBuffer* pStruct) { m_pBoneMat = pStruct; }
 
 private:
 	virtual int Load(const wstring& _strFilePath);

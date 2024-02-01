@@ -29,6 +29,9 @@ CMesh::~CMesh()
 
 	if (nullptr != m_pBoneOffset)
 		delete m_pBoneOffset;
+
+	if (m_pBoneMat)
+		delete m_pBoneMat;
 }
 
 CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
@@ -156,6 +159,9 @@ void CMesh::UpdateData()
 
 	if(m_pBoneOffset)
 		m_pBoneOffset->UpdateData(29, PIPELINE_STAGE::PS_VERTEX);
+
+	if (m_pBoneMat)
+		m_pBoneMat->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
 }
 
 void CMesh::render()

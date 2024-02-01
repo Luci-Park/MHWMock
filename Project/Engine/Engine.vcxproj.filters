@@ -181,6 +181,9 @@
     <ClInclude Include="CAnimationClip.h">
       <Filter>Source\07. Resource\8. Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Assimp.hpp">
+      <Filter>Source\00. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

@@ -63,7 +63,7 @@ void CSkinnedMeshRender::render()
 
 		}
 		m_pBoneTransforms->SetData(vecBoneTransforms.data());
-		m_pBoneTransforms->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
+		//m_pBoneTransforms->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
 	}
 
 	GetMaterial()->SetNumberOfBones(m_vecBones.size());

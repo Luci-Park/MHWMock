@@ -8,10 +8,8 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CSkinnedMeshRender.h"
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "CStructuredBuffer.h"
+#include "Assimp.hpp"
 
 
 CModel::CModel()
@@ -73,6 +71,8 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		}
 	}
 
+	pModel->SetBoneMatrix(pScene->mRootNode, pModel->m_vecMeshes[0]);
+
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
@@ -100,6 +100,29 @@ void CModel::CreateGameObjectFromModel()
 	IterateSkinnedMeshRender(pNewObject);
 }
 
+void CModel::SetBoneMatrix(aiNode* _root, Ptr<CMesh> _mesh)
+{
+	auto names = _mesh->GetBoneNames();
+	vector<Matrix> pos(names.size());
+	for (int i = 0; i < names.size(); i++)
+	{
+		string name(names[i].begin(), names[i].end());
+		aiNode* node = _root->FindNode(name.c_str());
+		Matrix mat = aiMatToMat(node->mTransformation);
+		aiNode* parent = node->mParent;
+		while (parent)
+		{
+			mat *= aiMatToMat(parent->mTransformation);
+			parent = parent->mParent;
+		}
+		pos[i] = mat.Transpose();
+	}
+
+	CStructuredBuffer* pBuffer = new CStructuredBuffer;
+	pBuffer->Create(sizeof(Matrix), names.size(), SB_TYPE::READ_ONLY, false, pos.data());
+	_mesh->SetBoneMat(pBuffer);
+}
+
 void CModel::IterateSkinnedMeshRender(CGameObject* _pObj)
 {
 	CSkinnedMeshRender* pSkinnedMeshRender = _pObj->SkinnedMeshRender();
@@ -109,6 +132,7 @@ void CModel::IterateSkinnedMeshRender(CGameObject* _pObj)
 	for (int i = 0; i < vecObj.size(); i++)
 		IterateSkinnedMeshRender(vecObj[i]);
 }
+
 
 int CModel::Save(const wstring& _strRelativePath)
 {
