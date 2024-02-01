@@ -32,7 +32,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	
 	Assimp::Importer importer;
 	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Quality
-		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph;
+		| aiProcess_PopulateArmatureData;
 	unsigned int excludeFlags = aiProcess_FindInvalidData | aiProcess_RemoveRedundantMaterials;
 
 	const aiScene* pScene = importer.ReadFile(
