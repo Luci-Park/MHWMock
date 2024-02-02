@@ -128,6 +128,9 @@
     <Filter Include="UI\InspectorUI\ResUI\AnimationUI">
       <UniqueIdentifier>{a76c60ea-5806-4e8f-9c34-e32ff149fc8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\11. BoneHolder">
+      <UniqueIdentifier>{717812f6-4aea-4277-9564-da0480bf8612}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -274,10 +277,13 @@
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
     </ClInclude>
     <ClInclude Include="AnimationUI.h">
-      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>      
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneHolderUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -433,10 +439,13 @@
       <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
     </ClCompile>
     <ClCompile Include="AnimationUI.cpp">
-      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>      
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneHolderUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

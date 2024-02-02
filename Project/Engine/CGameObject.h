@@ -18,6 +18,7 @@ class CTileMap;
 class CDecal;
 class CLandScape;
 class CScript;
+class CBoneHolder;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
 
@@ -39,7 +40,6 @@ private:
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
-    bool                    m_bIsBone;
 
 public:
     // 레벨이 시작될 때 호출 or 시작 된 레벨에 합류할 때 호출
@@ -78,6 +78,8 @@ public:
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(LandScape, LANDSCAPE);
+    GET_COMPONENT(BoneHolder, BONEHOLDER);
+
 
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }

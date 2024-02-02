@@ -43,7 +43,7 @@ enum class COMPONENT_TYPE
 	LANDSCAPE,		// 3차원 지형
 	SKYBOX,			// SkyBox
 	DECAL,			// 내부 렌더링
-	
+	BONEHOLDER,
 
 	END,
 

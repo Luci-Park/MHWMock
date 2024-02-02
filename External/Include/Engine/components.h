@@ -16,7 +16,7 @@
 #include "CSkyBox.h"
 #include "CDecal.h"
 #include "CLandScape.h"
-
+#include "CBoneHolder.h"
 
 //#include "CCollider3D.h"
 //#include "CAnimator3D.h"

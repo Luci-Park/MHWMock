@@ -184,6 +184,9 @@
     <ClInclude Include="Assimp.hpp">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CBoneHolder.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -356,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Source\09. Module\SimpleMath</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoneHolder.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
