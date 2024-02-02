@@ -51,7 +51,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	pModel->m_vecMeshes.resize(pScene->mNumMeshes);
 	for (int i = 0; i < pScene->mNumMeshes; i++)
 	{
-		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i]);
+		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i], pModel.Get());
 		if (nullptr != pMesh)
 		{
 			pModel->m_vecMeshes[i] = pMesh;
@@ -93,7 +93,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
-	pNewObject->AddComponent(new CBoneHolder(m_vecBoneNames));
+	pNewObject->AddComponent(new CBoneHolder(m_setBoneNames));
 	SpawnGameObject(pNewObject);
 	IterateSkinnedMeshRender(pNewObject);
 }

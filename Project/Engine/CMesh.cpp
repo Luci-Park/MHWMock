@@ -4,6 +4,7 @@
 #include "CDevice.h"
 #include "CPathMgr.h"
 #include "CStructuredBuffer.h"
+#include "CModel.h"
 #include <assimp/scene.h>
 #include "Assimp.hpp"
 
@@ -32,7 +33,7 @@ CMesh::~CMesh()
 		delete m_pBoneOffset;
 }
 
-CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
+CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 {
 	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
@@ -73,8 +74,8 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		for (int i = 0; i < _aiMesh->mNumBones; i++)
 		{
 			aiBone* pBone = _aiMesh->mBones[i];
-			string name = pBone->mName.C_Str();
-			pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
+			pMesh->m_vecBones[i] = aiStrToWstr(pBone->mName);
+			_pModel->AddBoneName(aiStrToWstr(pBone->mName));
 
 			vecOffset[i] = aiMatToMat(pBone->mOffsetMatrix).Transpose();
 			for (int j = 0; j < pBone->mNumWeights; j++)

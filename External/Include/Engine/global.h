@@ -6,10 +6,12 @@
 #include <stack>
 #include <queue>
 #include <string>
+#include <set>
 
 using std::vector;
 using std::list;
 using std::map;
+using std::set;
 using std::queue;
 using std::stack;
 using std::priority_queue;

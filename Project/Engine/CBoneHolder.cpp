@@ -3,16 +3,16 @@
 #include "CTransform.h"
 
 
-CBoneHolder::CBoneHolder(vector<wstring> _boneNames)
+CBoneHolder::CBoneHolder(set<wstring> _boneNames)
 	: CComponent(COMPONENT_TYPE::BONEHOLDER)
 	, m_bIsSet(false)
-	, m_vecBoneNames(_boneNames)
+	, m_setBoneNames(_boneNames)
 {
 }
 
 CBoneHolder::CBoneHolder(const CBoneHolder& _other)
 	: CComponent(_other)
-	, m_vecBoneNames(_other.m_vecBoneNames)
+	, m_setBoneNames(_other.m_setBoneNames)
 	, m_bIsSet(false)
 {
 }
@@ -34,15 +34,15 @@ CTransform* CBoneHolder::GetBone(wstring _strBoneName)
 void CBoneHolder::finaltick()
 {
 	if (m_bIsSet) return;
-	for (int i = 0; i < m_vecBoneNames.size(); i++)
+	for (auto name : m_setBoneNames)
 	{
-		auto node = m_mapBoneTransforms.find(m_vecBoneNames[i]);
+		auto node = m_mapBoneTransforms.find(name);
 		if (node == m_mapBoneTransforms.end())
 		{
-			CGameObject* pNode = GetOwner()->FindChildByName(m_vecBoneNames[i]);
+			CGameObject* pNode = GetOwner()->FindChildByName(name);
 			if (pNode)
 			{
-				m_mapBoneTransforms.insert(make_pair(m_vecBoneNames[i], pNode->Transform()));
+				m_mapBoneTransforms.insert(make_pair(name, pNode->Transform()));
 			}
 			else
 			{

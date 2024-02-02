@@ -6,12 +6,12 @@ class CBoneHolder :
 	public CComponent
 {
 private:
-	vector<wstring> m_vecBoneNames;
-	map<wstring, CTransform*> m_mapBoneTransforms;
-	bool m_bIsSet;
+	set<wstring>				m_setBoneNames;
+	map<wstring, CTransform*>	m_mapBoneTransforms;
+	bool						m_bIsSet;
 
 public:
-	void SetBoneName(vector<wstring> _boneNames) { m_vecBoneNames = _boneNames; m_bIsSet = false; m_mapBoneTransforms.clear(); }
+	void SetBoneName(set<wstring> _boneNames) { m_setBoneNames = _boneNames; m_bIsSet = false; m_mapBoneTransforms.clear(); }
 	bool IsReady() { return m_bIsSet; }
 	CTransform* GetBone(wstring _strBoneName);
 	virtual void finaltick();
@@ -22,7 +22,7 @@ public:
 	virtual void SaveToLevelFile(FILE* _File);
 	virtual void LoadFromLevelFile(FILE* _FILE);
 public:
-	CBoneHolder();
+	CBoneHolder(set<wstring> _boneNames);
 	CBoneHolder(const CBoneHolder& _other);
 	~CBoneHolder();
 };

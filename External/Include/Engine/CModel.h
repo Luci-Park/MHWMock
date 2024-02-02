@@ -13,6 +13,7 @@ class CModel :
 private:
     vector<Ptr<CMesh>>      m_vecMeshes;
     vector<Ptr<CMaterial>>  m_vecMaterials;
+    set<wstring>            m_setBoneNames;
     tModelNode*             m_pRootNode;
 
 public:
@@ -21,6 +22,7 @@ public:
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
     tModelNode* GetRootNode() { return m_pRootNode; }
     void CreateGameObjectFromModel();
+    void AddBoneName(wstring _strName) { m_setBoneNames.insert(_strName); }
 
     virtual int Save(const wstring& _strRelativePath);
 private:
