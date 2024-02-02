@@ -2,12 +2,31 @@
 #include "CBoneHolder.h"
 #include "CTransform.h"
 
+
+CBoneHolder::CBoneHolder(vector<wstring> _boneNames)
+	: CComponent(COMPONENT_TYPE::BONEHOLDER)
+	, m_bIsSet(false)
+	, m_vecBoneNames(_boneNames)
+{
+}
+
+CBoneHolder::CBoneHolder(const CBoneHolder& _other)
+	: CComponent(_other)
+	, m_vecBoneNames(_other.m_vecBoneNames)
+	, m_bIsSet(false)
+{
+}
+
+CBoneHolder::~CBoneHolder()
+{
+}
+
 CTransform* CBoneHolder::GetBone(wstring _strBoneName)
 {
 	if(!m_bIsSet)
 		return nullptr;
 	auto pRslt = m_mapBoneTransforms.find(_strBoneName);
-	if (pRslt != m_mapBoneTransforms.end())
+	if (pRslt == m_mapBoneTransforms.end())
 		return nullptr;
 	return pRslt->second;
 }
@@ -34,19 +53,10 @@ void CBoneHolder::finaltick()
 	m_bIsSet = true;
 }
 
-CBoneHolder::CBoneHolder()
-	: CComponent(COMPONENT_TYPE::BONEHOLDER)
-	, m_bIsSet(false)
+void CBoneHolder::SaveToLevelFile(FILE* _File)
 {
 }
 
-CBoneHolder::CBoneHolder(const CBoneHolder& _other)
-	: CComponent(_other)
-	, m_vecBoneNames(_other.m_vecBoneNames)
-	, m_bIsSet(false)
-{
-}
-
-CBoneHolder::~CBoneHolder()
+void CBoneHolder::LoadFromLevelFile(FILE* _FILE)
 {
 }

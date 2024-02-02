@@ -3,10 +3,12 @@
 
 #include "CTransform.h"
 #include "CStructuredBuffer.h"
+#include "CBoneHolder.h"
 
 CSkinnedMeshRender::CSkinnedMeshRender()
 	: CRenderComponent(COMPONENT_TYPE::SKINNEDMESHRENDER)
 	, m_vecBones()
+	, m_bIsSet(false)
 {
 	m_pBoneTransforms = new CStructuredBuffer;
 }
@@ -14,6 +16,7 @@ CSkinnedMeshRender::CSkinnedMeshRender()
 CSkinnedMeshRender::CSkinnedMeshRender(const CSkinnedMeshRender& _origin)
 	: CRenderComponent(_origin)
 	, m_vecBones(_origin.m_vecBones)
+	, m_bIsSet(false)
 {
 	m_pBoneTransforms = new CStructuredBuffer;
 }
@@ -27,24 +30,29 @@ CSkinnedMeshRender::~CSkinnedMeshRender()
 void CSkinnedMeshRender::FindBones()
 {
 	if (GetMesh() == nullptr) return;
-	
+	CBoneHolder* pBoneHolder = (CBoneHolder*)GetOwner()->GetComponentInParent(COMPONENT_TYPE::BONEHOLDER);
+	if (!pBoneHolder) return;
+	if (!pBoneHolder->IsReady()) return;
+
 	auto boneNames = GetMesh()->GetBoneNames();
 	if (boneNames.size() == 0) return;
-
-	CGameObject* pRoot = GetOwner()->GetRoot();
+	m_vecBones.clear();
 	m_vecBones.resize(boneNames.size());
 	for (size_t i = 0; i < boneNames.size(); i++)
 	{
-		CGameObject* pObj = pRoot->FindChildByName(boneNames[i]);
-		assert(pObj);
-		m_vecBones[i] = pObj->Transform();
+		m_vecBones[i] = pBoneHolder->GetBone(boneNames[i]);
 	}
+
 	m_pBoneTransforms->Clear();
 	m_pBoneTransforms->Create(sizeof(Matrix), boneNames.size(), SB_TYPE::READ_ONLY, true, nullptr);
+
+	m_bIsSet = true;
 }
 
 void CSkinnedMeshRender::finaltick()
 {
+	if (m_bIsSet) return;
+	FindBones();
 }
 
 void CSkinnedMeshRender::render()
@@ -69,5 +77,11 @@ void CSkinnedMeshRender::render()
 	GetMaterial()->SetNumberOfBones(m_vecBones.size());
 	GetMaterial()->UpdateData();
 	GetMesh()->render();
+}
+
+void CSkinnedMeshRender::SetMesh(Ptr<CMesh> _Mesh)
+{
+	CRenderComponent::SetMesh(_Mesh);
+	m_bIsSet = false;
 }
 

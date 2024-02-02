@@ -25,7 +25,7 @@ public:
 public:
     void SetFrustumCheck(bool _Check) { m_bFrustumCheck = _Check; }
 
-    void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
+    virtual void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
     void SetMaterial(Ptr<CMaterial> _Mtrl);
 
     Ptr<CMesh> GetMesh() { return m_pMesh; }

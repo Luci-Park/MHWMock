@@ -8,6 +8,7 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CSkinnedMeshRender.h"
+#include "CBoneHolder.h"
 #include "CStructuredBuffer.h"
 #include "Assimp.hpp"
 
@@ -92,18 +93,19 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
+	pNewObject->AddComponent(new CBoneHolder(m_vecBoneNames));
 	SpawnGameObject(pNewObject);
 	IterateSkinnedMeshRender(pNewObject);
 }
 
 void CModel::IterateSkinnedMeshRender(CGameObject* _pObj)
 {
-	CSkinnedMeshRender* pSkinnedMeshRender = _pObj->SkinnedMeshRender();
-	if (pSkinnedMeshRender != nullptr)
-		pSkinnedMeshRender->FindBones();
-	auto vecObj = _pObj->GetChildren();
-	for (int i = 0; i < vecObj.size(); i++)
-		IterateSkinnedMeshRender(vecObj[i]);
+	//CSkinnedMeshRender* pSkinnedMeshRender = _pObj->SkinnedMeshRender();
+	//if (pSkinnedMeshRender != nullptr)
+	//	pSkinnedMeshRender->FindBones();
+	//auto vecObj = _pObj->GetChildren();
+	//for (int i = 0; i < vecObj.size(); i++)
+	//	IterateSkinnedMeshRender(vecObj[i]);
 }
 
 

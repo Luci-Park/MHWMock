@@ -290,3 +290,13 @@ void CGameObject::AddParentList()
 	CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
 	pLayer->AddParentList(this);
 }
+
+CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)
+{
+	if (m_arrCom[(UINT)_CType]) return m_arrCom[(UINT)_CType];
+	if (m_Parent != nullptr && m_Parent != this)
+	{
+		return m_Parent->GetComponentInParent(_CType);
+	}
+	return nullptr;
+}

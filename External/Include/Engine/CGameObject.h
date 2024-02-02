@@ -22,8 +22,6 @@ class CBoneHolder;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
 
-
-
 class CGameObject :
     public CEntity
 {
@@ -78,9 +76,9 @@ public:
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(LandScape, LANDSCAPE);
-    GET_COMPONENT(BoneHolder, BONEHOLDER);
+    GET_COMPONENT(BoneHolder, BONEHOLDER); 
 
-
+    CComponent* GetComponentInParent(COMPONENT_TYPE _CType);
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 
