@@ -68,6 +68,12 @@ public:
     void AddDebugShapeInfo(const tDebugShapeInfo& _info) { m_vecShapeInfo2D.push_back(_info); }
     vector<tDebugShapeInfo>& GetDebugShapeInfo() { return m_vecShapeInfo2D; }
 
+    void AddDebugShapeInfo3D(const tDebugShapeInfo3D& _info) { m_vecShapeInfo3D.push_back(_info); }
+    vector<tDebugShapeInfo3D>& GetDebugShapeInfo3D() { return m_vecShapeInfo3D; }
+    
+    void AddDebugShapeMesh3D(const Ptr<CMesh>& _mesh) { m_vecShapeMesh3D.push_back(_mesh); }
+    vector<Ptr<CMesh>>& GetDebugShapeMesh3D() { return m_vecShapeMesh3D; }
+
     const vector<CLight2D*>& GetLight2D() { return m_vecLight2D; }
     const vector<CLight3D*>& GetLight3D() { return m_vecLight3D; }
 
