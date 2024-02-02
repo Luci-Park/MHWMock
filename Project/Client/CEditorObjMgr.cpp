@@ -75,7 +75,15 @@ void CEditorObjMgr::progress()
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
 	vecInfo.clear();
 
+	// DebugShape 정보 가져오기
+	vector<tDebugShapeInfo3D>& vecInfo3D = CRenderMgr::GetInst()->GetDebugShapeInfo3D();
+	m_DebugShapeInfo3D.insert(m_DebugShapeInfo3D.end(), vecInfo3D.begin(), vecInfo3D.end());
+	vecInfo3D.clear();
 
+	vector<Ptr<CMesh>>& vecMesh3D = CRenderMgr::GetInst()->GetDebugShapeMesh3D();
+	m_DebugShapeMesh3D.insert(m_DebugShapeMesh3D.end(), vecMesh3D.begin(), vecMesh3D.end());
+	vecMesh3D.clear();
+	
 	tick();
 
 	render();
@@ -103,28 +111,19 @@ void CEditorObjMgr::render()
 	}
 
 
-
 	// DebugShape Render
 	CGameObjectEx* pShapeObj = nullptr;
 
-	vector<tDebugShapeInfo>::iterator iter = m_DebugShapeInfo.begin();
-	for (; iter != m_DebugShapeInfo.end();)
+	vector<tDebugShapeInfo3D>::iterator iter = m_DebugShapeInfo3D.begin();
+	int cnt = 0;
+
+	for (; iter != m_DebugShapeInfo3D.end();)
 	{
-		switch (iter->eShape)
-		{
-		case SHAPE_TYPE::RECT:
-			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::RECT];
-			break;
-		case SHAPE_TYPE::CIRCLE:
-			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CIRCLE];
-			break;
-		case SHAPE_TYPE::CUBE:
-			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CUBE];
-			break;
-		case SHAPE_TYPE::SPHERE:
-			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::SPHERE];
-			break;		
-		}
+		pShapeObj = new CGameObjectEx;
+		pShapeObj->AddComponent(new CTransform);
+		pShapeObj->AddComponent(new CMeshRender);
+		pShapeObj->MeshRender()->SetMesh(m_DebugShapeMesh3D[cnt]);
+		pShapeObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
 
 		if (iter->matWorld != XMMatrixIdentity())
 		{
@@ -137,9 +136,9 @@ void CEditorObjMgr::render()
 			pShapeObj->Transform()->SetRelativeRot(iter->vWorldRotation);
 			pShapeObj->finaltick();
 		}
-		
-		pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &iter->vColor);
 
+		pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &iter->vColor);
+		
 		if (iter->bDepthTest)
 			pShapeObj->MeshRender()->GetMaterial()->GetShader()->SetDSType(DS_TYPE::LESS);
 		else
@@ -150,11 +149,13 @@ void CEditorObjMgr::render()
 		iter->fCurTime += DT;
 		if (iter->fMaxTime < iter->fCurTime)
 		{
-			iter = m_DebugShapeInfo.erase(iter);
+			iter = m_DebugShapeInfo3D.erase(iter);
+			m_DebugShapeMesh3D.erase(m_DebugShapeMesh3D.begin() + cnt);
 		}
 		else
 		{
 			++iter;
+			++cnt;
 		}
 	}
 }

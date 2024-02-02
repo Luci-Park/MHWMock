@@ -4,6 +4,8 @@
 #include "CScript.h"
 #include "components.h"
 
+#include "CRenderMgr.h"
+
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
 	, m_bAbsolute(false)
@@ -43,12 +45,17 @@ void CCollider3D::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	// DebugObj 그리기~
-	
-	//if (COLLIDER2D_TYPE::CIRCLE == m_Shape)
-	//	DrawDebugCircle(m_matCollider2D, vColor, 0.f);
-	//else
-	//	DrawDebugRect(m_matCollider2D, vColor, 0.f);
+	CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
+
+	// 렌더링 기능이 없는 오브젝트는 제외
+	if (nullptr == pRenderCom
+		|| nullptr == pRenderCom->GetMesh())
+		return;
+
+	DrawDebugShape3D(matWorld, vColor, 0.f);
+	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
+
+	int a = 0;
 }
 
 

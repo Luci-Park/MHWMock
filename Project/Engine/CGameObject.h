@@ -7,6 +7,7 @@ class CTransform;
 class CMeshRender;
 class CParticleSystem;
 class CCollider2D;
+class CCollider3D;
 class CAnimator2D;
 class CLight2D;
 class CLight3D;
@@ -66,6 +67,7 @@ public:
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Camera, CAMERA);
     GET_COMPONENT(Collider2D, COLLIDER2D);
+    GET_COMPONENT(Collider3D, COLLIDER3D);
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(TileMap, TILEMAP);
     GET_COMPONENT(Animator2D, ANIMATOR2D);
