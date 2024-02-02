@@ -138,7 +138,7 @@ int TransformUI::render_update()
 
 	Vec3 vPos = GetTarget()->Transform()->GetRelativePos();
 	Vec3 vScale = GetTarget()->Transform()->GetRelativeScale();
-	Vec3 vRotation = GetTarget()->Transform()->GetRelativeRot().ToEuler();
+    Vec3 vRotation = GetTarget()->Transform()->GetRelativeEulerRot();
 
 	ImGui::Text("Position");
 	ImGui::SameLine();

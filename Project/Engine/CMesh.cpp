@@ -5,6 +5,7 @@
 #include "CPathMgr.h"
 #include "CStructuredBuffer.h"
 #include <assimp/scene.h>
+#include "Assimp.hpp"
 
 
 CMesh::CMesh(bool _bEngine)
@@ -33,12 +34,10 @@ CMesh::~CMesh()
 
 CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 {
-	string strName = _aiMesh->mName.C_Str();
-	wstring wstrName(strName.begin(), strName.end());
+	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
 	CMesh* pMesh = new CMesh(true);
 	pMesh->SetName(wstrName);
-	pMesh->SetKey(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
 	vector<UINT> vecIdx;
@@ -48,22 +47,22 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 	{
 		if (_aiMesh->HasPositions())
 		{
-			vecVtx[i].vPos = Vec3(_aiMesh->mVertices[i].x, _aiMesh->mVertices[i].y, _aiMesh->mVertices[i].z);
+			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
 			pMesh->m_vecVerticies.push_back(vecVtx[i].vPos);
 		}
 		if (_aiMesh->HasVertexColors(i))
-			vecVtx[i].vColor = Vec4((_aiMesh->mColors[i][0]).r, (_aiMesh->mColors[i][0]).g, (_aiMesh->mColors[i][0]).b, (_aiMesh->mColors[i][0]).a);
+			vecVtx[i].vColor = aiColorToVec4(_aiMesh->mColors[i][0]);
 		if (_aiMesh->HasTextureCoords(i))
 		{
-			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[i][0].x, _aiMesh->mTextureCoords[i][0].y);
+			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[0][i].x, _aiMesh->mTextureCoords[0][i].y);
 		}
 
 		if (_aiMesh->HasNormals())
-			vecVtx[i].vNormal = Vec3(_aiMesh->mNormals[i].x, _aiMesh->mNormals[i].y, _aiMesh->mNormals[i].z);
+			vecVtx[i].vNormal = aiVec3ToVec3(_aiMesh->mNormals[i]);
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
-			vecVtx[i].vTangent = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
-			vecVtx[i].vBinormal = Vec3(_aiMesh->mBitangents[i].x, _aiMesh->mBitangents[i].y, _aiMesh->mBitangents[i].z);
+			vecVtx[i].vTangent = aiVec3ToVec3(_aiMesh->mTangents[i]);
+			vecVtx[i].vBinormal = aiVec3ToVec3(_aiMesh->mBitangents[i]);
 		}
 	}
 
@@ -77,12 +76,14 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 			string name = pBone->mName.C_Str();
 			pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
 
-			vecOffset[i] = XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&pBone->mOffsetMatrix));
+			vecOffset[i] = aiMatToMat(pBone->mOffsetMatrix).Transpose();
 			for (int j = 0; j < pBone->mNumWeights; j++)
 			{
 				int idx = pBone->mWeights[j].mVertexId;
-				for (int k = 0; k < 4; k++)
+				
+				for (int k = 0; k <= 4; k++)
 				{
+					assert(k < 4);
 					if (vecVtx[idx].vWeights[k] <= 0)
 					{
 						vecVtx[idx].vIndices[k] = i;

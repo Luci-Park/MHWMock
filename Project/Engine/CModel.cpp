@@ -75,8 +75,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
 		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
-		string strName = pScene->mMaterials[i]->GetName().C_Str();
-		wstring wstrName(strName.begin(), strName.end());
+		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
 		pNewMtrl->SetName(wstrName);
 		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
@@ -208,7 +207,7 @@ int tModelNode::Save(FILE* _File)
 {
 	SaveWString(strName, _File);
 	fwrite(&vPos, sizeof(Vec3), 1, _File);
-	fwrite(&vRot, sizeof(Vec3), 1, _File);
+	fwrite(&qRot, sizeof(Quaternion), 1, _File);
 	fwrite(&vScale, sizeof(Vec3), 1, _File);
 	SaveResRef(pMesh.Get(), _File);
 	SaveResRef(pMaterial.Get() , _File);
@@ -223,7 +222,7 @@ int tModelNode::Load(FILE* _File)
 	{
 		LoadWString(strName, _File);
 		fread(&vPos, sizeof(Vec3), 1, _File);
-		fread(&vRot, sizeof(Vec3), 1, _File);
+		fread(&qRot, sizeof(Quaternion), 1, _File);
 		fread(&vScale, sizeof(Vec3), 1, _File);
 		LoadResRef(pMesh, _File);
 		LoadResRef(pMaterial, _File);
@@ -258,13 +257,13 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	aiQuaterniont<float> rotation;
 	_aiNode->mTransformation.Decompose(scale, rotation, position);
 
-	pNewNode->vPos = Vec3(position.x, position.y, position.z);
-	pNewNode->vRot = Quaternion(rotation.x, rotation.y, rotation.z, rotation.w).ToEuler();
-	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
+	pNewNode->vPos = aiVec3ToVec3(position);
+	pNewNode->qRot = aiQuatToQuat(rotation);
+	pNewNode->vScale = aiVec3ToVec3(scale);
 
-	pNewNode->vPos = Vec3(0, 0, 0);
-	pNewNode->vRot = Vec3(0, 0, 0);
-	pNewNode->vScale = Vec3(1, 1, 1);
+	//pNewNode->vPos = Vec3(0, 0, 0);
+	//pNewNode->qRot = Vec3(0, 0, 0);
+	//pNewNode->vScale = Vec3(1, 1, 1);
 	
 	if (_aiNode->mNumMeshes > 0)
 	{
@@ -304,7 +303,7 @@ void tModelNode::CreateGameObjectFromNode()
 
 	pGameObject->AddComponent(new CTransform);
 	pGameObject->Transform()->SetRelativePos(vPos);
-	pGameObject->Transform()->SetRelativeRot(vRot);
+	pGameObject->Transform()->SetRelativeRot(qRot);
 	pGameObject->Transform()->SetRelativeScale(vScale);
 
 	if (pMesh != nullptr)

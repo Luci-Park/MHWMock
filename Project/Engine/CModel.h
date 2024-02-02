@@ -38,7 +38,7 @@ struct tModelNode
 {
     tModelNode() 
         : vPos(0, 0, 0)
-        , vRot(0, 0, 0)
+        , qRot(Quaternion::Identity)
         , vScale(1, 1, 1)
         , vecChildren(0)
         , pMesh(nullptr)
@@ -50,7 +50,7 @@ struct tModelNode
     ~tModelNode();
     wstring strName;
     Vec3 vPos;
-    Vec3 vRot;
+    Quaternion qRot;
     Vec3 vScale;
     vector<tModelNode*> vecChildren;
     Ptr<CMesh> pMesh;

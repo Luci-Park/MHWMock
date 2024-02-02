@@ -33,5 +33,9 @@ Color aiColorToColor(const aiColor4D& _aiCol)
 	return Color(_aiCol.r, _aiCol.g, _aiCol.b, _aiCol.a);
 }
 
-
+wstring aiStrToWstr(const aiString& _aiStr)
+{
+	string str = _aiStr.C_Str();
+	return wstring(str.begin(), str.end());
+}
 #endif // ! __Assimp
