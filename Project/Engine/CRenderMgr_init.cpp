@@ -130,6 +130,21 @@ void CRenderMgr::CreateMRT()
 
         m_MRT[(UINT)MRT_TYPE::SHADOWMAP]->Create(arrRTTex, 1, pDSTex);
     }
+
+    //===================
+    // Canvas MRT ¸¸µé±â
+    //===================
+    {
+        m_MRT[(UINT)MRT_TYPE::CANVAS] = new CMRT;
+
+        Ptr<CTexture> arrRTTex[8] = {};
+        arrRTTex[0] = CResMgr::GetInst()->FindRes<CTexture>(L"CanvasTex");
+
+        Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"CanvasDepthStencilTex");
+
+        m_MRT[(UINT)MRT_TYPE::CANVAS]->Create(arrRTTex, 1, pDSTex);
+        m_MRT[(UINT)MRT_TYPE::CANVAS]->SetClearColor(Vec4(0.3f, 0.3f, 0.3f, 1.f), 0);
+    }
 }
 
 void CRenderMgr::ClearMRT()
