@@ -64,19 +64,23 @@ void TransformUI::Gizmo()
 
         if (ImGuizmo::IsUsing())
         {
-            float scale[3];
-            float rotation[3];
-            float translation[3];
-
-            ImGuizmo::DecomposeMatrixToComponents(*objMat.m, translation, rotation, scale);
-
-            for (int i = 0; i < 3; i++)
-            {
-                rotation[i] *= XM_PI / 180.0f;
-            }
-            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativePos(Vec3(translation[0], translation[1], translation[2]));
-            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeRot(Vec3(rotation[0], rotation[1], rotation[2]));
-            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeScale(Vec3(scale[0], scale[1], scale[2]));
+            Vec3 pos, scale;
+            Quaternion rot;
+            Matrix matObjMat = objMat;
+            matObjMat.Decompose(scale, rot, pos);
+            //float scale[3];
+            //float rotation[3];
+            //float translation[3];
+            //
+            //ImGuizmo::DecomposeMatrixToComponents(*objMat.m, translation, rotation, scale);
+            //
+            ////for (int i = 0; i < 3; i++)
+            ////{
+            ////    rotation[i] *= XM_PI / 180.0f;
+            ////}
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativePos(pos);
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeRot(rot);
+            selectedObj->GetComponent(COMPONENT_TYPE::TRANSFORM)->Transform()->SetRelativeScale(scale);
         }
 
         GizmoGui(io);
@@ -134,8 +138,7 @@ int TransformUI::render_update()
 
 	Vec3 vPos = GetTarget()->Transform()->GetRelativePos();
 	Vec3 vScale = GetTarget()->Transform()->GetRelativeScale();
-	Vec3 vRotation = GetTarget()->Transform()->GetRelativeRot();
-	vRotation = (vRotation / XM_PI) * 180.f;
+	Vec3 vRotation = GetTarget()->Transform()->GetRelativeRot().ToEuler();
 
 	ImGui::Text("Position");
 	ImGui::SameLine();
@@ -152,7 +155,6 @@ int TransformUI::render_update()
 	GetTarget()->Transform()->SetRelativePos(vPos);
 	GetTarget()->Transform()->SetRelativeScale(vScale);
 
-	vRotation = (vRotation / 180.f) * XM_PI;
 	GetTarget()->Transform()->SetRelativeRot(vRotation);
 
     
