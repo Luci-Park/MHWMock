@@ -4,19 +4,6 @@
 #include <PxPhysics.h>
 #include <PxPhysicsApi.h>
 
-// PhysX Library
-#ifdef _DEBUG
-#pragma comment(lib, "PhysX//PhysX_64")
-#pragma comment(lib, "PhysX//PhysXFoundation_64")
-#pragma comment(lib, "PhysX//PhysXExtensions_static_64")
-#pragma comment(lib, "PhysX//PhysXPvdSDK_static_64")
-#else
-#pragma comment(lib, "Script//PhysX_64")
-#pragma comment(lib, "Script//PhysXFoundation_64")
-#pragma comment(lib, "Script//PhysXExtensions_static_64")
-#pragma comment(lib, "PhysX//PhysXPvdSDK_static_64")
-#endif
-
 
 CPhysXMgr::CPhysXMgr()
 {
@@ -28,21 +15,6 @@ CPhysXMgr::~CPhysXMgr()
 
 void CPhysXMgr::init()
 {
-	// declare variables
-	physx::PxDefaultAllocator			mDefaultAllocatorCallback;
-	physx::PxDefaultErrorCallback		mDefaultErrorCallback;
-	physx::PxDefaultCpuDispatcher*	mDispatcher = NULL;
-	physx::PxTolerancesScale				mToleranceScale;
-
-	physx::PxFoundation*					mFoundation = NULL;
-	physx::PxPhysics*						mPhysics = NULL;
-
-	physx::PxScene*						mScene = NULL;
-	physx::PxMaterial*						mMaterial = NULL;
-
-	physx::PxPvd*							mPvd = NULL;
-
-
 	// init physx
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
 	if (!mFoundation) throw("PxCreateFoundation failed!");
@@ -69,9 +41,29 @@ void CPhysXMgr::init()
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
+	CreateSimulation();
+}
 
+void CPhysXMgr::process()
+{
+	tick();
+	render();
+}
 
+void CPhysXMgr::tick()
+{
 
+	mScene->simulate(1.0f / 60.0f);
+	mScene->fetchResults(true);
+	
+}
+
+void CPhysXMgr::render()
+{
+}
+
+void CPhysXMgr::CreateSimulation()
+{	
 	// create simulation
 	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
@@ -91,15 +83,6 @@ void CPhysXMgr::init()
 		}
 	}
 	shape->release();
-
-
-
-	// run simulation
-	while (1) {
-		mScene->simulate(1.0f / 60.0f);
-		mScene->fetchResults(true);
-	}
-
 }
 
 
