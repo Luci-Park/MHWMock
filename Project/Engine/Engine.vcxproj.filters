@@ -175,7 +175,7 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXMgr.h">
+    <ClInclude Include="CPhysXMgr.h">
       <Filter>Source\03. Manager\11. PhysXMgr</Filter>
     </ClInclude>
   </ItemGroup>
@@ -342,7 +342,7 @@
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXMgr.cpp">
+    <ClCompile Include="CPhysXMgr.cpp">
       <Filter>Source\03. Manager\11. PhysXMgr</Filter>
     </ClCompile>
   </ItemGroup>
