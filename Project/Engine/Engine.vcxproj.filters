@@ -175,6 +175,9 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXMgr.h">
+      <Filter>Source\03. Manager\11. PhysXMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Source\06. Component\2. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXMgr.cpp">
+      <Filter>Source\03. Manager\11. PhysXMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +517,9 @@
     </Filter>
     <Filter Include="Source\06. Component\2. Collider">
       <UniqueIdentifier>{95818b5c-89c4-4cb1-a32b-1d06f120f939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\03. Manager\11. PhysXMgr">
+      <UniqueIdentifier>{d37d9e5e-a338-41bd-9596-3a639f9f2967}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
