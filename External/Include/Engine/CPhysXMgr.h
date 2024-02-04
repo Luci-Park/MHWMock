@@ -35,6 +35,8 @@ private:
 
 	physx::PxPvd* mPvd = NULL;
 
+	bool m_bSimulate;
+
 public:
 	void init();
 	void process();

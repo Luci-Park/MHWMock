@@ -8,9 +8,41 @@
 CPhysXMgr::CPhysXMgr()
 {
 }
+// declare variables
+physx::PxDefaultAllocator			mDefaultAllocatorCallback;
+physx::PxDefaultErrorCallback		mDefaultErrorCallback;
+physx::PxDefaultCpuDispatcher* mDispatcher = NULL;
+physx::PxTolerancesScale				mToleranceScale;
 
+physx::PxFoundation* mFoundation = NULL;
+physx::PxPhysics* mPhysics = NULL;
+
+physx::PxScene* mScene = NULL;
+physx::PxMaterial* mMaterial = NULL;
+
+physx::PxPvd* mPvd = NULL;
 CPhysXMgr::~CPhysXMgr()
 {
+	/*if (m_bSimulate)
+		while (false == (mScene->fetchResults(false)));
+	delete mScene->getSimulationEventCallback();*/
+	PX_RELEASE(mScene);
+
+	PX_RELEASE(mDispatcher);
+
+	// Cooking 생성시 rick제거.
+	//PX_RELEASE(m_pCooking);
+
+	PX_RELEASE(mPhysics);
+
+	if (mPvd)
+	{
+		physx::PxPvdTransport* pPVDTransport = mPvd->getTransport();
+		PX_RELEASE(mPvd);
+		PX_RELEASE(pPVDTransport);
+	}
+
+	PX_RELEASE(mFoundation);
 }
 
 void CPhysXMgr::init()
@@ -64,6 +96,8 @@ void CPhysXMgr::render()
 
 void CPhysXMgr::CreateSimulation()
 {	
+	m_bSimulate = true;
+
 	// create simulation
 	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
