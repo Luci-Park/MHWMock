@@ -17,11 +17,11 @@
 #pragma comment(lib, "PhysX//PhysXPvdSDK_static_64")
 #endif
 
+using namespace physx;
 
 class CPhysXMgr : public CSingleton<CPhysXMgr>
 {
 private:
-	// declare variables
 	physx::PxDefaultAllocator			mDefaultAllocatorCallback;
 	physx::PxDefaultErrorCallback		mDefaultErrorCallback;
 	physx::PxDefaultCpuDispatcher* mDispatcher = NULL;
@@ -35,8 +35,6 @@ private:
 
 	physx::PxPvd* mPvd = NULL;
 
-	bool m_bSimulate;
-
 public:
 	void init();
 	void process();
@@ -47,7 +45,7 @@ public:
 
 public:
 	void CreateSimulation();
-
+	PxRigidDynamic* createDynamic(const PxGeometry& geometry, const PxVec3& velocity = PxVec3(0));
 public:
 	CPhysXMgr();
 	~CPhysXMgr();
