@@ -19,7 +19,7 @@ public:
 	CLONE(CBoneHolder);
 
 public:
-	virtual void SaveToLevelFile(FILE* _File);
+	virtual void SaveToLevelFile(FILE* _FILE);
 	virtual void LoadFromLevelFile(FILE* _FILE);
 public:
 	CBoneHolder(set<wstring> _boneNames);

@@ -24,7 +24,7 @@ public:
     virtual CComponent* Clone() = 0;
 
 public:
-    virtual void SaveToLevelFile(FILE* _File) = 0;
+    virtual void SaveToLevelFile(FILE* _FILE) = 0;
     virtual void LoadFromLevelFile(FILE* _FILE) = 0;
 
 public:  
@@ -36,6 +36,7 @@ public:
     GET_OTHER_COMPONENT(Light2D);
     GET_OTHER_COMPONENT(TileMap);
     GET_OTHER_COMPONENT(Animator2D);
+    GET_OTHER_COMPONENT(Animator3D);
     GET_OTHER_COMPONENT(LandScape);
     GET_OTHER_COMPONENT(BoneHolder);
 

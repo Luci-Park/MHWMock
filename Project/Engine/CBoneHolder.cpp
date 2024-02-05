@@ -53,10 +53,24 @@ void CBoneHolder::finaltick()
 	m_bIsSet = true;
 }
 
-void CBoneHolder::SaveToLevelFile(FILE* _File)
+void CBoneHolder::SaveToLevelFile(FILE* _FILE)
 {
+	UINT count = m_setBoneNames.size();
+	fwrite(&count, sizeof(UINT), 1, _FILE);
+	for (auto& name : m_setBoneNames)
+	{
+		SaveWString(name, _FILE);
+	}
 }
 
 void CBoneHolder::LoadFromLevelFile(FILE* _FILE)
 {
+	UINT count;
+	fread(&count, sizeof(UINT), 1, _FILE);
+	for (int i = 0; i < count; i++)
+	{
+		wstring name;
+		LoadWString(name, _FILE);
+	}
+	m_bIsSet = false;
 }
