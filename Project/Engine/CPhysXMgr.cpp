@@ -5,6 +5,9 @@
 #include <PxPhysicsApi.h>
 
 #include "CKeyMgr.h"
+#include "CRenderMgr.h"
+#include "CCamera.h"
+#include "CTransform.h"
 
 CPhysXMgr::CPhysXMgr()
 {
@@ -58,7 +61,7 @@ void CPhysXMgr::init()
 
 	mScene = mPhysics->createScene(sceneDesc);
 
-	physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
+	pvdClient = mScene->getScenePvdClient();
 
 	if (pvdClient)
 	{
@@ -66,6 +69,7 @@ void CPhysXMgr::init()
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
+
 	CreateSimulation();
 }
 
@@ -77,11 +81,30 @@ void CPhysXMgr::process()
 
 void CPhysXMgr::tick()
 {
-	// Sphere충돌체 발사.
-	/*if (KEY_TAP(KEY::SPACE))
-	{
-		createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
-	}*/
+	//// Sphere충돌체 발사.
+	//{
+	//	if (KEY_TAP(KEY::SPACE))
+	//	{
+	//		createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
+	//	}
+	//}
+
+	//// PVD Camera 위치 동일하게 해주도록
+	//{
+	//	CCamera* m_EditorCam = CRenderMgr::GetInst()->GetEditorCam();
+
+	//	Vec3 vCamPos = m_EditorCam->GetOwner()->Transform()->GetWorldPos();
+
+	//	Matrix mCamWorldMatrix = m_EditorCam->GetOwner()->Transform()->GetWorldMat();
+	//	Vec3 vCamUp = mCamWorldMatrix.Up();
+	//	Vec3 vCamFront = mCamWorldMatrix.Front();
+
+	//	if (pvdClient) {
+	//		pvdClient->updateCamera("Default", PxVec3(vCamPos.x, vCamPos.y, -vCamPos.z), PxVec3(vCamUp.x, vCamUp.y, -vCamUp.z), PxVec3(vCamFront.x, vCamFront.y, -vCamFront.z));
+	//	}
+	//}
+
+
 
 	mScene->simulate(1.0f / 60.0f);
 	mScene->fetchResults(true);

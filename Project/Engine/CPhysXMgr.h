@@ -34,6 +34,7 @@ private:
 	physx::PxMaterial* mMaterial = NULL;
 
 	physx::PxPvd* mPvd = NULL;
+	physx::PxPvdSceneClient* pvdClient;
 
 public:
 	void init();

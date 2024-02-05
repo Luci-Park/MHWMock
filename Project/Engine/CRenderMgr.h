@@ -85,6 +85,14 @@ public:
         return m_vecCam[0];
     }
 
+    CCamera* GetEditorCam()
+    {
+        if (m_pEditorCam == nullptr)
+            return nullptr;
+
+        return m_pEditorCam;
+    }
+
     void CopyRenderTarget();
 
     CMRT* GetMRT(MRT_TYPE _Type) { return m_MRT[(UINT)_Type]; }
