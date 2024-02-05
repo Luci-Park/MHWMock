@@ -29,7 +29,6 @@ private:
     virtual int Load(const wstring& _strRelativePath);
 
     virtual void UpdateData() {}
-    void IterateSkinnedMeshRender(CGameObject* _pObj);
 
 public:
     CModel();
