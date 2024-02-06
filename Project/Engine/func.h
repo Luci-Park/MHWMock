@@ -69,7 +69,7 @@ void LoadResRef(Ptr<T>& _Res, FILE* _File)
 	
 	if (i)
 	{
-		wstring strKey, strRelativePath;
+		wstring strKey, strRelativePath, strName;
 		LoadWString(strKey, _File);
 		LoadWString(strRelativePath, _File);
 

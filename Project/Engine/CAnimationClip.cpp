@@ -105,7 +105,7 @@ Vec3 CAnimationClip::FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _
 		double a = _vecKeys[idx - 1].time;
 		double b = _vecKeys[idx].time;
 		double t = (_dTick - a) / (b - a);
-		return Vector3::Lerp(_vecKeys[idx].value, _vecKeys[idx - 1].value, t);
+		return Vector3::Lerp(_vecKeys[idx - 1].value, _vecKeys[idx].value, t);
 		
 	}
 	else
@@ -133,7 +133,7 @@ Quaternion CAnimationClip::FindValueAtFrame(double _dTick, vector<tQuatAnimation
 		double a = _vecKeys[idx - 1].time;
 		double b = _vecKeys[idx].time;
 		double t = (_dTick - a) / (b - a);
-		return Quaternion::Lerp(_vecKeys[idx].value, _vecKeys[idx - 1].value, t);
+		return Quaternion::Lerp(_vecKeys[idx - 1].value, _vecKeys[idx].value, t);
 
 	}
 	else

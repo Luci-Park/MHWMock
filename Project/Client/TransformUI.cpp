@@ -144,15 +144,15 @@ int TransformUI::render_update()
 	ImGui::SameLine();
 	ImGui::DragFloat3("##Relative Position", vPos);
 
-	ImGui::Text("Scale   ");
-	ImGui::SameLine();
-	ImGui::DragFloat3("##Relative Scale", vScale);
-
 	ImGui::Text("Rotation");
 	ImGui::SameLine();
 	ImGui::DragFloat3("##Relative Rotation", vRotation);
 
-	GetTarget()->Transform()->SetRelativePos(vPos);
+    ImGui::Text("Scale   ");
+    ImGui::SameLine();
+    ImGui::DragFloat3("##Relative Scale", vScale);
+
+    GetTarget()->Transform()->SetRelativePos(vPos);
 	GetTarget()->Transform()->SetRelativeScale(vScale);
 
 	GetTarget()->Transform()->SetRelativeRot(vRotation);
