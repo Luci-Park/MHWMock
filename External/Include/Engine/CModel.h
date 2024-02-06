@@ -1,8 +1,9 @@
 #pragma once
 #include "CRes.h"
-class CMesh;
-class CMaterial;
-class CGameObject;
+#include "CMaterial.h"
+#include "CMesh.h"
+#include "CGameObject.h"
+
 class aiScene;
 class aiNode;
 struct tModelNode;

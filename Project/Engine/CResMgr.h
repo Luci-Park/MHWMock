@@ -1,7 +1,5 @@
 #pragma once
 #include "CSingleton.h"
-
-#include "ptr.h"
 #include "CMesh.h"
 #include "CTexture.h"
 #include "CGraphicsShader.h"

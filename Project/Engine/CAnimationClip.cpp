@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CAnimationClip.h"
-#include "ptr.h"
 #include <assimp/scene.h>
 
 CAnimationClip::CAnimationClip()

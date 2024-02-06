@@ -1,7 +1,6 @@
 #pragma once
 #include "UI.h"
 
-#include <Engine\ptr.h>
 #include <Engine\CRes.h>
 
 class CGameObject;

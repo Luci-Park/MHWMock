@@ -1,6 +1,5 @@
 #pragma once
 #include "CRenderComponent.h"
-#include "ptr.h"
 
 class CLandScape :
 	public CRenderComponent

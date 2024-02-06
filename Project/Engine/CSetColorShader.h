@@ -1,7 +1,5 @@
 #pragma once
 #include "CComputeShader.h"
-
-#include "ptr.h"
 #include "CTexture.h"
 
 class CSetColorShader :

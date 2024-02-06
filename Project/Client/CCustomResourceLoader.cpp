@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "CCustomResourceLoader.h"
-
-#include <Engine/ptr.h>
 #include <Engine/CGraphicsShader.h>
 #include <Engine/CComputeShader.h>
 #include <Engine/CResMgr.h>

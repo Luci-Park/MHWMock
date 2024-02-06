@@ -1,7 +1,6 @@
 #pragma once
 #include "CSingleton.h"
 
-#include "ptr.h"
 #include "CTexture.h"
 
 class CCamera;

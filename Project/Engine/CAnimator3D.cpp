@@ -5,7 +5,6 @@
 #include "CTimeMgr.h"
 #include "CTransform.h"
 #include "CBoneHolder.h"
-#include "ptr.h"
 
 
 CAnimator3D::CAnimator3D()

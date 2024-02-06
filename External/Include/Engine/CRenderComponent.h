@@ -4,7 +4,6 @@
 
 #include "CMesh.h"
 #include "CMaterial.h"
-#include "ptr.h"
 
 class CRenderComponent :
     public CComponent

@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CModel.h"
 #include "CResMgr.h"
-#include "CMesh.h"
-#include "CMaterial.h"
 #include "CPathMgr.h"
 #include "CGameObject.h"
 #include "CTransform.h"
