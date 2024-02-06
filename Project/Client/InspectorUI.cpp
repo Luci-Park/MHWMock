@@ -15,6 +15,8 @@
 #include "Animator2DUI.h"
 #include "TileMapUI.h"
 #include "Light2DUI.h"
+#include "BoneHolderUI.h"
+#include "Animator3DUI.h"
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -84,6 +86,14 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
+
+	//m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER] = new BoneHolderUI;
+	//m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER]->SetSize(0.f, 150.f);
+	//AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D] = new Animator3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]);
 
 	// ResUI
 	m_arrResUI[(UINT)RES_TYPE::MESHDATA] = new MeshDataUI;

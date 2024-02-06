@@ -99,7 +99,7 @@ Vec3 CAnimationClip::FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _v
 		double t = _dTick / _vecKeys[idx].dTime;
 		return _vecKeys[idx].vValue;
 	}
-	else if (idx == _vecKeys.size())
+	else if (idx < _vecKeys.size())
 	{
 		double a = _vecKeys[idx - 1].dTime;
 		double b = _vecKeys[idx].dTime;
@@ -109,8 +109,8 @@ Vec3 CAnimationClip::FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _v
 	}
 	else
 	{
-		double t = _dTick / _vecKeys[idx].dTime;
-		return _vecKeys[idx].vValue;
+		double t = _dTick / _vecKeys[idx - 1].dTime;
+		return _vecKeys[idx - 1].vValue;
 	}
 }
 

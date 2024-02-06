@@ -27,7 +27,15 @@ CTransform* CBoneHolder::GetBone(wstring _strBoneName)
 		return nullptr;
 	auto pRslt = m_mapBoneTransforms.find(_strBoneName);
 	if (pRslt == m_mapBoneTransforms.end())
+	{
+		CGameObject* pNode = GetOwner()->FindChildByName(_strBoneName);
+		if (pNode)
+		{
+			m_mapBoneTransforms.insert(make_pair(_strBoneName, pNode->Transform()));
+			return pNode->Transform();
+		}
 		return nullptr;
+	}
 	return pRslt->second;
 }
 

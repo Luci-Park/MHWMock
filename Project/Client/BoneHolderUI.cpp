@@ -1,13 +1,8 @@
 #include "pch.h"
 #include "BoneHolderUI.h"
 
-int BoneHolderUI::render_update()
-{
-	return 0;
-}
-
 BoneHolderUI::BoneHolderUI()
-	:ComponentUI("##BoneHolderUI", COMPONENT_TYPE::BONEHOLDER)
+	:ComponentUI("##BoneHolder", COMPONENT_TYPE::BONEHOLDER)
 {
 	SetName("BoneHolder");
 }
@@ -15,3 +10,10 @@ BoneHolderUI::BoneHolderUI()
 BoneHolderUI::~BoneHolderUI()
 {
 }
+int BoneHolderUI::render_update()
+{
+	if (FALSE == ComponentUI::render_update())
+		return FALSE;
+	return 0;
+}
+

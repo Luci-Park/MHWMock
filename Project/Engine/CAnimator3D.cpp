@@ -9,12 +9,16 @@
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
+	, m_bIsPlaying(true)
+	, m_dTick(0)
 {
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	: CComponent(_origin)
 	, m_mapAnims(_origin.m_mapAnims)
+	, m_bIsPlaying(true)
+	, m_dTick(0)
 {
 }
 
@@ -22,14 +26,17 @@ CAnimator3D::~CAnimator3D()
 {
 }
 
-void CAnimator3D::SetAnimations(vector<wstring> _animations)
+void CAnimator3D::SetAnimations(vector<wstring>& _vecAnimations)
 {
 	m_mapAnims.clear();
-	for (int i = 0; i < _animations.size(); i++)
+	m_vecAnimNames.clear();
+	for (int i = 0; i < _vecAnimations.size(); i++)
 	{
-		Ptr<CAnimationClip> pAnim = CResMgr::GetInst()->FindRes<CAnimationClip>(_animations[i]);
-		m_mapAnims.insert(make_pair(_animations[i], pAnim));
+		Ptr<CAnimationClip> pAnim = CResMgr::GetInst()->FindRes<CAnimationClip>(_vecAnimations[i]);
+		m_mapAnims.insert(make_pair(_vecAnimations[i], pAnim));
+		m_vecAnimNames.push_back(_vecAnimations[i]);
 	}
+	m_pCurrAnim = CResMgr::GetInst()->FindRes<CAnimationClip>(_vecAnimations[0]);
 }
 
 void CAnimator3D::SetAnimation(wstring _strAnim)
@@ -43,6 +50,7 @@ void CAnimator3D::SetAnimation(wstring _strAnim)
 void CAnimator3D::finaltick()
 {
 	if (!m_bIsPlaying || m_pCurrAnim == nullptr) return;
+	if (!BoneHolder()->IsReady())return;
 	if (m_dTick >= m_pCurrAnim->GetDuration())
 		m_dTick = 0;
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_pCurrAnim->GetTicksPerSecond();//¿©±â¿¡ ºñÀ² °öÇÏ¸é µÊ.
@@ -50,6 +58,7 @@ void CAnimator3D::finaltick()
 	for (int i = 0; i < vecFrames.size(); i++)
 	{
 		auto pTransform = BoneHolder()->GetBone(vecFrames[i].strBoneName);
+		assert(pTransform);
 		pTransform->SetRelativePos(vecFrames[i].vPos);
 		pTransform->SetRelativeRot(vecFrames[i].vRot);
 		pTransform->SetRelativeScale(vecFrames[i].vScale);

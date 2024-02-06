@@ -96,6 +96,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		{
 			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
 			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
+			pModel->m_vecAnimNames[i] = strAnimKey;
 		}
 		else
 		{
@@ -111,10 +112,15 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
-	if(m_setBoneNames.size() > 0)
+	if (m_setBoneNames.size() > 0)
+	{
 		pNewObject->AddComponent(new CBoneHolder(m_setBoneNames));
-	if(m_vecAnimNames.size() > 0)
+	}
+	if (m_vecAnimNames.size() > 0)
+	{
 		pNewObject->AddComponent(new CAnimator3D());
+		pNewObject->Animator3D()->SetAnimations(m_vecAnimNames);
+	}
 	SpawnGameObject(pNewObject);
 }
 

@@ -7,13 +7,16 @@ class CAnimator3D :
 {
 private:
 	map<wstring, Ptr<CAnimationClip>>	m_mapAnims;
+	vector<wstring>						m_vecAnimNames;
 	Ptr<CAnimationClip>					m_pCurrAnim;
 
 	double								m_dTick;
 	bool								m_bIsPlaying;
 public:
-	void SetAnimations(vector<wstring> _animations);
+	void SetAnimations(vector<wstring>& _vecAnimations);
 	void SetAnimation(wstring _strAnim);
+	vector<wstring> GetAnimNames() { return m_vecAnimNames; }
+
 	void PlayAnimation() { m_bIsPlaying = true; }
 	void PauseAnimation() { m_bIsPlaying = false; }
 	void StopAnimation() { m_bIsPlaying = false; m_dTick = 0; }

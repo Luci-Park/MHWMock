@@ -128,7 +128,10 @@
     <Filter Include="UI\InspectorUI\ResUI\AnimationUI">
       <UniqueIdentifier>{a76c60ea-5806-4e8f-9c34-e32ff149fc8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\InspectorUI\ComponentUI\11. BoneHolder">
+    <Filter Include="UI\InspectorUI\ComponentUI\12. Animator3DUI">
+      <UniqueIdentifier>{79707aa3-5ace-4573-8187-aed48c96df3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\11. BoneHolderUI">
       <UniqueIdentifier>{717812f6-4aea-4277-9564-da0480bf8612}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -283,7 +286,10 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="BoneHolderUI.h">
-      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolder</Filter>
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolderUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -445,7 +451,10 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="BoneHolderUI.cpp">
-      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolder</Filter>
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolderUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
