@@ -17,7 +17,8 @@ public:
     vector<tAnimationKeyFrame>& GetTransformsAtFrame(double _dTick);
 
 private:
-    Vec3 FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);
+    Vec3 FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);
+    Quaternion FindValueAtFrame(double _dTick, vector<tQuatAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);
     virtual int Load(const wstring& _strFilePath);
 
 public:

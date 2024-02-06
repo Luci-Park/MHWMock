@@ -60,7 +60,7 @@ void CAnimator3D::finaltick()
 		auto pTransform = BoneHolder()->GetBone(vecFrames[i].strBoneName);
 		assert(pTransform);
 		pTransform->SetRelativePos(vecFrames[i].vPos);
-		pTransform->SetRelativeRot(vecFrames[i].vRot);
+		pTransform->SetRelativeRot(vecFrames[i].qRot);
 		pTransform->SetRelativeScale(vecFrames[i].vScale);
 	}
 }
