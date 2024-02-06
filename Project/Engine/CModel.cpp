@@ -9,6 +9,7 @@
 #include "CMeshRender.h"
 #include "CSkinnedMeshRender.h"
 #include "CBoneHolder.h"
+#include "CAnimator3D.h"
 #include "CStructuredBuffer.h"
 #include "Assimp.hpp"
 

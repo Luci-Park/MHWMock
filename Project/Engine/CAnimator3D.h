@@ -1,19 +1,22 @@
 #pragma once
 #include "CComponent.h"
+class CBoneHolder;
 class CAnimationClip;
 class CAnimator3D :
 	public CComponent
 {
 private:
 	map<wstring, Ptr<CAnimationClip>>	m_mapAnims;
-	Ptr<CAnimationClip>					m_CurrAnim;
-	vector<tAnimationKeyFrame>		m_vecCurrentFrames;
+	Ptr<CAnimationClip>					m_pCurrAnim;
 
-	int m_tick;
-	bool m_bIsPlaying;
+	double								m_dTick;
+	bool								m_bIsPlaying;
 public:
 	void SetAnimations(vector<wstring> _animations);
 	void SetAnimation(wstring _strAnim);
+	void PlayAnimation() { m_bIsPlaying = true; }
+	void PauseAnimation() { m_bIsPlaying = false; }
+	void StopAnimation() { m_bIsPlaying = false; m_dTick = 0; }
 public:
 	virtual void finaltick() override;
 	CLONE(CAnimator3D);
