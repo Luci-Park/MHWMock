@@ -17,6 +17,7 @@
 #include "Light2DUI.h"
 #include "BoneHolderUI.h"
 #include "Animator3DUI.h"
+#include "Light3DUI.h"
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -82,6 +83,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D] = new Light3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(0.f, 150.f);
@@ -162,7 +167,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 {
 	ClearTargetResource();
 
-	// Å¸°Ù¿ÀºêÁ§Æ® Á¤º¸ ³ëÃâ
+	// íƒ€ê²Ÿì˜¤ë¸Œì íŠ¸ ì •ë³´ ë…¸ì¶œ
 	m_pTargetObj = _Target;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
@@ -181,8 +186,8 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		m_arrComUI[i]->SetTarget(m_pTargetObj);
 	}
 
-	// Å¸°Ù ¿ÀºêÁ§Æ®°¡ nullptr ÀÌ¸é
-	// ½ºÅ©¸³Æ®UI µéÀ» ÀüºÎ ºñÈ°¼ºÈ­ ½ÃÅ²´Ù.
+	// íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ê°€ nullptr ì´ë©´
+	// ìŠ¤í¬ë¦½íŠ¸UI ë“¤ì„ ì „ë¶€ ë¹„í™œì„±í™” ì‹œí‚¨ë‹¤.
 	if (nullptr == m_pTargetObj)
 	{
 		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
@@ -192,10 +197,10 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		return ;
 	}
 
-	// ¿ÀºêÁ§Æ®ÀÇ ½ºÅ©¸³Æ® ¸ñ·ÏÀ» ¹Ş¾Æ¿Â´Ù.
+	// ì˜¤ë¸Œì íŠ¸ì˜ ìŠ¤í¬ë¦½íŠ¸ ëª©ë¡ì„ ë°›ì•„ì˜¨ë‹¤.
 	const vector<CScript*> & vecScript = m_pTargetObj->GetScripts();
 
-	// ½ºÅ©¸³Æ®UI °¡ ½ºÅ©¸³Æ® ¼ö º¸´Ù ÀûÀ¸¸é ±×¸¸Å­ Ãß°¡ÇØÁØ´Ù.
+	// ìŠ¤í¬ë¦½íŠ¸UI ê°€ ìŠ¤í¬ë¦½íŠ¸ ìˆ˜ ë³´ë‹¤ ì ìœ¼ë©´ ê·¸ë§Œí¼ ì¶”ê°€í•´ì¤€ë‹¤.
 	if (m_vecScriptUI.size() < vecScript.size())
 	{
 		UINT iDiffer = vecScript.size() - m_vecScriptUI.size();
@@ -209,7 +214,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		}
 	}
 
-	// ScriptUI ¹İº¹¹® µ¹¸é¼­ ¿ÀºêÁ§Æ®ÀÇ ½ºÅ©¸³Æ®¼ö ¸¸Å­¸¸ È°¼ºÈ­ ½ÃÅ²´Ù.
+	// ScriptUI ë°˜ë³µë¬¸ ëŒë©´ì„œ ì˜¤ë¸Œì íŠ¸ì˜ ìŠ¤í¬ë¦½íŠ¸ìˆ˜ ë§Œí¼ë§Œ í™œì„±í™” ì‹œí‚¨ë‹¤.
 	for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
 	{
 		if (vecScript.size() <= i)
@@ -218,7 +223,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 			continue;
 		}
 
-		// ½ºÅ©¸³Æ®¸¦ ½ºÅ©¸³Æ®UI ¿¡°Ô ¾Ë·ÁÁØ´Ù.
+		// ìŠ¤í¬ë¦½íŠ¸ë¥¼ ìŠ¤í¬ë¦½íŠ¸UI ì—ê²Œ ì•Œë ¤ì¤€ë‹¤.
 		m_vecScriptUI[i]->SetTarget(m_pTargetObj);
 		m_vecScriptUI[i]->SetScript(vecScript[i]);
 		m_vecScriptUI[i]->SetActive(true);
@@ -252,7 +257,7 @@ void InspectorUI::SetTargetModelNode(tModelNode* _ModelNode)
 
 void InspectorUI::ClearTargetObject()
 {
-	// Å¸°Ù¿ÀºêÁ§Æ® Á¤º¸ ³ëÃâ
+	// íƒ€ê²Ÿì˜¤ë¸Œì íŠ¸ ì •ë³´ ë…¸ì¶œ
 	m_pTargetObj = nullptr;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)

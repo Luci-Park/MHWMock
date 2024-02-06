@@ -290,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="Animator3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+      </CInclude>
+    <ClInclude Include="Light3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="Animator3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

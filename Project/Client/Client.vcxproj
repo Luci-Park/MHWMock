@@ -201,6 +201,7 @@
     <ClInclude Include="ImGui\imgui_internal.h" />
     <ClInclude Include="ImGui\imgui_stdlib.h" />
     <ClInclude Include="InspectorUI.h" />
+    <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="ModelUI.h" />
     <ClInclude Include="ObjLayerInfoUI.h" />
     <ClInclude Include="Light2DUI.h" />
@@ -310,6 +311,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="InspectorUI.cpp" />
+    <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="ModelUI.cpp" />
     <ClCompile Include="ObjLayerInfoUI.cpp" />
     <ClCompile Include="Light2DUI.cpp" />

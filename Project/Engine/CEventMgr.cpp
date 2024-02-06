@@ -132,6 +132,12 @@ void CEventMgr::tick()
 			m_LevelChanged = true;
 		}
 			break;		
+
+		case EVENT_TYPE::CHANGE_OBJECT:
+		{
+			m_LevelChanged = true;
+		}
+		break;
 		}
 	}
 
