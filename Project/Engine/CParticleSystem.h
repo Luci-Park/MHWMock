@@ -1,7 +1,5 @@
 #pragma once
 #include "CRenderComponent.h"
-
-#include "ptr.h"
 #include "CParticleUpdateShader.h"
 
 class CStructuredBuffer;
@@ -16,6 +14,7 @@ private:
     
     tParticleModule             m_ModuleData;
     Ptr<CParticleUpdateShader>  m_UpdateCS;
+    Ptr<CTexture>               m_ParticleTexture;
    
     float                       m_AccTime;
 
@@ -30,8 +29,11 @@ public:
     // 생성 시 초기 색상 설정
     void SetSpawnInitialColor(Vec3 _vInitialColor) { m_ModuleData.vSpawnColor = _vInitialColor; }
 
-
-
+    void SetModuleData(tParticleModule _Module) { m_ModuleData = _Module; }
+    tParticleModule GetModuleData() { return m_ModuleData; }
+    
+    void SetParticleTexture(Ptr<CTexture> _Texture) { m_ParticleTexture = _Texture; }
+    Ptr<CTexture> GetParticleTexture() { return m_ParticleTexture; }
 
 
 public:

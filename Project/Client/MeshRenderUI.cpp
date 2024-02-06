@@ -37,10 +37,10 @@ int MeshRenderUI::render_update()
 	GetResKey(pMesh.Get(), szBuff, buffsize);
 	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
-	// Mesh µå¶ø Ã¼Å©
+	// Mesh ï¿½ï¿½ï¿½ Ã¼Å©
 	if (ImGui::BeginDragDropTarget())
 	{
-		// ÇØ´ç ³ëµå¿¡¼­ ¸¶¿ì½º ¶¾ °æ¿ì, ÁöÁ¤ÇÑ PayLoad Å°°ªÀÌ ÀÏÄ¡ÇÑ °æ¿ì
+		// ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PayLoad Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½
 		const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
 		if (pPayLoad)
 		{
@@ -70,7 +70,7 @@ int MeshRenderUI::render_update()
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
 		}
 
-		// Ç×¸ñ ¼±ÅÃ½Ã È£Ãâ¹ÞÀ» µ¨¸®°ÔÀÌÆ® µî·Ï
+		// ï¿½×¸ï¿½ ï¿½ï¿½ï¿½Ã½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMesh);
 	}
 		
@@ -79,9 +79,14 @@ int MeshRenderUI::render_update()
 	GetResKey(pMtrl.Get(), szBuff, buffsize);
 	ImGui::InputText("##MtrlName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
+	ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+	ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+	ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+
 	if (ImGui::BeginDragDropTarget())
 	{
-		// ÇØ´ç ³ëµå¿¡¼­ ¸¶¿ì½º ¶¾ °æ¿ì, ÁöÁ¤ÇÑ PayLoad Å°°ªÀÌ ÀÏÄ¡ÇÑ °æ¿ì
+		// ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PayLoad Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½
 		const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
 		if (pPayLoad)
 		{
@@ -110,8 +115,14 @@ int MeshRenderUI::render_update()
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
 		}
 
-		// Ç×¸ñ ¼±ÅÃ½Ã È£Ãâ¹ÞÀ» µ¨¸®°ÔÀÌÆ® µî·Ï
+		// ï¿½×¸ï¿½ ï¿½ï¿½ï¿½Ã½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMaterial);
+	}
+
+	for (size_t i = 0; i < 12; i++)
+	{
+		if (pMtrl.Get()->GetTexParam((TEX_PARAM)i) != nullptr)
+			ImGui::Image((ImTextureID)pMtrl.Get()->GetTexParam((TEX_PARAM)i)->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
 	}
 
 	return TRUE;

@@ -3,6 +3,7 @@
 
 #include <Engine\CGameObject.h>
 #include <Engine\CLayer.h>
+#include <Engine\CEventMgr.h>
 
 ObjNameInfoUI::ObjNameInfoUI()
 	: ObjectInfoUI("##Obj_Name", OBJINFO_TYPE::Obj_Name)
@@ -38,10 +39,18 @@ int ObjNameInfoUI::render_update()
 	ImGui::SameLine();
 	ImGui::InputText(" ", szTargetName_buff, 50, ImGuiInputTextFlags_AlwaysOverwrite);
 
-	sTargetName = szTargetName_buff;
-	GetTarget()->SetName(TargetName.assign(sTargetName.begin(), sTargetName.end()));
+	if (sTargetName != szTargetName_buff)
+	{
+		sTargetName = szTargetName_buff;
+		GetTarget()->SetName(TargetName.assign(sTargetName.begin(), sTargetName.end()));
+		tEvent evn = {};
+		evn.wParam = (DWORD_PTR)GetTarget();
+		evn.lParam = (DWORD_PTR)1;
+		evn.Type = EVENT_TYPE::CHANGE_OBJECT;
+		CEventMgr::GetInst()->AddEvent(evn);
 
-	return TRUE;
+		return TRUE;
+	}
 }
 
 

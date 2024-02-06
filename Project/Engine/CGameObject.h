@@ -8,7 +8,9 @@ class CMeshRender;
 class CSkinnedMeshRender;
 class CParticleSystem;
 class CCollider2D;
+class CCollider3D;
 class CAnimator2D;
+class CAnimator3D;
 class CLight2D;
 class CLight3D;
 class CCamera;
@@ -18,10 +20,9 @@ class CTileMap;
 class CDecal;
 class CLandScape;
 class CScript;
+class CBoneHolder;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
-
-
 
 class CGameObject :
     public CEntity
@@ -34,16 +35,15 @@ private:
     CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChildren;
 
-    int                     m_iLayerIdx; // ¼Ò¼ÓµÈ ·¹ÀÌ¾î ÀÎµ¦½º°ª
+    int                     m_iLayerIdx; // ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½
     bool                    m_bDead;
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
-    bool                    m_bIsBone;
 
 public:
-    // ·¹º§ÀÌ ½ÃÀÛµÉ ¶§ È£Ãâ or ½ÃÀÛ µÈ ·¹º§¿¡ ÇÕ·ùÇÒ ¶§ È£Ãâ
-    // »ý¼ºÀÚ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ È£ï¿½ï¿½ or ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ·ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     void begin();       
 
     void tick();        
@@ -71,14 +71,18 @@ public:
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Camera, CAMERA);
     GET_COMPONENT(Collider2D, COLLIDER2D);
+    GET_COMPONENT(Collider3D, COLLIDER3D);
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(TileMap, TILEMAP);
     GET_COMPONENT(Animator2D, ANIMATOR2D);
+    GET_COMPONENT(Animator3D, ANIMATOR3D);
     GET_COMPONENT(Light3D, LIGHT3D);  
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(LandScape, LANDSCAPE);
+    GET_COMPONENT(BoneHolder, BONEHOLDER); 
 
+    CComponent* GetComponentInParent(COMPONENT_TYPE _CType);
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 

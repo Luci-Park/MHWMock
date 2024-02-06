@@ -1,6 +1,4 @@
 #pragma once
-
-#include "ptr.h"
 #include "CTexture.h"
 
 class CConstBuffer;

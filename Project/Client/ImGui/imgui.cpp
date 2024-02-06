@@ -855,7 +855,6 @@ CODE
 //-------------------------------------------------------------------------
 // [SECTION] INCLUDES
 //-------------------------------------------------------------------------
-
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -7206,7 +7205,8 @@ bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
 
         // Inner clipping rectangle.
         // Will extend a little bit outside the normal work region.
-        // This is to allow e.g. Selectable or CollapsingHeader or some separators to cover that space.
+        // This is to allow e.g. Selectable or 
+        //  or some separators to cover that space.
         // Force round operator last to ensure that e.g. (int)(max.x-min.x) in user's render code produce correct result.
         // Note that if our window is collapsed we will end up with an inverted (~null) clipping rectangle which is the correct behavior.
         // Affected by window/frame border size. Used by:

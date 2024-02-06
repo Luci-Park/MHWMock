@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ObjLayerInfoUI.h"
+#pragma warning (disable:4996)
 
 #include <Engine\CGameObject.h>
 #include <Engine\CLayer.h>
@@ -24,7 +25,7 @@ ObjLayerInfoUI::ObjLayerInfoUI()
 	for (int i = 0; i < size; i++)
 	{
 
-		// LAYER_TYPEÀÌ ºñ¾îÀÖÀ» °æ¿ì "-" ¸¦ ³Ö¾îÁÜ.
+		// LAYER_TYPEï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ "-" ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½.
 		if (LAYER_TYPE_STR[i] == "")
 		{
 			items[i] = new char[strlen(LAYER_TYPE_STR[i]) + 2];
@@ -52,11 +53,13 @@ int ObjLayerInfoUI::render_update()
 	if (FALSE == ObjectInfoUI::render_update())
 		return FALSE;
 
+	if (GetTarget()->IsDead())
+		return FALSE;
+
 	// Layer ComboBox.
 	{
 		item_current_idx = GetTarget()->GetLayerIndex(); 
-		if (item_current_idx < 0) 
-			return TRUE;
+
 		combo_preview_value = items[item_current_idx];  
 		if (ImGui::BeginCombo("Layer", combo_preview_value, ImGuiComboFlags_NoArrowButton))
 		{

@@ -27,7 +27,30 @@ void CResMgr::CreateDefaultMesh()
 	pMesh->Create(&v, 1, &idx, 1);
 	AddRes(L"PointMesh", pMesh);
 
+	// =============
+	// LineMesh 持失
+	// =============
+	v.vPos = Vec3(-0.5f, 0.0f, 0.0f);
+	v.vColor = Vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	v.vUV = Vec2(0.0f, 0.0f);
+	v.vNormal = Vec3(0.0f, 0.0f, -1.0f);
+	v.vTangent = Vec3(1.0f, 0.0f, 0.0f);
+	v.vBinormal = Vec3(0.0f, -1.0f, 0.0f);
+	vecVtx.push_back(v);
 
+	v.vPos = Vec3(0.5f, 0.0f, 0.0f);
+	v.vColor = Vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	v.vUV = Vec2(1.0f, 0.0f);
+	vecVtx.push_back(v);
+
+	// Add indices to draw the line
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+
+	pMesh = new CMesh(true);
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes(L"LineMesh_Debug", pMesh);
+	
 	// =============
 	// RectMesh 持失
 	// =============

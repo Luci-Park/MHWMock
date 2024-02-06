@@ -16,7 +16,7 @@ ComponentUI::~ComponentUI()
 
 int ComponentUI::render_update()
 {
-	if (nullptr == m_Target || nullptr == m_Target->GetComponent(m_Type))
+	if (nullptr == m_Target || nullptr == m_Target->GetComponent(m_Type) || m_Target->IsDead())
 		return FALSE;
 
 	ImGui::PushID(0);

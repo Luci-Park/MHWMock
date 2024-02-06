@@ -185,7 +185,7 @@ void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinorma
             continue;
                
         int idx = _vIndices[i];
-        matrix matBone = transpose(g_arrBoneMat[idx]);
+        matrix matBone = g_arrBoneMat[idx];
         matBone = mul(g_arrBoneOffset[idx], matBone);
         
         info.vPos += (mul(float4(_vPos, 1.f), matBone) * _vWeight[i]).xyz;

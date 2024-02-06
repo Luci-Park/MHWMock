@@ -4,7 +4,9 @@
 #include "CDevice.h"
 #include "CPathMgr.h"
 #include "CStructuredBuffer.h"
+#include "CModel.h"
 #include <assimp/scene.h>
+#include "Assimp.hpp"
 
 
 CMesh::CMesh(bool _bEngine)
@@ -31,35 +33,37 @@ CMesh::~CMesh()
 		delete m_pBoneOffset;
 }
 
-CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
+CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 {
-	string strName = _aiMesh->mName.C_Str();
-	wstring wstrName(strName.begin(), strName.end());
+	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
 	CMesh* pMesh = new CMesh(true);
 	pMesh->SetName(wstrName);
-	pMesh->SetKey(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
-	vector<UINT> vecIdx(_aiMesh->mNumFaces * 3);
+	vector<UINT> vecIdx;
+	vecIdx.reserve(_aiMesh->mNumFaces * 3);
 
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
 		if (_aiMesh->HasPositions())
-			vecVtx[i].vPos = Vec3(_aiMesh->mVertices[i].x, _aiMesh->mVertices[i].y, _aiMesh->mVertices[i].z);
+		{
+			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
+			pMesh->m_vecVerticies.push_back(vecVtx[i].vPos);
+		}
 		if (_aiMesh->HasVertexColors(i))
-			vecVtx[i].vColor = Vec4((_aiMesh->mColors[i][0]).r, (_aiMesh->mColors[i][0]).g, (_aiMesh->mColors[i][0]).b, (_aiMesh->mColors[i][0]).a);
+			vecVtx[i].vColor = aiColorToVec4(_aiMesh->mColors[i][0]);
 		if (_aiMesh->HasTextureCoords(i))
 		{
-			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[i][0].x, _aiMesh->mTextureCoords[i][0].y);
+			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[0][i].x, _aiMesh->mTextureCoords[0][i].y);
 		}
 
 		if (_aiMesh->HasNormals())
-			vecVtx[i].vNormal = Vec3(_aiMesh->mNormals[i].x, _aiMesh->mNormals[i].y, _aiMesh->mNormals[i].z);
+			vecVtx[i].vNormal = aiVec3ToVec3(_aiMesh->mNormals[i]);
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
-			vecVtx[i].vTangent = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
-			vecVtx[i].vBinormal = Vec3(_aiMesh->mBitangents[i].x, _aiMesh->mBitangents[i].y, _aiMesh->mBitangents[i].z);
+			vecVtx[i].vTangent = aiVec3ToVec3(_aiMesh->mTangents[i]);
+			vecVtx[i].vBinormal = aiVec3ToVec3(_aiMesh->mBitangents[i]);
 		}
 	}
 
@@ -70,15 +74,17 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		for (int i = 0; i < _aiMesh->mNumBones; i++)
 		{
 			aiBone* pBone = _aiMesh->mBones[i];
-			string name = pBone->mName.C_Str();
-			pMesh->m_vecBones[i] = wstring(name.begin(), name.end());
+			pMesh->m_vecBones[i] = aiStrToWstr(pBone->mName);
+			_pModel->AddBoneName(aiStrToWstr(pBone->mName));
 
-			vecOffset[i] = XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&pBone->mOffsetMatrix));
+			vecOffset[i] = aiMatToMat(pBone->mOffsetMatrix).Transpose();
 			for (int j = 0; j < pBone->mNumWeights; j++)
 			{
 				int idx = pBone->mWeights[j].mVertexId;
-				for (int k = 0; k < 4; k++)
+				
+				for (int k = 0; k <= 4; k++)
 				{
+					assert(k < 4);
 					if (vecVtx[idx].vWeights[k] <= 0)
 					{
 						vecVtx[idx].vIndices[k] = i;
@@ -91,10 +97,11 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
 		pMesh->m_pBoneOffset = new CStructuredBuffer;
 		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, false, vecOffset.data());
 	}
-	for (int f = 0; f < _aiMesh->mNumFaces; f++)
+	for (int i = 0; i < _aiMesh->mNumFaces; i++)
 	{
-		for (int i = 0; i < 3; i++)
-			vecIdx[f * 3 + i] = _aiMesh->mFaces[f].mIndices[i];
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[0]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[1]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
 	}
 
 
@@ -107,7 +114,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	m_VtxCount = _iVtxCount;
 	m_IdxCount = _IdxCount;
 
-	// SystemMem µ¥ÀÌÅÍ º¹»ç
+	// SystemMem ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pVtxSys = new Vtx[m_VtxCount];
 	memcpy(m_pVtxSys, _VtxSysMem, sizeof(Vtx) * m_VtxCount);
 
@@ -115,7 +122,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	memcpy(m_pIdxSys, _IdxSysMem, sizeof(UINT) * m_IdxCount);
 	
 
-	// Vertex ¹öÆÛ »ý¼º
+	// Vertex ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_tVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 	m_tVBDesc.CPUAccessFlags = 0;
 	m_tVBDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -128,7 +135,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 		assert(nullptr);
 	}
 
-	// Index ¹öÆÛ »ý¼º
+	// Index ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 	m_tIBDesc.CPUAccessFlags = 0;
 	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;	
@@ -164,18 +171,18 @@ void CMesh::render_particle(UINT _iParticleCount)
 {
 	UpdateData();
 
-	// ÀÎ½ºÅÏ½Ì
+	// ï¿½Î½ï¿½ï¿½Ï½ï¿½
 	CONTEXT->DrawIndexedInstanced(m_IdxCount, _iParticleCount, 0, 0, 0);
 }
 
 int CMesh::Load(const wstring& _strFilePath)
 {
-	// ÀÐ±â¸ðµå·Î ÆÄÀÏ¿­±â
+	// ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 	if (nullptr != pFile)
 	{
-		// Å°°ª, »ó´ë°æ·Î
+		// Å°ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
 		wstring strName, strKey, strRelativePath;
 		LoadWString(strName, pFile);
 		LoadWString(strKey, pFile);
@@ -185,7 +192,7 @@ int CMesh::Load(const wstring& _strFilePath)
 		SetKey(strKey);
 		SetRelativePath(strRelativePath);
 
-		// Á¤Á¡µ¥ÀÌÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		UINT iByteSize = 0;
 		fread(&iByteSize, sizeof(int), 1, pFile);
 		if (iByteSize == 0)
@@ -211,7 +218,7 @@ int CMesh::Load(const wstring& _strFilePath)
 			assert(nullptr);
 		}
 
-		// Á¤Á¡µ¥ÀÌÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		fread(&iByteSize, sizeof(int), 1, pFile);
 
 		if (iByteSize == 0)
@@ -244,31 +251,31 @@ int CMesh::Load(const wstring& _strFilePath)
 
 int CMesh::Save(const wstring& _strRelativePath)
 {
-	// »ó´ë°æ·Î ÀúÀå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	SetRelativePath(_strRelativePath);
 
-	// ÆÄÀÏ °æ·Î ¸¸µé±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	path parentFolder(strFilePath);
 	filesystem::create_directories(parentFolder.parent_path());
 
-	// ÆÄÀÏ ¾²±â¸ðµå·Î ¿­±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
 	assert(pFile);
 
-	// Å°°ª, »ó´ë °æ·Î	
+	// Å°ï¿½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	
 	SaveWString(GetName(), pFile);
 	SaveWString(GetKey(), pFile);
 	SaveWString(GetRelativePath(), pFile);
 
-	// Á¤Á¡ µ¥ÀÌÅÍ ÀúÀå				
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½				
 	int iByteSize = m_tVBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pVtxSys, iByteSize, 1, pFile);
 
-	// ÀÎµ¦½º Á¤º¸
+	// ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	iByteSize = m_tIBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pIdxSys, iByteSize, 1, pFile);

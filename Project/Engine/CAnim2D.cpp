@@ -2,6 +2,7 @@
 #include "CAnim2D.h"
 
 #include "CTimeMgr.h"
+#include "CResMgr.h"
 
 
 CAnim2D::CAnim2D()

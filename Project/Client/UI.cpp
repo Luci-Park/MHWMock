@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "UI.h"
-
+#include <Engine\CGameObject.h>
 
 UI::UI(const string& _ID)
 	: m_strID(_ID)
@@ -24,10 +24,10 @@ void UI::finaltick()
 
 	string strFullName = m_strName + m_strID;
 
-	// ºÎ¸ð UI
+	// ï¿½Î¸ï¿½ UI
 	if (nullptr == m_ParentUI)
 	{
-		// ¸ð´Þ¸®½º
+		// ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½
 		if (!m_Modal)
 		{
 			ImGui::Begin(strFullName.c_str(), &m_Active);
@@ -36,7 +36,7 @@ void UI::finaltick()
 
 			for (size_t i = 0; i < m_vecChildUI.size(); ++i)
 			{
-				// ÀÚ½ÄUI °¡ ºñÈ°¼ºÈ­ »óÅÂ¸é °Ç³Ê¶Ú´Ù.
+				// ï¿½Ú½ï¿½UI ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ç³Ê¶Ú´ï¿½.
 				if (!m_vecChildUI[i]->IsActive())
 					continue;
 
@@ -45,15 +45,16 @@ void UI::finaltick()
 
 				if (m_vecChildUI[i]->m_bUseSeparator)
 				{
-					// ÀÚ½Ä UI °£ÀÇ ±¸ºÐ¼±
+					// ï¿½Ú½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¼ï¿½
 					if (i != m_vecChildUI.size() - 1)
 						ImGui::Separator();
 				}
 			}
+
 			ImGui::End();
 		}
 
-		// ¸ð´Þ
+		// ï¿½ï¿½ï¿½
 		else
 		{
 			ImGui::SetNextWindowPos(m_vPopupPos);
@@ -66,7 +67,7 @@ void UI::finaltick()
 
 				for (size_t i = 0; i < m_vecChildUI.size(); ++i)
 				{
-					// ÀÚ½ÄUI °¡ ºñÈ°¼ºÈ­ »óÅÂ¸é °Ç³Ê¶Ú´Ù.
+					// ï¿½Ú½ï¿½UI ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ç³Ê¶Ú´ï¿½.
 					if (!m_vecChildUI[i]->IsActive())
 						continue;
 
@@ -74,7 +75,7 @@ void UI::finaltick()
 
 					if (m_vecChildUI[i]->m_bUseSeparator)
 					{
-						// ÀÚ½Ä UI °£ÀÇ ±¸ºÐ¼±
+						// ï¿½Ú½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¼ï¿½
 						if (i != m_vecChildUI.size() - 1)
 							ImGui::Separator();
 					}
@@ -84,12 +85,12 @@ void UI::finaltick()
 			}
 		}
 	}
-
-	// ÀÚ½Ä UI
+	// ï¿½Ú½ï¿½ UI
 	else
 	{
 		ImGui::BeginChild(strFullName.c_str(), m_vSize);
 
+		
 		render_update();
 
 		for (size_t i = 0; i < m_vecChildUI.size(); ++i)
@@ -98,7 +99,7 @@ void UI::finaltick()
 
 			if (m_vecChildUI[i]->m_bUseSeparator)
 			{	
-				// ÀÚ½Ä UI °£ÀÇ ±¸ºÐ¼±
+				// ï¿½Ú½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¼ï¿½
 				if (i != m_vecChildUI.size() - 1)
 					ImGui::Separator();
 			}

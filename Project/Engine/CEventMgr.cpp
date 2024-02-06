@@ -7,6 +7,7 @@
 #include "CResMgr.h"
 #include "CRenderMgr.h"
 #include "CLayer.h"
+#include "components.h"
 
 CEventMgr::CEventMgr()
 	: m_LevelChanged(false)
@@ -54,7 +55,15 @@ void CEventMgr::tick()
 				m_vecGC.push_back(DeleteObject);
 			}			
 		}
-			break;
+		break;
+
+		case EVENT_TYPE::LOAD_OBJECT:
+		{
+			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			SpawnGameObject(pObj, pObj->Transform()->GetRelativePos(), pObj->GetLayerIndex());
+			m_LevelChanged = true;
+		}
+		break;
 
 		case EVENT_TYPE::ADD_CHILD:
 			// wParam : ParentObject, lParam : ChildObject
@@ -62,14 +71,14 @@ void CEventMgr::tick()
 			CGameObject* pDestObj = (CGameObject*)m_vecEvent[i].wParam;
 			CGameObject* pSrcObj = (CGameObject*)m_vecEvent[i].lParam;
 
-			// ºÎ¸ð·Î ÁöÁ¤µÈ ¿ÀºêÁ§Æ®°¡ ¾øÀ¸¸é, Child ¿ÀºêÁ§Æ®°¡ ÃÖ»óÀ§ ºÎ¸ð ¿ÀºêÁ§Æ®°¡ µÈ´Ù.
+			// ï¿½Î¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Child ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½È´ï¿½.
 			if (nullptr == pDestObj)
 			{
 				if (pSrcObj->GetParent())
 				{
-					// ±âÁ¸ ºÎ¸ð¿ÍÀÇ ¿¬°á ÇØÁ¦
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					pSrcObj->DisconnectFromParent();
-					// ÃÖ»óÀ§ ºÎ¸ð ¿ÀºêÁ§Æ®·Î, ¼Ò¼Ó ·¹ÀÌ¾î¿¡ µî·Ï
+					// ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½, ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½
 					pSrcObj->AddParentList();
 				}
 			}
@@ -100,15 +109,15 @@ void CEventMgr::tick()
 			LAYER_TYPE DestType = (LAYER_TYPE)m_vecEvent[i].lParam;
 			int iPrevLayerIdx = pObj->GetLayerIndex();
 
-			// ºÎ¸ðÀÎÁö ÀÚ½ÄÀÎÁö Ã¼Å©
+			// ï¿½Î¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 			if (pObj->m_Parent)
 			{
-				// ÀÚ½ÄÀÎ°æ¿ì LayerIndex ¹Ù²ãÁÖ¸éµÊ.
+				// ï¿½Ú½ï¿½ï¿½Î°ï¿½ï¿½ LayerIndex ï¿½Ù²ï¿½ï¿½Ö¸ï¿½ï¿½.
 				pObj->SetLayerIndex((int)DestType);
 			}
 			else
 			{
-				// ºÎ¸ðÀÎ°æ¿ì vecParentList»èÁ¦ ÈÄ DestLayer¿¡ µî·Ï + LayerIdx¼öÁ¤
+				// ï¿½Î¸ï¿½ï¿½Î°ï¿½ï¿½ vecParentListï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ DestLayerï¿½ï¿½ ï¿½ï¿½ï¿½ + LayerIdxï¿½ï¿½ï¿½ï¿½
 				//RemoveFromParentList
 				//AddParentList
 				CLayer* pPrevLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(iPrevLayerIdx);
@@ -131,7 +140,13 @@ void CEventMgr::tick()
 			CRenderMgr::GetInst()->ClearCamera();
 			m_LevelChanged = true;
 		}
-			break;		
+			break;
+
+		case EVENT_TYPE::CHANGE_OBJECT:
+		{
+			m_LevelChanged = true;
+		}
+		break;
 		}
 	}
 
@@ -145,7 +160,7 @@ void CEventMgr::GC_Clear()
 	{
 		if (nullptr != m_vecGC[i])
 		{
-			// ÀÚ½Ä Å¸ÀÔ ¿ÀºêÁ§Æ®ÀÎ °æ¿ì
+			// ï¿½Ú½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½
 			if (m_vecGC[i]->GetParent())			
 				m_vecGC[i]->DisconnectFromParent();
 			

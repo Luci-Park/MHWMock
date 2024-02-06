@@ -15,6 +15,11 @@
 #include "Animator2DUI.h"
 #include "TileMapUI.h"
 #include "Light2DUI.h"
+#include "BoneHolderUI.h"
+#include "Animator3DUI.h"
+#include "Light3DUI.h"
+#include "LandScapeUI.h"
+#include "ParticleSystemUI.h"
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -81,9 +86,28 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
 
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D] = new Light3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]);
+
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
+
+	//m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER] = new BoneHolderUI;
+	//m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER]->SetSize(0.f, 150.f);
+	//AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::BONEHOLDER]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D] = new Animator3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]);
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE] = new LandScapeUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM] = new ParticleSystemUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]->SetSize(0.f, 300.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]);
 
 	// ResUI
 	m_arrResUI[(UINT)RES_TYPE::MESHDATA] = new MeshDataUI;
@@ -152,7 +176,8 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 {
 	ClearTargetResource();
 
-	// Ÿ�ٿ�����Ʈ ���� ����
+	// 타겟오브젝트 정보 노출
+	// Ÿ�ٿ�����Ʈ ���� ����
 	m_pTargetObj = _Target;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
@@ -171,8 +196,10 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		m_arrComUI[i]->SetTarget(m_pTargetObj);
 	}
 
-	// Ÿ�� ������Ʈ�� nullptr �̸�
-	// ��ũ��ƮUI ���� ���� ��Ȱ��ȭ ��Ų��.
+	// 타겟 오브젝트가 nullptr 이면
+	// 스크립트UI 들을 전부 비활성화 시킨다.
+	// Ÿ�� ������Ʈ�� nullptr �̸�
+	// ��ũ��ƮUI ���� ���� ��Ȱ��ȭ ��Ų��.
 	if (nullptr == m_pTargetObj)
 	{
 		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
@@ -182,10 +209,10 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		return ;
 	}
 
-	// ������Ʈ�� ��ũ��Ʈ ����� �޾ƿ´�.
+	// 오브젝트의 스크립트 목록을 받아온다.
 	const vector<CScript*> & vecScript = m_pTargetObj->GetScripts();
 
-	// ��ũ��ƮUI �� ��ũ��Ʈ �� ���� ������ �׸�ŭ �߰����ش�.
+	// 스크립트UI 가 스크립트 수 보다 적으면 그만큼 추가해준다.
 	if (m_vecScriptUI.size() < vecScript.size())
 	{
 		UINT iDiffer = vecScript.size() - m_vecScriptUI.size();
@@ -199,7 +226,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		}
 	}
 
-	// ScriptUI �ݺ��� ���鼭 ������Ʈ�� ��ũ��Ʈ�� ��ŭ�� Ȱ��ȭ ��Ų��.
+	// ScriptUI 반복문 돌면서 오브젝트의 스크립트수 만큼만 활성화 시킨다.
 	for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
 	{
 		if (vecScript.size() <= i)
@@ -208,7 +235,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 			continue;
 		}
 
-		// ��ũ��Ʈ�� ��ũ��ƮUI ���� �˷��ش�.
+		// 스크립트를 스크립트UI 에게 알려준다.
 		m_vecScriptUI[i]->SetTarget(m_pTargetObj);
 		m_vecScriptUI[i]->SetScript(vecScript[i]);
 		m_vecScriptUI[i]->SetActive(true);
@@ -242,7 +269,7 @@ void InspectorUI::SetTargetModelNode(tModelNode* _ModelNode)
 
 void InspectorUI::ClearTargetObject()
 {
-	// Ÿ�ٿ�����Ʈ ���� ����
+	// 타겟오브젝트 정보 노출
 	m_pTargetObj = nullptr;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)

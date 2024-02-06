@@ -1,7 +1,5 @@
 #pragma once
 #include "CEntity.h"
-
-#include "ptr.h"
 #include "CTexture.h"
 
 class CAnimator2D;

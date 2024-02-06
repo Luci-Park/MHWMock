@@ -11,6 +11,7 @@
 #include "CRenderMgr.h"
 #include "CEventMgr.h"
 #include "CFontMgr.h"
+#include "CPhysXMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -69,6 +70,9 @@ void CEngine::progress()
 	// 엔진 매니저 및 레벨, 오브젝트 논리구조 실행
 	tick();
 
+	// PhysX물리 연산.
+	CPhysXMgr::GetInst()->process();
+
 	// 카메라를 지정, 카메라가 바라보는 시점으로 화면을 윈도우에 그림
 	render();
 
@@ -93,7 +97,7 @@ void CEngine::tick()
 	CLevelMgr::GetInst()->tick();
 
 	// Level 내에 GameObject 들의 변경점에 의해서 발생한 충돌을 체크한다.
-	CCollisionMgr::GetInst()->tick();
+	//CCollisionMgr::GetInst()->tick();
 }
 
 void CEngine::render()

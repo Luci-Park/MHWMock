@@ -40,7 +40,7 @@ void ObjectInfoUI::SetTarget(CGameObject* _Target)
 
 int ObjectInfoUI::render_update()
 {
-	if (nullptr == m_Target)
+	if (nullptr == m_Target || m_Target->IsDead())
 		return FALSE;
 
 	//ImGui::PushID(0);

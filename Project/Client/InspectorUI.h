@@ -7,7 +7,6 @@ class ResUI;
 class ObjectInfoUI;
 class tModelNode;
 
-#include <Engine\ptr.h>
 #include <Engine\CRes.h>
 
 class ScriptUI;

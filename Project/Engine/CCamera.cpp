@@ -28,6 +28,7 @@ CCamera::CCamera()
 	, m_fAspectRatio(1.f)
 	, m_fScale(1.f)
 	, m_fFar(10000.f)
+	, m_fNear(1.f)
 	, m_fFOV(XM_PI / 2.f)
 	, m_fOrthoWidth(0.f)
 	, m_fOrthoHeight(0.f)
@@ -55,11 +56,11 @@ CCamera::CCamera(const CCamera& _Other)
 	, m_ProjType(_Other.m_ProjType)
 	, m_iLayerMask(_Other.m_iLayerMask)
 	, m_iCamIdx(-1)
-{	
+{
 }
 
 CCamera::~CCamera()
-{	
+{
 }
 
 void CCamera::begin()
@@ -74,7 +75,7 @@ void CCamera::finaltick()
 {
 	CalcViewMat();
 
-	CalcProjMat();	
+	CalcProjMat();
 
 	m_Frustum.finaltick();
 }
@@ -114,17 +115,17 @@ void CCamera::CalcProjMat()
 	// 투영 행렬 계산
 	// =============
 	m_matProj = XMMatrixIdentity();
-	
+
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_ProjType)
 	{
 		// 직교 투영
 		Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
-		m_matProj =  XMMatrixOrthographicLH(m_fOrthoWidth * (1.f / m_fScale), m_fOrthoHeight * (1.f / m_fScale), 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH(m_fOrthoWidth * (1.f / m_fScale), m_fOrthoHeight * (1.f / m_fScale), 1.f, 10000.f);
 	}
 	else
-	{	
+	{
 		// 원근 투영
-		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, m_fAspectRatio, 1.f, m_fFar);
+		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, m_fAspectRatio, m_fNear, m_fFar);
 	}
 
 	// 투영행렬 역행렬 구하기
@@ -135,7 +136,9 @@ void CCamera::CalcProjMat()
 
 void CCamera::SetLayerMask(int _iLayer, bool _Visible)
 {
-	if (_Visible)
+	m_iLayerMaskVis[_iLayer] = _Visible;
+
+	if (m_iLayerMaskVis[_iLayer])
 	{
 		m_iLayerMask |= 1 << _iLayer;
 	}
@@ -147,6 +150,11 @@ void CCamera::SetLayerMask(int _iLayer, bool _Visible)
 
 void CCamera::SetLayerMaskAll(bool _Visible)
 {
+	for (size_t i = 0; i < MAX_LAYER; i++)
+	{
+		m_iLayerMaskVis[i] = _Visible;
+	}
+
 	if (_Visible)
 		m_iLayerMask = 0xffffffff;
 	else
@@ -180,18 +188,18 @@ void CCamera::SortObject()
 				CRenderComponent* pRenderCom = vecObject[j]->GetRenderComponent();
 
 				// 렌더링 기능이 없는 오브젝트는 제외
-				if (   nullptr == pRenderCom 
+				if (nullptr == pRenderCom
 					|| nullptr == pRenderCom->GetMaterial()
 					|| nullptr == pRenderCom->GetMaterial()->GetShader())
 					continue;
 
 				// Frustum Check
-				/*if ( pRenderCom->IsFrustumCheck() 
+				/*if ( pRenderCom->IsFrustumCheck()
 					&& false == m_Frustum.FrustumCheckBound(vecObject[j]->Transform()->GetWorldPos()
 						, vecObject[j]->Transform()->GetRelativeScale().x / 5.f))
 					continue;*/
 
-				// 쉐이더 도메인에 따른 분류
+					// 쉐이더 도메인에 따른 분류
 				SHADER_DOMAIN eDomain = pRenderCom->GetMaterial()->GetShader()->GetDomain();
 				switch (eDomain)
 				{
@@ -219,7 +227,7 @@ void CCamera::SortObject()
 					break;
 				case SHADER_DOMAIN::DOMAIN_UI:
 					m_vecUI.push_back(vecObject[j]);
-					break;				
+					break;
 				}
 			}
 		}
@@ -274,11 +282,11 @@ void CCamera::render()
 	// Deferred 물체들을 Deferred MRT 에 그리기
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet(true);
 	render_deferred();
-	
+
 	// Light MRT 로 변경
 	// 물체들에 적용될 광원을 그리기
 	// Deferred 물체에 광원 적용시키기
-	
+
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet(false);
 	const vector<CLight3D*>& vecLight3D = CRenderMgr::GetInst()->GetLight3D();
 	for (size_t i = 0; i < vecLight3D.size(); ++i)
@@ -306,7 +314,7 @@ void CCamera::render()
 
 	pMtrl->UpdateData();
 	pRectMesh->render();
-	
+
 	// Forward Rendering
 	render_opaque();
 	render_mask();
@@ -328,7 +336,7 @@ void CCamera::render_shadowmap()
 
 	for (size_t i = 0; i < m_vecShadow.size(); ++i)
 	{
-		//m_vecShadow[i]->render_shadowmap();
+		m_vecShadow[i]->render_shadowmap();
 	}
 }
 

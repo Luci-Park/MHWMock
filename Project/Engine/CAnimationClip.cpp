@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "CAnimationClip.h"
-#include "ptr.h"
 #include <assimp/scene.h>
+//#include "Assimp.hpp"
 
 CAnimationClip::CAnimationClip()
 	: CRes(RES_TYPE::ANIMATION, true)
+	, m_dDuration(0)
+	, m_dTicksPerSecond(30)
 {
 }
 
@@ -12,7 +14,7 @@ CAnimationClip::~CAnimationClip()
 {
 }
 
-CAnimationClip* CAnimationClip::LoadFromAssimp(aiAnimation* _aiAnimation)
+CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 {
 	CAnimationClip* pAnim = new CAnimationClip();
 	
@@ -41,32 +43,32 @@ CAnimationClip* CAnimationClip::LoadFromAssimp(aiAnimation* _aiAnimation)
 		for (size_t j = 0; j < pChannel->mNumPositionKeys; j++)
 		{
 			auto v3 = pChannel->mPositionKeys[j].mValue;
-			pAnim->m_vecChannels[i].vecPositionKeys[j].vValue =
+			pAnim->m_vecChannels[i].vecPositionKeys[j].value =
 				Vec3(v3.x, v3.y, v3.z);
 			
-			pAnim->m_vecChannels[i].vecPositionKeys[j].dTime = 
+			pAnim->m_vecChannels[i].vecPositionKeys[j].time = 
 				pChannel->mPositionKeys[j].mTime;
 		}
 		
 		for (size_t j = 0; j < pChannel->mNumRotationKeys; j++)
 		{
+
 			auto qQuat = pChannel->mRotationKeys[j].mValue;
-			auto qQ = Quaternion(qQuat.x, qQuat.y, qQuat.z, qQuat.w);
 
-			pAnim->m_vecChannels[i].vecRotationKeys[j].vValue =
-				qQ.ToEuler();
+			pAnim->m_vecChannels[i].vecRotationKeys[j].value =
+				Quaternion(qQuat.x, qQuat.y, qQuat.z, qQuat.w);
 
-			pAnim->m_vecChannels[i].vecRotationKeys[j].dTime =
+			pAnim->m_vecChannels[i].vecRotationKeys[j].time =
 				pChannel->mRotationKeys[j].mTime;
 		}
 
 		for (size_t j = 0; j < pChannel->mNumScalingKeys; j++)
 		{
 			auto v3 = pChannel->mScalingKeys[j].mValue;
-			pAnim->m_vecChannels[i].vecScaleKeys[j].vValue =
+			pAnim->m_vecChannels[i].vecScaleKeys[j].value =
 				Vec3(v3.x, v3.y, v3.z);
 
-			pAnim->m_vecChannels[i].vecScaleKeys[j].dTime =
+			pAnim->m_vecChannels[i].vecScaleKeys[j].time =
 				pChannel->mScalingKeys[j].mTime;
 		}
 	}
@@ -78,41 +80,68 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 {
 	for (int i = 0; i < m_vecChannels.size(); i++)
 	{
-		m_vecRsltChannel[i].vPos = FindVector3AtFrame(_dTick, m_vecChannels[i].vecPositionKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
-		m_vecRsltChannel[i].vRot = FindVector3AtFrame(_dTick, m_vecChannels[i].vecRotationKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
-		m_vecRsltChannel[i].vScale = FindVector3AtFrame(_dTick, m_vecChannels[i].vecScaleKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
+		m_vecRsltChannel[i].vPos = FindValueAtFrame(_dTick, m_vecChannels[i].vecPositionKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
+		m_vecRsltChannel[i].qRot = FindValueAtFrame(_dTick, m_vecChannels[i].vecRotationKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
+		m_vecRsltChannel[i].vScale = FindValueAtFrame(_dTick, m_vecChannels[i].vecScaleKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
 	}
 	return m_vecRsltChannel;
 }
 
-Vec3 CAnimationClip::FindVector3AtFrame(double _dTick, vector<tAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
+Vec3 CAnimationClip::FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
 {
 	int idx = 0;
 	for (; idx < _vecKeys.size(); idx++)
 	{
-		if (_dTick <= _vecKeys[idx].dTime)
+		if (_dTick <= _vecKeys[idx].time)
 			break;
 	}
 	if (idx == 0)
 	{
-		double t = _dTick / _vecKeys[idx].dTime;
-		return _vecKeys[idx].vValue;
+		double t = _dTick / _vecKeys[idx].time;
+		return _vecKeys[idx].value;
 	}
-	else if (idx == _vecKeys.size())
+	else if (idx < _vecKeys.size())
 	{
-		double a = _vecKeys[idx - 1].dTime;
-		double b = _vecKeys[idx].dTime;
+		double a = _vecKeys[idx - 1].time;
+		double b = _vecKeys[idx].time;
 		double t = (_dTick - a) / (b - a);
-		return Vector3::Lerp(_vecKeys[idx].vValue, _vecKeys[idx - 1].vValue, t);
+		return Vector3::Lerp(_vecKeys[idx - 1].value, _vecKeys[idx].value, t);
 		
 	}
 	else
 	{
-		double t = _dTick / _vecKeys[idx].dTime;
-		return _vecKeys[idx].vValue;
+		double t = _dTick / _vecKeys[idx - 1].time;
+		return _vecKeys[idx - 1].value;
 	}
 }
 
+Quaternion CAnimationClip::FindValueAtFrame(double _dTick, vector<tQuatAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
+{
+	int idx = 0;
+	for (; idx < _vecKeys.size(); idx++)
+	{
+		if (_dTick <= _vecKeys[idx].time)
+			break;
+	}
+	if (idx == 0)
+	{
+		double t = _dTick / _vecKeys[idx].time;
+		return _vecKeys[idx].value;
+	}
+	else if (idx < _vecKeys.size())
+	{
+		double a = _vecKeys[idx - 1].time;
+		double b = _vecKeys[idx].time;
+		double t = (_dTick - a) / (b - a);
+		return Quaternion::Lerp(_vecKeys[idx - 1].value, _vecKeys[idx].value, t);
+
+	}
+	else
+	{
+		double t = _dTick / _vecKeys[idx - 1].time;
+		return _vecKeys[idx - 1].value;
+	}
+}
 int CAnimationClip::Load(const wstring& _strFilePath)
 {
 	return 0;

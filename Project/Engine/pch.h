@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <Windows.h>
+#include <iostream>
 
 
 #include "global.h"

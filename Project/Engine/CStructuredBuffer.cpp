@@ -120,23 +120,33 @@ void CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount
 
 void CStructuredBuffer::SetData(void* _pSrc, UINT _iSize)
 {
-	if (nullptr == _pSrc)	
-		return;	
-
-	UINT iSize = _iSize;
-	if (0 == iSize)
+	try
 	{
-		iSize = GetBufferSize();
+		if (nullptr == _pSrc)
+			return;
+
+		UINT iSize = _iSize;
+		if (0 == iSize)
+		{
+			iSize = GetBufferSize();
+		}
+
+		// CPU -> CPU WriteBuffer
+		D3D11_MAPPED_SUBRESOURCE tSub = {};
+		auto hr = CONTEXT->Map(m_SB_CPU_Write.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+		if((FAILED(hr)))
+			throw std::runtime_error("Failed to map buffer");
+		memcpy(tSub.pData, _pSrc, iSize);
+		CONTEXT->Unmap(m_SB_CPU_Write.Get(), 0);
+
+		// CPU WriteBuffer -> Main Buffer
+		CONTEXT->CopyResource(m_SB.Get(), m_SB_CPU_Write.Get());
 	}
-
-	// CPU -> CPU WriteBuffer
-	D3D11_MAPPED_SUBRESOURCE tSub = {};
-	CONTEXT->Map(m_SB_CPU_Write.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-	memcpy(tSub.pData, _pSrc, iSize);
-	CONTEXT->Unmap(m_SB_CPU_Write.Get(), 0);
-
-	// CPU WriteBuffer -> Main Buffer
-	CONTEXT->CopyResource(m_SB.Get(), m_SB_CPU_Write.Get());
+	catch (const std::exception& e)
+	{
+		string str = e.what();
+		int p;
+	}
 }
 
 void CStructuredBuffer::GetData(void* _pDst)

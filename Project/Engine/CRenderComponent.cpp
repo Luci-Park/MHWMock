@@ -4,7 +4,6 @@
 #include "CTransform.h"
 
 #include "CResMgr.h"
-#include "CMaterial.h"
 
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _type)
 	: CComponent(_type)

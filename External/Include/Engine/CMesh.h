@@ -3,6 +3,7 @@
 
 class CStructuredBuffer;
 class aiMesh;
+class CModel;
 class CMesh
 	: public CRes
 {
@@ -17,21 +18,22 @@ private:
 	UINT					m_IdxCount;
 	void*					m_pIdxSys;
 
-	vector<wstring>			m_vecBones;
+	vector<Vec3>			m_vecVerticies;
+	vector<Vec3>			m_vecNormals;
 
+	vector<wstring>			m_vecBones;
 	CStructuredBuffer*		m_pBoneOffset;
 
 public:
-	static CMesh* CreateFromAssimp(aiMesh* _aiMesh);
+	static CMesh* CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel);
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 	vector<wstring>& GetBoneNames() { return m_vecBones; }
 	int GetNumberOfBones() { return m_vecBones.size(); }
 	bool HasBones() { return m_vecBones.size() != 0; }
 
-private:
-	virtual int Load(const wstring& _strFilePath);
 public:
-	virtual int Save(const wstring& _strRelativePath);
+	virtual int Save(const wstring& _strRelativePath) override;
+	virtual int Load(const wstring& _strFilePath) override;
 
 
 	void render();
@@ -41,7 +43,7 @@ public:
 
 private:
 	virtual void UpdateData() override;
-	
+
 
 public:
 	CMesh(bool _bEngine = false);

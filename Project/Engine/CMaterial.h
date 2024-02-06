@@ -1,7 +1,6 @@
 #pragma once
 #include "CRes.h"
 
-#include "ptr.h"
 #include "CGraphicsShader.h"
 #include "CTexture.h"
 

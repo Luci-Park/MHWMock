@@ -22,7 +22,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	// 동적 재질 생성
-	MeshRender()->GetDynamicMaterial();
+	//MeshRender()->GetDynamicMaterial();
 }
 
 void CPlayerScript::tick()
@@ -63,7 +63,7 @@ void CPlayerScript::tick()
 
 	if (KEY_PRESSED(KEY::Z))
 	{
-		Vec3 vRot = Transform()->GetRelativeRot();
+		Vec3 vRot = Transform()->GetRelativeRot().ToEuler();
 		vRot.z += DT * XM_PI;
 		Transform()->SetRelativeRot(vRot);
 	}

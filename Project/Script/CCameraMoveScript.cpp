@@ -6,7 +6,7 @@
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
-	, m_fCamSpeed(1000.f)
+	, m_fCamSpeed(10.f)
 {
 }
 
@@ -72,7 +72,8 @@ void CCameraMoveScript::Camera2DMove()
 void CCameraMoveScript::Camera3DMove()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
-	Vec3 vRot = Transform()->GetRelativeRot();
+	Quaternion qRot = Transform()->GetRelativeRot();
+	Vec3 vRot = qRot.ToEuler();
 
 	Vec3 vFront = Transform()->GetRelativeDir(DIR_TYPE::FRONT);
 	Vec3 vUp = Transform()->GetRelativeDir(DIR_TYPE::UP);
@@ -118,8 +119,9 @@ void CCameraMoveScript::Camera3DMove()
 	if (KEY_PRESSED(KEY::RBTN))
 	{
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
-		vRot.y += DT * vMouseDir.x * 5.f;
-		vRot.x -= DT * vMouseDir.y * 5.f;
+		vRot.y += DT * vMouseDir.x * 180.f;
+		vRot.x -= DT * vMouseDir.y * 180.f;
+
 	}
 
 	Transform()->SetRelativePos(vPos);

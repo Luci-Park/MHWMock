@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 struct tVertex
 {
 	Vec3 vPos;
@@ -49,6 +48,17 @@ struct tDebugShapeInfo
 };
 
 
+struct tDebugShapeInfo3D
+{
+	Matrix			matWorld;
+	Vec3				vWorldPos;
+	Vec3				vWorldScale;
+	Vec3				vWorldRotation;
+	Vec4				vColor;
+	float				fMaxTime;
+	float				fCurTime;
+	bool				bDepthTest;
+};
 
 struct tLightColor
 {
@@ -169,29 +179,33 @@ struct tParticleModule
 	// Module Check
 	int		ModuleCheck[(UINT)PARTICLE_MODULE::END];
 };
-
-struct tAnimationKey
+struct tVecAnimationKey
 {
-	double	dTime;//in ticks.
-	Vec3	vValue;
+	double	time;//in ticks.
+	Vec3	value;
+};
+struct tQuatAnimationKey
+{
+	double		time;
+	Quaternion	value;
 };
 
 struct tAnimationChannel
 {
-	wstring					strBoneName;
-	AnimBehaviour			ePreState;
-	AnimBehaviour			ePostState;
-	vector<tAnimationKey>	vecPositionKeys;
-	vector<tAnimationKey>	vecScaleKeys;
-	vector<tAnimationKey>	vecRotationKeys;
+	wstring						strBoneName;
+	AnimBehaviour				ePreState;
+	AnimBehaviour				ePostState;
+	vector<tVecAnimationKey>	vecPositionKeys;
+	vector<tVecAnimationKey>	vecScaleKeys;
+	vector<tQuatAnimationKey>	vecRotationKeys;
 };
 
 struct tAnimationKeyFrame
 {
-	wstring strBoneName;
-	Vec3 vPos;
-	Vec3 vRot;
-	Vec3 vScale;
+	wstring		strBoneName;
+	Vec3		vPos;
+	Quaternion	qRot;
+	Vec3		vScale;
 };
 
 // ===================
