@@ -14,6 +14,9 @@
 #include "CCustomResourceLoader.h"
 
 #include "AssimpTest.h"
+
+#include <Engine\CPhysXMgr.h>
+
 // 전역 변수:
 HINSTANCE   hInst;                                // 현재 인스턴스입니다.
 HWND        g_hWnd;
@@ -62,7 +65,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 테스트 용 레벨 생성
     CreateTestLevel();
-   
+
+    // PhysXMgr 초기화
+    CPhysXMgr::GetInst()->init();
+
 
 
     while (true)

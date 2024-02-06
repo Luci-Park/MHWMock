@@ -413,3 +413,8 @@ unity_*
 *.ini
 anjanath/anjanath_body_w_Anim.blend
 anjanath/anjanath_body_w_Anim.fbx
+
+# PhysX Library
+OutputFile/bin_d/PhysXGpu_64.dll
+
+

@@ -12,14 +12,14 @@ void DeleteArray(T* (&Arr)[_Size])
 
 
 
-// ¿ÀºêÁ§Æ® »ý¼º
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 class CGameObject;
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx);
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, const wstring& _LayerName);
 void SpawnGameObject(CGameObject* _NewObject, const wstring& _LayerName);
 void SpawnGameObject(CGameObject* _NewObject);
 
-// ¿ÀºêÁ§Æ® »èÁ¦
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 void DestroyObject(CGameObject* _DeletObject);
 
 // DrawDebugShape
@@ -36,8 +36,10 @@ void DrawDebugSphere(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotat
 void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
 void DrawDebugLine(Vec3 from, Vec3 to);
+void DrawDebugShape3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
-// GameObject À¯È¿¼º Ã¼Å©
+
+// GameObject ï¿½ï¿½È¿ï¿½ï¿½ Ã¼Å©
 bool IsValidObj(CGameObject*& _Target);
 
 

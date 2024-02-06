@@ -209,6 +209,16 @@ void DrawDebugLine(Vec3 from, Vec3 to)
 	info.bDepthTest = true;
 
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+void DrawDebugShape3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
+{
+	tDebugShapeInfo3D info = {};
+
+	info.matWorld = _matWorld;
+	info.fMaxTime = _fTime;
+	info.vColor = _vColor;
+	info.bDepthTest = DepthTest;
+
+	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 
 

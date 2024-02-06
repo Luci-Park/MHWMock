@@ -1,4 +1,5 @@
 #pragma once
+#include <Engine\CResMgr.h>
 
 class CGameObjectEx;
 
@@ -11,6 +12,11 @@ private:
 
 	CGameObjectEx*			m_DebugShape[(UINT)SHAPE_TYPE::END];
 	vector<tDebugShapeInfo> m_DebugShapeInfo;
+	
+	vector<tDebugShapeInfo3D>  m_DebugShapeInfo3D;
+	vector<Ptr<CMesh>>			m_DebugShapeMesh3D;
+
+
 
 public:
 	void init();

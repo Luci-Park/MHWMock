@@ -113,7 +113,7 @@
       <Filter>Source\07. Resource\5. Prefab</Filter>
     </ClInclude>
     <ClInclude Include="CCollider2D.h">
-      <Filter>Source\06. Component\2. Collider2D</Filter>
+      <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
       <Filter>Source\03. Manager\07. CollisionMgr</Filter>
@@ -186,6 +186,11 @@
     </ClInclude>
     <ClInclude Include="CBoneHolder.h">
       <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
+    <ClInclude Include="CCollider3D.h">
+      <Filter>Source\06. Component\2. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CPhysXMgr.h">
+      <Filter>Source\03. Manager\11. PhysXMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,7 +285,7 @@
       <Filter>Source\07. Resource\5. Prefab</Filter>
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
-      <Filter>Source\06. Component\2. Collider2D</Filter>
+      <Filter>Source\06. Component\2. Collider</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>Source\03. Manager\07. CollisionMgr</Filter>
@@ -362,6 +367,11 @@
     </ClCompile>
     <ClCompile Include="CBoneHolder.cpp">
       <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
+    <ClCompile Include="CCollider3D.cpp">
+      <Filter>Source\06. Component\2. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CPhysXMgr.cpp">
+      <Filter>Source\03. Manager\11. PhysXMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +486,6 @@
     <Filter Include="Source\07. Resource\5. Prefab">
       <UniqueIdentifier>{bb3a4eec-2ba4-4576-8eac-788c0ab1f9c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\06. Component\2. Collider2D">
-      <UniqueIdentifier>{95818b5c-89c4-4cb1-a32b-1d06f120f939}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\03. Manager\07. CollisionMgr">
       <UniqueIdentifier>{233a4c00-46c3-4613-8f0a-479f30314f25}</UniqueIdentifier>
     </Filter>
@@ -544,6 +551,11 @@
     </Filter>
     <Filter Include="Source\07. Resource\8. Animation">
       <UniqueIdentifier>{631ed60e-ef0c-4d38-9965-1c1e8b01b763}</UniqueIdentifier>
+    <Filter Include="Source\06. Component\2. Collider">
+      <UniqueIdentifier>{95818b5c-89c4-4cb1-a32b-1d06f120f939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\03. Manager\11. PhysXMgr">
+      <UniqueIdentifier>{d37d9e5e-a338-41bd-9596-3a639f9f2967}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

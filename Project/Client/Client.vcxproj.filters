@@ -8,9 +8,6 @@
     <Filter Include="Default">
       <UniqueIdentifier>{8e093ada-c2c2-4bff-9390-9244f58587a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui">
-      <UniqueIdentifier>{6a3b17e3-c055-433c-b620-c9c8796ac376}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager">
       <UniqueIdentifier>{cb29e3c8-5212-4dc9-9d98-c4c010e0be04}</UniqueIdentifier>
     </Filter>
@@ -119,6 +116,9 @@
     <Filter Include="UI\InspectorUI\ContentUI">
       <UniqueIdentifier>{6ff1df0b-768c-4425-88dd-d62587ca58fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\ImGui">
+      <UniqueIdentifier>{6a3b17e3-c055-433c-b620-c9c8796ac376}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -143,19 +143,19 @@
       <Filter>Manager\EditorObjMgr\GameObjectEx</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_dx11.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_win32.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiMgr.h">
       <Filter>Manager\ImGuiMgr</Filter>
@@ -246,7 +246,7 @@
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_stdlib.h">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ObjectInfoUI.h">
       <Filter>UI\InspectorUI\ObjectInfoUI</Filter>
@@ -298,25 +298,25 @@
       <Filter>Manager\EditorObjMgr\GameObjectEx</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_win32.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiMgr.cpp">
       <Filter>Manager\ImGuiMgr</Filter>
@@ -408,7 +408,7 @@
       <Filter>Manager\LevelSaveLoad</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ObjectInfoUI.cpp">
       <Filter>UI\InspectorUI\ObjectInfoUI</Filter>

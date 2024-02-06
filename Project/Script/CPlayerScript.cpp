@@ -22,7 +22,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	// 동적 재질 생성
-	MeshRender()->GetDynamicMaterial();
+	//MeshRender()->GetDynamicMaterial();
 }
 
 void CPlayerScript::tick()

@@ -3,6 +3,8 @@
 
 #include "CTexture.h"
 
+#include "CResMgr.h"
+
 class CCamera;
 class CLight2D;
 class CLight3D;
@@ -17,7 +19,9 @@ private:
     vector<CCamera*>            m_vecCam;           // 현재 레벨 내에 존재하는 카메라를 등록 받아둠
     CCamera*                    m_pEditorCam;       // 외부 에디터쪽에서 관리하는 카메라를 등록 받아둠
 
-    vector<tDebugShapeInfo>     m_vecShapeInfo;
+    vector<tDebugShapeInfo>        m_vecShapeInfo2D;
+    vector<tDebugShapeInfo3D>    m_vecShapeInfo3D;
+    vector<Ptr<CMesh>>              m_vecShapeMesh3D;
 
     vector<CLight2D*>           m_vecLight2D;
     vector<tLightInfo>          m_vecLight2DInfo;    
@@ -61,8 +65,14 @@ public:
 
     void ClearCamera() { m_vecCam.clear(); }
 
-    void AddDebugShapeInfo(const tDebugShapeInfo& _info) { m_vecShapeInfo.push_back(_info); }
-    vector<tDebugShapeInfo>& GetDebugShapeInfo() { return m_vecShapeInfo; }
+    void AddDebugShapeInfo(const tDebugShapeInfo& _info) { m_vecShapeInfo2D.push_back(_info); }
+    vector<tDebugShapeInfo>& GetDebugShapeInfo() { return m_vecShapeInfo2D; }
+
+    void AddDebugShapeInfo3D(const tDebugShapeInfo3D& _info) { m_vecShapeInfo3D.push_back(_info); }
+    vector<tDebugShapeInfo3D>& GetDebugShapeInfo3D() { return m_vecShapeInfo3D; }
+    
+    void AddDebugShapeMesh3D(const Ptr<CMesh>& _mesh) { m_vecShapeMesh3D.push_back(_mesh); }
+    vector<Ptr<CMesh>>& GetDebugShapeMesh3D() { return m_vecShapeMesh3D; }
 
     const vector<CLight2D*>& GetLight2D() { return m_vecLight2D; }
     const vector<CLight3D*>& GetLight3D() { return m_vecLight3D; }
@@ -73,6 +83,14 @@ public:
             return nullptr;
 
         return m_vecCam[0];
+    }
+
+    CCamera* GetEditorCam()
+    {
+        if (m_pEditorCam == nullptr)
+            return nullptr;
+
+        return m_pEditorCam;
     }
 
     void CopyRenderTarget();
