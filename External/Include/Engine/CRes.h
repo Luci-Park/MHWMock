@@ -10,7 +10,7 @@ private:
 
     wstring         m_strRelativePath;
 
-    bool            m_bEngine;  // ¿£ÁøÀÌ °ü¸®ÇÏ´Â ¸®¼Ò½º
+    bool            m_bEngine;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½
 
 protected:
     void SetKey(const wstring& _strKey) { SetRelativePath(_strKey); }
@@ -21,14 +21,14 @@ private:
     void Release();
 
 
-    // ¸®¼Ò½º ¹ÙÀÎµù
+    // ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
     virtual void UpdateData() {};
 
 public:
     virtual int Save(const wstring& _strFilePath) = 0;
     virtual int Load(const wstring& _strFilePath) = 0;
 
-    // ¸®¼Ò½º´Â Clone À» ±¸ÇöÇÏÁö ¾Ê´Â´Ù.
+    // ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ Clone ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 public:

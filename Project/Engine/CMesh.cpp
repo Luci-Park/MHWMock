@@ -114,7 +114,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	m_VtxCount = _iVtxCount;
 	m_IdxCount = _IdxCount;
 
-	// SystemMem µ¥ÀÌÅÍ º¹»ç
+	// SystemMem ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pVtxSys = new Vtx[m_VtxCount];
 	memcpy(m_pVtxSys, _VtxSysMem, sizeof(Vtx) * m_VtxCount);
 
@@ -122,7 +122,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	memcpy(m_pIdxSys, _IdxSysMem, sizeof(UINT) * m_IdxCount);
 	
 
-	// Vertex ¹öÆÛ »ý¼º
+	// Vertex ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_tVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 	m_tVBDesc.CPUAccessFlags = 0;
 	m_tVBDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -135,7 +135,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 		assert(nullptr);
 	}
 
-	// Index ¹öÆÛ »ý¼º
+	// Index ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 	m_tIBDesc.CPUAccessFlags = 0;
 	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;	
@@ -171,18 +171,18 @@ void CMesh::render_particle(UINT _iParticleCount)
 {
 	UpdateData();
 
-	// ÀÎ½ºÅÏ½Ì
+	// ï¿½Î½ï¿½ï¿½Ï½ï¿½
 	CONTEXT->DrawIndexedInstanced(m_IdxCount, _iParticleCount, 0, 0, 0);
 }
 
 int CMesh::Load(const wstring& _strFilePath)
 {
-	// ÀÐ±â¸ðµå·Î ÆÄÀÏ¿­±â
+	// ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 	if (nullptr != pFile)
 	{
-		// Å°°ª, »ó´ë°æ·Î
+		// Å°ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
 		wstring strName, strKey, strRelativePath;
 		LoadWString(strName, pFile);
 		LoadWString(strKey, pFile);
@@ -192,7 +192,7 @@ int CMesh::Load(const wstring& _strFilePath)
 		SetKey(strKey);
 		SetRelativePath(strRelativePath);
 
-		// Á¤Á¡µ¥ÀÌÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		UINT iByteSize = 0;
 		fread(&iByteSize, sizeof(int), 1, pFile);
 		if (iByteSize == 0)
@@ -218,7 +218,7 @@ int CMesh::Load(const wstring& _strFilePath)
 			assert(nullptr);
 		}
 
-		// Á¤Á¡µ¥ÀÌÅÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		fread(&iByteSize, sizeof(int), 1, pFile);
 
 		if (iByteSize == 0)
@@ -251,31 +251,31 @@ int CMesh::Load(const wstring& _strFilePath)
 
 int CMesh::Save(const wstring& _strRelativePath)
 {
-	// »ó´ë°æ·Î ÀúÀå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	SetRelativePath(_strRelativePath);
 
-	// ÆÄÀÏ °æ·Î ¸¸µé±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	path parentFolder(strFilePath);
 	filesystem::create_directories(parentFolder.parent_path());
 
-	// ÆÄÀÏ ¾²±â¸ðµå·Î ¿­±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
 	assert(pFile);
 
-	// Å°°ª, »ó´ë °æ·Î	
+	// Å°ï¿½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	
 	SaveWString(GetName(), pFile);
 	SaveWString(GetKey(), pFile);
 	SaveWString(GetRelativePath(), pFile);
 
-	// Á¤Á¡ µ¥ÀÌÅÍ ÀúÀå				
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½				
 	int iByteSize = m_tVBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pVtxSys, iByteSize, 1, pFile);
 
-	// ÀÎµ¦½º Á¤º¸
+	// ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	iByteSize = m_tIBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pIdxSys, iByteSize, 1, pFile);

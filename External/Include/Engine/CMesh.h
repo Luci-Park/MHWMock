@@ -43,7 +43,7 @@ public:
 
 private:
 	virtual void UpdateData() override;
-	
+
 
 public:
 	CMesh(bool _bEngine = false);

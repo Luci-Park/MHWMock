@@ -34,15 +34,15 @@ private:
     CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChildren;
 
-    int                     m_iLayerIdx; // ¼Ò¼ÓµÈ ·¹ÀÌ¾î ÀÎµ¦½º°ª
+    int                     m_iLayerIdx; // ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½
     bool                    m_bDead;
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
 
 public:
-    // ·¹º§ÀÌ ½ÃÀÛµÉ ¶§ È£Ãâ or ½ÃÀÛ µÈ ·¹º§¿¡ ÇÕ·ùÇÒ ¶§ È£Ãâ
-    // »ý¼ºÀÚ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ È£ï¿½ï¿½ or ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ·ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     void begin();       
 
     void tick();        

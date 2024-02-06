@@ -7,8 +7,8 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
-#include <Engine/CLevelMgr.h>
-
+#include <Engine\CLevelMgr.h>
+#include <Engine\CLayer.h>
 #include <Script\CScriptMgr.h>
 
 
@@ -18,6 +18,8 @@
 #include "InspectorUI.h"
 #include "ContentUI.h"
 #include "CLevelSaveLoad.h"
+#include "ListUI.h"
+#include "test.cpp"
 
 
 
@@ -63,13 +65,13 @@ int MenuUI::render_update()
                     if (ImGui::MenuItem(strNarrow.c_str()))
                     {
                         wstring filename = L"level\\" + vecLevels[i] + L".lv";
-                        // Level ºÒ·¯¿À±â
+                        // Level ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                         CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(filename);
 
                         tEvent evn = {};
                         evn.Type = EVENT_TYPE::LEVEL_CHANGE;
                         evn.wParam = (DWORD_PTR)pLoadedLevel;
-
+                        
                         CEventMgr::GetInst()->AddEvent(evn);
                     }
                 }
@@ -95,7 +97,7 @@ int MenuUI::render_update()
         }
         if (ImGui::BeginMenu("GameObject"))
         {
-            // ÇöÀç ·¹º§¿¡ °ÔÀÓ¿ÀºêÁ§Æ® »ý¼º
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             if (ImGui::MenuItem("Create Empty Object"))
             {
                 CreateEmptyObject();
@@ -111,6 +113,12 @@ int MenuUI::render_update()
             if (ImGui::MenuItem("Load Object"))
             {
                 LoadObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Delete Object"))
+            {
+                DeleteObject();
             }
             ImGui::Separator();
 
@@ -248,10 +256,10 @@ void MenuUI::CreateEmptyObject()
     pNewObject->SetName(L"New Object");
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), ToWString((LAYER_TYPE)0));
 
-    // Outliner ¸¦ °¡Á®¿Â´Ù.
+    // Outliner ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
 
-    // »õ·ÎÃß°¡µÈ ¿ÀºêÁ§Æ®¸¦ µ¥ÀÌÅÍ·Î ÇÏ´Â ³ëµå°¡ Ãß°¡µÇ¸é, ¼±ÅÃ»óÅÂ·Î µÎ°Ô ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½å°¡ ï¿½ß°ï¿½ï¿½Ç¸ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Â·ï¿½ ï¿½Î°ï¿½ ï¿½Ñ´ï¿½.
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
 }
 
@@ -259,14 +267,15 @@ void MenuUI::SaveObject()
 {
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
-
-    FILE* emptyFile = nullptr;
+    if (!pSelectedObject)
+        return;
+    FILE* saveFile;
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    wstring strPath2 = L"obj\\" + pSelectedObject->GetName() + L".obj";
-    strPath += strPath2;
-    
-    _wfopen_s(&emptyFile, strPath.c_str(), L"wb");
-    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, emptyFile) == S_OK);
+    wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
+    strPath += filename;
+    _wfopen_s(&saveFile, strPath.c_str(), L"ab");
+    assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, saveFile) == S_OK);
+    fclose(saveFile);
 }
 
 void MenuUI::LoadObject()
@@ -274,12 +283,21 @@ void MenuUI::LoadObject()
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     ContentUI* content = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    FILE* loadFile = BrowserOpen();
+    CGameObject* pSelectedObject = CLevelSaveLoad::LoadGameObject(loadFile);
+    tEvent evn;
+    evn.wParam = (DWORD_PTR)pSelectedObject;
+    evn.lParam = 0;
+    evn.Type = EVENT_TYPE::CREATE_OBJECT;
+    CEventMgr::GetInst()->AddEvent(evn);
     content->Reload();
-    CGameObject* pSelectedObject = nullptr;
-    FILE* emptyFile = nullptr;
-    //_wfopen_s(&emptyFile, )
-    //CLevelSaveLoad::LoadGameObject()
+}
 
+void MenuUI::DeleteObject()
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    CGameObject* pSelectedObject = outliner->GetSelectedObject();
+    DestroyObject(pSelectedObject);
 }
 
 void MenuUI::CreateEmptyMaterial(string strName)
@@ -295,11 +313,11 @@ void MenuUI::CreateEmptyMaterial(string strName)
 
 void MenuUI::AddComponent(COMPONENT_TYPE _type)
 {
-    // Outliner ¿Í Inspector ¸¦ °¡Á®¿Â´Ù.
+    // Outliner ï¿½ï¿½ Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 
-    // ¼±ÅÃµÈ ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Í¼­ ComponentType ¿¡ ¸Â´Â ÄÄÆ÷³ÍÆ®¸¦ »ý¼ºÇØ¼­ Ãß°¡ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ComponentType ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
     if (nullptr == pSelectedObject)
@@ -348,18 +366,18 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;            
     }
 
-    // Inspector ¿¡ »õ·Ó°Ô Ãß°¡µÈ ÄÄÆ÷³ÍÆ®¸¦ ¾Ë¸®±â À§ÇØ¼­ Å¸°ÙÀ» ´Ù½Ã ¾Ë·ÁÁØ´Ù.
+    // Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½.
     inspector->SetTargetObject(pSelectedObject);
 
 }
 
 void MenuUI::AddScript(const wstring& _strScriptName)
 {
-    // Outliner ¿Í Inspector ¸¦ °¡Á®¿Â´Ù.
+    // Outliner ï¿½ï¿½ Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 
-    // ¼±ÅÃµÈ ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Í¼­ ComponentType ¿¡ ¸Â´Â ÄÄÆ÷³ÍÆ®¸¦ »ý¼ºÇØ¼­ Ãß°¡ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ComponentType ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
     if (nullptr == pSelectedObject)

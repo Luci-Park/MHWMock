@@ -26,23 +26,23 @@
 enum class COMPONENT_TYPE
 {
 	// update
-	TRANSFORM,		// À§Ä¡, Å©±â, È¸Àü
-	COLLIDER2D,		// 2Â÷¿ø Ãæµ¹
-	COLLIDER3D,		// 3Â÷¿ø Ãæµ¹
+	TRANSFORM,		// ï¿½ï¿½Ä¡, Å©ï¿½ï¿½, È¸ï¿½ï¿½
+	COLLIDER2D,		// 2ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹
+	COLLIDER3D,		// 3ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹
 	ANIMATOR2D,		// Sprite Animation
 	ANIMATOR3D,		// Bone Sknning Animation
-	LIGHT2D,		// 2Â÷¿ø ±¤¿ø
-	LIGHT3D,		// 3Â÷¿ø ±¤¿ø
+	LIGHT2D,		// 2ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	LIGHT3D,		// 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	CAMERA,			// Camera
 
 	// render
-	MESHRENDER,		// ±âº»ÀûÀÎ ·»´õ¸µ
+	MESHRENDER,		// ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	SKINNEDMESHRENDER,
-	PARTICLESYSTEM, // ÀÔÀÚ ·»´õ¸µ
-	TILEMAP,		// 2Â÷¿ø Å¸ÀÏ
-	LANDSCAPE,		// 3Â÷¿ø ÁöÇü
+	PARTICLESYSTEM, // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	TILEMAP,		// 2ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+	LANDSCAPE,		// 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	SKYBOX,			// SkyBox
-	DECAL,			// ³»ºÎ ·»´õ¸µ
+	DECAL,			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	BONEHOLDER,
 
 	END,
@@ -62,8 +62,8 @@ enum class RES_TYPE
 	PREFAB,
 
 	MODEL,
-	MESH,			// ÇüÅÂ
-	TEXTURE,		// ÀÌ¹ÌÁö
+	MESH,			// ï¿½ï¿½ï¿½ï¿½
+	TEXTURE,		// ï¿½Ì¹ï¿½ï¿½ï¿½
 	ANIMATION,
 
 	SOUND,
@@ -171,7 +171,7 @@ enum PIPELINE_STAGE
 	PS_GEOMETRY = 0x08,
 	PS_PIXEL = 0x10,	
 
-	PS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,	
+	PXS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,	
 };
 
 enum class RS_TYPE
@@ -199,10 +199,10 @@ enum class BS_TYPE
 {
 	DEFAULT,		// No Blending
 	MASK,			// Alpha Coverage
-	ALPHA_BLEND,	// Alpha °è¼ö 
-	ONE_ONE,		// 1:1 È¥ÇÕ
+	ALPHA_BLEND,	// Alpha ï¿½ï¿½ï¿½ 
+	ONE_ONE,		// 1:1 È¥ï¿½ï¿½
 
-	DEFEREED_DECAL_BLEND, // 0 Å¸°ÙÀº AlphaBlend, 1 Å¸°ÙÀº ONE-ONE Blend
+	DEFEREED_DECAL_BLEND, // 0 Å¸ï¿½ï¿½ï¿½ï¿½ AlphaBlend, 1 Å¸ï¿½ï¿½ï¿½ï¿½ ONE-ONE Blend
 	END,
 };
 
@@ -225,18 +225,18 @@ enum class PROJ_TYPE
 
 enum class SHADER_DOMAIN
 {
-	DOMAIN_DEFERRED,		// Áö¿¬ ·»´õ¸µ ¿ÀºêÁ§Æ®
-	DOMAIN_DEFERRED_DECAL,	// Deferred Decal(±¤¿ø Àû¿ë °¡´ÉÇÑ Decal)
+	DOMAIN_DEFERRED,		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	DOMAIN_DEFERRED_DECAL,	// Deferred Decal(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Decal)
 
-	DOMAIN_OPAQUE,			// ºÒÅõ¸í ¿ÀºêÁ§Æ®
-	DOMAIN_MASK,			// ºÒÅõ¸í, ¿ÏÀü Åõ¸í
-	DOMAIN_DECAL,			// µ¥Ä® ¿ÀºêÁ§Æ®
-	DOMAIN_TRANSPARENT,		// ¹ÝÅõ¸í
-	DOMAIN_POSTPROCESS,		// ÈÄ Ã³¸®
+	DOMAIN_OPAQUE,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	DOMAIN_MASK,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	DOMAIN_DECAL,			// ï¿½ï¿½Ä® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	DOMAIN_TRANSPARENT,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	DOMAIN_POSTPROCESS,		// ï¿½ï¿½ Ã³ï¿½ï¿½
 	DOMAIN_UI,
 
-	DOMAIN_LIGHT,			// ±¤¿ø Å¸ÀÔ 
-	DOMAIN_UNDEFINED,		// ¹ÌÁ¤
+	DOMAIN_LIGHT,			// ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ 
+	DOMAIN_UNDEFINED,		// ï¿½ï¿½ï¿½ï¿½
 };
 
 
@@ -246,6 +246,7 @@ enum class EVENT_TYPE
 	DELETE_OBJECT,  // wParam : GameObject
 	CHANGE_OBJECT,
 
+	LOAD_OBJECT,
 	ADD_CHILD,
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
@@ -253,7 +254,6 @@ enum class EVENT_TYPE
 	LAYER_CHANGE,
 
 	LEVEL_CHANGE,	
-
 };
 
 

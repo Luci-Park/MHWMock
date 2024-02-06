@@ -58,7 +58,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 			pModel->m_vecMeshes[i] = pMesh;
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
 
-			//°°Àº ÀÌ¸§ Ã³¸®
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ Ã³ï¿½ï¿½
 			int num = 1;
 			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
 			{
@@ -156,7 +156,7 @@ int CModel::Save(const wstring& _strRelativePath)
 
 		if (FAILED(m_pRootNode->Save(pFile)))
 		{
-			MessageBox(nullptr, L"¸®¼Ò½º ÀúÀå ½ÇÆÐ", L"Model Node ÀúÀå ½ÇÆÐ", MB_OK);
+			MessageBox(nullptr, L"ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", L"Model Node ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", MB_OK);
 		}
 
 		fclose(pFile);
@@ -201,7 +201,7 @@ int CModel::Load(const wstring& _strFilePath)
 		m_pRootNode = new tModelNode;
 		if (FAILED(m_pRootNode->Load(pFile)))
 		{
-			MessageBox(nullptr, L"¸®¼Ò½º ·Îµå ½ÇÆÐ", L"Model Node ·Îµå ½ÇÆÐ", MB_OK);
+			MessageBox(nullptr, L"ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½", L"Model Node ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½", MB_OK);
 		}
 
 		fclose(pFile);

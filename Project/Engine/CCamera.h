@@ -12,6 +12,7 @@ private:
     float       m_fAspectRatio;
     float       m_fScale;           // Orthograpic 에서 사용하는 카메라 배율
     float       m_fFar;
+    float       m_fNear;
     float       m_fFOV;
 
     float       m_fOrthoWidth;       // Orthgraphic 에서의 가로 투영 범위
@@ -26,6 +27,7 @@ private:
     Matrix      m_matProjInv;
 
     UINT        m_iLayerMask;
+    bool        m_iLayerMaskVis[MAX_LAYER];
 
     int         m_iCamIdx;          // 카메라 우선순위
 
@@ -36,7 +38,7 @@ private:
     vector<CGameObject*>    m_vecOpaque;
     vector<CGameObject*>    m_vecMask;
     vector<CGameObject*>    m_vecDecal;
-    vector<CGameObject*>    m_vecTransparent;    
+    vector<CGameObject*>    m_vecTransparent;
     vector<CGameObject*>    m_vecUI;
     vector<CGameObject*>    m_vecPost;
 
@@ -54,12 +56,19 @@ public:
     void SetFar(float _Far) { m_fFar = _Far; }
     float GetFar() { return m_fFar; }
 
+    void SetNear(float _Near) { m_fNear = _Near; }
+    float GetNear() { return m_fNear; }
+
     void SetLayerMask(int _iLayer, bool _Visible);
     void SetLayerMaskAll(bool _Visible);
     UINT GetLayerMask() { return m_iLayerMask; }
+    bool GetLayerMaskVisible(int _iLayer) { return m_iLayerMaskVis[_iLayer]; }
 
     void SetFOV(float _Radian) { m_fFOV = _Radian; }
     float GetFOV() { return m_fFOV; }
+
+    void SetAspectRatio(float _Ratio) { m_fAspectRatio = _Ratio; }
+    float GetAspectRatio() { return m_fAspectRatio; }
 
     void SetOrthoWidth(float _width) { m_fOrthoWidth = _width; }
     void SetOrthoHeight(float _height) { m_fOrthoHeight = _height; }
@@ -107,7 +116,7 @@ private:
     virtual void LoadFromLevelFile(FILE* _File) override;
 
     CLONE(CCamera);
-public:    
+public:
     CCamera();
     CCamera(const CCamera& _Other);
     ~CCamera();

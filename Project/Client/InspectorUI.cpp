@@ -18,6 +18,8 @@
 #include "BoneHolderUI.h"
 #include "Animator3DUI.h"
 #include "Light3DUI.h"
+#include "LandScapeUI.h"
+#include "ParticleSystemUI.h"
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -99,6 +101,13 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D] = new Animator3DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]);
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE] = new LandScapeUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM] = new ParticleSystemUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]->SetSize(0.f, 300.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]);
 
 	// ResUI
 	m_arrResUI[(UINT)RES_TYPE::MESHDATA] = new MeshDataUI;
@@ -168,6 +177,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 	ClearTargetResource();
 
 	// 타겟오브젝트 정보 노출
+	// Ÿ�ٿ�����Ʈ ���� ����
 	m_pTargetObj = _Target;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
@@ -188,6 +198,8 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 
 	// 타겟 오브젝트가 nullptr 이면
 	// 스크립트UI 들을 전부 비활성화 시킨다.
+	// Ÿ�� ������Ʈ�� nullptr �̸�
+	// ��ũ��ƮUI ���� ���� ��Ȱ��ȭ ��Ų��.
 	if (nullptr == m_pTargetObj)
 	{
 		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)

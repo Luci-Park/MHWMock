@@ -12,6 +12,49 @@ void TestAssimp()
 {
 	Assimp::Importer importer;
 	string filename = "C:\\Users\\MOON\\Documents\\GitHub\\MHWMock\\anjanathanjanath_body_w_Anim.fbx";
+void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
+{
+	CGameObject* pObject = new CGameObject;
+	string strName = node->mName.C_Str();
+	wstring wstrName(strName.begin(), strName.end());
+	
+	pObject->SetName(wstrName);
+	//pObject->SetParent(parent);
+
+	pObject->AddComponent(new CTransform);
+	
+	aiMatrix4x4 mat = node->mTransformation;
+	aiVector3t<float> scale, rot, pos;
+	mat.Decompose(scale, rot, pos);
+	pObject->Transform()->SetRelativePos(pos.x, pos.y, pos.z);
+	pObject->Transform()->SetRelativeRot(rot.x, rot.y, rot.z);
+	pObject->Transform()->SetRelativeScale(scale.x, scale.y, scale.z);
+
+	
+	if (node->mNumMeshes > 0)
+	{
+		pObject->AddComponent(new CMeshRender);
+		aiMesh* _aiMesh = scene->mMeshes[node->mMeshes[0]];
+		strName = _aiMesh->mName.C_Str();
+		wstrName = wstring(strName.begin(), strName.end());
+		pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(wstrName));
+		
+		pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
+
+	}
+	SpawnGameObject(pObject, pObject->Transform()->GetRelativePos(), 0);
+	
+	for (int i = 0; i < node->mNumChildren; i++)
+	{
+		CreateGameObject(scene, node->mChildren[i], pObject);
+	}
+	
+}
+
+void TestAssimp()
+{
+	Assimp::Importer importer;
+	string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
 	//string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
 
 	path filepath(filename);

@@ -31,7 +31,6 @@ private:
     virtual int Load(const wstring& _strRelativePath);
 
     virtual void UpdateData() {}
-
 public:
     CModel();
     ~CModel();

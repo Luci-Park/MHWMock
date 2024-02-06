@@ -18,6 +18,7 @@ private:
     void CreateEmptyMaterial(string strName);
     void SaveObject();
     void LoadObject();
+    void DeleteObject();
     void AddComponent(COMPONENT_TYPE _type);
     void AddScript(const wstring& _strScriptName);
 

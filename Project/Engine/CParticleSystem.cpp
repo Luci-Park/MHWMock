@@ -14,6 +14,7 @@ CParticleSystem::CParticleSystem()
 	, m_RWBuffer(nullptr)
 	, m_ModuleData{}
 	, m_AccTime(0.f)
+	, m_ParticleTexture(nullptr)
 {
 	m_ModuleData.iMaxParticleCount = 3000;
 	
@@ -66,9 +67,9 @@ CParticleSystem::CParticleSystem()
 
 	// 파티클 전용 재질
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
-
 	// 파티클 업데이트 컴퓨트 쉐이더	
 	m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateCS").Get();
+	m_ParticleTexture = CResMgr::GetInst()->Load<CTexture>(L"texture\\particle\\Bubbles99px.png", L"texture\\particle\\Bubbles99px.png");
 
 	// 파티클 버퍼
 	m_ParticleBuffer = new CStructuredBuffer;
@@ -135,14 +136,13 @@ void CParticleSystem::render()
 	Transform()->UpdateData();
 
 	// 파티클버퍼 t20 에 바인딩
-	m_ParticleBuffer->UpdateData(20, PIPELINE_STAGE::PS_ALL);
+	m_ParticleBuffer->UpdateData(20, PIPELINE_STAGE::PXS_ALL);
 
 	// 모듈 데이터 t21 에 바인딩
 	m_ModuleDataBuffer->UpdateData(21, PIPELINE_STAGE::PS_GEOMETRY);
 
 	// Particle Render	
-	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"texture\\particle\\Bubbles99px.png", L"texture\\particle\\Bubbles99px.png");
-	GetMaterial()->SetTexParam(TEX_0, pParticleTex);
+	GetMaterial()->SetTexParam(TEX_0, m_ParticleTexture);
 
 	GetMaterial()->UpdateData();
 	GetMesh()->render_particle(m_ModuleData.iMaxParticleCount);

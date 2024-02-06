@@ -13,5 +13,8 @@ public:
 
 	static CLevel* LoadLevel(const wstring& _LevelPath);
 	static CGameObject* LoadGameObject(FILE* _File);
+
+private:
+	static char m_iLoadObjeNum;
 };
 

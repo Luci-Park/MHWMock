@@ -1,4 +1,3 @@
-#pragma once
 #include "CRes.h"
 
 class CStructuredBuffer;
@@ -43,7 +42,7 @@ public:
 
 private:
 	virtual void UpdateData() override;
-	
+
 
 public:
 	CMesh(bool _bEngine = false);
