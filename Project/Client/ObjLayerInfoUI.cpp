@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ObjLayerInfoUI.h"
+#pragma warning (disable:4996)
 
 #include <Engine\CGameObject.h>
 #include <Engine\CLayer.h>

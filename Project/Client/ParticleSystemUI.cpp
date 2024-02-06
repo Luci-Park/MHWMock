@@ -26,7 +26,7 @@ int ParticleSystemUI::render_update()
     {
         ImGui::Text("Color          ");
         ImGui::SameLine();
-        ImGui::DragFloat4("##Color", pModule.vSpawnColor);
+        ImGui::DragFloat4("##Color", pModule.vSpawnColor, 0.1f, 0.0f, 1.0f);
         ImGui::Text("ScaleMin       ");
         ImGui::SameLine();
         ImGui::DragFloat4("##Min", pModule.vSpawnScaleMin);
@@ -92,10 +92,10 @@ int ParticleSystemUI::render_update()
     {
         ImGui::Text("StartColor     ");
         ImGui::SameLine();
-        ImGui::DragFloat4("##StartColor", pModule.vStartColor);
+        ImGui::DragFloat4("##StartColor", pModule.vStartColor, 0.1f, 0.0f, 1.0f);
         ImGui::Text("EndColor       ");
         ImGui::SameLine();
-        ImGui::DragFloat4("##EndColor", pModule.vEndColor);
+        ImGui::DragFloat4("##EndColor", pModule.vEndColor, 0.1f, 0.0f, 1.0f);
     }
     if (ImGui::CollapsingHeader("Scale Change Module"))
     {
@@ -110,10 +110,10 @@ int ParticleSystemUI::render_update()
     {
         ImGui::Text("VelocityType   ");
         ImGui::SameLine();
-        ImGui::DragInt("##VelocityType", &pModule.AddVelocityType, 1.f, 0, 2);
+        ImGui::DragInt("##VelocityType", &pModule.AddVelocityType, 0.1f, 0, 2);
         ImGui::Text("VelocityDir    ");
         ImGui::SameLine();
-        ImGui::DragFloat4("##VelocityDir", pModule.vVelocityDir);
+        ImGui::DragFloat4("##VelocityDir", pModule.vVelocityDir, 0.05f, -1.f, 1.f);
         ImGui::Text("OffsetAngle    ");
         ImGui::SameLine();
         ImGui::DragFloat("##OffsetAngle", &pModule.OffsetAngle);

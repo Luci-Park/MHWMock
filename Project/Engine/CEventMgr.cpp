@@ -7,6 +7,7 @@
 #include "CResMgr.h"
 #include "CRenderMgr.h"
 #include "CLayer.h"
+#include "components.h"
 
 CEventMgr::CEventMgr()
 	: m_LevelChanged(false)
@@ -54,7 +55,15 @@ void CEventMgr::tick()
 				m_vecGC.push_back(DeleteObject);
 			}			
 		}
-			break;
+		break;
+
+		case EVENT_TYPE::LOAD_OBJECT:
+		{
+			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			SpawnGameObject(pObj, pObj->Transform()->GetRelativePos(), pObj->GetLayerIndex());
+			m_LevelChanged = true;
+		}
+		break;
 
 		case EVENT_TYPE::ADD_CHILD:
 			// wParam : ParentObject, lParam : ChildObject

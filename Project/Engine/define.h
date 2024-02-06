@@ -162,7 +162,7 @@ enum PIPELINE_STAGE
 	PS_GEOMETRY = 0x08,
 	PS_PIXEL = 0x10,	
 
-	PS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,	
+	PXS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,	
 };
 
 enum class RS_TYPE
@@ -235,7 +235,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,	// wParam : GameObject, lParam : Layer Index
 	DELETE_OBJECT,  // wParam : GameObject
-
+	LOAD_OBJECT,
 	ADD_CHILD,
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress

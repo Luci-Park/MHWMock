@@ -18,6 +18,8 @@
 #include "InspectorUI.h"
 #include "ContentUI.h"
 #include "CLevelSaveLoad.h"
+#include "ListUI.h"
+#include "test.cpp"
 
 
 
@@ -69,7 +71,7 @@ int MenuUI::render_update()
                         tEvent evn = {};
                         evn.Type = EVENT_TYPE::LEVEL_CHANGE;
                         evn.wParam = (DWORD_PTR)pLoadedLevel;
-
+                        
                         CEventMgr::GetInst()->AddEvent(evn);
                     }
                 }
@@ -265,14 +267,15 @@ void MenuUI::SaveObject()
 {
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
-
+    if (!pSelectedObject)
+        return;
     FILE* saveFile;
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
     strPath += filename;
-    errno_t err;
-    err = _wfopen_s(&saveFile, strPath.c_str(), L"wb");
+    _wfopen_s(&saveFile, strPath.c_str(), L"ab");
     assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, saveFile) == S_OK);
+    fclose(saveFile);
 }
 
 void MenuUI::LoadObject()
@@ -280,12 +283,14 @@ void MenuUI::LoadObject()
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     ContentUI* content = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    FILE* loadFile = BrowserOpen();
+    CGameObject* pSelectedObject = CLevelSaveLoad::LoadGameObject(loadFile);
+    tEvent evn;
+    evn.wParam = (DWORD_PTR)pSelectedObject;
+    evn.lParam = 0;
+    evn.Type = EVENT_TYPE::CREATE_OBJECT;
+    CEventMgr::GetInst()->AddEvent(evn);
     content->Reload();
-    CGameObject* pSelectedObject = nullptr;
-    FILE* emptyFile = nullptr;
-    //_wfopen_s(&emptyFile, )
-    //CLevelSaveLoad::LoadGameObject()
-
 }
 
 void MenuUI::DeleteObject()

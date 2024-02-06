@@ -56,9 +56,6 @@
     <Filter Include="UI\InspectorUI\ComponentUI\08. ParticleSystemUI">
       <UniqueIdentifier>{26ea688e-f2d8-4f3f-85e5-e9909a31dacf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\ContentUI">
-      <UniqueIdentifier>{6ff1df0b-768c-4425-88dd-d62587ca58fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Module">
       <UniqueIdentifier>{ab4338fd-59b8-4cc0-a1db-cc269dc91284}</UniqueIdentifier>
     </Filter>
@@ -118,6 +115,9 @@
     </Filter>
     <Filter Include="UI\InspectorUI\ObjectInfoUI\Obj_Name">
       <UniqueIdentifier>{f9042f2d-99b4-46d3-95f5-afc30f274700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ContentUI">
+      <UniqueIdentifier>{6ff1df0b-768c-4425-88dd-d62587ca58fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -194,7 +194,7 @@
       <Filter>UI\Module\ListUI</Filter>
     </ClInclude>
     <ClInclude Include="ContentUI.h">
-      <Filter>UI\ContentUI</Filter>
+      <Filter>UI\InspectorUI\ContentUI</Filter>
     </ClInclude>
     <ClInclude Include="TreeUI.h">
       <Filter>UI\Module\TreeUI</Filter>
@@ -260,9 +260,11 @@
     <ClInclude Include="Light3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystemUI.h" />
     <ClInclude Include="LandScapeUI.h">
       <Filter>UI\InspectorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\08. ParticleSystemUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -346,7 +348,7 @@
       <Filter>UI\Module\ListUI</Filter>
     </ClCompile>
     <ClCompile Include="ContentUI.cpp">
-      <Filter>UI\ContentUI</Filter>
+      <Filter>UI\InspectorUI\ContentUI</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerUI.cpp">
       <Filter>UI\OutlinerUI</Filter>
@@ -418,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="LandScapeUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>UI\MenuUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
