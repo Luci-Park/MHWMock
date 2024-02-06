@@ -51,13 +51,6 @@ void UI::finaltick()
 				}
 			}
 
-				if (m_vecChildUI[i]->m_bUseSeparator)
-				{
-					// �ڽ� UI ���� ���м�
-					if (i != m_vecChildUI.size() - 1)
-						ImGui::Separator();
-				}
-			}
 			ImGui::End();
 		}
 
@@ -92,7 +85,6 @@ void UI::finaltick()
 			}
 		}
 	}
-
 	// �ڽ� UI
 	else
 	{

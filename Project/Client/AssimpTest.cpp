@@ -12,6 +12,8 @@ void TestAssimp()
 {
 	Assimp::Importer importer;
 	string filename = "C:\\Users\\MOON\\Documents\\GitHub\\MHWMock\\anjanathanjanath_body_w_Anim.fbx";
+}
+
 void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
 {
 	CGameObject* pObject = new CGameObject;
@@ -49,31 +51,6 @@ void CreateGameObject(const aiScene* scene, aiNode* node, CGameObject* parent)
 		CreateGameObject(scene, node->mChildren[i], pObject);
 	}
 	
-}
-
-void TestAssimp()
-{
-	Assimp::Importer importer;
-	string filename = "C:\\Users\\user\\Documents\\_Quve17\\Luci\\Coding\\AssortRock\\MHWMock\\anjanath\\anjanath_body_w_Anim.fbx";
-	//string filename = "C:\\Users\\dream\\Downloads\\anjanath_body_w_Anim.fbx";
-
-	path filepath(filename);
-	wstring a = filepath.stem();
-	wstring b = filepath.parent_path() / filepath.stem();
-
-	const aiScene* scene = importer.ReadFile(filename
-		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
-		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
-
-	assert(!(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode));
-	for (int i = 0; i < scene->mNumMeshes; i++)
-	{
-		ExportMesh(scene->mMeshes[i]);
-	}
-	for (int i = 0; i < scene->mNumSkeletons; i++)
-	{
-		ProcessSkeleton(scene->mSkeletons[i]);
-	}
 }
 
 void ExportMesh(aiMesh* _aiMesh)
