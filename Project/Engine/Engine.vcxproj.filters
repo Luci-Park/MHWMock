@@ -175,9 +175,6 @@
     <ClInclude Include="CAnimator2D.h">
       <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
     </ClInclude>
-    <ClInclude Include="CAnimator3D.h">
-      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimationClip.h">
       <Filter>Source\07. Resource\8. Animation</Filter>
     </ClInclude>
@@ -191,6 +188,12 @@
     </ClInclude>
     <ClInclude Include="CPhysXMgr.h">
       <Filter>Source\03. Manager\11. PhysXMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator3D.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimationState.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +359,6 @@
     <ClCompile Include="CAnimator2D.cpp">
       <Filter>Source\06. Component\6. Animator\Animator2D</Filter>
     </ClCompile>
-    <ClCompile Include="CAnimator3D.cpp">
-      <Filter>Source\06. Component\6. Animator\Animator3D</Filter>
-    </ClCompile>
     <ClCompile Include="CAnimationClip.cpp">
       <Filter>Source\07. Resource\8. Animation</Filter>
     </ClCompile>
@@ -372,6 +372,12 @@
     </ClCompile>
     <ClCompile Include="CPhysXMgr.cpp">
       <Filter>Source\03. Manager\11. PhysXMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator3D.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimationState.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +562,12 @@
     </Filter>
     <Filter Include="Source\03. Manager\11. PhysXMgr">
       <UniqueIdentifier>{d37d9e5e-a338-41bd-9596-3a639f9f2967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\6. Animator\Animator3D\Animator">
+      <UniqueIdentifier>{09471226-147f-4662-9e53-89e5b6b01238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\6. Animator\Animator3D\AnimationState">
+      <UniqueIdentifier>{2d207e2c-3cb5-475e-9e21-017997539ebd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
