@@ -31,10 +31,9 @@ public:
 	int GetNumberOfBones() { return m_vecBones.size(); }
 	bool HasBones() { return m_vecBones.size() != 0; }
 
-private:
-	virtual int Load(const wstring& _strFilePath);
 public:
-	virtual int Save(const wstring& _strRelativePath);
+	virtual int Save(const wstring& _strRelativePath) override;
+	virtual int Load(const wstring& _strFilePath) override;
 
 
 	void render();

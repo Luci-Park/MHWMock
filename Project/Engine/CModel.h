@@ -13,6 +13,7 @@ class CModel :
 private:
     vector<Ptr<CMesh>>      m_vecMeshes;
     vector<Ptr<CMaterial>>  m_vecMaterials;
+    vector<wstring>         m_vecAnimNames;
     set<wstring>            m_setBoneNames;
     tModelNode*             m_pRootNode;
 

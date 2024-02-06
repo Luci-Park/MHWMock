@@ -25,6 +25,12 @@ CAnimator3D::~CAnimator3D()
 
 void CAnimator3D::SetAnimations(vector<wstring> _animations)
 {
+	m_mapAnims.clear();
+	for (int i = 0; i < _animations.size(); i++)
+	{
+		Ptr<CAnimationClip> pAnim = CResMgr::GetInst()->FindRes<CAnimationClip>(_animations[i]);
+		m_mapAnims.insert(make_pair(_animations[i], pAnim));
+	}
 }
 
 void CAnimator3D::SetAnimation(wstring _strAnim)
@@ -41,7 +47,7 @@ void CAnimator3D::finaltick()
 	if (m_dTick >= m_pCurrAnim->GetDuration())
 		m_dTick = 0;
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_pCurrAnim->GetTicksPerSecond();//¿©±â¿¡ ºñÀ² °öÇÏ¸é µÊ.
-	auto vecFrames = m_pCurrAnim->GetTransformsAtFrame(m_dTick);
+	vector<tAnimationKeyFrame> vecFrames = m_pCurrAnim->GetTransformsAtFrame(m_dTick);
 	for (int i = 0; i < vecFrames.size(); i++)
 	{
 		auto pTransform = BoneHolder()->GetBone(vecFrames[i].strBoneName);

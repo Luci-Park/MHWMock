@@ -14,7 +14,7 @@ CAnimationClip::~CAnimationClip()
 {
 }
 
-CAnimationClip* CAnimationClip::LoadFromAssimp(aiAnimation* _aiAnimation)
+CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 {
 	CAnimationClip* pAnim = new CAnimationClip();
 	

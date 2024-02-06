@@ -8,6 +8,8 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CSkinnedMeshRender.h"
+#include "CAnimator3D.h"
+#include "CAnimationClip.h"
 #include "CBoneHolder.h"
 #include "CAnimator3D.h"
 #include "CStructuredBuffer.h"
@@ -57,6 +59,8 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		{
 			pModel->m_vecMeshes[i] = pMesh;
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
+
+			//같은 이름 처리
 			int num = 1;
 			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
 			{
@@ -86,6 +90,21 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
 
+	pModel->m_vecAnimNames.resize(pScene->mNumAnimations);
+	for (int i = 0; i < pScene->mNumAnimations; i++)
+	{
+		Ptr<CAnimationClip> pAnim = CAnimationClip::CreateFromAssimp(pScene->mAnimations[i]);
+		if (nullptr != pAnim)
+		{
+			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
+			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
 	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
@@ -94,7 +113,10 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
-	pNewObject->AddComponent(new CBoneHolder(m_setBoneNames));
+	if(m_setBoneNames.size() > 0)
+		pNewObject->AddComponent(new CBoneHolder(m_setBoneNames));
+	if(m_vecAnimNames.size() > 0)
+		pNewObject->AddComponent(new CAnimator3D());
 	SpawnGameObject(pNewObject);
 }
 
@@ -250,10 +272,6 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	pNewNode->vPos = aiVec3ToVec3(position);
 	pNewNode->qRot = aiQuatToQuat(rotation);
 	pNewNode->vScale = aiVec3ToVec3(scale);
-
-	//pNewNode->vPos = Vec3(0, 0, 0);
-	//pNewNode->qRot = Vec3(0, 0, 0);
-	//pNewNode->vScale = Vec3(1, 1, 1);
 	
 	if (_aiNode->mNumMeshes > 0)
 	{
