@@ -1,16 +1,18 @@
 #include "pch.h"
 #include "CModel.h"
 #include "CResMgr.h"
-#include "CMesh.h"
-#include "CMaterial.h"
 #include "CPathMgr.h"
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+#include "CSkinnedMeshRender.h"
+#include "CAnimator3D.h"
+#include "CAnimationClip.h"
+#include "CBoneHolder.h"
+#include "CAnimator3D.h"
+#include "CStructuredBuffer.h"
+#include "Assimp.hpp"
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 CModel::CModel()
 	:CRes(RES_TYPE::MODEL, true)
@@ -31,9 +33,13 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 	
 	Assimp::Importer importer;
-	const aiScene* pScene = importer.ReadFile(string(strFullPath.begin(), strFullPath.end())
-		, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast
-		| aiProcess_PopulateArmatureData | aiProcess_OptimizeGraph);
+	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality;
+	unsigned int excludeFlags = aiProcess_RemoveRedundantMaterials;
+
+	const aiScene* pScene = importer.ReadFile(
+		string(strFullPath.begin(), strFullPath.end()),
+		originalFlags & (~excludeFlags)
+	);
 
 	assert(!(!pScene || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !pScene->mRootNode));
 	
@@ -46,11 +52,18 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	pModel->m_vecMeshes.resize(pScene->mNumMeshes);
 	for (int i = 0; i < pScene->mNumMeshes; i++)
 	{
-		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i]);
+		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i], pModel.Get());
 		if (nullptr != pMesh)
 		{
 			pModel->m_vecMeshes[i] = pMesh;
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
+
+			//같은 이름 처리
+			int num = 1;
+			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
+			{
+				strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + std::to_wstring(num++) + L".mesh";
+			}
 
 			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
 			//pMesh->Save(strMeshKey);
@@ -65,15 +78,30 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
 		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
-		string strName = pScene->mMaterials[i]->GetName().C_Str();
-		wstring wstrName(strName.begin(), strName.end());
+		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
 		pNewMtrl->SetName(wstrName);
-		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"Std3D_DeferredShader"));
+		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
 		//pNewMtrl->Save(strMtrlKey);
 		pModel->m_vecMaterials[i] = pNewMtrl;
+	}
+
+	pModel->m_vecAnimNames.resize(pScene->mNumAnimations);
+	for (int i = 0; i < pScene->mNumAnimations; i++)
+	{
+		Ptr<CAnimationClip> pAnim = CAnimationClip::CreateFromAssimp(pScene->mAnimations[i]);
+		if (nullptr != pAnim)
+		{
+			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
+			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
+			pModel->m_vecAnimNames[i] = strAnimKey;
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
@@ -84,6 +112,15 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 void CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
+	if (m_setBoneNames.size() > 0)
+	{
+		pNewObject->AddComponent(new CBoneHolder(m_setBoneNames));
+	}
+	if (m_vecAnimNames.size() > 0)
+	{
+		pNewObject->AddComponent(new CAnimator3D());
+		pNewObject->Animator3D()->SetAnimations(m_vecAnimNames);
+	}
 	SpawnGameObject(pNewObject);
 }
 
@@ -186,7 +223,7 @@ int tModelNode::Save(FILE* _File)
 {
 	SaveWString(strName, _File);
 	fwrite(&vPos, sizeof(Vec3), 1, _File);
-	fwrite(&vRot, sizeof(Vec3), 1, _File);
+	fwrite(&qRot, sizeof(Quaternion), 1, _File);
 	fwrite(&vScale, sizeof(Vec3), 1, _File);
 	SaveResRef(pMesh.Get(), _File);
 	SaveResRef(pMaterial.Get() , _File);
@@ -201,7 +238,7 @@ int tModelNode::Load(FILE* _File)
 	{
 		LoadWString(strName, _File);
 		fread(&vPos, sizeof(Vec3), 1, _File);
-		fread(&vRot, sizeof(Vec3), 1, _File);
+		fread(&qRot, sizeof(Quaternion), 1, _File);
 		fread(&vScale, sizeof(Vec3), 1, _File);
 		LoadResRef(pMesh, _File);
 		LoadResRef(pMaterial, _File);
@@ -232,13 +269,14 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 		string strTemp = _aiNode->mName.C_Str();
 		pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
 	}
+	aiVector3t<float> scale, position;
+	aiQuaterniont<float> rotation;
+	_aiNode->mTransformation.Decompose(scale, rotation, position);
 
-	aiVector3t<float> scale, rot, pos;
-	_aiNode->mTransformation.Decompose(scale, rot, pos);
-	pNewNode->vPos = Vec3(pos.x, pos.y, pos.z);
-	pNewNode->vRot = Vec3(rot.x, rot.y, rot.z);
-	pNewNode->vScale = Vec3(scale.x, scale.y, scale.z);
-
+	pNewNode->vPos = aiVec3ToVec3(position);
+	pNewNode->qRot = aiQuatToQuat(rotation);
+	pNewNode->vScale = aiVec3ToVec3(scale);
+	
 	if (_aiNode->mNumMeshes > 0)
 	{
 		if (1 == _aiNode->mNumMeshes)
@@ -277,14 +315,18 @@ void tModelNode::CreateGameObjectFromNode()
 
 	pGameObject->AddComponent(new CTransform);
 	pGameObject->Transform()->SetRelativePos(vPos);
-	pGameObject->Transform()->SetRelativeRot(vRot);
+	pGameObject->Transform()->SetRelativeRot(qRot);
 	pGameObject->Transform()->SetRelativeScale(vScale);
 
 	if (pMesh != nullptr)
 	{
-		pGameObject->AddComponent(new CMeshRender);
-		pGameObject->MeshRender()->SetMesh(pMesh);
-		pGameObject->MeshRender()->SetMaterial(pMaterial);
+		if (pMesh->HasBones())
+			pGameObject->AddComponent(new CSkinnedMeshRender);
+		else
+			pGameObject->AddComponent(new CMeshRender);
+
+		pGameObject->GetRenderComponent()->SetMesh(pMesh);
+		pGameObject->GetRenderComponent()->SetMaterial(pMaterial);
 	}
 }
 
@@ -296,4 +338,17 @@ CGameObject* tModelNode::SpawnGameObjectFromNode()
 		pNewGameObject->AddChild(vecChildren[i]->SpawnGameObjectFromNode());
 	}
 	return pNewGameObject;
+}
+
+tModelNode* tModelNode::FindNode(wstring _strName)
+{
+	if (_strName == strName)
+		return this;
+
+	for (size_t i = 0; i < vecChildren.size(); i++)
+	{
+		auto pNode = vecChildren[i]->FindNode(_strName);
+		if (pNode) return pNode;
+	}
+	return nullptr;
 }

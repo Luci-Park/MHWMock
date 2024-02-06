@@ -4,7 +4,6 @@
 
 #include "CMesh.h"
 #include "CMaterial.h"
-#include "ptr.h"
 
 class CRenderComponent :
     public CComponent
@@ -25,7 +24,7 @@ public:
 public:
     void SetFrustumCheck(bool _Check) { m_bFrustumCheck = _Check; }
 
-    void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
+    virtual void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
     void SetMaterial(Ptr<CMaterial> _Mtrl);
 
     Ptr<CMesh> GetMesh() { return m_pMesh; }
@@ -41,6 +40,7 @@ public:
 
 public:
     CRenderComponent(COMPONENT_TYPE _type);
+    CRenderComponent(const CRenderComponent& _origin);
     ~CRenderComponent();
 };
 

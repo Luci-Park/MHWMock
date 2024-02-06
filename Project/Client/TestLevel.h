@@ -2,3 +2,5 @@
 
 
 void CreateTestLevel();
+
+void testtick();

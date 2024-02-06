@@ -11,9 +11,17 @@ struct tVertex
 	Vec3 vNormal;
 	Vec3 vTangent;
 	Vec3 vBinormal;
+
+	Vec4 vWeights;
+	Vec4 vIndices;
 };
 
 typedef tVertex Vtx;
+
+struct tBone
+{
+	wstring wstrName;
+};
 
 
 
@@ -161,8 +169,34 @@ struct tParticleModule
 	// Module Check
 	int		ModuleCheck[(UINT)PARTICLE_MODULE::END];
 };
+struct tVecAnimationKey
+{
+	double	time;//in ticks.
+	Vec3	value;
+};
+struct tQuatAnimationKey
+{
+	double		time;
+	Quaternion	value;
+};
 
+struct tAnimationChannel
+{
+	wstring						strBoneName;
+	AnimBehaviour				ePreState;
+	AnimBehaviour				ePostState;
+	vector<tVecAnimationKey>	vecPositionKeys;
+	vector<tVecAnimationKey>	vecScaleKeys;
+	vector<tQuatAnimationKey>	vecRotationKeys;
+};
 
+struct tAnimationKeyFrame
+{
+	wstring		strBoneName;
+	Vec3		vPos;
+	Quaternion	qRot;
+	Vec3		vScale;
+};
 
 // ===================
 // 상수버퍼 대응 구조체
@@ -194,6 +228,8 @@ struct tMtrlConst
 
 	// 텍스쳐 세팅 true / false 용도
 	int arrTex[(UINT)TEX_PARAM::TEX_END];
+
+	int arrAnimData[4];
 };
 
 

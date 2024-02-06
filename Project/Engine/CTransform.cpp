@@ -25,10 +25,7 @@ void CTransform::finaltick()
 	m_matWorldScale = XMMatrixIdentity();
 	m_matWorldScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
 	
-	Matrix matRot = XMMatrixIdentity();
-	matRot = XMMatrixRotationX(m_vRelativeRot.x);
-	matRot *= XMMatrixRotationY(m_vRelativeRot.y);
-	matRot *= XMMatrixRotationZ(m_vRelativeRot.z);
+	Matrix matRot = Matrix::CreateFromQuaternion(GetRelativeRot());
 
 	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
 

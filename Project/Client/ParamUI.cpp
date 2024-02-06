@@ -128,7 +128,7 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
 
 int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_DELEGATE_1 _Func)
 {
-    ImGui::Text(_strDesc.c_str());    
+    ImGui::Text(_strDesc.c_str());
 
     string strIntName = GetNextName("##Param_Tex");
 
@@ -145,7 +145,7 @@ int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_
     {
         ImGui::Image((ImTextureID)_Tex->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
     }
-    
+
     // 드랍 체크
     if (ImGui::BeginDragDropTarget())
     {
@@ -187,10 +187,8 @@ int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_
 
         return 1;
     }
-
     return 0;
 }
-
 
 
 string ParamUI::GetNextName(const string& _ShowName)

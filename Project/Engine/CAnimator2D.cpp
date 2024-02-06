@@ -3,8 +3,6 @@
 
 #include "CAnim2D.h"
 #include "CMeshRender.h"
-
-#include "ptr.h"
 #include "CMaterial.h"
 
 CAnimator2D::CAnimator2D()

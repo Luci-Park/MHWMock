@@ -35,6 +35,7 @@ void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bo
 void DrawDebugSphere(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotation, float _fTime = 0.f, bool DepthTest = false);
 void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
+void DrawDebugLine(Vec3 from, Vec3 to);
 
 // GameObject 유효성 체크
 bool IsValidObj(CGameObject*& _Target);
@@ -68,7 +69,7 @@ void LoadResRef(Ptr<T>& _Res, FILE* _File)
 	
 	if (i)
 	{
-		wstring strKey, strRelativePath;
+		wstring strKey, strRelativePath, strName;
 		LoadWString(strKey, _File);
 		LoadWString(strRelativePath, _File);
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "CSingleton.h"
 
-#include "ptr.h"
 #include "CTexture.h"
 
 class CCamera;
@@ -42,6 +41,7 @@ public:
     void render();
 
 public:
+    CCamera* GetEditorCamera() { return m_pEditorCam; }
     int  RegisterCamera(CCamera* _Cam, int _idx);
     void RegisterEditorCamera(CCamera* _Cam) { m_pEditorCam = _Cam; }
     void SetRenderFunc(bool _IsPlay);

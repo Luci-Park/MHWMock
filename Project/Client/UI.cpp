@@ -50,7 +50,6 @@ void UI::finaltick()
 						ImGui::Separator();
 				}
 			}
-
 			ImGui::End();
 		}
 

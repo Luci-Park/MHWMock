@@ -5,9 +5,11 @@
 class CComponent;
 class CTransform;
 class CMeshRender;
+class CSkinnedMeshRender;
 class CParticleSystem;
 class CCollider2D;
 class CAnimator2D;
+class CAnimator3D;
 class CLight2D;
 class CLight3D;
 class CCamera;
@@ -17,10 +19,9 @@ class CTileMap;
 class CDecal;
 class CLandScape;
 class CScript;
+class CBoneHolder;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
-
-
 
 class CGameObject :
     public CEntity
@@ -31,7 +32,7 @@ private:
     vector<CScript*>        m_vecScript;
 
     CGameObject*            m_Parent;
-    vector<CGameObject*>    m_vecChild;
+    vector<CGameObject*>    m_vecChildren;
 
     int                     m_iLayerIdx; // 소속된 레이어 인덱스값
     bool                    m_bDead;
@@ -54,26 +55,32 @@ public:
 public:
     void AddComponent(CComponent* _Component);
     void AddChild(CGameObject* _Object);
-    //void SetParent(CGameObject* _Object);
+    void SetParent(CGameObject* _Object);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
-    const vector<CGameObject*>& GetChild() { return m_vecChild; }
+    const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
     CGameObject* GetParent() const { return m_Parent; }
+    CGameObject* GetRoot() const;
+    CGameObject* FindChildByName(wstring _strName);
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
+    GET_COMPONENT(SkinnedMeshRender, SKINNEDMESHRENDER);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Camera, CAMERA);
     GET_COMPONENT(Collider2D, COLLIDER2D);
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(TileMap, TILEMAP);
     GET_COMPONENT(Animator2D, ANIMATOR2D);
+    GET_COMPONENT(Animator3D, ANIMATOR3D);
     GET_COMPONENT(Light3D, LIGHT3D);  
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(LandScape, LANDSCAPE);
+    GET_COMPONENT(BoneHolder, BONEHOLDER); 
 
+    CComponent* GetComponentInParent(COMPONENT_TYPE _CType);
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 

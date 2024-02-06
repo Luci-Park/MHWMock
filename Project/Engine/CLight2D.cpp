@@ -20,7 +20,7 @@ void CLight2D::finaltick()
 {
 	if (KEY_PRESSED(KEY::C))
 	{
-		Vec3 vRot = Transform()->GetRelativeRot();
+		Vec3 vRot = Transform()->GetRelativeRot().ToEuler();
 		vRot.z += DT * (XM_PI / 2.f);
 		Transform()->SetRelativeRot(vRot);
 	}

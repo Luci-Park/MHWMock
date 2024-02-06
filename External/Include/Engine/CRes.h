@@ -24,13 +24,9 @@ private:
     // 리소스 바인딩
     virtual void UpdateData() {};
 
-private:
-    // 파일로부터 로딩
-    virtual int Load(const wstring& _strFilePath) = 0;
-
 public:
-    // 파일로 저장
     virtual int Save(const wstring& _strFilePath) = 0;
+    virtual int Load(const wstring& _strFilePath) = 0;
 
     // 리소스는 Clone 을 구현하지 않는다.
     virtual CRes* Clone() { return nullptr; assert(nullptr); }

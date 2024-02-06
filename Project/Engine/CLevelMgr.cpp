@@ -41,7 +41,7 @@ CGameObject* CLevelMgr::FindObjectByName(const wstring& _strName)
 
 void CLevelMgr::FindObjectByName(const wstring& _strName, vector<CGameObject*>& _vec)
 {
-	m_pCurLevel->FindObjectByName(_strName, _vec);
+	m_pCurLevel->FindObjectsByName(_strName, _vec);
 }
 
 void CLevelMgr::ChangeLevel(CLevel* _NextLevel)

@@ -4,11 +4,20 @@
 #include "CTransform.h"
 
 #include "CResMgr.h"
-#include "CMaterial.h"
 
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _type)
 	: CComponent(_type)
 	, m_bFrustumCheck(true)
+{
+}
+
+CRenderComponent::CRenderComponent(const CRenderComponent& _origin)
+	: CComponent(_origin)
+	, m_pMesh(_origin.m_pMesh)
+	, m_bFrustumCheck(_origin.m_bFrustumCheck)
+	, m_pCurrentMtrl(_origin.m_pCurrentMtrl)
+	, m_pSharedMtrl(_origin.m_pCurrentMtrl)
+	, m_pDynamicMtrl(nullptr)
 {
 }
 
@@ -18,6 +27,7 @@ CRenderComponent::~CRenderComponent()
 
 void CRenderComponent::render_shadowmap()
 {
+	if (GetMesh() == nullptr || GetMaterial() == nullptr) return;
 	Ptr<CMaterial> pShadowMapMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ShadowMapMtrl");
 
 	Transform()->UpdateData();

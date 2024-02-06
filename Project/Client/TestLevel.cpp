@@ -93,6 +93,23 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
+	//CGameObject* pParentObj = new CGameObject;
+	//pParentObj->SetName(L"Parent");
+	//pParentObj->AddComponent(new CTransform);
+	//pParentObj->AddComponent(new CMeshRender);
+	//pParentObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pParentObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	//
+	//CGameObject* pChildObj = new CGameObject;
+	//pChildObj->SetName(L"Child");
+	//pChildObj->AddComponent(new CTransform);
+	//pChildObj->AddComponent(new CMeshRender);
+	//pChildObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pChildObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	//pParentObj->AddChild(pChildObj);
+	//
+	//SpawnGameObject(pParentObj);
+
 	// LandScape Object
 	//CGameObject* pLandScape = new CGameObject;
 	//pLandScape->SetName(L"LandScape");
@@ -112,4 +129,14 @@ void CreateTestLevel()
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+
+}
+
+void testtick()
+{
+
+	DrawDebugSphere(Vec3(10, 10, 10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
+	DrawDebugSphere(Vec3(-10, -10, -10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
+
+	DrawDebugLine(Vec3(10, 10, 10), Vec3(-10, -10, -10));
 }

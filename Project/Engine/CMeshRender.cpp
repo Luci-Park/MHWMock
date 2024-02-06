@@ -9,6 +9,11 @@ CMeshRender::CMeshRender()
 {
 }
 
+CMeshRender::CMeshRender(CMeshRender& _origin)
+	: CRenderComponent(_origin)
+{
+}
+
 CMeshRender::~CMeshRender()
 {
 }
@@ -31,11 +36,13 @@ void CMeshRender::render()
 		Animator2D()->UpdateData();
 	}
 
+	GetMaterial()->SetNumberOfBones(0);
 	// 재질 업데이트
 	GetMaterial()->UpdateData();
 
 	// 렌더
 	GetMesh()->render();
+
 
 	// Animation 관련 정보 제거
 	if (Animator2D())

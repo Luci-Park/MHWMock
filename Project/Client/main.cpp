@@ -30,7 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(1119);
+    //_CrtSetBreakAlloc(499210);
    
     MyRegisterClass(hInstance);
 
@@ -87,7 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CEngine::GetInst()->progress();
             CEditorObjMgr::GetInst()->progress();       
 
-           
+            testtick();
 
             ImGuiMgr::GetInst()->progress();            
             CDevice::GetInst()->Present(); // 렌더 종료

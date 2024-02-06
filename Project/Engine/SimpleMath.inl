@@ -3095,6 +3095,82 @@ inline float Quaternion::Dot(const Quaternion& q) const
     XMVECTOR q2 = XMLoadFloat4(&q);
     return XMVectorGetX(XMQuaternionDot(q1, q2));
 }
+inline Vector3 DirectX::SimpleMath::Quaternion::ToEuler() const noexcept
+{
+    const float xx = x * x;
+    const float yy = y * y;
+    const float zz = z * z;
+    const float ww = w * w;
+
+    float unit = xx + yy + zz + ww;
+
+    float test = x * w - y * z;
+    Vector3 v;
+
+    if (test > 0.4995f * unit)
+    {
+        // singularity at north pole
+        v.y = 2.f * atan2(y, x);
+        v.x = XM_PI / 2.f;
+        v.z = 0;
+
+    }
+    else if (test < -0.4995f * unit)
+    {
+        // singularity at south pole
+        v.y = -2.f * atan2(y, x);
+        v.x = -XM_PI / 2.f;
+        v.z = 0;
+    }
+    else
+    {
+        Quaternion q(w, z, x, y);
+
+        v.y = (float)atan2(2.f * q.x * q.w + 2.f * q.y * q.z, 1 - 2.f * (q.z * q.z + q.w * q.w));     // Yaw
+
+        v.x = (float)asin(2.f * (q.x * q.z - q.w * q.y));                             // Pitch
+
+        v.z = (float)atan2(2.f * q.x * q.y + 2.f * q.z * q.w, 1 - 2.f * (q.y * q.y + q.z * q.z));      // Roll
+    }
+
+    v.x = XMConvertToDegrees(v.x);
+    v.y = XMConvertToDegrees(v.y);
+    v.z = XMConvertToDegrees(v.z);
+
+    while (v.x > 360.f)
+    {
+        v.x -= 360.f;
+    }
+    while (v.x < 0.f)
+    {
+        v.x += 360.f;
+    }
+
+    while (v.y > 360.f)
+    {
+        v.y -= 360.f;
+    }
+    while (v.y < 0.f)
+    {
+        v.y += 360.f;
+    }
+
+    while (v.z > 360.f)
+    {
+        v.z -= 360.f;
+    }
+    while (v.z < 0.f)
+    {
+        v.z += 360.f;
+    }
+
+    return v;
+}
+
+inline Quaternion DirectX::SimpleMath::Quaternion::FromEuler(const Vector3& v) noexcept
+{
+    return Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(v.y), XMConvertToRadians(v.x), XMConvertToRadians(v.z));
+}
 
 //------------------------------------------------------------------------------
 // Static functions
@@ -3218,6 +3294,33 @@ inline Quaternion Quaternion::Concatenate(const Quaternion& q1, const Quaternion
     return result;
 }
 
+inline Quaternion Quaternion::FromToRotation(const Vector3& fromDir, const Vector3& toDir) noexcept
+{
+    Quaternion result;
+    FromToRotation(fromDir, toDir, result);
+    return result;
+}
+
+inline Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& up) noexcept
+{
+    Quaternion result;
+    LookRotation(forward, up, result);
+    return result;
+}
+
+inline float Quaternion::Angle(const Quaternion& q1, const Quaternion& q2) noexcept
+{
+    using namespace DirectX;
+    const XMVECTOR Q0 = XMLoadFloat4(&q1);
+    const XMVECTOR Q1 = XMLoadFloat4(&q2);
+
+    // We can use the conjugate here instead of inverse assuming q1 & q2 are normalized.
+    XMVECTOR R = XMQuaternionMultiply(XMQuaternionConjugate(Q0), Q1);
+
+    const float rs = XMVectorGetW(R);
+    R = XMVector3Length(R);
+    return 2.f * atan2f(XMVectorGetX(R), rs);
+}
 
 /****************************************************************************
  *

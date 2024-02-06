@@ -57,6 +57,11 @@ cbuffer MATERIAL : register(b1)
     int g_btexcube_1;    
     int g_btexarr_0;
     int g_btexarr_1;
+    
+    int g_anim_0;
+    int g_anim_1;
+    int g_anim_2;
+    int g_anim_3;
 };
 
 cbuffer GLOBAL : register(b2)
@@ -86,6 +91,9 @@ Texture2DArray g_arrtex_1 : register(t11);
 
 StructuredBuffer<tLightInfo> g_Light2DBuffer : register(t12);
 StructuredBuffer<tLightInfo> g_Light3DBuffer : register(t13);
+
+StructuredBuffer<Matrix> g_arrBoneOffset : register(t29);
+StructuredBuffer<Matrix> g_arrBoneMat : register(t30);
 
 
 SamplerState g_sam_0 : register(s0);

@@ -63,7 +63,7 @@ void CPlayerScript::tick()
 
 	if (KEY_PRESSED(KEY::Z))
 	{
-		Vec3 vRot = Transform()->GetRelativeRot();
+		Vec3 vRot = Transform()->GetRelativeRot().ToEuler();
 		vRot.z += DT * XM_PI;
 		Transform()->SetRelativeRot(vRot);
 	}

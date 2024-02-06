@@ -3,7 +3,6 @@
 
 
 #include "CTexture.h"
-#include "ptr.h"
 
 
 // Multi Render Target

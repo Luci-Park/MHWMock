@@ -11,7 +11,7 @@ void CGameObjectEx::finaltick()
 			GetComponent((COMPONENT_TYPE)i)->finaltick();
 	}
 
-	const vector<CGameObject*>& vecChild = GetChild();
+	const vector<CGameObject*>& vecChild = GetChildren();
 	for (size_t i = 0; i < vecChild.size(); ++i)
 	{
 		vecChild[i]->finaltick();

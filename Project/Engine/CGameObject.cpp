@@ -51,9 +51,9 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	}
 
 	// 자식 오브젝트 복사
-	for (size_t i = 0; i < _Other.m_vecChild.size(); ++i)
+	for (size_t i = 0; i < _Other.m_vecChildren.size(); ++i)
 	{
-		AddChild(_Other.m_vecChild[i]->Clone());
+		AddChild(_Other.m_vecChildren[i]->Clone());
 	}	
 }
 
@@ -61,7 +61,7 @@ CGameObject::~CGameObject()
 {
 	Safe_Del_Array(m_arrCom);
 	Safe_Del_Vec(m_vecScript);
-	Safe_Del_Vec(m_vecChild);
+	Safe_Del_Vec(m_vecChildren);
 }
 
 void CGameObject::begin()
@@ -77,9 +77,9 @@ void CGameObject::begin()
 		m_vecScript[i]->begin();
 	}
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
-		m_vecChild[i]->begin();
+		m_vecChildren[i]->begin();
 	}
 }
 
@@ -96,9 +96,9 @@ void CGameObject::tick()
 		m_vecScript[i]->tick();
 	}
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
-		m_vecChild[i]->tick();
+		m_vecChildren[i]->tick();
 	}
 }
 
@@ -120,9 +120,9 @@ void CGameObject::finaltick()
 			m_arrCom[i]->finaltick();
 	}
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
-		m_vecChild[i]->finaltick();
+		m_vecChildren[i]->finaltick();
 	}
 		
 	// 소속 레이어가 없는데 finaltick 이 호출되었다.
@@ -141,9 +141,9 @@ void CGameObject::finaltick_module()
 			m_arrCom[i]->finaltick();
 	}
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
-		m_vecChild[i]->finaltick_module();
+		m_vecChildren[i]->finaltick_module();
 	}
 }
 
@@ -210,14 +210,34 @@ void CGameObject::AddChild(CGameObject* _Object)
 		// 부모 자식 연결
 		_Object->m_Parent = this;
 	}
-	m_vecChild.push_back(_Object);
+	m_vecChildren.push_back(_Object);
 }
 
-//void CGameObject::SetParent(CGameObject* _Object)
-//{
-//	if(_Object != nullptr)
-//		_Object->AddChild(this);
-//}
+CGameObject* CGameObject::GetRoot() const
+{
+	CGameObject* pParent = m_Parent;
+	while (pParent->GetParent() != nullptr)	pParent = pParent->GetParent();
+	return pParent;
+}
+
+CGameObject* CGameObject::FindChildByName(wstring _strName)
+{
+	if (GetName() == _strName)
+		return this;
+	for (int i = 0; i < m_vecChildren.size(); i++)
+	{
+		CGameObject* pObject = m_vecChildren[i]->FindChildByName(_strName);
+		if (pObject != nullptr)
+			return pObject;
+	}
+	return nullptr;
+}
+
+void CGameObject::SetParent(CGameObject* _Object)
+{
+	if(_Object != nullptr)
+		_Object->AddChild(this);
+}
 
 
 bool CGameObject::IsAncestor(CGameObject* _Target)
@@ -240,12 +260,12 @@ void CGameObject::DisconnectFromParent()
 	if (!m_Parent)
 		return;
 
-	vector<CGameObject*>::iterator iter = m_Parent->m_vecChild.begin();
-	for (; iter != m_Parent->m_vecChild.end(); ++iter)
+	vector<CGameObject*>::iterator iter = m_Parent->m_vecChildren.begin();
+	for (; iter != m_Parent->m_vecChildren.end(); ++iter)
 	{
 		if (this == *iter)
 		{
-			m_Parent->m_vecChild.erase(iter);
+			m_Parent->m_vecChildren.erase(iter);
 			m_Parent = nullptr;
 			return;
 		}
@@ -269,4 +289,14 @@ void CGameObject::AddParentList()
 {
 	CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
 	pLayer->AddParentList(this);
+}
+
+CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)
+{
+	if (m_arrCom[(UINT)_CType]) return m_arrCom[(UINT)_CType];
+	if (m_Parent != nullptr && m_Parent != this)
+	{
+		return m_Parent->GetComponentInParent(_CType);
+	}
+	return nullptr;
 }

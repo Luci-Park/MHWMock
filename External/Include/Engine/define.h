@@ -37,12 +37,13 @@ enum class COMPONENT_TYPE
 
 	// render
 	MESHRENDER,		// 기본적인 렌더링
+	SKINNEDMESHRENDER,
 	PARTICLESYSTEM, // 입자 렌더링
 	TILEMAP,		// 2차원 타일
 	LANDSCAPE,		// 3차원 지형
 	SKYBOX,			// SkyBox
 	DECAL,			// 내부 렌더링
-	
+	BONEHOLDER,
 
 	END,
 
@@ -63,6 +64,7 @@ enum class RES_TYPE
 	MODEL,
 	MESH,			// 형태
 	TEXTURE,		// 이미지
+	ANIMATION,
 
 	SOUND,
 
@@ -133,7 +135,12 @@ enum SCALAR_PARAM
 	MAT_0,
 	MAT_1,
 	MAT_2,
-	MAT_3,	
+	MAT_3,
+
+	ANIM_0,
+	ANIM_1,
+	ANIM_2,
+	ANIM_3,
 };
 
 enum TEX_PARAM
@@ -315,4 +322,12 @@ enum class MRT_TYPE
 	SHADOWMAP,
 
 	END,
+};
+
+enum class AnimBehaviour
+{
+	DEFAULT, //The value from the default node transformation is taken
+	CONSTANT, //The nearest key value is used without interpolation
+	LINEAR, //The value of the nearest two keys is linearly extrapolated for the current time value
+	REPEAT, // The animation is repeated.If the animation key go from n to m and the current time is t, use the value at(t - n) % (| m - n | )
 };

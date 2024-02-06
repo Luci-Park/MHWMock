@@ -7,7 +7,6 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CRenderMgr.h"
-#include "ptr.h"
 #include "CResMgr.h"
 
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
@@ -189,6 +188,25 @@ void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool D
 	info.fMaxTime = _fTime;
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
+
+	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+}
+
+void DrawDebugLine(Vec3 from, Vec3 to)
+{
+	tDebugShapeInfo info = {};
+
+	info.matWorld = XMMatrixIdentity();
+	info.eShape = SHAPE_TYPE::CUBE;
+	info.fMaxTime = 0.f;
+	info.vWorldPos = (from + to) / 2;
+	info.vWorldScale = Vec3((from - to).Length(), 1, 1);
+
+	Vector3 direction = (to - from).Normalize();
+	Quaternion rot = Quaternion::FromToRotation(Vec3::Right, direction);
+	info.vWorldRotation = rot.ToEuler();
+	info.vColor = Vec4( 1, 1, 0, 1 );
+	info.bDepthTest = true;
 
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
 }

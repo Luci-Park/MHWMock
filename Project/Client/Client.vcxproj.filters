@@ -122,6 +122,18 @@
     <Filter Include="UI\InspectorUI\ResUI\ModelUI">
       <UniqueIdentifier>{b5048296-420b-4c27-8857-2e91f4e45589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI">
+      <UniqueIdentifier>{5402e564-4ce2-40f1-ae80-9cd8b868bd95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ResUI\AnimationUI">
+      <UniqueIdentifier>{a76c60ea-5806-4e8f-9c34-e32ff149fc8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\12. Animator3DUI">
+      <UniqueIdentifier>{79707aa3-5ace-4573-8187-aed48c96df3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\11. BoneHolderUI">
+      <UniqueIdentifier>{717812f6-4aea-4277-9564-da0480bf8612}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -264,6 +276,21 @@
     <ClInclude Include="ModelUI.h">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
     </ClInclude>
+    <ClInclude Include="SkinnedMeshRenderUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationUI.h">
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGuizmo.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneHolderUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolderUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+      </CInclude>
     <ClInclude Include="Light3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>
     </ClInclude>
@@ -416,6 +443,21 @@
     <ClCompile Include="AssimpTest.cpp" />
     <ClCompile Include="ModelUI.cpp">
       <Filter>UI\InspectorUI\ResUI\ModelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMeshRenderUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\10. SkinnedMeshRenderUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationUI.cpp">
+      <Filter>UI\InspectorUI\ResUI\AnimationUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGuizmo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneHolderUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\11. BoneHolderUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClCompile>
     <ClCompile Include="Light3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\06. Light2DUI</Filter>

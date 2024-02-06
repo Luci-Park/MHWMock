@@ -3,7 +3,10 @@
 
 #include "CDevice.h"
 #include "CPathMgr.h"
+#include "CStructuredBuffer.h"
+#include "CModel.h"
 #include <assimp/scene.h>
+#include "Assimp.hpp"
 
 
 CMesh::CMesh(bool _bEngine)
@@ -14,6 +17,7 @@ CMesh::CMesh(bool _bEngine)
 	, m_IdxCount(0)
 	, m_pVtxSys(nullptr)
 	, m_pIdxSys(nullptr)
+	, m_vecBones(0)
 {
 }
 
@@ -24,51 +28,82 @@ CMesh::~CMesh()
 
 	if (nullptr != m_pIdxSys)
 		delete m_pIdxSys;
+
+	if (nullptr != m_pBoneOffset)
+		delete m_pBoneOffset;
 }
 
-CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh)
+CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 {
-	string strName = _aiMesh->mName.C_Str();
-	wstring wstrName(strName.begin(), strName.end());
+	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
 	CMesh* pMesh = new CMesh(true);
 	pMesh->SetName(wstrName);
-	pMesh->SetKey(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
-	vector<UINT> vecIdx(_aiMesh->mNumFaces * 3);
+	vector<UINT> vecIdx;
+	vecIdx.reserve(_aiMesh->mNumFaces * 3);
 
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
 		if (_aiMesh->HasPositions())
-			vecVtx[i].vPos = Vec3(_aiMesh->mVertices[i].x, _aiMesh->mVertices[i].y, _aiMesh->mVertices[i].z);
+		{
+			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
+			pMesh->m_vecVerticies.push_back(vecVtx[i].vPos);
+		}
 		if (_aiMesh->HasVertexColors(i))
-			vecVtx[i].vColor = Vec4((_aiMesh->mColors[i][0]).r, (_aiMesh->mColors[i][0]).g, (_aiMesh->mColors[i][0]).b, (_aiMesh->mColors[i][0]).a);
+			vecVtx[i].vColor = aiColorToVec4(_aiMesh->mColors[i][0]);
 		if (_aiMesh->HasTextureCoords(i))
 		{
-			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[i][0].x, _aiMesh->mTextureCoords[i][0].y);
+			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[0][i].x, _aiMesh->mTextureCoords[0][i].y);
 		}
 
 		if (_aiMesh->HasNormals())
-			vecVtx[i].vNormal = Vec3(_aiMesh->mNormals[i].x, _aiMesh->mNormals[i].y, _aiMesh->mNormals[i].z);
+			vecVtx[i].vNormal = aiVec3ToVec3(_aiMesh->mNormals[i]);
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
-			vecVtx[i].vTangent = Vec3(_aiMesh->mTangents[i].x, _aiMesh->mTangents[i].y, _aiMesh->mTangents[i].z);
-			vecVtx[i].vBinormal = Vec3(_aiMesh->mBitangents[i].x, _aiMesh->mBitangents[i].y, _aiMesh->mBitangents[i].z);
+			vecVtx[i].vTangent = aiVec3ToVec3(_aiMesh->mTangents[i]);
+			vecVtx[i].vBinormal = aiVec3ToVec3(_aiMesh->mBitangents[i]);
 		}
 	}
 
-	for (int f = 0; f < _aiMesh->mNumFaces; f++)
+	if (_aiMesh->HasBones())
 	{
-		for (int i = 0; i < 3; i++)
-			vecIdx[f * 3 + i] = _aiMesh->mFaces[f].mIndices[i];
+		pMesh->m_vecBones.resize(_aiMesh->mNumBones);
+		vector<Matrix>vecOffset(_aiMesh->mNumBones);
+		for (int i = 0; i < _aiMesh->mNumBones; i++)
+		{
+			aiBone* pBone = _aiMesh->mBones[i];
+			pMesh->m_vecBones[i] = aiStrToWstr(pBone->mName);
+			_pModel->AddBoneName(aiStrToWstr(pBone->mName));
+
+			vecOffset[i] = aiMatToMat(pBone->mOffsetMatrix).Transpose();
+			for (int j = 0; j < pBone->mNumWeights; j++)
+			{
+				int idx = pBone->mWeights[j].mVertexId;
+				
+				for (int k = 0; k <= 4; k++)
+				{
+					assert(k < 4);
+					if (vecVtx[idx].vWeights[k] <= 0)
+					{
+						vecVtx[idx].vIndices[k] = i;
+						vecVtx[idx].vWeights[k] = pBone->mWeights[j].mWeight;
+						break;
+					}
+				}
+			}
+		}
+		pMesh->m_pBoneOffset = new CStructuredBuffer;
+		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, false, vecOffset.data());
+	}
+	for (int i = 0; i < _aiMesh->mNumFaces; i++)
+	{
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[0]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[1]);
+		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
 	}
 
-	for (int i = 0; i < _aiMesh->mNumBones; i++)
-	{
-		assert(_aiMesh->mBones[i]->mName == _aiMesh->mBones[i]->mNode->mName);
-		//ProcessBone(_aiMesh->mBones[i]);
-	}
 
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	return pMesh;
@@ -120,6 +155,9 @@ void CMesh::UpdateData()
 
 	CONTEXT->IASetVertexBuffers(0, 1, m_VB.GetAddressOf(), &iStride, &iOffset);
 	CONTEXT->IASetIndexBuffer(m_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	if(m_pBoneOffset)
+		m_pBoneOffset->UpdateData(29, PIPELINE_STAGE::PS_VERTEX);
 }
 
 void CMesh::render()
