@@ -44,7 +44,6 @@ void ImGuiMgr::init(HWND _hWnd)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     
-
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -74,8 +73,6 @@ void ImGuiMgr::init(HWND _hWnd)
     ImGui_ImplWin32_Init(m_hMainHwnd);
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);
 
-
-
     // Tool 용 UI 생성
     CreateUI();
 
@@ -89,7 +86,9 @@ void ImGuiMgr::init(HWND _hWnd)
 void ImGuiMgr::progress()
 {
     begin();
-    
+
+    ImGuiFocus();
+
     tick();
     finaltick();
 
@@ -98,8 +97,6 @@ void ImGuiMgr::progress()
     // Content 폴더 변경 감시
     ObserveContent();
 }
-
-
 
 void ImGuiMgr::begin()
 {
@@ -135,8 +132,6 @@ void ImGuiMgr::finaltick()
 
     if (KEY_TAP(KEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
-
-
 }
 
 void ImGuiMgr::render()
@@ -155,6 +150,13 @@ void ImGuiMgr::render()
     }
 }
 
+void ImGuiMgr::ImGuiFocus()
+{
+    if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))
+        CEngine::GetInst()->SetUsingGUI(true);
+    else
+        CEngine::GetInst()->SetUsingGUI(false);
+}
 
 #include "InspectorUI.h"
 #include "ContentUI.h"

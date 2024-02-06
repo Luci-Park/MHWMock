@@ -14,6 +14,8 @@ bool useWindow = true;
 
 TransformUI::TransformUI()
 	: ComponentUI("##Transform", COMPONENT_TYPE::TRANSFORM)	
+    , _DebugMeshScale(10.f)
+    , _useDebug(false)
 {
 	SetName("Transform");
 }
@@ -39,12 +41,6 @@ void TransformUI::Gizmo()
         float y = ImGui::GetMainViewport()->WorkPos.y;
         float windowWidth = ImGui::GetMainViewport()->WorkSize.x;
         float windowHeight = ImGui::GetMainViewport()->WorkSize.y;
-        
-
-        //float x = ImGui::GetMainViewport()->Pos.x;
-        //float y = ImGui::GetMainViewport()->Pos.y;
-        //float windowWidth = ImGui::GetMainViewport()->Size.x;
-        //float windowHeight = ImGui::GetMainViewport()->Size.y;
 
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         ImGuizmo::SetRect(x, y, windowWidth, windowHeight);
@@ -59,9 +55,23 @@ void TransformUI::Gizmo()
         XMFLOAT4X4 objMat = change_mat(objTransform->GetWorldMat());
 
         //Render Gizmo
-        ImGuizmo::DrawCubes(*viewMat.m, *projMat.m, *objMat.m, 1);
         ImGuizmo::Manipulate(*viewMat.m, *projMat.m, mCurrentGizmoOperation, mCurrentGizmoMode, *objMat.m);
 
+        //Debug Cube
+        //Draw Cude at Objcet position
+        if (_useDebug)
+        {
+            //Edit Scale
+            XMFLOAT4X4 temp = objMat;
+            temp.m[0][0] *= _DebugMeshScale;
+            temp.m[1][1] *= _DebugMeshScale;
+            temp.m[2][2] *= _DebugMeshScale;
+            
+            //Draw Cude
+            ImGuizmo::DrawCubes(*viewMat.m, *projMat.m, *temp.m, 1);
+        }
+
+        //Edit Object Transform
         if (ImGuizmo::IsUsing())
         {
             Vec3 pos, scale;
@@ -90,12 +100,14 @@ void TransformUI::Gizmo()
 
 void TransformUI::GizmoGui(ImGuiIO& io)
 {
+    //Gizmo Render Mode
     if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
         mCurrentGizmoMode = ImGuizmo::LOCAL;
     ImGui::SameLine();
     if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
         mCurrentGizmoMode = ImGuizmo::WORLD;
 
+    //Gizmo Operator
     if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
         mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
     ImGui::SameLine();
@@ -104,8 +116,6 @@ void TransformUI::GizmoGui(ImGuiIO& io)
     ImGui::SameLine();
     if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
         mCurrentGizmoOperation = ImGuizmo::SCALE;
-
-    ImGui::Text(ImGuizmo::IsOver() ? "Over gizmo" : "not over");
 
     if (ImGuizmo::IsUsing())
     {
@@ -125,12 +135,19 @@ void TransformUI::GizmoGui(ImGuiIO& io)
             break;
         }
     }
+
+    //Debug Mesh
+    ImGui::Checkbox("Debug Mesh", &_useDebug);
+    if (_useDebug)
+        ImGui::SliderFloat("Debug Mesh Scale",&_DebugMeshScale,1.f,10000.f);
+
+    //Debug Mouse pos
+    ImGui::Text(ImGuizmo::IsOver() ? "Over gizmo" : "not over");
     ImGui::Text("Mouse Pos X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 }
 
 int TransformUI::render_update()
 {
-
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
 
@@ -156,8 +173,6 @@ int TransformUI::render_update()
 	GetTarget()->Transform()->SetRelativeScale(vScale);
 
 	GetTarget()->Transform()->SetRelativeRot(vRotation);
-
-    
 
 	return TRUE;
 }

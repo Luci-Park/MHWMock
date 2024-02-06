@@ -47,6 +47,7 @@ private:
     void tick();
     void finaltick();
     void render();
+    void ImGuiFocus();
 
     DirectX::XMFLOAT4X4 change_mat(DirectX::XMMATRIX mat)
     {
