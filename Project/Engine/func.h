@@ -38,8 +38,6 @@ void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, 
 void DrawDebugLine(Vec3 from, Vec3 to);
 void DrawDebugShape3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
-
-// GameObject ��ȿ�� üũ
 bool IsValidObj(CGameObject*& _Target);
 
 

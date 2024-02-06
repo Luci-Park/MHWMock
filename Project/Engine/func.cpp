@@ -205,10 +205,12 @@ void DrawDebugLine(Vec3 from, Vec3 to)
 	Vector3 direction = (to - from).Normalize();
 	Quaternion rot = Quaternion::FromToRotation(Vec3::Right, direction);
 	info.vWorldRotation = rot.ToEuler();
-	info.vColor = Vec4( 1, 1, 0, 1 );
+	info.vColor = Vec4(1, 1, 0, 1);
 	info.bDepthTest = true;
 
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+}
+
 void DrawDebugShape3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
 {
 	tDebugShapeInfo3D info = {};
