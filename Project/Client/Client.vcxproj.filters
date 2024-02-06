@@ -266,6 +266,13 @@
     <ClInclude Include="ParticleSystemUI.h">
       <Filter>UI\InspectorUI\ComponentUI\08. ParticleSystemUI</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationUI.h" />
+    <ClInclude Include="Animator3DUI.h" />
+    <ClInclude Include="AssimpTest.h" />
+    <ClInclude Include="BoneHolderUI.h" />
+    <ClInclude Include="SkinnedMeshRenderUI.h" />
+    <ClInclude Include="ImGui\ImGuizmo.h" />
+    <ClInclude Include="ModelUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -421,8 +428,12 @@
     <ClCompile Include="LandScapeUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>UI\MenuUI</Filter>
-    </ClCompile>
+    <ClCompile Include="AnimationUI.cpp" />
+    <ClCompile Include="Animator3DUI.cpp" />
+    <ClCompile Include="AssimpTest.cpp" />
+    <ClCompile Include="BoneHolderUI.cpp" />
+    <ClCompile Include="SkinnedMeshRenderUI.cpp" />
+    <ClCompile Include="ImGui\ImGuizmo.cpp" />
+    <ClCompile Include="ModelUI.cpp" />
   </ItemGroup>
 </Project>
