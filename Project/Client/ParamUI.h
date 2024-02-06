@@ -1,6 +1,6 @@
 #pragma once
 #include <Engine\CTexture.h>
-
+#include "UI.h"
 class ParamUI
 {
 private:
