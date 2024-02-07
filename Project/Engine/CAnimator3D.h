@@ -2,6 +2,7 @@
 #include "CComponent.h"
 class CBoneHolder;
 class CAnimationClip;
+class CAnimationStateMachine;
 class CAnimator3D :
 	public CComponent
 {
@@ -9,6 +10,7 @@ private:
 	map<wstring, Ptr<CAnimationClip>>	m_mapAnims;
 	vector<wstring>						m_vecAnimNames;
 	Ptr<CAnimationClip>					m_pCurrAnim;
+	CAnimationStateMachine*				m_pAnimationStateMachine;
 
 	double								m_dTick;
 	bool								m_bIsPlaying;

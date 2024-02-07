@@ -5,13 +5,14 @@
 #include "CTimeMgr.h"
 #include "CTransform.h"
 #include "CBoneHolder.h"
-
+#include "CAnimationStateMachine.h"
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
 	, m_bIsPlaying(true)
 	, m_dTick(0)
 {
+	m_pAnimationStateMachine = new CAnimationStateMachine(this);
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)

@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CAnimationState.h"
+#include "CAnimationTransition.h"
 #include "CTimeMgr.h"
 
-#pragma region State
+
 CAnimationState::CAnimationState()
 	: m_strName(L"New State")
 	, m_vecTransitions()
@@ -33,16 +34,3 @@ vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_pClip->GetTicksPerSecond() * m_fSpeed;
 	return m_pClip->GetTransformsAtFrame(m_dTick);
 }
-#pragma endregion
-
-#pragma region Transition
-CAnimationTransition::CAnimationTransition()
-	: m_pPrevState(nullptr)
-	, m_pNextState(nullptr)
-{
-}
-
-CAnimationTransition::~CAnimationTransition()
-{
-}
-#pragma endregion
