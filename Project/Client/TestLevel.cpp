@@ -111,11 +111,11 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pParentObj);
 	// ������Ʈ ����
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);
+	//CGameObject* pObject = new CGameObject;
+	//pObject->SetName(L"Player");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CMeshRender);
+	//pObject->AddComponent(new CPlayerScript);
 	// LandScape Object
 	//CGameObject* pLandScape = new CGameObject;
 	//pLandScape->SetName(L"LandScape");
