@@ -65,6 +65,7 @@ void CAnimator3D::finaltick()
 	}
 }
 
+
 void CAnimator3D::SaveToLevelFile(FILE* _FILE)
 {
 	UINT count = m_mapAnims.size();
