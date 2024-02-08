@@ -40,7 +40,7 @@ public:
 	void finaltick();
 private:
 	void EndTransition();
-	void AddKeyFrame(tAnimationKeyFrame frame, bool minus);
+	void AddKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
 public:
 	CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _p);
 	~CAnimationTransition();
