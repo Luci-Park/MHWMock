@@ -12,16 +12,12 @@ private:
 	Ptr<CAnimationClip>					m_pCurrAnim;
 	CAnimationStateMachine*				m_pAnimationStateMachine;
 
-	double								m_dTick;
-	bool								m_bIsPlaying;
 public:
 	void SetAnimations(vector<wstring>& _vecAnimations);
 	void SetAnimation(wstring _strAnim);
 	vector<wstring> GetAnimNames() { return m_vecAnimNames; }
+	CAnimationStateMachine* GetStateMachine() { return m_pAnimationStateMachine; }
 
-	void PlayAnimation() { m_bIsPlaying = true; }
-	void PauseAnimation() { m_bIsPlaying = false; }
-	void StopAnimation() { m_bIsPlaying = false; m_dTick = 0; }
 public:
 	virtual void finaltick() override;
 	CLONE(CAnimator3D);

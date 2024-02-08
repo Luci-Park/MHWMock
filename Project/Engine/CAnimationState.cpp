@@ -24,6 +24,10 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 
 CAnimationState::~CAnimationState()
 {
+	for (size_t i = 0; i < m_vecTransitions.size(); i++)
+	{
+		delete m_vecTransitions[i];
+	}
 }
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()

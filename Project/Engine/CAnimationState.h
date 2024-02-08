@@ -9,12 +9,13 @@ private:
 	float							m_fSpeed;
 	vector<CAnimationTransition*>	m_vecTransitions;
 	double							m_dTick;
+	bool							m_bIsInTransition;
 public:
 	void SetName(wstring _name) { m_strName = _name; }
 	void SetClip(Ptr<CAnimationClip> _pClip) { m_pClip = _pClip; }
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
-	
+	bool IsTransitioning() { return m_bIsInTransition; }
 	vector<tAnimationKeyFrame>& GetBoneTransforms();
 public:
 	CAnimationState();

@@ -3,8 +3,6 @@
 #include "CAnimationState.h"
 
 CAnimationTransition::CAnimationTransition()
-	: m_pPrevState(nullptr)
-	, m_pNextState(nullptr)
 {
 }
 
