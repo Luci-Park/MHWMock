@@ -15,6 +15,8 @@ public:
 	CAnimationState* CreateState();
 	void DeleteState(CAnimationState* _pState);
 public:
+	void finaltick();
+public:
 	CAnimationStateMachine(CAnimator3D* _pAnimator);
 	~CAnimationStateMachine();
 };

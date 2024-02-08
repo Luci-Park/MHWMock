@@ -49,6 +49,8 @@ void CAnimator3D::SetAnimation(wstring _strAnim)
 
 void CAnimator3D::finaltick()
 {
+	m_pAnimationStateMachine->finaltick();
+
 	if (!BoneHolder()->IsReady())return;
 	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
 	for (int i =0; i < frame.size(); i++)

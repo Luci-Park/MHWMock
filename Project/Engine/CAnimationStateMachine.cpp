@@ -34,7 +34,7 @@ vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState();
+	CAnimationState* pNewState = new CAnimationState();hg
 	m_States.insert(pNewState);
 	return pNewState;
 }
