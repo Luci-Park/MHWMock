@@ -5,13 +5,13 @@ class CAnimationStateMachine
 {
 private:
 	CAnimator3D*						m_pOwner;
-	map<wstring, tAnimationKeyFrame>	m_mapFrame;
+	vector<tAnimationKeyFrame>			m_vecFrame;
 	CAnimationState*					m_pCurrentState;
 	CAnimationState*					m_pHead;
 	set<CAnimationState*>				m_States;
 
 public:
-	map<wstring, tAnimationKeyFrame>& GetFrame();
+	vector<tAnimationKeyFrame>& GetFrame();
 	CAnimationState* CreateState();
 	void DeleteState(CAnimationState* _pState);
 public:

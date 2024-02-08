@@ -15,13 +15,21 @@ CAnimationStateMachine::~CAnimationStateMachine()
 	for (auto state : m_States)
 		delete state;
 }
-map<wstring, tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
+vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 {
-	m_mapFrame.clear();
+	m_vecFrame.clear();
 	if (m_pCurrentState != m_pHead)
 	{
+		if (m_pCurrentState->IsTransitioning())
+		{
+
+		}
+		else
+		{
+			m_vecFrame = m_pCurrentState->GetBoneTransforms();
+		}		
 	}
-	return m_mapFrame;
+	return m_vecFrame;
 }
 
 CAnimationState* CAnimationStateMachine::CreateState()

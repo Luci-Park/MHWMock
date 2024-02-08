@@ -50,14 +50,14 @@ void CAnimator3D::SetAnimation(wstring _strAnim)
 void CAnimator3D::finaltick()
 {
 	if (!BoneHolder()->IsReady())return;
-	map<wstring, tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
-	for (auto f : frame)
+	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
+	for (int i =0; i < frame.size(); i++)
 	{
-		auto pTransform = BoneHolder()->GetBone(f.first);
+		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
 		assert(pTransform);
-		pTransform->SetRelativePos(f.second.vPos);
-		pTransform->SetRelativeRot(f.second.qRot);
-		pTransform->SetRelativeScale(f.second.vScale);
+		pTransform->SetRelativePos(frame[i].vPos);
+		pTransform->SetRelativeRot(frame[i].qRot);
+		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 }
 
