@@ -137,13 +137,18 @@ void CRenderMgr::CreateMRT()
     {
         m_MRT[(UINT)MRT_TYPE::CANVAS] = new CMRT;
 
-        Ptr<CTexture> arrRTTex[8] = {};
-        arrRTTex[0] = CResMgr::GetInst()->FindRes<CTexture>(L"CanvasTex");
+        Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
 
-        Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"CanvasDepthStencilTex");
+        Ptr<CTexture> arrRTTex[8] = {};
+        arrRTTex[0] = CResMgr::GetInst()->CreateTexture(L"CanvasTex" ,vResol.x, vResol.y
+                                                        , DXGI_FORMAT_R8G8B8A8_UNORM
+                                                        , D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET);
+
+        Ptr<CTexture> pDSTex = CResMgr::GetInst()->CreateTexture(L"CanvasDepthStencilTex", vResol.x, vResol.y
+                                                                     , DXGI_FORMAT_D32_FLOAT
+                                                                     , D3D11_BIND_DEPTH_STENCIL);
 
         m_MRT[(UINT)MRT_TYPE::CANVAS]->Create(arrRTTex, 1, pDSTex);
-        m_MRT[(UINT)MRT_TYPE::CANVAS]->SetClearColor(Vec4(0.3f, 0.3f, 0.3f, 1.f), 0);
     }
 }
 

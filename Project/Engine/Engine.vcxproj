@@ -212,6 +212,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CAnimator3D.h" />
     <ClInclude Include="CBoneHolder.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCanvas.h" />
     <ClInclude Include="CCollider2D.h" />
     <ClInclude Include="CCollider3D.h" />
     <ClInclude Include="CCollisionMgr.h" />
@@ -278,6 +279,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CAnimator3D.cpp" />
     <ClCompile Include="CBoneHolder.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCanvas.cpp" />
     <ClCompile Include="CCollider2D.cpp" />
     <ClCompile Include="CCollider3D.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
@@ -346,6 +348,10 @@ call EngineCopy.bat</Command>
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="canvas.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="debugshape.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

@@ -4,18 +4,21 @@
 #include "CLevelMgr.h"
 #include "CLayer.h"
 
-CCanvas::CCanvas()
-	:CComponent(COMPONENT_TYPE::CANVAS)
-{
+#include "CTransform.h"
 
+#include "CResMgr.h"
+#include "CMesh.h"
+#include "CMaterial.h"
+
+CCanvas::CCanvas()
+	:CRenderComponent(COMPONENT_TYPE::CANVAS)
+{
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"CanvasMtrl"));
+	SetFrustumCheck(false);
 }
 
 CCanvas::~CCanvas()
-{
-
-}
-
-void CCanvas::tick()
 {
 
 }
@@ -25,14 +28,24 @@ void CCanvas::finaltick()
 
 }
 
-void CCanvas::sortCanvasObj()
+void CCanvas::render()
 {
-	CLevel* level = CLevelMgr::GetInst()->GetCurLevel();
+	if (nullptr == GetMesh() || nullptr == GetMaterial())
+		return;
 
-	CLayer* layer = level->GetLayer((int)LAYER_TYPE::ViewPortUI);
-	const vector<CGameObject*>& vecObject = layer->GetObjects();
-	for (size_t i = 0; i < vecObject.size(); i++)
+	Transform()->UpdateData();
+
+	if (nullptr != m_UITex)
 	{
-
+		GetMaterial()->SetTexParam(TEX_0, m_UITex);
 	}
+
+	GetMaterial()->UpdateData();
+	// ·»´õ
+	GetMesh()->render();
+}
+
+void CCanvas::SetUITexture(Ptr<CTexture> _Tex)
+{
+	m_UITex = _Tex;
 }

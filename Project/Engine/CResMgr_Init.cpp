@@ -82,13 +82,14 @@ void CResMgr::CreateDefaultMesh()
 	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
+	vecIdx.clear();
 	vecIdx.push_back(0);
 	vecIdx.push_back(2);
 	vecIdx.push_back(3);
 
-	vecIdx.push_back(0);
 	vecIdx.push_back(1);
-	vecIdx.push_back(2);
+	vecIdx.push_back(0);
+	vecIdx.push_back(3);
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
@@ -921,6 +922,31 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
 	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// CanvasShader	
+	// RS_TYPE : CULL_BACK
+	// DS_TYPE : LESS
+	// BS_TYPE : MASK
+	// 
+	// Parameter
+	// g_tex_0 : Output Texture
+	// g_tex_1 : Normal Texture
+	// Domain : UI
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"CanvasShader");
+	pShader->CreateVertexShader(L"shader\\canvas.fx", "VS_Canvas");
+	pShader->CreatePixelShader(L"shader\\canvas.fx", "PS_Canvas");
+
+	pShader->SetRSType(RS_TYPE::CULL_BACK);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::MASK);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+
+	AddRes(pShader->GetKey(), pShader);
+
+
 }
 
 void CResMgr::CreateDefaultComputeShader()
@@ -1023,9 +1049,6 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DeferredDecalShader"));
 	AddRes(L"DeferredDecalMtrl", pMtrl);
 
-	
-
-
 	// Std3D_DeferredShader
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std3D_DeferredShader"));
@@ -1060,4 +1083,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LandScapeShader"));
 	AddRes(L"LandScapeMtrl", pMtrl);
+
+	// CanvasMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"CanvasShader"));
+	AddRes(L"CanvasMtrl", pMtrl);
 }

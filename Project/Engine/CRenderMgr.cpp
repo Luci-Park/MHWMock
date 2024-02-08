@@ -67,15 +67,14 @@ void CRenderMgr::render_play()
     {
         if (nullptr == m_vecCam[i])
             continue;
-        
+
+        m_vecCam[i]->SortObject();
+
         //UI Camera 제외 (LayerMask 31 번만 사용하는 카메라)
         if (m_vecCam[i]->GetLayerMask() == (UINT)(1 << 31))
         {
-
-           continue;
+            continue;
         }
-
-        m_vecCam[i]->SortObject();
 
         m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
 

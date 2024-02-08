@@ -21,6 +21,7 @@ class CDecal;
 class CLandScape;
 class CScript;
 class CBoneHolder;
+class CCanvas;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
 
@@ -81,6 +82,7 @@ public:
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(LandScape, LANDSCAPE);
     GET_COMPONENT(BoneHolder, BONEHOLDER); 
+    GET_COMPONENT(Canvas, CANVAS);
 
     CComponent* GetComponentInParent(COMPONENT_TYPE _CType);
 
