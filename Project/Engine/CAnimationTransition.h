@@ -4,18 +4,19 @@ class CAnimationState;
 class CAnimationTransition
 {
 private:
-	CAnimationState* m_pPrevState;
-	CAnimationState* m_pNextState;
+	CAnimationState*					m_pPrevState;
+	CAnimationState*					m_pNextState;
 
-	map<wstring, tAnimationKeyFrame> m_mapKeyFrame;
+	map<wstring, tAnimationKeyFrame>	m_mapKeyFrame;
+	vector<tAnimationKeyFrame>			m_vecKeyFrames;
 
-	bool m_bHasExitTime;
-	double m_dExitTime; // percent
-	bool m_bFixedDuration;
-	double m_dTransitionDuration;
-	double m_dTransitionOffset;
-	double m_dTick;
-	double m_dTickPercent;
+	bool								m_bHasExitTime;
+	double								m_dExitTime; // percent
+	bool								m_bFixedDuration;
+	double								m_dTransitionDuration;
+	double								m_dTransitionOffset;
+	double								m_dTick;
+	double								m_dTickPercent;
 
 
 public:
@@ -40,7 +41,7 @@ public:
 	void finaltick();
 private:
 	void EndTransition();
-	void AddKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
+	void BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
 public:
 	CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _p);
 	~CAnimationTransition();

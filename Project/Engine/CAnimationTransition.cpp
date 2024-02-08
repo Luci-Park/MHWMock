@@ -21,19 +21,9 @@ CAnimationTransition::~CAnimationTransition()
 
 map<wstring, tAnimationKeyFrame>& CAnimationTransition::GetTransitionKeyFrame()
 {
-	vector<tAnimationKeyFrame> frame1 = m_pPrevState->GetBoneTransforms();
-	vector<tAnimationKeyFrame> frame2 = m_pNextState->GetBoneTransforms();
-
 	m_mapKeyFrame.clear();
-	for (size_t i = 0; i < frame1.size(); i++)
-	{
-		
-	}
-
-	for (size_t i = 0; i < frame2.size(); i++)
-	{
-
-	}
+	BlendKeyFrame(m_pPrevState->GetBoneTransforms(), true);
+	BlendKeyFrame(m_pNextState->GetBoneTransforms(), false);
 
 	return m_mapKeyFrame;
 }
@@ -74,16 +64,20 @@ void CAnimationTransition::EndTransition()
 	//change to nextstate
 }
 
-void CAnimationTransition::AddKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus)
+void CAnimationTransition::BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus)
 {
 	double percent = minus ? 1 - m_dTickPercent : m_dTickPercent;
 	for (int i = 0; i < frames.size(); i++)
 	{
+		tAnimationKeyFrame newFrame = frames[i] * percent;
 		auto iter = m_mapKeyFrame.find(frames[i].strBoneName);
 		if (iter == m_mapKeyFrame.end())
 		{
-			m_mapKeyFrame.insert(make_pair(frames[i].strBoneName, tAnimationKeyFrame()));
+			m_mapKeyFrame.insert(make_pair(frames[i].strBoneName, newFrame));
 		}
-
+		else
+		{
+			iter->second += newFrame;
+		}
 	}
 }
