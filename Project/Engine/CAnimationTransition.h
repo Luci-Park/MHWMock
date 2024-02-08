@@ -13,6 +13,7 @@ private:
 	double m_dTransitionDuration;
 	double m_dTransitionOffset;
 	double m_dTick;
+	double m_dTickPercent;
 
 public:
 	bool GetHasExitTime() { return m_bHasExitTime; }

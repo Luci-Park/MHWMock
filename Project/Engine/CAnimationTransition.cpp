@@ -23,8 +23,16 @@ void CAnimationTransition::finaltick()
 			* m_pPrevState->GetSpeed();
 	}
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * offset;
-	if ((m_bFixedDuration && m_dTick > m_dTransitionDuration)
-		|| !m_bFixedDuration && m_dTick > m_pPrevState->GetClip()->GetDuration() * m_dTransitionDuration)
+
+	if (m_bFixedDuration)
+	{
+		m_dTickPercent = m_dTick / m_dTransitionDuration;
+	}
+	else
+	{
+		m_dTickPercent = m_dTick / m_pPrevState->GetClip()->GetDuration();
+	}
+	if (m_dTickPercent >= 1)
 	{
 		EndTransition();
 	}
