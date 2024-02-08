@@ -34,7 +34,7 @@ vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState();hg
+	CAnimationState* pNewState = new CAnimationState();
 	m_States.insert(pNewState);
 	return pNewState;
 }
@@ -47,4 +47,9 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 		delete *iter;
 		m_States.erase(iter);
 	}
+}
+
+void CAnimationStateMachine::finaltick()
+{
+	m_pCurrentState->finaltick();
 }
