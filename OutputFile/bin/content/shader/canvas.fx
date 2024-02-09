@@ -32,9 +32,9 @@ VS_OUT VS_Canvas(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
-    //output.vPosition = mul(float4(_in.vLocalPos, 1.f), g_matWVP);
+    output.vPosition = mul(float4(_in.vLocalPos, 1.f), g_matWVP);
     //output.vPosition = float4(_in.vLocalPos, 1.f);
-    output.vPosition = mul(float4(_in.vLocalPos, 1.f),g_matWVP);
+    //output.vPosition = mul(float4(_in.vLocalPos, 1.f),g_matWV);
     output.vUV = _in.vUV;
         
     return output;
@@ -57,7 +57,7 @@ PS_OUT PS_Canvas(VS_OUT _in) : SV_Target
         //output = InputTex.Sample(g_sam_0,_in.vUV);
         output.CanvasTex = InputTex.Sample(g_sam_0, _in.vUV);
     }
-    //output.CanvasTex.a = 1.f;
+    output.CanvasTex.a = 1.f;
     //output.a = 1.0f;
     return output;
 }

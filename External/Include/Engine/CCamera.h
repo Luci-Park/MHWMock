@@ -20,6 +20,9 @@ private:
 
     PROJ_TYPE   m_ProjType;
 
+    Matrix      m_matWorld;
+    Matrix      m_matWorldInv;
+
     Matrix      m_matView;
     Matrix      m_matViewInv;
 
@@ -106,7 +109,6 @@ private:
     void render_decal();
     void render_transparent();
     void render_postprocess();
-
 
     void CalcViewMat();
     void CalcProjMat();

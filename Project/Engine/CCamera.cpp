@@ -107,6 +107,9 @@ void CCamera::CalcViewMat()
 
 	// View 역행렬 구하기
 	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
+
+	m_matWorld = m_matView * m_matViewInv;
+	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 }
 
 void CCamera::CalcProjMat()
@@ -419,6 +422,16 @@ void CCamera::render_postprocess()
 
 void CCamera::render_ui()
 {
+	// 행렬 업데이트
+	g_transform.matWorld = m_matWorld;
+	g_transform.matWorldInv = m_matWorldInv;
+
+	g_transform.matView = m_matView;
+	g_transform.matViewInv = m_matViewInv;
+
+	g_transform.matProj = m_matProj;
+	g_transform.matProjInv = m_matProjInv;
+
 	for (size_t i = 0; i < m_vecUI.size(); ++i)
 	{
 		m_vecUI[i]->render();

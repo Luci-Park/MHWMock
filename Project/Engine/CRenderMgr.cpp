@@ -76,6 +76,7 @@ void CRenderMgr::render_play()
             m_MRT[(UINT)MRT_TYPE::CANVAS]->OMSet();
             m_vecCam[i]->render_ui();
             m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
+
             continue;
         }
 
@@ -94,7 +95,6 @@ void CRenderMgr::render_editor()
     m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
     m_pEditorCam->render();    
 }
-
 
 int CRenderMgr::RegisterCamera(CCamera* _Cam, int _idx)
 {

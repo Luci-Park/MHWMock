@@ -25,7 +25,7 @@ CCanvas::~CCanvas()
 
 void CCanvas::finaltick()
 {
-
+	
 }
 
 void CCanvas::render()
