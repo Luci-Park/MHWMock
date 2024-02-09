@@ -63,6 +63,7 @@ void CreateTestLevel()
 
 	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
+	pUICam->Camera()->SetLayerMaskAll(false);
 	pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
 
 	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
@@ -73,9 +74,10 @@ void CreateTestLevel()
 	ptestUI->AddComponent(new CTransform);
 	ptestUI->AddComponent(new CCanvas);
 
-	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
+	ptestUI->Transform()->SetRelativeScale(10.f, 10.f,10.f);
+	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
 
-	SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 0);
+	SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
 
 	// SkyBox �߰�
 	CGameObject* pSkyBox = new CGameObject;

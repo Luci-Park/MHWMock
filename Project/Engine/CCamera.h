@@ -89,6 +89,7 @@ public:
     void SortObject_Shadow();
     void render();
     void render_shadowmap();
+    void render_ui();
 
 public:
     virtual void begin() override;
@@ -105,7 +106,6 @@ private:
     void render_decal();
     void render_transparent();
     void render_postprocess();
-    void render_ui();
 
 
     void CalcViewMat();

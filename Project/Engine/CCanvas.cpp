@@ -13,8 +13,8 @@
 CCanvas::CCanvas()
 	:CRenderComponent(COMPONENT_TYPE::CANVAS)
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"CanvasMtrl"));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetFrustumCheck(false);
 }
 
