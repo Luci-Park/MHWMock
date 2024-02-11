@@ -250,6 +250,7 @@
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="Animator3DUI.cpp" />
+    <ClCompile Include="AnimatorGraph.cpp" />
     <ClCompile Include="BoneHolderUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CCustomResourceLoader.cpp" />

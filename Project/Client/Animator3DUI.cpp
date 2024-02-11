@@ -22,5 +22,16 @@ int Animator3DUI::render_update()
 
 void Animator3DUI::Gizmo()
 {
+    static FitOnScreen fit = Fit_None;
+    ImGui::Begin("Animator", NULL, 0);
+    if (ImGui::Button("Fit all nodes"))
+    {
+        fit = Fit_AllNodes;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Fit selected nodes"))
+    {
+        fit = Fit_SelectedNodes;
+    }
+    ImGui::End();    
 }
-

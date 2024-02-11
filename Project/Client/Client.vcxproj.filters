@@ -484,5 +484,8 @@
     <ClCompile Include="ImGui\GraphEditor.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatorGraph.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
