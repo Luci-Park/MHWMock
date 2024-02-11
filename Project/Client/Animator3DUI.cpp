@@ -16,6 +16,11 @@ int Animator3DUI::render_update()
 {
     if (FALSE == ComponentUI::render_update())
         return FALSE;
+    Gizmo();
     return 0;
+}
+
+void Animator3DUI::Gizmo()
+{
 }
 

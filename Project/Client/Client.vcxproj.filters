@@ -305,6 +305,9 @@
     <ClInclude Include="Light3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\14. Light3DUI</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\GraphEditor.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -477,6 +480,9 @@
     </ClCompile>
     <ClCompile Include="Light3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\14. Light3DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\GraphEditor.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
