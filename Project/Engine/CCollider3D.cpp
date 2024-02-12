@@ -8,6 +8,7 @@
 
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
+	, m_Shape(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
 {
@@ -52,10 +53,16 @@ void CCollider3D::finaltick()
 		|| nullptr == pRenderCom->GetMesh())
 		return;
 
-	DrawDebugShape3D(matWorld, vColor, 0.f);
-	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 
-	int a = 0;
+	if (m_Shape == SHAPE_TYPE::CAPSULE)
+	{
+		DrawDebugCapsule3D(matWorld, vColor, 0.f);
+	}
+	else if (m_Shape == SHAPE_TYPE::CONVEX)
+	{
+		DrawDebugConvex3D(matWorld, vColor, 0.f);
+		CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
+	}
 }
 
 

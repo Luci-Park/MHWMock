@@ -449,8 +449,8 @@ void CResMgr::CreateDefaultMesh()
 
 
 	// Capsule Mesh
-	float radius = 1.0f;
-	float halfHeight = 1.0f;
+	float radius = sqrt(pow(0.5f, 2) * 2.0f);
+	float halfHeight = 0.25f;
 	int numSegments = 20;
 
 	for (int i = 0; i <= numSegments; ++i)

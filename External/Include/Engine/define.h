@@ -262,7 +262,9 @@ enum class SHAPE_TYPE
 	RECT,
 	CIRCLE,
 	CUBE,
+	CAPSULE,
 	SPHERE,
+	CONVEX,
 	END,
 };
 
@@ -273,6 +275,12 @@ enum class COLLIDER2D_TYPE
 	CIRCLE,
 };
 
+enum class COLLIDER3D_TYPE
+{
+	CAPSULE,
+	CONVEX,
+	END,
+};
 
 enum class LIGHT_TYPE
 {

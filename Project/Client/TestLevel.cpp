@@ -155,7 +155,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CPlayerScript);
 	pObject->Transform()->SetRelativeScale(Vec3(5.0f, 5.0f, 5.0f));
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CapsuleMesh"));
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject, Vec3(0.0f, 0.0f, 50.0f), 0);
 

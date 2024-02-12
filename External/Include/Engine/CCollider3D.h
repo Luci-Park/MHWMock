@@ -21,6 +21,8 @@ using namespace physx;
 class CCollider3D : public CComponent
 {
 private:
+    SHAPE_TYPE m_Shape;
+
     PxShape*        m_pShape;
     PxMaterial*     m_pMaterial;
     PxRigidActor*  m_pRigidActor;

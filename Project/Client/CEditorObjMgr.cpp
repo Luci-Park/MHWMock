@@ -44,6 +44,17 @@ void CEditorObjMgr::init()
 	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh_Debug"));
 	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
 
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE] = new CGameObjectEx;
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->AddComponent(new CTransform);
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->AddComponent(new CMeshRender);
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CapsuleMesh"));
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
+
+	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]= new CGameObjectEx;
+	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]->AddComponent(new CTransform);
+	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]->AddComponent(new CMeshRender);
+	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
+
 	m_DebugShape[(UINT)SHAPE_TYPE::SPHERE] = new CGameObjectEx;
 	m_DebugShape[(UINT)SHAPE_TYPE::SPHERE]->AddComponent(new CTransform);
 	m_DebugShape[(UINT)SHAPE_TYPE::SPHERE]->AddComponent(new CMeshRender);
@@ -115,15 +126,32 @@ void CEditorObjMgr::render()
 	CGameObjectEx* pShapeObj = nullptr;
 
 	vector<tDebugShapeInfo3D>::iterator iter = m_DebugShapeInfo3D.begin();
-	int cnt = 0;
+	int iConvexMeshCnt = 0;
 
 	for (; iter != m_DebugShapeInfo3D.end();)
 	{
-		pShapeObj = new CGameObjectEx;
-		pShapeObj->AddComponent(new CTransform);
-		pShapeObj->AddComponent(new CMeshRender);
-		pShapeObj->MeshRender()->SetMesh(m_DebugShapeMesh3D[cnt]);
-		pShapeObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
+		switch (iter->eShape)
+		{
+		case SHAPE_TYPE::RECT:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::RECT];
+			break;
+		case SHAPE_TYPE::CIRCLE:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CIRCLE];
+			break;
+		case SHAPE_TYPE::CUBE:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CUBE];
+			break;
+		case SHAPE_TYPE::CAPSULE:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE];
+			break;
+		case SHAPE_TYPE::SPHERE:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::SPHERE];
+			break;
+		case SHAPE_TYPE::CONVEX:
+			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CONVEX];
+			pShapeObj->MeshRender()->SetMesh(m_DebugShapeMesh3D[iConvexMeshCnt]);
+			break;
+		}
 
 		if (iter->matWorld != XMMatrixIdentity())
 		{
@@ -149,13 +177,17 @@ void CEditorObjMgr::render()
 		iter->fCurTime += DT;
 		if (iter->fMaxTime < iter->fCurTime)
 		{
+			if (iter->eShape == SHAPE_TYPE::CONVEX)
+				m_DebugShapeMesh3D.erase(m_DebugShapeMesh3D.begin() + iConvexMeshCnt);
+
 			iter = m_DebugShapeInfo3D.erase(iter);
-			m_DebugShapeMesh3D.erase(m_DebugShapeMesh3D.begin() + cnt);
 		}
 		else
 		{
+			if(iter->eShape == SHAPE_TYPE::CONVEX)
+				++iConvexMeshCnt;
+			
 			++iter;
-			++cnt;
 		}
 	}
 }

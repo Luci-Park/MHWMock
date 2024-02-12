@@ -50,6 +50,7 @@ struct tDebugShapeInfo
 
 struct tDebugShapeInfo3D
 {
+	SHAPE_TYPE	eShape;
 	Matrix			matWorld;
 	Vec3				vWorldPos;
 	Vec3				vWorldScale;
