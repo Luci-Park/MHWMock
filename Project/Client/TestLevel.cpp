@@ -148,6 +148,17 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
+	CGameObject* pObject = new CGameObject;
+	pObject->SetName(L"Player");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CPlayerScript);
+	pObject->Transform()->SetRelativeScale(Vec3(5.0f, 5.0f, 5.0f));
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CapsuleMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	SpawnGameObject(pObject, Vec3(0.0f, 0.0f, 50.0f), 0);
+
 
 	// �浹 ��ų ���̾� ¦ ����
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");

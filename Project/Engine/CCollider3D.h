@@ -1,7 +1,6 @@
 #pragma once
 #include "CComponent.h"
 
-#include <PxPhysics.h>
 #include <PxPhysicsApi.h>
 
 // PhysX Library
