@@ -46,20 +46,19 @@ void CCollider3D::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
-
-	// 렌더링 기능이 없는 오브젝트는 제외
-	if (nullptr == pRenderCom
-		|| nullptr == pRenderCom->GetMesh())
-		return;
-
-
 	if (m_Shape == SHAPE_TYPE::CAPSULE)
 	{
 		DrawDebugCapsule3D(matWorld, vColor, 0.f);
 	}
 	else if (m_Shape == SHAPE_TYPE::CONVEX)
 	{
+		CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
+
+		// 렌더링 기능이 없는 오브젝트는 제외
+		if (nullptr == pRenderCom
+			|| nullptr == pRenderCom->GetMesh())
+			return;
+
 		DrawDebugConvex3D(matWorld, vColor, 0.f);
 		CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 	}
