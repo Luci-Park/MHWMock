@@ -4,12 +4,13 @@
 #include "CTimeMgr.h"
 
 
-CAnimationState::CAnimationState()
+CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 	: m_strName(L"New State")
 	, m_vecTransitions()
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
+	, m_pMachine(_pParent)
 {
 }
 
@@ -19,6 +20,7 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
+	, m_pMachine(_other.m_pMachine)
 {
 }
 
@@ -40,6 +42,14 @@ void CAnimationState::SetTick(double _percent)
 	{
 		m_dTick = 0;
 	}
+}
+
+double CAnimationState::GetTickPercent()
+{
+	if (m_pClip != nullptr)
+		return m_dTick / m_pClip->GetDuration();
+	else
+		return 1;
 }
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()

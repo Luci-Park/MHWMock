@@ -4,8 +4,9 @@
 #include "CTimeMgr.h"
 
 
-CAnimationTransition::CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _pNextState)
-	: m_pPrevState(_pPrevState)
+CAnimationTransition::CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _pNextState, CAnimationStateMachine* _pMachine)
+	: m_pStateMachine(_pMachine)
+	, m_pPrevState(_pPrevState)
 	, m_pNextState(_pNextState)
 	, m_bHasExitTime(true)
 	, m_dExitTime(1)
@@ -17,6 +18,10 @@ CAnimationTransition::CAnimationTransition(CAnimationState* _pPrevState, CAnimat
 
 CAnimationTransition::~CAnimationTransition()
 {
+	for (int i = 0; i < m_vecConditions.size(); i++)
+	{
+		delete m_vecConditions[i];
+	}
 }
 
 map<wstring, tAnimationKeyFrame>& CAnimationTransition::GetTransitionKeyFrame()
@@ -30,7 +35,46 @@ map<wstring, tAnimationKeyFrame>& CAnimationTransition::GetTransitionKeyFrame()
 
 bool CAnimationTransition::CheckCondition()
 {
-	return false;
+	if (m_bHasExitTime && m_pPrevState->GetTickPercent() < m_dExitTime)
+		return false;
+	for (int i = 0; i < m_vecConditions.size(); i++)
+	{
+		AnimCondition* c = m_vecConditions[i];
+		if (AnimParamType::TRIGGER == c->lhs->type)
+		{
+			if(!c->lhs->value.TRIGGER)
+				return false;
+		}
+		else if (AnimParamType::BOOL == c->lhs->type)
+		{
+			if ((c->expr == AnimConditionType::ISTRUE && !c->lhs->value.BOOL)
+				|| (c->expr == AnimConditionType::ISFALSE && c->lhs->value.BOOL))
+				return false;
+		}
+		else if (AnimParamType::INT == c->lhs->type)
+		{
+			if ((c->expr == AnimConditionType::GREATER && c->lhs->value.INT < c->rhs)
+				|| (c->expr == AnimConditionType::LESS && c->lhs->value.INT > c->rhs)
+				|| (c->expr == AnimConditionType::EQUAL && c->lhs->value.INT != c->rhs)
+				|| (c->expr == AnimConditionType::NOTEQUAL && c->lhs->value.INT == c->rhs))
+				return false;
+		}
+		else if (AnimParamType::FLOAT == c->lhs->type)
+		{
+			if ((c->expr == AnimConditionType::GREATER && c->lhs->value.FLOAT < c->rhs)
+				|| (c->expr == AnimConditionType::LESS && c->lhs->value.FLOAT > c->rhs))
+				return false;
+
+		}
+	}
+	//reset used triggers
+	for (int i = 0; i < m_vecConditions.size(); i++)
+	{
+		AnimCondition* c = m_vecConditions[i];
+		if (AnimParamType::TRIGGER == c->lhs->type)
+			c->lhs->value.TRIGGER = false;
+	}
+	return true;
 }
 
 void CAnimationTransition::StartTransition()

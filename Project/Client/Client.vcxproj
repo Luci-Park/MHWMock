@@ -183,6 +183,7 @@
     <ClInclude Include="AnimationUI.h" />
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="Animator3DUI.h" />
+    <ClInclude Include="AnimatorGraphEditorWindow.h" />
     <ClInclude Include="BoneHolderUI.h" />
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CCustomResourceLoader.h" />
@@ -194,7 +195,16 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="ContentUI.h" />
+    <ClInclude Include="ImGui\crude_json.h" />
     <ClInclude Include="ImGui\GraphEditor.h" />
+    <ClInclude Include="ImGui\imgui_bezier_math.h" />
+    <ClInclude Include="ImGui\imgui_canvas.h" />
+    <ClInclude Include="ImGui\imgui_extra_math.h" />
+    <ClInclude Include="ImGui\imgui_node_editor.h" />
+    <ClInclude Include="ImGui\imgui_node_editor_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="SkinnedMeshRenderUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsShaderUI.h" />
@@ -250,7 +260,7 @@
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="Animator3DUI.cpp" />
-    <ClCompile Include="AnimatorGraph.cpp" />
+    <ClCompile Include="AnimatorGraphEditorWindow.cpp" />
     <ClCompile Include="BoneHolderUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CCustomResourceLoader.cpp" />
@@ -261,7 +271,11 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
+    <ClCompile Include="ImGui\crude_json.cpp" />
     <ClCompile Include="ImGui\GraphEditor.cpp" />
+    <ClCompile Include="ImGui\imgui_canvas.cpp" />
+    <ClCompile Include="ImGui\imgui_node_editor.cpp" />
+    <ClCompile Include="ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="SkinnedMeshRenderUI.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />
     <ClCompile Include="ImGuiMgr.cpp" />
@@ -368,6 +382,11 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImGui\imgui_bezier_math.inl" />
+    <None Include="ImGui\imgui_extra_math.inl" />
+    <None Include="ImGui\imgui_node_editor_internal.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

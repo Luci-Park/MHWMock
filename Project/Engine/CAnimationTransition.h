@@ -1,14 +1,16 @@
 #pragma once
-
+class CAnimationStateMachine;
 class CAnimationState;
 class CAnimationTransition
 {
 private:
+	CAnimationStateMachine*				m_pStateMachine;
 	CAnimationState*					m_pPrevState;
 	CAnimationState*					m_pNextState;
 
 	map<wstring, tAnimationKeyFrame>	m_mapKeyFrame;
 	vector<tAnimationKeyFrame>			m_vecKeyFrames;
+	vector<AnimCondition*>				m_vecConditions;
 
 	bool								m_bHasExitTime;
 	double								m_dExitTime; // percent
@@ -34,6 +36,8 @@ public:
 
 	map<wstring, tAnimationKeyFrame>& GetTransitionKeyFrame();
 
+
+
 	bool CheckCondition();
 	void StartTransition();
 
@@ -43,6 +47,6 @@ private:
 	void EndTransition();
 	void BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
 public:
-	CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _p);
+	CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _pNextState, CAnimationStateMachine* _pMachine);
 	~CAnimationTransition();
 };
