@@ -5,6 +5,7 @@
 
 Animator3DUI::Animator3DUI()
     :ComponentUI("##Animator3D", COMPONENT_TYPE::ANIMATOR3D)
+    , m_mapAnimator()
 {
     SetName("Animator");
 }
@@ -16,22 +17,21 @@ int Animator3DUI::render_update()
 {
     if (FALSE == ComponentUI::render_update())
         return FALSE;
-    Gizmo();
-    return 0;
-}
+    CAnimator3D* pAnim = GetTarget()->Animator3D();    
+    AnimatorGraphEditorWindow* pGraphic;
+    
+    auto iter = m_mapAnimator.find(pAnim);
+    if (iter == m_mapAnimator.end())
+    {
+        pGraphic = new AnimatorGraphEditorWindow(pAnim);
+        m_mapAnimator.insert(make_pair(pAnim, pGraphic));
+    }
+    else
+    {
+        pGraphic = iter->second;
+    }
+    pGraphic->OnDraw();        
 
-void Animator3DUI::Gizmo()
-{
-    static FitOnScreen fit = Fit_None;
-    ImGui::Begin("Animator", NULL, 0);
-    if (ImGui::Button("Fit all nodes"))
-    {
-        fit = Fit_AllNodes;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Fit selected nodes"))
-    {
-        fit = Fit_SelectedNodes;
-    }
-    ImGui::End();    
+
+    return 0;
 }

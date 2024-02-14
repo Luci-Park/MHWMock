@@ -12,6 +12,10 @@ AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 	OnEnd();
 }
 
+void AnimatorGraphEditorWindow::OnDraw()
+{
+}
+
 void AnimatorGraphEditorWindow::OnStart()
 {
 	m_pEditor = ed::CreateEditor();
