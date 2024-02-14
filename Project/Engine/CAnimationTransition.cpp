@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CAnimationTransition.h"
+#include "CAnimationStateMachine.h"
 #include "CAnimationState.h"
 #include "CTimeMgr.h"
 
@@ -31,6 +32,33 @@ map<wstring, tAnimationKeyFrame>& CAnimationTransition::GetTransitionKeyFrame()
 	BlendKeyFrame(m_pNextState->GetBoneTransforms(), false);
 
 	return m_mapKeyFrame;
+}
+
+AnimCondition* CAnimationTransition::CreateCondition()
+{
+	auto param = m_pStateMachine->GetParamByIndex(0);
+	if(param == nullptr) return nullptr;
+
+	m_vecConditions.push_back(new AnimCondition(param));
+	return m_vecConditions.back();
+}
+
+void CAnimationTransition::DeleteCondition(int _idx)
+{
+	if(0 <= _idx && _idx < m_vecConditions.size())
+		m_vecConditions.erase(m_vecConditions.begin() + _idx);
+}
+
+void CAnimationTransition::DeleteCondition(AnimCondition* _condition)
+{
+	for (int i = 0; i < m_vecConditions.size(); i++)
+	{
+		if (m_vecConditions[i] == _condition)
+		{
+			m_vecConditions.erase(m_vecConditions.begin() + i);
+			return;
+		}
+	}
 }
 
 bool CAnimationTransition::CheckCondition()

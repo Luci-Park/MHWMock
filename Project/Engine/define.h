@@ -333,6 +333,8 @@ enum class AnimBehaviour
 };
 
 enum class AnimParamType { INT, FLOAT, BOOL, TRIGGER };
+enum class AnimConditionType { GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE };
+
 union AnimParamUnion
 {
 	int		INT;
@@ -340,6 +342,7 @@ union AnimParamUnion
 	bool	BOOL;
 	bool	TRIGGER;
 };
+
 struct AnimStateParam
 {
 	wstring			name;
@@ -347,11 +350,18 @@ struct AnimStateParam
 	AnimParamUnion	value;
 };
 
-enum class AnimConditionType{GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE};
-
 struct AnimCondition
 {
 	AnimStateParam* lhs;
 	AnimConditionType expr;
 	float rhs;
+
+	AnimCondition(AnimStateParam* _param)
+	{
+		lhs = _param;
+		if (lhs->type == AnimParamType::BOOL)
+			expr = AnimConditionType::ISTRUE;
+		else if (lhs->type != AnimParamType::TRIGGER)
+			expr = AnimConditionType::GREATER;
+	}
 };

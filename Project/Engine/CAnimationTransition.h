@@ -36,8 +36,9 @@ public:
 
 	map<wstring, tAnimationKeyFrame>& GetTransitionKeyFrame();
 
-
-
+	AnimCondition* CreateCondition();
+	void DeleteCondition(int _idx);
+	void DeleteCondition(AnimCondition* _condition);
 	bool CheckCondition();
 	void StartTransition();
 
