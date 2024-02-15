@@ -80,13 +80,31 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 	ImGui::Dummy(ImVec2(0, 2.f));
 	ImGui::Separator();
 #pragma endregion
-
-	int i = 4;
-	while (i--)
+	
+	if (ed::GetSelectedObjectCount() <= 0)
 	{
-		ImGui::Text("Test");
+		ImGui::EndChild();
+		return;
 	}
+
+	ed::NodeId* selectedNode = nullptr;
+	ed::LinkId* selectedLink = nullptr;
+	
+	ed::GetSelectedNodes(selectedNode, 1);
+	ed::GetSelectedLinks(selectedLink, 1);
+
+	DrawSelection(selectedNode);
+	DrawSelection(selectedLink);
+
 	ImGui::EndChild();
+}
+
+void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
+{
+}
+
+void AnimatorGraphEditorWindow::DrawSelection(ed::LinkId* _link)
+{
 }
 
 void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height)

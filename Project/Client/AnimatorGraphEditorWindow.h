@@ -27,6 +27,8 @@ private:
 	void OnEnd();
 	void ShowLeftPanel(float _width);
 	void ShowSelection(float _width, float _height);
+	void DrawSelection(ed::NodeId* _node);
+	void DrawSelection(ed::LinkId* _link);
 	void ShowParamConfigPanel(float _width, float _height);
 	bool Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size = -1.0f);
 public:
