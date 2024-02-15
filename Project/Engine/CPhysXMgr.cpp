@@ -134,37 +134,29 @@ void CPhysXMgr::tick()
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 
-	//Simulation 시작 전 변경된 Transform을 Actor에 적용
 	PxU32		nNumActors = 0;
 	PxActor** ppActors = nullptr;
 
-	//Scene에 있는 RigidDynamicActor의 숫자
 	nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
-	//Scene에 있는 RigidDynamicActor 포인터를 받아오기 위한 동적 배열 생성
 	ppActors = new PxActor * [nNumActors];
-	//Scene에서 RigidDynamicActor들을 가져옴.
 	m_pScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, ppActors, nNumActors);
 	for (UINT i = 0; i < nNumActors; ++i)
 	{
 		if (ppActors[i]->userData)
 			((pPXUSERDATA)(ppActors[i]->userData))->pCollider->UpdateActorInfo();
 	}
-	//생성한 동적 배열 삭제
 	delete[] ppActors;
 
-	//Scene에 있는 RigidStaticActor의 숫자
 	nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_STATIC);
-	//Scene에 있는 RigidStaticActor 포인터를 받아오기 위한 동적 배열 생성
+
 	ppActors = new PxActor * [nNumActors];
-	//Scene에서 RigidStaticActor들을 가져옴.
+
 	m_pScene->getActors(PxActorTypeFlag::eRIGID_STATIC, ppActors, nNumActors);
-	//
 	for (UINT i = 0; i < nNumActors; ++i)
 	{
 		if (ppActors[i]->userData)
 			((pPXUSERDATA)(ppActors[i]->userData))->pCollider->UpdateActorInfo();
 	}
-	//생성한 동적 배열 삭제
 	delete[] ppActors;
 
 	m_pScene->simulate(1.0f / 60.0f);
