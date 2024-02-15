@@ -73,7 +73,6 @@ void CRenderMgr::render_play()
         //UI Camera 제외 (LayerMask 31 번만 사용하는 카메라)
         if (m_vecCam[i]->GetLayerMask() == (UINT)(1 << 31))
         {
-            m_MRT[(UINT)MRT_TYPE::CANVAS]->OMSet();
             m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
             m_vecCam[i]->render_ui();
             continue;

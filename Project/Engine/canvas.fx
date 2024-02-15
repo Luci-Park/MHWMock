@@ -38,17 +38,17 @@ VS_OUT VS_Canvas(VS_IN _in)
 
 struct PS_OUT
 {
-    float4 CanvasTex : SV_Target0;
+    float4 ColorTex : SV_Target0;
 };
 
 PS_OUT PS_Canvas(VS_OUT _in) : SV_Target
 {
     PS_OUT output = (PS_OUT)0.f;
-    output.CanvasTex = float4(1.f, 0.f, 1.f, 1.f);
+    output.ColorTex = float4(1.f, 0.f, 1.f, 1.f);
     
     if (g_btex_0)
     {
-        output.CanvasTex = InputTex.Sample(g_sam_0, _in.vUV);
+        output.ColorTex = InputTex.Sample(g_sam_0, _in.vUV);
     }
     return output;
 }
