@@ -83,7 +83,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 		CPhysXMgr::COLLISIONPAIR tCollisionPair;
 		tCollisionPair.bTrigger = false;
 
-		if (physx::PxPairFlag::eNOTIFY_TOUCH_FOUND == pairs[i].events)
+		if (physx::PxPairFlag::eNOTIFY_TOUCH_FOUND == (UINT)pairs[i].events)
 		{
 			if (pCollider[0] != nullptr && pCollider[1] != nullptr)
 			{
@@ -94,7 +94,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 			}
 
 		}
-		else if (physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS == pairs[i].events)
+		else if (physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS == (UINT)pairs[i].events)
 		{
 			if (pCollider[0] != nullptr && pCollider[1] != nullptr)
 			{
@@ -104,7 +104,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 				CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
 			}
 		}
-		else if (physx::PxPairFlag::eNOTIFY_TOUCH_LOST == pairs[i].events)
+		else if (physx::PxPairFlag::eNOTIFY_TOUCH_LOST == (UINT)pairs[i].events)
 		{
 			if (pCollider[0] != nullptr && pCollider[1] != nullptr)
 			{
