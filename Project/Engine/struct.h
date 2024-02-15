@@ -50,6 +50,7 @@ struct tDebugShapeInfo
 
 struct tDebugShapeInfo3D
 {
+	SHAPE_TYPE	eShape;
 	Matrix			matWorld;
 	Vec3				vWorldPos;
 	Vec3				vWorldScale;
@@ -59,6 +60,15 @@ struct tDebugShapeInfo3D
 	float				fCurTime;
 	bool				bDepthTest;
 };
+
+typedef struct tPxUserData
+{
+	//std::weak_ptr<CCollider3D>pCollider;
+	class CCollider3D* pCollider;
+	bool bGround;
+}PXUSERDATA, *pPXUSERDATA;
+
+
 
 struct tLightColor
 {

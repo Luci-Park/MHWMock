@@ -1,9 +1,21 @@
 #pragma once
 #include "CComponent.h"
 
+#include "CPhysXMgr.h"
+
+using namespace physx;
+
 class CCollider3D : public CComponent
 {
 private:
+    SHAPE_TYPE  m_ShapeType;
+
+    PxShape*        m_pShape;
+    PxMaterial*     m_pMaterial;
+    PxRigidActor*  m_pRigidActor;
+
+    PXUSERDATA  m_pUserData;
+
     Vec3            m_vOffsetPos;
     Vec3            m_vOffsetScale;
 
@@ -14,6 +26,12 @@ private:
     bool             m_bAbsolute;
     bool             m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
     
+    bool            m_bIsBegin;
+
+public:
+    void CreateRigidActor();
+    void UpdateActorInfo();
+
 public:
     virtual void begin() override;
     virtual void finaltick() override;
@@ -26,9 +44,12 @@ public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
 
 public:
-    void BeginOverlap(CCollider2D* _Other);
-    void OnOverlap(CCollider2D* _Other);
-    void EndOverlap(CCollider2D* _Other);
+    void OnCollisionEnter(CCollider3D* _Other);
+    void OnCollisionStay(CCollider3D* _Other);
+    void OnCollisionExit(CCollider3D* _Other);
+
+    void OnTriggerEnter(CCollider3D* _Other);
+    void OnTriggerExit(CCollider3D* _Other);
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;

@@ -3,13 +3,17 @@
 
 #include "CScript.h"
 #include "components.h"
+#include "CTransform.h"
 
 #include "CRenderMgr.h"
+#include "CPhysXMgr.h"
 
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
+	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
+	, m_bIsBegin(true)
 {
 }
 
@@ -19,6 +23,7 @@ CCollider3D::~CCollider3D()
 
 void CCollider3D::begin()
 {
+	CreateRigidActor();
 }
 
 void CCollider3D::finaltick()
@@ -45,21 +50,143 @@ void CCollider3D::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
+	if (m_ShapeType == SHAPE_TYPE::CAPSULE)
+	{
+		DrawDebugCapsule3D(matWorld, vColor, 0.f);
+	}
+	else if (m_ShapeType == SHAPE_TYPE::CONVEX)
+	{
+		CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
 
-	// 렌더링 기능이 없는 오브젝트는 제외
-	if (nullptr == pRenderCom
-		|| nullptr == pRenderCom->GetMesh())
+		// 렌더링 기능이 없는 오브젝트는 제외
+		if (pRenderCom == nullptr
+			|| pRenderCom->GetMesh() == nullptr )
+			return;
+
+		DrawDebugConvex3D(matWorld, vColor, 0.f);
+		CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
+	}
+}
+
+void CCollider3D::CreateRigidActor()
+{
+	// 이 함수는 맨처음 Actor를 생성해주는것 뿐만 아니라 Obj의 회전 및 변형 될 때에도 호출되는 함수이기 때문에
+	// 아래의 CapsuleCollider ReadyCollider 부분의 material, shape설정등은 Collider클래스를 상속받는 클래스에서 생성될때 한번 실행해주는것이 바람직하다.
+
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
 		return;
 
-	DrawDebugShape3D(matWorld, vColor, 0.f);
-	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
+	vPos.z = -vPos.z;
+	qRot.z = -qRot.z;
 
-	int a = 0;
+	float fRadius = Transform()->GetRelativeScale().x / 2.0f;
+	float fHalfHeight = Transform()->GetRelativeScale().y / 2.0f;
+
+	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
+
+	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x /2.0f, vScale.y/2.0f), *m_pMaterial);
+	
+	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));
+
+	m_pShape->setLocalPose(relativePose);
+
+	// Collider ReadyCollider
+		// Collider CreateRigidActor
+	
+
+	// 만약 RigidActor가 존재한다면 삭제해줌.
+	if (m_pRigidActor != nullptr )
+	{
+		if (m_pRigidActor->getScene())
+			m_pRigidActor->getScene()->removeActor(*m_pRigidActor);
+
+		PX_RELEASE(m_pRigidActor);
+	}
+
+	PxVec3 pxPos;
+	PxQuat pxQuat;
+
+	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
+	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
+
+	/*if (m_bRigid)
+		m_pRigidActor = Physics::GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
+	else
+		m_pRigidActor = Physics::GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));*/
+
+	m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
+
+	m_pUserData.pCollider = this;
+	m_pUserData.bGround = false;
+
+	m_pRigidActor->userData = (void*)&m_pUserData;
+
+	m_pRigidActor->attachShape(*m_pShape);
+
+	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+
+	CPhysXMgr::GetInst()->AddActor(*m_pRigidActor);
+}
+
+void CCollider3D::UpdateActorInfo()
+{
+	if (GetOwner() == nullptr)
+		return;
+	// Transform의 데이터가 바뀌지 않았을경우 예외처리 .
+	// ~~
+
+	if (m_pRigidActor == nullptr)
+		return;
+
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
+		return;
+
+	PxVec3 pxPos;
+	PxQuat pxQuat;
+
+	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
+	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
+
+	m_pRigidActor->setGlobalPose(physx::PxTransform(pxPos, pxQuat));
+	return;
+
+	//// 만약 중간에 충돌 할경우 위치를 멈추도록 구현.
+	//PxVec3 vCurrPos = m_pRigidActor->getGlobalPose().p;
+
+	//PxVec3 vRayDir = pxPos - vCurrPos;
+
+	//float fDistance = vRayDir.magnitude();
+
+	//vRayDir = vRayDir.getNormalized();
+
+	//PxVec3 vOrigin = vCurrPos + m_pShape->getLocalPose().p;
+
+	//PxRaycastBuffer rayCastBuffer;
+
+	//PxScene* pScene = m_pRigidActor->getScene();
+
+	//if (PxVec3(0) != vRayDir && pScene->raycast(vOrigin, vRayDir, 100.f, rayCastBuffer))
+	//{
+	//	if (rayCastBuffer.block.distance < fDistance)
+	//	{
+	//		pxPos = m_pRigidActor->getGlobalPose().p + vRayDir * (rayCastBuffer.block.distance - m_fOffsetRadius);
+	//	}
+	//}
+
+	//m_pRigidActor->setGlobalPose(physx::PxTransform(pxPos, pxQuat));
+
 }
 
 
-void CCollider3D::BeginOverlap(CCollider2D* _Other)
+void CCollider3D::OnCollisionEnter(CCollider3D* _Other)
 {
 	m_iCollisionCount += 1;
 
@@ -67,20 +194,20 @@ void CCollider3D::BeginOverlap(CCollider2D* _Other)
 	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
 	for (size_t i = 0; i < vecScript.size(); ++i)
 	{
-		vecScript[i]->BeginOverlap(_Other);
+		vecScript[i]->OnCollisionEnter(_Other);
 	}
 }
 
-void CCollider3D::OnOverlap(CCollider2D* _Other)
+void CCollider3D::OnCollisionStay(CCollider3D* _Other)
 {// Script 호출
 	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
 	for (size_t i = 0; i < vecScript.size(); ++i)
 	{
-		vecScript[i]->OnOverlap(_Other);
+		vecScript[i]->OnCollisionStay(_Other);
 	}
 }
 
-void CCollider3D::EndOverlap(CCollider2D* _Other)
+void CCollider3D::OnCollisionExit(CCollider3D* _Other)
 {
 	m_iCollisionCount -= 1;
 
@@ -88,8 +215,18 @@ void CCollider3D::EndOverlap(CCollider2D* _Other)
 	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
 	for (size_t i = 0; i < vecScript.size(); ++i)
 	{
-		vecScript[i]->EndOverlap(_Other);
+		vecScript[i]->OnCollisionExit(_Other);
 	}
+}
+
+void CCollider3D::OnTriggerEnter(CCollider3D* _Other)
+{
+	
+}
+
+void CCollider3D::OnTriggerExit(CCollider3D* _Other)
+{
+	
 }
 
 void CCollider3D::SaveToLevelFile(FILE* _File)

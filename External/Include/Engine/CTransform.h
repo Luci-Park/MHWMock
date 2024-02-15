@@ -40,6 +40,8 @@ public:
     Vec3 GetWorldDir(DIR_TYPE _type) const { { return m_vWorldDir[(UINT)_type]; } }
     Vec3 GetWorldPos() { return m_matWorld.Translation(); }
 
+    bool Decompose(Vector3& scale, Quaternion& rotation, Vector3& translation) { return m_matWorld.Decompose(scale, rotation, translation); }
+
     const Matrix& GetWorldScaleMat() { return m_matWorldScale; }
     const Matrix& GetWorldMat() const { return m_matWorld; }
     const Matrix& GetWorldInvMat() const { return m_matWorldInv; }

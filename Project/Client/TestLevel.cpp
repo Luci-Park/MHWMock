@@ -164,7 +164,7 @@ void CreateTestLevel()
 
 
 	// �浹 ��ų ���̾� ¦ ����
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
 }
 

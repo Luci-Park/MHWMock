@@ -449,6 +449,73 @@ void CResMgr::CreateDefaultMesh()
 	AddRes<CMesh>(L"SphereMesh", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
+
+
+	// Capsule Mesh
+	//float radius = sqrt(pow(0.5f, 2) * 2.0f);
+	float radius = 0.5f;
+	float halfHeight = 0.25f;
+	int numSegments = 20;
+
+	for (int i = 0; i <= numSegments; ++i)
+	{
+		if (i < numSegments / 2)
+		{
+			float phi = XM_PIDIV2 + XM_PI * i / numSegments;
+			float y = radius * sinf(phi);
+			float r = radius * cosf(phi);
+
+			for (int j = 0; j <= numSegments; ++j)
+			{
+				float theta = XM_2PI * j / numSegments;
+				float x = r * cosf(theta);
+				float z = r * sinf(theta);
+
+				// Top hemisphere vertices
+				v.vPos = Vec3(x, y + halfHeight, z);
+				v.vNormal = Vec3(x, y, z);
+				vecVtx.push_back(v);
+			}
+		}
+		else
+		{
+			float phi = XM_PIDIV2 + XM_PI * i / numSegments;
+			float y = radius * sinf(phi);
+			float r = radius * cosf(phi);
+
+			for (int j = 0; j <= numSegments; ++j)
+			{
+				float theta = XM_2PI * j / numSegments;
+				float x = r * cosf(theta);
+				float z = r * sinf(theta);
+
+				// Top hemisphere vertices
+				v.vPos = Vec3(x, y - halfHeight, z);
+				v.vNormal = Vec3(x, y, z);
+				vecVtx.push_back(v);
+			}
+		}
+	}
+	for (int i = 0; i < numSegments; ++i)
+	{
+		for (int j = 0; j < numSegments; ++j)
+		{
+			vecIdx.push_back(i * (numSegments + 1) + j);
+			vecIdx.push_back((i + 1) * (numSegments + 1) + j);
+			vecIdx.push_back(i * (numSegments + 1) + j + 1);
+
+			vecIdx.push_back((i + 1) * (numSegments + 1) + j);
+			vecIdx.push_back((i + 1) * (numSegments + 1) + j + 1);
+			vecIdx.push_back(i * (numSegments + 1) + j + 1);
+		}
+	}
+
+	pMesh = new CMesh(true);
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes<CMesh>(L"CapsuleMesh", pMesh);
+
+	vecVtx.clear();
+	vecIdx.clear();
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
@@ -780,6 +847,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreateVertexShader(L"shader\\std3d_deferred.fx", "VS_Std3D_Deferred");
 	pShader->CreatePixelShader(L"shader\\std3d_deferred.fx", "PS_Std3D_Deferred");
 
+	pShader->SetTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetRSType(RS_TYPE::CULL_BACK);	
 	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
@@ -803,7 +871,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->CreateVertexShader(L"shader\\light.fx", "VS_DirLightShader");
 	pShader->CreatePixelShader(L"shader\\light.fx", "PS_DirLightShader");
-
+	
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_LIGHT);
 	pShader->SetRSType(RS_TYPE::CULL_BACK);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
