@@ -9,7 +9,7 @@
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
-	, m_fSpeed(500.f)
+	, m_fSpeed(10.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Player Speed");
 }
@@ -70,12 +70,12 @@ void CPlayerScript::tick()
 
 	Transform()->SetRelativePos(vCurPos);			
 
-	if (KEY_TAP(KEY::SPACE))
+	/*if (KEY_TAP(KEY::SPACE))
 	{
 		DrawDebugCircle(Transform()->GetWorldPos(), 500.f, Vec4(0.f, 0.f, 1.f, 1.f), Vec3(0.f, 0.f, 0.f), 2.f);
 
 		Shoot();
-	}	
+	}	*/
 }
 
 void CPlayerScript::Shoot()
@@ -89,14 +89,15 @@ void CPlayerScript::Shoot()
 	SpawnGameObject(pCloneMissile, vMissilePos, L"PlayerProjectile");
 }
 
-void CPlayerScript::BeginOverlap(CCollider2D* _Other)
+void CPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 {
-	CGameObject* pOtherObject = _Other->GetOwner();
+	int a = 0;
+	/*CGameObject* pOtherObject = _Other->GetOwner();
 
 	if (pOtherObject->GetName() == L"Monster")
 	{
 		DestroyObject(pOtherObject);		
-	}
+	}*/
 }
 
 

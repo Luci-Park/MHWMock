@@ -148,21 +148,32 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
-	/*CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);
-	pObject->Transform()->SetRelativeScale(Vec3(5.0f, 5.0f, 5.0f));
+	CGameObject* pObject1 = new CGameObject;
+	pObject1->SetName(L"Player");
+	pObject1->AddComponent(new CTransform);
+	pObject1->AddComponent(new CMeshRender);
+	pObject1->AddComponent(new CPlayerScript);
+	//pObject1->AddComponent(new CCollider3D);
+	pObject1->Transform()->SetRelativeScale(Vec3(5.0f, 5.0f, 5.0f));
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	SpawnGameObject(pObject, Vec3(0.0f, 0.0f, 50.0f), 0);*/
+	pObject1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pObject1->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	SpawnGameObject(pObject1, Vec3(0.0f, 0.0f, 50.0f), 0);
 
+	CGameObject* pObject2 = new CGameObject;
+	pObject2->SetName(L"Player");
+	pObject2->AddComponent(new CTransform);
+	pObject2->AddComponent(new CMeshRender);
+	//pObject2->AddComponent(new CCollider3D);
+	//pObject2->AddComponent(new CPlayerScript);
+	pObject2->Transform()->SetRelativeScale(Vec3(5.0f, 5.0f, 5.0f));
+
+	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	SpawnGameObject(pObject2, Vec3(50.0f, 0.0f, 50.0f), 0);
 
 	// �浹 ��ų ���̾� ¦ ����
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
-
+	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 }
 
 void testtick()

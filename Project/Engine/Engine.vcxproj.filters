@@ -196,6 +196,7 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -381,6 +382,7 @@
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionCallback.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

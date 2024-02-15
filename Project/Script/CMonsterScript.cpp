@@ -15,7 +15,7 @@ void CMonsterScript::tick()
 {
 }
 
-void CMonsterScript::BeginOverlap(CCollider2D* _Other)
+void CMonsterScript::OnCollisionEnter(CCollider3D* _Other)
 {
 	if (L"Parent Object" == _Other->GetOwner()->GetName())
 	{

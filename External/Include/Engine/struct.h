@@ -61,6 +61,15 @@ struct tDebugShapeInfo3D
 	bool				bDepthTest;
 };
 
+typedef struct tPxUserData
+{
+	//std::weak_ptr<CCollider3D>pCollider;
+	class CCollider3D* pCollider;
+	bool bGround;
+}PXUSERDATA, *pPXUSERDATA;
+
+
+
 struct tLightColor
 {
 	Vec4 vDiffuse;	// ºûÀÇ »ö»ó
