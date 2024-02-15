@@ -19,6 +19,8 @@
 
 #include <Engine/CSetColorShader.h>
 
+#include <Engine\CCanvas.h>
+
 
 void CreateTestLevel()
 {
@@ -53,18 +55,29 @@ void CreateTestLevel()
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 
 	// UI cameara
-	//CGameObject* pUICam = new CGameObject;
-	//pUICam->SetName(L"UICamera");
+	CGameObject* pUICam = new CGameObject;
+	pUICam->SetName(L"UICamera");
 
-	//pUICam->AddComponent(new CTransform);
-	//pUICam->AddComponent(new CCamera);
+	pUICam->AddComponent(new CTransform);
+	pUICam->AddComponent(new CCamera);
 
-	//pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
-	//pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
+	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
+	pUICam->Camera()->SetLayerMaskAll(false);
+	pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
 
-	//SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
+	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
 
+	CGameObject* ptestUI = new CGameObject;
+	ptestUI->SetName(L"TestUI");
+
+	ptestUI->AddComponent(new CTransform);
+	ptestUI->AddComponent(new CCanvas);
+
+	ptestUI->Transform()->SetRelativeScale(100.f, 100.f,100.f);
+	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
+
+	SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
 
 	// SkyBox �߰�
 	CGameObject* pSkyBox = new CGameObject;

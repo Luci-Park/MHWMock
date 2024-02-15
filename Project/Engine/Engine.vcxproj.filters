@@ -196,6 +196,9 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CCanvas.h">
+      <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -380,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Source\06. Component\2. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CCanvas.cpp">
+      <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -572,6 +578,9 @@
     <Filter Include="Source\06. Component\2. Collider">
       <UniqueIdentifier>{95818b5c-89c4-4cb1-a32b-1d06f120f939}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\06. Component\RenderComponent\7. Canvas">
+      <UniqueIdentifier>{ab34bf7d-82d6-4be6-94f1-1a07dde1b4ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -636,6 +645,9 @@
     </FxCompile>
     <FxCompile Include="skinning.fx">
       <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="canvas.fx">
+      <Filter>Source\08. ShaderCode\Render\2D</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

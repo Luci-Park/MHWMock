@@ -20,6 +20,9 @@ private:
 
     PROJ_TYPE   m_ProjType;
 
+    Matrix      m_matWorld;
+    Matrix      m_matWorldInv;
+
     Matrix      m_matView;
     Matrix      m_matViewInv;
 
@@ -89,6 +92,7 @@ public:
     void SortObject_Shadow();
     void render();
     void render_shadowmap();
+    void render_ui();
 
 public:
     virtual void begin() override;
@@ -105,8 +109,6 @@ private:
     void render_decal();
     void render_transparent();
     void render_postprocess();
-    void render_ui();
-
 
     void CalcViewMat();
     void CalcProjMat();
