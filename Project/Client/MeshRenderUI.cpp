@@ -119,10 +119,13 @@ int MeshRenderUI::render_update()
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMaterial);
 	}
 
-	for (size_t i = 0; i < 12; i++)
+	if (pMtrl != nullptr)
 	{
-		if (pMtrl.Get()->GetTexParam((TEX_PARAM)i) != nullptr)
-			ImGui::Image((ImTextureID)pMtrl.Get()->GetTexParam((TEX_PARAM)i)->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+		for (size_t i = 0; i < 12; i++)
+		{
+			if (pMtrl.Get()->GetTexParam((TEX_PARAM)i) != nullptr)
+				ImGui::Image((ImTextureID)pMtrl.Get()->GetTexParam((TEX_PARAM)i)->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+		}
 	}
 
 	return TRUE;
