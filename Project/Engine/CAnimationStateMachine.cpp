@@ -57,7 +57,11 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 {
+	if (AnimParamType::NONE == _type)
+		return nullptr;
+
 	auto param = new AnimStateParam();
+	param->name = L"New " + GetAnimParamWStr(_type);
 	
 	param->type = _type;
 	if (AnimParamType::FLOAT == _type)

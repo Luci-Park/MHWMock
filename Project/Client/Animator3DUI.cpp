@@ -32,7 +32,9 @@ int Animator3DUI::render_update()
     {
         pGraphic = iter->second;
     }
+    ImGui::Begin("Animator##Animator");
     pGraphic->OnDraw();        
+    ImGui::End();
 
 
     return 0;

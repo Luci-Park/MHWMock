@@ -302,3 +302,86 @@ const wchar_t* ToWString(COMPONENT_TYPE type)
 {
 	return COMPONENT_TYPE_WSTR[(UINT)type];
 }
+
+string WSTR2STR(wstring _string)
+{
+	return string(_string.begin(), _string.end());
+}
+
+wstring STR2WSTR(string _string)
+{
+	return wstring(_string.begin(), _string.end());
+}
+
+string GetAnimParamStr(AnimParamType _type)
+{
+	switch (_type)
+	{
+	case AnimParamType::INT:
+		return "int";
+	case AnimParamType::FLOAT:
+		return "float";
+	case AnimParamType::BOOL:
+		return "bool";
+	case AnimParamType::TRIGGER:
+		return "trigger";
+	}
+	return "none";
+}
+
+
+wstring GetAnimParamWStr(AnimParamType _type)
+{
+	switch (_type)
+	{
+	case AnimParamType::INT:
+		return L"int";
+	case AnimParamType::FLOAT:
+		return L"float";
+	case AnimParamType::BOOL:
+		return L"bool";
+	case AnimParamType::TRIGGER:
+		return L"trigger";
+	}
+	return L"none";
+}
+
+string GetAnimConditionStr(AnimConditionType _type)
+{
+	switch (_type)
+	{
+	case AnimConditionType::GREATER:
+		return "Greater";
+	case AnimConditionType::LESS:
+		return "Less";
+	case AnimConditionType::EQUAL:
+		return "Equals";
+	case AnimConditionType::NOTEQUAL:
+		return "Not Equals";
+	case AnimConditionType::ISTRUE:
+		return "true";
+	case AnimConditionType::ISFALSE:
+		return "false";
+	}
+	return "none";
+}
+
+wstring GetAnimCondtionWstr(AnimConditionType _type)
+{
+	switch (_type)
+	{
+	case AnimConditionType::GREATER:
+		return L"Greater";
+	case AnimConditionType::LESS:
+		return L"Less";
+	case AnimConditionType::EQUAL:
+		return L"Equals";
+	case AnimConditionType::NOTEQUAL:
+		return L"Not Equals";
+	case AnimConditionType::ISTRUE:
+		return L"true";
+	case AnimConditionType::ISFALSE:
+		return L"false";
+	}
+	return L"none";
+}
