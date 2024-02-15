@@ -199,6 +199,7 @@
     <ClInclude Include="CCanvas.h">
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -387,6 +388,7 @@
     <ClCompile Include="CCanvas.cpp">
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionCallback.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

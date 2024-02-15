@@ -76,6 +76,8 @@ void CEngine::progress()
 	// 카메라를 지정, 카메라가 바라보는 시점으로 화면을 윈도우에 그림
 	render();
 
+	CPhysXMgr::GetInst()->FetchResults();
+
 	// Event 처리, tick 에서 바로 처리가 불가능한것들을 모아서 지연처리
 	CEventMgr::GetInst()->tick();
 }

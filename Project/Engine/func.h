@@ -36,7 +36,9 @@ void DrawDebugSphere(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotat
 void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
 void DrawDebugLine(Vec3 from, Vec3 to);
-void DrawDebugShape3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
+
+void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
+void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
 bool IsValidObj(CGameObject*& _Target);
 
