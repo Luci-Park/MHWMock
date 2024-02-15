@@ -6,8 +6,12 @@
 #include "ImGui/imgui_stdlib.h"
 #include <Engine/func.h>
 #include <Engine/CKeyMgr.h>
+#include "AnimatorGraphStructures.h"
+
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	: m_iCurrentEditingParam(-1)
+	, m_fLeftPlaneWidth(200.f)
+	, m_fRightPlaneWidth(800.f)
 {
 	m_pAnimator = _animator->GetStateMachine();
 	OnStart();
@@ -26,8 +30,8 @@ void AnimatorGraphEditorWindow::OnDraw()
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
-
 	ImGui::SameLine(0.0f, 12.0f);
+
 	ed::Begin("Node Editor");
 	{
 

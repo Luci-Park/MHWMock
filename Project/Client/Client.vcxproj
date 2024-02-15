@@ -184,6 +184,7 @@
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="Animator3DUI.h" />
     <ClInclude Include="AnimatorGraphEditorWindow.h" />
+    <ClInclude Include="AnimatorGraphStructures.h" />
     <ClInclude Include="BoneHolderUI.h" />
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CCustomResourceLoader.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="Animator3DUI.cpp" />
     <ClCompile Include="AnimatorGraphEditorWindow.cpp" />
+    <ClCompile Include="AnimatorGraphStructures.cpp" />
     <ClCompile Include="BoneHolderUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CCustomResourceLoader.cpp" />

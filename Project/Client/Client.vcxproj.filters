@@ -338,6 +338,9 @@
     <ClInclude Include="AnimatorGraphEditorWindow.h">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatorGraphStructures.h">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -527,6 +530,9 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="AnimatorGraphEditorWindow.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorGraphStructures.cpp">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClCompile>
   </ItemGroup>
