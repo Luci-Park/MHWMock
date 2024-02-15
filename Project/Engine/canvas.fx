@@ -6,15 +6,13 @@
 
 struct VS_IN
 {
-    float3 vLocalPos : POSITION;
+    float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
 };
 
 struct VS_OUT
 {
     float4 vPosition : SV_Position;
-    float4 vLocalPosition : POSITION;
-    float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };
 
@@ -32,9 +30,7 @@ VS_OUT VS_Canvas(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
-    output.vPosition = mul(float4(_in.vLocalPos, 1.f), g_matWVP);
-    //output.vPosition = float4(_in.vLocalPos, 1.f);
-    //output.vPosition = mul(float4(_in.vLocalPos, 1.f),g_matWV);
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
     output.vUV = _in.vUV;
         
     return output;
@@ -50,15 +46,10 @@ PS_OUT PS_Canvas(VS_OUT _in) : SV_Target
     PS_OUT output = (PS_OUT)0.f;
     output.CanvasTex = float4(1.f, 0.f, 1.f, 1.f);
     
-    //float4 output = (float4) 0.f;
-    
     if (g_btex_0)
     {
-        //output = InputTex.Sample(g_sam_0,_in.vUV);
         output.CanvasTex = InputTex.Sample(g_sam_0, _in.vUV);
     }
-    output.CanvasTex.a = 1.f;
-    //output.a = 1.0f;
     return output;
 }
 #endif

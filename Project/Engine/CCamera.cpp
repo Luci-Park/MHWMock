@@ -423,8 +423,8 @@ void CCamera::render_postprocess()
 void CCamera::render_ui()
 {
 	// 행렬 업데이트
-	g_transform.matWorld = m_matWorld;
-	g_transform.matWorldInv = m_matWorldInv;
+	//g_transform.matWorld = m_matWorld;
+	//g_transform.matWorldInv = m_matWorldInv;
 
 	g_transform.matView = m_matView;
 	g_transform.matViewInv = m_matViewInv;

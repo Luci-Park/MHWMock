@@ -66,7 +66,7 @@ void CreateTestLevel()
 	pUICam->Camera()->SetLayerMaskAll(false);
 	pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
 
-	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), 0);
+	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
 
 	CGameObject* ptestUI = new CGameObject;
 	ptestUI->SetName(L"TestUI");
@@ -74,8 +74,8 @@ void CreateTestLevel()
 	ptestUI->AddComponent(new CTransform);
 	ptestUI->AddComponent(new CCanvas);
 
-	ptestUI->Transform()->SetRelativeScale(10.f, 10.f,10.f);
-	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
+	ptestUI->Transform()->SetRelativeScale(100.f, 100.f,100.f);
+	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
 
 	SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
 

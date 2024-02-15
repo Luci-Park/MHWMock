@@ -51,6 +51,9 @@ void CResMgr::CreateDefaultMesh()
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes(L"LineMesh_Debug", pMesh);
 	
+	vecVtx.clear();
+	vecIdx.clear();
+
 	// =============
 	// RectMesh »ı¼º
 	// =============
@@ -61,9 +64,9 @@ void CResMgr::CreateDefaultMesh()
 	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.f, 0.f);
 
-	v.vNormal = Vec3(0.f, 0.f, -1.f);
-	v.vTangent = Vec3(1.f, 0.f, 0.f);
-	v.vBinormal = Vec3(0.f, -1.f, 0.f);
+	//v.vNormal = Vec3(0.f, 0.f, -1.f);
+	//v.vTangent = Vec3(1.f, 0.f, 0.f);
+	//v.vBinormal = Vec3(0.f, -1.f, 0.f);
 
 	vecVtx.push_back(v);
 
@@ -82,14 +85,13 @@ void CResMgr::CreateDefaultMesh()
 	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
-	vecIdx.clear();
 	vecIdx.push_back(0);
 	vecIdx.push_back(2);
 	vecIdx.push_back(3);
-
-	vecIdx.push_back(1);
+	
 	vecIdx.push_back(0);
-	vecIdx.push_back(3);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
@@ -946,6 +948,29 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	AddRes(pShader->GetKey(), pShader);
 
+	// ============================
+	// CanvasMergeShader	
+	// RS_TYPE : CULL_BACK
+	// DS_TYPE : LESS
+	// BS_TYPE : MASK
+	// 
+	// Parameter
+	// g_tex_0 : Output Texture
+	// g_tex_1 : Normal Texture
+	// Domain : UI
+	// ============================
+	//pShader = new CGraphicsShader;
+	//pShader->SetKey(L"CanvasMergeShader");
+	//pShader->CreateVertexShader(L"shader\\canvas.fx", "VS_MergeShader");
+	//pShader->CreatePixelShader(L"shader\\canvas.fx", "PS_MergeShader");
+
+	//pShader->SetRSType(RS_TYPE::CULL_BACK);
+	//pShader->SetDSType(DS_TYPE::LESS);
+	//pShader->SetBSType(BS_TYPE::MASK);
+	//pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+
+	//AddRes(pShader->GetKey(), pShader);
+
 
 }
 
@@ -1088,4 +1113,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"CanvasShader"));
 	AddRes(L"CanvasMtrl", pMtrl);
+
+	// CanvasMtrl
+	//pMtrl = new CMaterial(true);
+	//pMtrl->SetShader(FindRes<CGraphicsShader>(L"CanvasMergeShader"));
+	//AddRes(L"CanvasMergeMtrl", pMtrl);
 }

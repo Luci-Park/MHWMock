@@ -9,6 +9,8 @@
 #include "CResMgr.h"
 #include "CMesh.h"
 #include "CMaterial.h"
+#include "CRenderMgr.h"
+#include "CMRT.h"
 
 CCanvas::CCanvas()
 	:CRenderComponent(COMPONENT_TYPE::CANVAS)
@@ -25,7 +27,7 @@ CCanvas::~CCanvas()
 
 void CCanvas::finaltick()
 {
-	
+
 }
 
 void CCanvas::render()
