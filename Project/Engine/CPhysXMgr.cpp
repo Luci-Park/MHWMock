@@ -55,8 +55,8 @@ CPhysXMgr::~CPhysXMgr()
 	/*if (m_bSimulate)
 		while (false == (mScene->fetchResults(false)));
 	delete mScene->getSimulationEventCallback();*/
+	delete m_pScene->getSimulationEventCallback();
 	PX_RELEASE(m_pScene);
-
 	PX_RELEASE(m_pDispatcher);
 
 	// Cooking 생성시 rick제거.
@@ -72,6 +72,8 @@ CPhysXMgr::~CPhysXMgr()
 	}
 
 	PX_RELEASE(m_pFoundation);
+
+	//PX_RELEASE(m_pMaterial);
 }
 
 void CPhysXMgr::init()
