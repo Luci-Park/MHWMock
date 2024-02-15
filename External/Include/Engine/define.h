@@ -331,3 +331,37 @@ enum class AnimBehaviour
 	LINEAR, //The value of the nearest two keys is linearly extrapolated for the current time value
 	REPEAT, // The animation is repeated.If the animation key go from n to m and the current time is t, use the value at(t - n) % (| m - n | )
 };
+
+enum class AnimParamType { INT, FLOAT, BOOL, TRIGGER };
+enum class AnimConditionType { GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE };
+
+union AnimParamUnion
+{
+	int		INT;
+	float	FLOAT;
+	bool	BOOL;
+	bool	TRIGGER;
+};
+
+struct AnimStateParam
+{
+	wstring			name;
+	AnimParamType	type;
+	AnimParamUnion	value;
+};
+
+struct AnimCondition
+{
+	AnimStateParam* lhs;
+	AnimConditionType expr;
+	float rhs;
+
+	AnimCondition(AnimStateParam* _param)
+	{
+		lhs = _param;
+		if (lhs->type == AnimParamType::BOOL)
+			expr = AnimConditionType::ISTRUE;
+		else if (lhs->type != AnimParamType::TRIGGER)
+			expr = AnimConditionType::GREATER;
+	}
+};

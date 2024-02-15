@@ -12,6 +12,8 @@ Animator3DUI::Animator3DUI()
 
 Animator3DUI::~Animator3DUI()
 {
+    for (auto pair : m_mapAnimator)
+        delete pair.second;
 }
 int Animator3DUI::render_update()
 {

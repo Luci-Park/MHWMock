@@ -8,6 +8,7 @@ class Animator3DUI :
 {
 private:
 	map<CAnimator3D*, AnimatorGraphEditorWindow*> m_mapAnimator;
+
 public:
 	virtual int render_update() override;
 public:

@@ -16,7 +16,7 @@ private:
 	CAnimator3D* m_pAnimator;
 	ed::EditorContext* m_pEditor;
 public:
-	void OnDraw();
+	virtual int OnDraw();
 private:
 	void OnStart();
 	void OnEnd();
