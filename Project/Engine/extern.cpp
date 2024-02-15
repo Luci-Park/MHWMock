@@ -54,6 +54,7 @@ extern const char* COMPONENT_TYPE_STR[(UINT)COMPONENT_TYPE::END] =
 	"SKYBOX",
 	"DECAL",
 	"BONEHOLDER",
+	"CANVAS",
 };
 
 extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END] =
@@ -74,6 +75,7 @@ extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END] =
 	L"SKYBOX",
 	L"DECAL",
 	L"BONEHOLDER",
+	L"CANVAS",
 };
 
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END] =
