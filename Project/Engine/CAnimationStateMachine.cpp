@@ -92,7 +92,10 @@ void CAnimationStateMachine::DeleteParam(wstring _name)
 void CAnimationStateMachine::DeleteParam(int _idx)
 {
 	if (0 <= _idx && _idx < m_vecParams.size())
+	{
+		delete m_vecParams[_idx];
 		m_vecParams.erase(m_vecParams.begin() + _idx);
+	}
 }
 
 AnimStateParam* CAnimationStateMachine::GetParamByName(wstring _name)
