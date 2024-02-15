@@ -196,6 +196,12 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Source\06. Component\2. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimationStateMachine.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimationTransition.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClInclude>
     <ClInclude Include="CCanvas.h">
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClInclude>
@@ -383,6 +389,12 @@
     </ClCompile>
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Source\06. Component\2. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimationStateMachine.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimationTransition.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClCompile>
     <ClCompile Include="CCanvas.cpp">
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>

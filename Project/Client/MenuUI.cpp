@@ -338,7 +338,7 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         pSelectedObject->AddComponent(new CAnimator2D);
         break;
     case COMPONENT_TYPE::ANIMATOR3D:
-        //pSelectedObject->AddComponent(new CAnimator3D);
+        pSelectedObject->AddComponent(new CAnimator3D);
         break;
     case COMPONENT_TYPE::LIGHT2D:
         pSelectedObject->AddComponent(new CLight2D);
@@ -351,6 +351,9 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     case COMPONENT_TYPE::MESHRENDER:
         pSelectedObject->AddComponent(new CMeshRender);
+        break;
+    case COMPONENT_TYPE::SKINNEDMESHRENDER:
+        pSelectedObject->AddComponent(new CSkinnedMeshRender);
         break;
     case COMPONENT_TYPE::PARTICLESYSTEM:
         pSelectedObject->AddComponent(new CParticleSystem);

@@ -206,6 +206,20 @@ struct tAnimationKeyFrame
 	Vec3		vPos;
 	Quaternion	qRot;
 	Vec3		vScale;
+
+	tAnimationKeyFrame operator*(float scalar) const {
+		tAnimationKeyFrame result = *this;
+		result.vPos *= scalar;
+		result.qRot *= scalar;
+		result.vScale *= scalar;
+		return result;
+	}
+	tAnimationKeyFrame& operator+=(const tAnimationKeyFrame& other) {
+		vPos += other.vPos;
+		vScale += other.vScale;
+		qRot += other.qRot;
+		return *this;
+	}
 };
 
 // ===================

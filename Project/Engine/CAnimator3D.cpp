@@ -5,25 +5,25 @@
 #include "CTimeMgr.h"
 #include "CTransform.h"
 #include "CBoneHolder.h"
-
+#include "CAnimationStateMachine.h"
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
-	, m_bIsPlaying(true)
-	, m_dTick(0)
 {
+	m_pAnimationStateMachine = new CAnimationStateMachine(this);
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	: CComponent(_origin)
 	, m_mapAnims(_origin.m_mapAnims)
-	, m_bIsPlaying(true)
-	, m_dTick(0)
 {
+	m_pAnimationStateMachine = new CAnimationStateMachine(this);
 }
 
 CAnimator3D::~CAnimator3D()
 {
+	if (m_pAnimationStateMachine)
+		delete m_pAnimationStateMachine;
 }
 
 void CAnimator3D::SetAnimations(vector<wstring>& _vecAnimations)
@@ -49,21 +49,20 @@ void CAnimator3D::SetAnimation(wstring _strAnim)
 
 void CAnimator3D::finaltick()
 {
-	if (!m_bIsPlaying || m_pCurrAnim == nullptr) return;
+	m_pAnimationStateMachine->finaltick();
+
 	if (!BoneHolder()->IsReady())return;
-	if (m_dTick >= m_pCurrAnim->GetDuration())
-		m_dTick = 0;
-	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_pCurrAnim->GetTicksPerSecond();//¿©±â¿¡ ºñÀ² °öÇÏ¸é µÊ.
-	vector<tAnimationKeyFrame> vecFrames = m_pCurrAnim->GetTransformsAtFrame(m_dTick);
-	for (int i = 0; i < vecFrames.size(); i++)
+	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
+	for (int i =0; i < frame.size(); i++)
 	{
-		auto pTransform = BoneHolder()->GetBone(vecFrames[i].strBoneName);
+		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
 		assert(pTransform);
-		pTransform->SetRelativePos(vecFrames[i].vPos);
-		pTransform->SetRelativeRot(vecFrames[i].qRot);
-		pTransform->SetRelativeScale(vecFrames[i].vScale);
+		pTransform->SetRelativePos(frame[i].vPos);
+		pTransform->SetRelativeRot(frame[i].qRot);
+		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 }
+
 
 void CAnimator3D::SaveToLevelFile(FILE* _FILE)
 {

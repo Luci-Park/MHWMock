@@ -113,5 +113,12 @@ void Safe_Del_Map(map<T1, T2>& _map)
 	_map.clear();
 }
 
+string WSTR2STR(wstring _string);
 
+wstring STR2WSTR(string _string);
 
+string GetAnimParamStr(AnimParamType _type);
+wstring GetAnimParamWStr(AnimParamType _type);
+
+string GetAnimConditionStr(AnimConditionType _type);
+wstring GetAnimCondtionWstr(AnimConditionType _type);

@@ -1,6 +1,7 @@
 #pragma once
 #include "CAnimationClip.h"
 class CAnimationTransition;
+class CAnimationStateMachine;
 class CAnimationState
 {
 private:
@@ -8,28 +9,28 @@ private:
 	Ptr<CAnimationClip>				m_pClip;
 	float							m_fSpeed;
 	vector<CAnimationTransition*>	m_vecTransitions;
+	double							m_dTick;
+	CAnimationTransition*			m_pCurrentTransition;
+	CAnimationStateMachine*			m_pMachine;
+
 public:
 	void SetName(wstring _name) { m_strName = _name; }
+	wstring GetName() { return m_strName; }
 	void SetClip(Ptr<CAnimationClip> _pClip) { m_pClip = _pClip; }
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
+	float GetSpeed() { return m_fSpeed; }
+
+	void SetTick(double _percent);
+	double GetTickPercent();
+	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
+	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
+	vector<tAnimationKeyFrame>& GetBoneTransforms();
+public:
+	void finaltick();
 
 public:
-	CAnimationState();
+	CAnimationState(CAnimationStateMachine* _pParent);
 	CAnimationState(const CAnimationState& _other);
 	~CAnimationState();
-};
-
-class CAnimationTransition
-{
-private:
-	CAnimationState* m_pPrevState;
-	CAnimationState* m_pNextState;
-
-	float m_fBlendStartPercent;
-	float m_fBlendEndPercent;
-public:
-	CAnimationTransition();
-	CAnimationTransition(const CAnimationTransition& _other);
-	~CAnimationTransition();
 };
