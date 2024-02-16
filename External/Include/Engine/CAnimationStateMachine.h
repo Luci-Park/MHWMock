@@ -10,12 +10,12 @@ private:
 	vector<tAnimationKeyFrame>			m_vecFrame;
 	CAnimationState*					m_pCurrentState;
 	CAnimationState*					m_pHead;
-	HashState								m_setStates;
+	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
 public:
 	vector<tAnimationKeyFrame>& GetFrame();
 
-	HashState& GetAllStates() { return m_setStates; }
+	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
 	void DeleteState(CAnimationState* _pState);
 

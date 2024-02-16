@@ -19,7 +19,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
-		ed::SetNodePosition(newNode.id, ImVec2(0, 0));
+		ed::SetNodePosition(newNode.id, ImVec2(-20094.5781, 13565.7627));
 	}
 	ed::NavigateToContent();
 }
