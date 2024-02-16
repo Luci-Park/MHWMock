@@ -8,6 +8,8 @@
 #include "CRenderMgr.h"
 #include "CPhysXMgr.h"
 
+#include "CGameObject.h"
+
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
@@ -135,12 +137,10 @@ void CCollider3D::CreateRigidActor()
 
 	m_pRigidActor->attachShape(*m_pShape);
 
-
-	// 여기서 FilterData를 CollisionMgr에서 받아오기 
-	// ex) CollisionMgr::GetInst()->GetFilterData()
-	//m_pShape->setSimulationFilterData()
+	// SetFilterData.
+	UINT iLayerIdx = GetOwner()->GetLayerIndex();
+	m_pShape->setSimulationFilterData(CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx));
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
-
 }
 
 void CCollider3D::AddRigidActor()

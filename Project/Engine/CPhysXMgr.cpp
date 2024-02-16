@@ -140,17 +140,6 @@ void CPhysXMgr::tick()
 	//	}
 	//}
 
-
-	// 1. Layer Cheking 후 Scene에 Layer별로 Actor 등록
-	// 2. CollisionCallback에서 충돌된 물체 Layer검사 
-
-	PxFilterData filterData;
-	filterData.word0 = 1; // 그룹 1에 속함
-	filterData.word1 = 1 << 1; // 그룹 2와의 충돌 허용
-	filterData.word1 = (1 << 1) | (1 << 3); // 그룹 1과 그룹 3과의 충돌 허용
-
-	// word0과 word1을 이용하여 Layer별 충돌처리 구현.
-
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 

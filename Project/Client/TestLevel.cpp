@@ -37,6 +37,8 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+
 
 	// Main Camera Object ����
 	CGameObject* pMainCam = new CGameObject;
@@ -162,10 +164,24 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
+	CGameObject* pObject1 = new CGameObject;
+	pObject1->SetName(L"Player1");
+	pObject1->AddComponent(new CTransform);
+	pObject1->AddComponent(new CMeshRender);
+	pObject1->AddComponent(new CPlayerScript);
+	pObject1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pObject1->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	SpawnGameObject(pObject1, Vec3(0.f, 0.f, 0.f), 2);
 
-	// �浹 ��ų ���̾� ¦ ����
-	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
+	CGameObject* pObject2 = new CGameObject;
+	pObject2->SetName(L"Player2");
+	pObject2->AddComponent(new CTransform);
+	pObject2->AddComponent(new CMeshRender);
+	pObject2->AddComponent(new CPlayerScript);
+	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
+	SpawnGameObject(pObject2, Vec3(0.f, 0.f, 0.f), 3);
 }
 
 void testtick()

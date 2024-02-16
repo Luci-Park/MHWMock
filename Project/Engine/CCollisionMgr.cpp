@@ -31,28 +31,21 @@ void CCollisionMgr::tick()
 		{
 			if (m_bMatrixChange[iRow])
 			{
+				// Layer에 맞는 FilterData 가져온 뒤 수정.
+				PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iRow);
+				filter.word1 = 0;
+
 				for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
 				{
 					if (!(m_matrix[iRow] & (1 << iCol)))
 						continue;
 
-					// 요기 까지 왔다면 Layer iRow, iCol은 충돌.
-					// FIlterData.word1 수정해주기.
-					//PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iCol);
-					//filter.word1 = ~~
-
-					//PxFilterData filterData;
-					//filterData.word0 = 1; // 그룹 1에 속함
-					//filterData.word1 = 1 << 1; // 그룹 2와의 충돌 허용
-					//filterData.word1 = (1 << 1) | (1 << 3); // 그룹 1과 그룹 3과의 충돌 허용
+					filter.word1 += (1 << iCol + 1);
 				}
 			}
 			m_bMatrixChange[iRow] = false;
 		}
-	
-	
 	}
-
 
 }
 
