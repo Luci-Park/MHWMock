@@ -23,7 +23,7 @@ CCollider3D::~CCollider3D()
 
 void CCollider3D::begin()
 {
-	CreateRigidActor();
+	CreateColliderShape();
 }
 
 void CCollider3D::finaltick()
@@ -68,11 +68,8 @@ void CCollider3D::finaltick()
 	}
 }
 
-void CCollider3D::CreateRigidActor()
+void CCollider3D::CreateColliderShape()
 {
-	// 이 함수는 맨처음 Actor를 생성해주는것 뿐만 아니라 Obj의 회전 및 변형 될 때에도 호출되는 함수이기 때문에
-	// 아래의 CapsuleCollider ReadyCollider 부분의 material, shape설정등은 Collider클래스를 상속받는 클래스에서 생성될때 한번 실행해주는것이 바람직하다.
-
 	Vec3 vPos;
 	Quaternion qRot;
 	Vec3 vScale;
@@ -88,16 +85,17 @@ void CCollider3D::CreateRigidActor()
 
 	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
 
-	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x /2.0f, vScale.y/2.0f), *m_pMaterial);
-	
+	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
+
 	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));
 
 	m_pShape->setLocalPose(relativePose);
 
-	// Collider ReadyCollider
-		// Collider CreateRigidActor
-	
+	AddRigidActor();
+}
 
+void CCollider3D::CreateRigidActor()
+{
 	// 만약 RigidActor가 존재한다면 삭제해줌.
 	if (m_pRigidActor != nullptr )
 	{
@@ -106,6 +104,16 @@ void CCollider3D::CreateRigidActor()
 
 		PX_RELEASE(m_pRigidActor);
 	}
+
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
+		return;
+
+	vPos.z = -vPos.z;
+	qRot.z = -qRot.z;
 
 	PxVec3 pxPos;
 	PxQuat pxQuat;
@@ -127,7 +135,17 @@ void CCollider3D::CreateRigidActor()
 
 	m_pRigidActor->attachShape(*m_pShape);
 
+
+	// 여기서 FilterData를 CollisionMgr에서 받아오기 
+	// ex) CollisionMgr::GetInst()->GetFilterData()
+	//m_pShape->setSimulationFilterData()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+
+}
+
+void CCollider3D::AddRigidActor()
+{
+	CreateRigidActor();
 
 	CPhysXMgr::GetInst()->AddActor(*m_pRigidActor);
 }

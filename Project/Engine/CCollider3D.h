@@ -29,7 +29,9 @@ private:
     bool            m_bIsBegin;
 
 public:
+    void CreateColliderShape();
     void CreateRigidActor();
+    void AddRigidActor();
     void UpdateActorInfo();
 
 public:
