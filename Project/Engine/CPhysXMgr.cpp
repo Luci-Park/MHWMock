@@ -117,7 +117,12 @@ void CPhysXMgr::init()
 		m_pPvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
-	//CreateSimulation();
+	// FilterData Group¼³Á¤.
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		m_FilterData[i].word0 = i + 1;
+	}
+
 }
 
 void CPhysXMgr::process()

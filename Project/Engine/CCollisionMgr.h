@@ -10,7 +10,7 @@ class CCollisionMgr :
 	SINGLE(CCollisionMgr);
 private:
 	UINT					m_matrix[MAX_LAYER];
-	bool					m_bMatrixChange;
+	bool					m_bMatrixChange[MAX_LAYER];
 
 public:
 	void LayerCheck(UINT _left, UINT _right);

@@ -53,19 +53,25 @@ private:
 	CollisionCallback* m_pCollisionCallback;
 	bool					m_bSimulate;
 
+	PxFilterData m_FilterData[MAX_LAYER];
+
 	std::list<tCollisionPair> m_lCallback;
 
-// TestPublic:
 public:
 	void CreateSimulation();
 	PxRigidDynamic* createDynamic(const PxGeometry& geometry, const PxVec3& velocity = PxVec3(0));
 
+public:
 	void AddActor(PxActor& _Actor);
 	void AddCallbackPair(const COLLISIONPAIR _tCollsionPair) {m_lCallback.emplace_back(_tCollsionPair);}
 
 public:
 	PxPhysics* GetPxPhysics() { return m_pPhysics; }
 	PxMaterial* GetDefaultMaterial() { return m_pMaterial; }
+	PxFilterData GetPxFilterData(UINT _Idx) { return m_FilterData[_Idx]; }
+
+public:
+	void SetPxFilterData(PxFilterData _FilterData, UINT _Idx) { m_FilterData[_Idx] = _FilterData; }
 
 public:
 	void init();
