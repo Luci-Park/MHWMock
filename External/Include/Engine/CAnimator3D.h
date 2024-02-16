@@ -9,13 +9,12 @@ class CAnimator3D :
 private:
 	map<wstring, Ptr<CAnimationClip>>	m_mapAnims;
 	vector<wstring>						m_vecAnimNames;
-	Ptr<CAnimationClip>					m_pCurrAnim;
 	CAnimationStateMachine*				m_pAnimationStateMachine;
 
 public:
 	void SetAnimations(vector<wstring>& _vecAnimations);
-	void SetAnimation(wstring _strAnim);
-	vector<wstring> GetAnimNames() { return m_vecAnimNames; }
+	Ptr<CAnimationClip> GetAnimation(wstring _key);
+	vector<wstring>& GetAnimNames() { return m_vecAnimNames; }
 	CAnimationStateMachine* GetStateMachine() { return m_pAnimationStateMachine; }
 
 public:

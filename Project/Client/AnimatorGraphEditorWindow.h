@@ -12,16 +12,19 @@ struct Link;
 class AnimatorGraphEditorWindow
 {
 private:
-	CAnimationStateMachine*		m_pAnimator;
+	CAnimationStateMachine*		m_pStateMachine;
+	CAnimator3D*				m_pAnimator;
 	ed::EditorContext*			m_pEditor;
 
-	float						m_fLeftPlaneWidth;
-	float						m_fRightPlaneWidth;
-	int							m_iCurrentEditingParam;
 	list<Node>					m_Nodes;
 	list<Link>					m_Links;
 
 	ed::NodeId					m_currSelectedNode;
+	int							m_iCurrSelectedAnimationIdx;
+	
+	float						m_fLeftPlaneWidth;
+	float						m_fRightPlaneWidth;
+	int							m_iCurrentEditingParam;
 public:
 	virtual void OnDraw();
 private:

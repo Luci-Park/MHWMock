@@ -22,7 +22,7 @@ CAnimationStateMachine::~CAnimationStateMachine()
 vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 {
 	m_vecFrame.clear();
-	if (m_pCurrentState != m_pHead)
+	if (1)//m_pCurrentState != m_pHead)
 	{
 		if (m_pCurrentState->IsTransitioning())
 		{
@@ -32,7 +32,9 @@ vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 		}
 		else
 		{
-			m_vecFrame = m_pCurrentState->GetBoneTransforms();
+			vector<tAnimationKeyFrame> frame = m_pCurrentState->GetBoneTransforms();
+			for (int i = 0; i < frame.size(); i++)
+				m_vecFrame.push_back(frame[i]);
 		}		
 	}
 	return m_vecFrame;

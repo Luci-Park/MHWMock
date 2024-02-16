@@ -18,6 +18,9 @@ public:
 	CAnimationState* m_pState;
 public:
 	string GetName();
+	void SetName(string _name);
+	string GetClipName();
+	void SetAnimation(Ptr<CAnimationClip> _clip);
 	Node(CAnimationState* _state);
 };
 

@@ -36,15 +36,14 @@ void CAnimator3D::SetAnimations(vector<wstring>& _vecAnimations)
 		m_mapAnims.insert(make_pair(_vecAnimations[i], pAnim));
 		m_vecAnimNames.push_back(_vecAnimations[i]);
 	}
-	m_pCurrAnim = CResMgr::GetInst()->FindRes<CAnimationClip>(_vecAnimations[0]);
 }
 
-void CAnimator3D::SetAnimation(wstring _strAnim)
+Ptr<CAnimationClip> CAnimator3D::GetAnimation(wstring _key)
 {
-	if (m_mapAnims.contains(_strAnim))
-	{
-		m_pCurrAnim = m_mapAnims.find(_strAnim)->second;
-	}
+	auto iter = m_mapAnims.find(_key);
+	if (iter != m_mapAnims.end())
+		return iter->second;
+	return nullptr;
 }
 
 void CAnimator3D::finaltick()

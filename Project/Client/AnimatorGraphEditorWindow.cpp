@@ -4,18 +4,22 @@
 #include "AnimatorGraphEditorWindow.h"
 #include "ImGui/imgui_internal.h"
 #include "ImGui/imgui_stdlib.h"
-#include <Engine/func.h>
-#include <Engine/CKeyMgr.h>
 #include "AnimatorGraphStructures.h"
+#include "TreeUI.h"
+#include <Engine/CKeyMgr.h>
+#include <Engine/CResMgr.h>
+#include "ListUI.h"
 
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	: m_iCurrentEditingParam(-1)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
+	, m_pAnimator(_animator)
+	, m_iCurrSelectedAnimationIdx(-1)
 {
 	OnStart();
-	m_pAnimator = _animator->GetStateMachine();
-	HashState states = m_pAnimator->GetAllStates();
+	m_pStateMachine = _animator->GetStateMachine();
+	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
@@ -31,7 +35,7 @@ AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 
 Node& AnimatorGraphEditorWindow::CreateNode()
 {
-	CAnimationState* pNewState = m_pAnimator->CreateState();
+	CAnimationState* pNewState = m_pStateMachine->CreateState();
 	return CreateNode(pNewState);
 }
 
@@ -44,7 +48,7 @@ Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
 void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 {
 	auto iter = GetNode(_node);	
-	m_pAnimator->DeleteState(iter->m_pState);
+	m_pStateMachine->DeleteState(iter->m_pState);
 	m_Nodes.erase(iter);
 
 }
@@ -163,8 +167,8 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 		return;
 	}
 
-	ed::NodeId* selectedNode = nullptr;
-	ed::LinkId* selectedLink = nullptr;
+	ed::NodeId selectedNode[1];
+	ed::LinkId selectedLink[1];
 	
 	ed::GetSelectedNodes(selectedNode, 1);
 	ed::GetSelectedLinks(selectedLink, 1);
@@ -186,10 +190,54 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 
 void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 {
+	float width = ImGui::GetContentRegionAvail().x;
+	if (_node == nullptr)return;
+	Node node = *GetNode(*_node);
+
+	string name = node.GetName();
+	ImGui::InputText("##StateName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
+	if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
+	{
+		node.SetName(name);
+	}
+	ImGui::Separator();
+
+#pragma region clip
+	ImGui::Text("Animation"); 
+
+	ImGui::SameLine();
+	string clipName = node.GetClipName();
+	ImGui::PushItemWidth(100);
+	ImGui::InputText("##AnimationName", &clipName, ImGuiInputTextFlags_ReadOnly);
+	ImGui::PopItemWidth();
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("##AnimSelectBtn", ImVec2(18, 18)))
+	{
+		ImGui::OpenPopup("##AnimationSelector");
+	}
+	if (ImGui::BeginPopup("##AnimationSelector"))
+	{
+		vector<wstring>& names = m_pAnimator->GetAnimNames();
+		for (int i = 0; i < names.size(); i++)
+		{
+			if (ImGui::MenuItem(WSTR2STR(names[i]).c_str()))
+			{
+				node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
+				ImGui::CloseCurrentPopup();
+				break;
+			}
+		}
+		ImGui::EndPopup();
+	}
+
+#pragma endregion
 }
 
 void AnimatorGraphEditorWindow::DrawSelection(ed::LinkId* _link)
 {
+	if (_link == nullptr) return;
 }
 
 void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height)
@@ -223,11 +271,11 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 			type = AnimParamType::BOOL;
 		if (ImGui::MenuItem("trigger"))
 			type = AnimParamType::TRIGGER;
-		m_pAnimator->CreateNewParam(type);
+		m_pStateMachine->CreateNewParam(type);
 		ImGui::EndPopup();
 	}
 
-	vector<AnimStateParam*>& params = m_pAnimator->GetAllParams();
+	vector<AnimStateParam*>& params = m_pStateMachine->GetAllParams();
 
 	for (int i = 0; i < params.size(); i++)
 	{
@@ -266,7 +314,7 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 		{
 			if (ImGui::MenuItem("Delete##paramDelete"))
 			{
-				m_pAnimator->DeleteParam(i);
+				m_pStateMachine->DeleteParam(i);
 			}
 			ImGui::EndPopup();
 			ImGui::PopID();
@@ -275,7 +323,7 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 
 		if (m_iCurrentEditingParam == i)
 		{	
-			ImGui::InputText("##NodeName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
+			ImGui::InputText("##ParamName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
 			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 			{
 				params[i]->name = STR2WSTR(name);

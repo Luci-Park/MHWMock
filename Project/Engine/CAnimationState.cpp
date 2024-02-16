@@ -54,10 +54,9 @@ double CAnimationState::GetTickPercent()
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 {
-	vector<tAnimationKeyFrame> vecEmpty;
+	vector<tAnimationKeyFrame> vecEmpty(0);
 	if (m_pClip == nullptr)
 		return vecEmpty;
-	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_pClip->GetTicksPerSecond() * m_fSpeed;
 	return m_pClip->GetTransformsAtFrame(m_dTick);
 }
 
