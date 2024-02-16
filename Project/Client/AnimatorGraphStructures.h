@@ -1,17 +1,24 @@
 #pragma once
 #include "ImGui/imgui_node_editor.h"
-
+#include <Engine/CAnimationStateMachine.h>
 namespace ed = ax::NodeEditor;
+
+struct Node;
+struct Pin
+{
+	ed::PinId	id;
+	ed::PinKind type;
+	Node*		node;
+};
 
 struct Node
 {
-private:
-	static int PinNum;
 public:
 	ed::NodeId id;
-	ed::PinId inputPin;
-	ed::PinId outputPin;
-	Node();
+	CAnimationState* m_pState;
+public:
+	string GetName();
+	Node(CAnimationState* _state);
 };
 
 struct Link

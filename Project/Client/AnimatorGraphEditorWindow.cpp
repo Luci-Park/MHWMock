@@ -13,8 +13,15 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
 {
-	m_pAnimator = _animator->GetStateMachine();
 	OnStart();
+	m_pAnimator = _animator->GetStateMachine();
+	HashState states = m_pAnimator->GetAllStates();
+	for (auto s : states)
+	{
+		Node newNode = CreateNode(s);
+		ed::SetNodePosition(newNode.id, ImVec2(0, 0));
+	}
+	ed::NavigateToContent();
 }
 
 AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
@@ -22,37 +29,102 @@ AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 	OnEnd();
 }
 
+Node& AnimatorGraphEditorWindow::CreateNode()
+{
+	CAnimationState* pNewState = m_pAnimator->CreateState();
+	return CreateNode(pNewState);
+}
+
+Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
+{
+	m_Nodes.emplace_back(_state);
+	return m_Nodes.back();
+}
+
+void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
+{
+	auto iter = GetNode(_node);	
+	m_pAnimator->DeleteState(iter->m_pState);
+	m_Nodes.erase(iter);
+
+}
+
 void AnimatorGraphEditorWindow::OnDraw()
 {
-	ed::NodeId contextNodeId = 0;
-	ed::LinkId contextLinkId = 0;
-	ed::PinId  contextPinId = 0;
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
 	ImGui::SameLine(0.0f, 12.0f);
 
 	ed::Begin("Node Editor");
+	
+	for (auto n : m_Nodes)
+		DrawNode(n);
+	if (ed::BeginDelete())
 	{
-
-	}
-	{
-		auto openPopupPosition = ImGui::GetMousePos();
-		ed::Suspend();
-		if (ed::ShowNodeContextMenu(&contextNodeId))
-			ImGui::OpenPopup("Node Context Menu");
-		else if (ed::ShowPinContextMenu(&contextPinId))
-			ImGui::OpenPopup("Pin Context Menu");
-		else if (ed::ShowLinkContextMenu(&contextLinkId))
-			ImGui::OpenPopup("Link Context Menu");
-		else if (ed::ShowBackgroundContextMenu())
+		ed::NodeId nodeId;
+		while (ed::QueryDeletedNode(&nodeId))
 		{
-			ImGui::OpenPopup("Create New Node");
-			//newNodeLinkPin = nullptr;
+			if (ed::AcceptDeletedItem())
+				DeleteNode(nodeId);
 		}
-		ed::Resume();
+		ed::EndDelete();
 	}
+	DealWithPopup();
+	
 	ed::End();
+	ed::SetCurrentEditor(nullptr);
+}
+
+void AnimatorGraphEditorWindow::DealWithPopup()
+{
+	ed::NodeId node;
+	ed::PinId pin;
+	ed::LinkId link;
+	auto clickPos = ImGui::GetMousePos();
+	ed::Suspend();
+	{
+		if (ed::ShowNodeContextMenu(&node))
+		{
+			m_currSelectedNode = node;
+			ImGui::OpenPopup("Node Context Menu");
+		}
+		if (ed::ShowLinkContextMenu(&link))
+			ImGui::OpenPopup("Link Context Menu");
+		if (ed::ShowBackgroundContextMenu())
+			ImGui::OpenPopup("Background Context Menu");
+	}
+	ed::Resume();
+
+	ed::Suspend();
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
+		if (ImGui::BeginPopup("Node Context Menu"))
+		{
+			if (ImGui::MenuItem("Delete"))
+				ed::DeleteNode(m_currSelectedNode);
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::BeginPopup("Link Context Menu"))
+		{
+			if (ImGui::MenuItem("Delete"))
+				ed::DeleteLink(link);
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::BeginPopup("Background Context Menu"))
+		{
+			if (ImGui::MenuItem("Create State"))
+			{
+				Node newNode = CreateNode();
+				ed::SetNodePosition(newNode.id, clickPos);
+			}
+			ImGui::EndPopup();
+		}
+		ImGui::PopStyleVar();
+	}
+	ed::Resume();
 }
 
 void AnimatorGraphEditorWindow::ShowLeftPanel(float _width)
@@ -101,6 +173,15 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 	DrawSelection(selectedLink);
 
 	ImGui::EndChild();
+}
+
+void AnimatorGraphEditorWindow::DrawNode(Node& _node)
+{
+	ed::BeginNode(_node.id);
+
+	ImGui::Text(_node.GetName().c_str());
+	
+	ed::EndNode();
 }
 
 void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
@@ -239,3 +320,14 @@ bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness,
 	bb.Max = bb.Min + CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness), 0.0f, 0.0f);
 	return SplitterBehavior(bb, id, split_vertically ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, min_size1, min_size2, 0.0f);
 }
+
+list<Node>::iterator AnimatorGraphEditorWindow::GetNode(ed::NodeId _id)
+{
+	for (auto it = m_Nodes.begin(); it != m_Nodes.end(); ++it) {
+		if (it->id == _id) {
+			return it;
+		}
+	}
+	throw std::runtime_error("Node not found");
+}
+

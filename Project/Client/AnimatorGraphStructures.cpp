@@ -1,9 +1,13 @@
 #include "pch.h"
 #include "AnimatorGraphStructures.h"
 
-int Node::PinNum = 0;
-Node::Node()
+string Node::GetName()
 {
-	inputPin = PinNum++;
-	outputPin = PinNum++;
+	return WSTR2STR(m_pState->GetName());
+}
+
+Node::Node(CAnimationState* _state)
+	: m_pState(_state)
+	, id(ed::NodeId(_state))
+{
 }

@@ -2,7 +2,7 @@
 #include "CAnimator3D.h"
 #include "CAnimationState.h"
 
-
+typedef std::unordered_set<CAnimationState*> HashState;
 class CAnimationStateMachine
 {
 private:
@@ -10,19 +10,22 @@ private:
 	vector<tAnimationKeyFrame>			m_vecFrame;
 	CAnimationState*					m_pCurrentState;
 	CAnimationState*					m_pHead;
-	set<CAnimationState*>				m_States;
+	HashState								m_setStates;
 	vector<AnimStateParam*>				m_vecParams;
 public:
 	vector<tAnimationKeyFrame>& GetFrame();
+
+	HashState& GetAllStates() { return m_setStates; }
 	CAnimationState* CreateState();
 	void DeleteState(CAnimationState* _pState);
+
 	AnimStateParam* CreateNewParam(AnimParamType _type);
 	void DeleteParam(wstring _name);
 	void DeleteParam(int _idx);
 	AnimStateParam* GetParamByName(wstring _name);
 	AnimStateParam* GetParamByIndex(int _idx);
 	vector<AnimStateParam*>& GetAllParams() { return m_vecParams; }
-	
+
 public:
 	void finaltick();
 public:
