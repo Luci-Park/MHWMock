@@ -202,9 +202,8 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 	}
 	ImGui::Separator();
 
-#pragma region clip
+#pragma region Set Clip
 	ImGui::Text("Animation"); 
-
 	ImGui::SameLine();
 	string clipName = node.GetClipName();
 	ImGui::PushItemWidth(100);
@@ -233,6 +232,33 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 	}
 
 #pragma endregion
+#pragma region Clip Settings
+	ImGui::Text("Speed    ");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(120);
+	float speed = node.GetSpeed();
+	ImGui::DragFloat("##SpeedFloat", &speed, 0.1, 0, 3.0);
+	node.SetSpeed(speed);
+	ImGui::PopItemWidth();
+
+#pragma endregion
+#pragma region Transitions
+	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+	ImGui::BeginChild("Transition", ImVec2(width, 0), true);
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetCursorScreenPos(),
+		ImGui::GetCursorScreenPos() + ImVec2(width, ImGui::GetTextLineHeight() * 1.3),
+		ImColor(100, 100, 100)
+		);
+	ImGui::Spacing(); ImGui::SameLine();
+	ImGui::TextUnformatted("Transitions");
+	ImGui::Separator();
+
+	ImGui::EndChild();
+	ImGui::PopStyleVar();
+#pragma endregion
+
+
 }
 
 void AnimatorGraphEditorWindow::DrawSelection(ed::LinkId* _link)
