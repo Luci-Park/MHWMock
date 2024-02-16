@@ -94,9 +94,12 @@ void CPhysXMgr::init()
 
 	PxSceneDesc sceneDesc(m_pPhysics->getTolerancesScale());
 
+	// 중력설정.
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	m_pDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = m_pDispatcher;
+
+	// 물리용 Shader 교체
 	//sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	sceneDesc.filterShader = contactReportFilterShader;
 	
@@ -124,15 +127,25 @@ void CPhysXMgr::process()
 
 void CPhysXMgr::tick()
 {
-	// Sphere충돌체 발사.
-	{
-		if (KEY_TAP(KEY::SPACE))
-		{
-			createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
-		}
-	}
+	//// Sphere충돌체 발사.
+	//{
+	//	if (KEY_TAP(KEY::SPACE))
+	//	{
+	//		createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
+	//	}
+	//}
 
-	// Simulate()
+
+	// 1. Layer Cheking 후 Scene에 Layer별로 Actor 등록
+	// 2. CollisionCallback에서 충돌된 물체 Layer검사 
+
+	PxFilterData filterData;
+	filterData.word0 = 1; // 그룹 1에 속함
+	filterData.word1 = 1 << 1; // 그룹 2와의 충돌 허용
+	filterData.word1 = (1 << 1) | (1 << 3); // 그룹 1과 그룹 3과의 충돌 허용
+
+	// word0과 word1을 이용하여 Layer별 충돌처리 구현.
+
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 
