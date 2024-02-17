@@ -1,6 +1,7 @@
 #pragma once
 #include "CAnimator3D.h"
 #include "CAnimationState.h"
+#include "CAnimationTransition.h"
 
 typedef std::unordered_set<CAnimationState*> HashState;
 class CAnimationStateMachine

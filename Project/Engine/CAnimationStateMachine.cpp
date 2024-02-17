@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CAnimationStateMachine.h"
-#include "CAnimationTransition.h"
 
 CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _pAnimator)
 	: m_pOwner(_pAnimator)

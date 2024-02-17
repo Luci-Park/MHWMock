@@ -22,11 +22,11 @@ private:
 
 
 public:
-	bool GetHasExitTime() { return m_bHasExitTime; }
-	double GetExitTime() { return m_dExitTime; }
-	bool GetFixedDuration() { return m_bFixedDuration; }
-	double GetTransitionDuration() { return m_dTransitionDuration; }
-	double GetTransitionOffset() { return m_dTransitionOffset; }
+	bool	GetHasExitTime()		{ return m_bHasExitTime; }
+	double	GetExitTime()			{ return m_dExitTime; }
+	bool	GetFixedDuration()		{ return m_bFixedDuration; }
+	double	GetTransitionDuration()	{ return m_dTransitionDuration; }
+	double	GetTransitionOffset()	{ return m_dTransitionOffset; }
 
 	void SetHasExitTime(bool _exitTime) { m_bHasExitTime = _exitTime; }	
 	void SetExitTime(double _exitTime) { m_dExitTime = _exitTime; }
@@ -41,6 +41,9 @@ public:
 	void DeleteCondition(AnimCondition* _condition);
 	bool CheckCondition();
 	void StartTransition();
+
+	CAnimationState* GetPrevState() { return m_pPrevState; }
+	CAnimationState* GetNextState() { return m_pNextState; }
 
 public:
 	void finaltick();

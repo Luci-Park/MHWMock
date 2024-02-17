@@ -26,6 +26,7 @@ public:
 	void SetTick(double _percent);
 	double GetTickPercent();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
+	vector<CAnimationTransition*>& GetAllTransitions() { return m_vecTransitions; }
 	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
 	void OnTransitionEnd();
 	void OnTransitionBegin(double _tickPercent);

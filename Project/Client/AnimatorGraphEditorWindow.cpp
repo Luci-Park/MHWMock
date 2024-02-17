@@ -146,6 +146,41 @@ void AnimatorGraphEditorWindow::ShowLeftPanel(float _width)
 	ImGui::EndChild();
 }
 
+void AnimatorGraphEditorWindow::DrawNode(Node& _node)
+{
+	const float rounding = 5.0f;
+	const float padding = 12.0f;
+	ImVec2 windowScale = ImGui::GetItemRectSize();
+	ImColor color = _node.m_pState == m_pStateMachine->GetHead() ?
+		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
+	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
+	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32));
+
+	ed::PushStyleVar(ed::StyleVar_NodePadding, ImVec4(0, 0, 0, 0));
+	ed::PushStyleVar(ed::StyleVar_NodeRounding, rounding);
+	ed::PushStyleVar(ed::StyleVar_SourceDirection, ImVec2(0.0f, 1.0f));
+	ed::PushStyleVar(ed::StyleVar_TargetDirection, ImVec2(0.0f, -1.0f));
+	ed::PushStyleVar(ed::StyleVar_LinkStrength, 0.0f);
+	ed::PushStyleVar(ed::StyleVar_PinBorderWidth, 1.0f);
+	ed::PushStyleVar(ed::StyleVar_PinRadius, 6.0f);
+
+	ed::BeginNode(_node.id);
+
+	ImGui::Dummy(ImVec2(0, 10));
+
+	ImGui::Text(_node.GetName().c_str());
+	if (_node.m_pState->GetTickPercent() > 0)
+	{
+		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
+		ImGui::ProgressBar(_node.m_pState->GetTickPercent(), ImVec2(400.0f, 50.0f));
+		ImGui::PopStyleColor();
+	}
+	ed::EndNode();
+
+	ed::PopStyleVar(7);
+	ed::PopStyleColor(2);
+}
+
 void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 {
 	ImGui::BeginChild("Selection", ImVec2(_width, _height));
@@ -174,56 +209,30 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 	ed::GetSelectedNodes(selectedNode, 1);
 	ed::GetSelectedLinks(selectedLink, 1);
 
-	DrawSelection(selectedNode);
-	DrawSelection(selectedLink);
+	auto node = GetNode(*selectedNode);
+	auto link = GetLink(*selectedLink);
+	if(node != m_Nodes.end())	DrawSelection(*node);
+	if(link != m_Links.end())	DrawSelection(*link);
 
 	ImGui::EndChild();
 }
 
-void AnimatorGraphEditorWindow::DrawNode(Node& _node)
-{
-	const float rounding = 5.0f;
-	const float padding = 12.0f;
-	ImColor color = _node.m_pState == m_pStateMachine->GetHead() ?
-		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
-	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
-	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32));
-
-	ed::PushStyleVar(ed::StyleVar_NodePadding, ImVec4(0, 0, 0, 0));
-	ed::PushStyleVar(ed::StyleVar_NodeRounding, rounding);
-	
-	ed::BeginNode(_node.id);
-
-	ImGui::Text(_node.GetName().c_str());
-	if (_node.m_pState->GetTickPercent() > 0)
-	{
-		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
-		ImGui::ProgressBar(_node.m_pState->GetTickPercent(), ImVec2(0.0f, 0.0f));
-		ImGui::PopStyleColor();
-	}
-	ed::EndNode();
-	ed::PopStyleVar(2);
-	ed::PopStyleColor(2);
-}
-
-void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
+void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 {
 	float width = ImGui::GetContentRegionAvail().x;
-	if (_node == nullptr)return;
-	Node node = *GetNode(*_node);
 
-	string name = node.GetName();
+	string name = _node.GetName();
 	ImGui::InputText("##StateName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
 	if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 	{
-		node.SetName(name);
+		_node.SetName(name);
 	}
 	ImGui::Separator();
 
 #pragma region Set Clip
 	ImGui::Text("Animation"); 
 	ImGui::SameLine();
-	string clipName = node.GetClipName();
+	string clipName = _node.GetClipName();
 	ImGui::PushItemWidth(100);
 	ImGui::InputText("##AnimationName", &clipName, ImGuiInputTextFlags_ReadOnly);
 	ImGui::PopItemWidth();
@@ -241,7 +250,7 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 		{
 			if (ImGui::MenuItem(WSTR2STR(names[i]).c_str()))
 			{
-				node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
+				_node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
 				ImGui::CloseCurrentPopup();
 				break;
 			}
@@ -254,9 +263,9 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 	ImGui::Text("Speed    ");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(120);
-	float speed = node.GetSpeed();
+	float speed = _node.GetSpeed();
 	ImGui::DragFloat("##SpeedFloat", &speed, 0.1, 0, 3.0);
-	node.SetSpeed(speed);
+	_node.SetSpeed(speed);
 	ImGui::PopItemWidth();
 
 #pragma endregion
@@ -271,6 +280,14 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 	ImGui::Spacing(); ImGui::SameLine();
 	ImGui::TextUnformatted("Transitions");
 	ImGui::Separator();
+	vector<CAnimationTransition*> transits = _node.m_pState->GetAllTransitions();
+	for (int i = 0; i < transits.size(); i++)
+	{
+		ed::LinkId id(transits[i]);
+		auto link = GetLink(id);
+		if (ImGui::MenuItem(link->name.c_str()))
+			DrawSelection(*link);
+	}
 
 	ImGui::EndChild();
 	ImGui::PopStyleVar();
@@ -279,9 +296,42 @@ void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)
 
 }
 
-void AnimatorGraphEditorWindow::DrawSelection(ed::LinkId* _link)
+void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 {
-	if (_link == nullptr) return;
+	ImGui::Text(_link.name.c_str());
+	ImGui::Separator();
+	
+	bool	bHasExit =			_link.m_pTransit->GetHasExitTime();
+	float	fExitTime =			_link.m_pTransit->GetExitTime();
+	bool	bFixedDur =			_link.m_pTransit->GetFixedDuration();
+	float	fTransitionDur =	_link.m_pTransit->GetTransitionDuration();
+	float	fTransitionOffset =	_link.m_pTransit->GetTransitionOffset();
+
+	ImGui::Text("Has Exit Time");
+	ImGui::SameLine();
+	ImGui::Checkbox("##ExitTimeBool", &bHasExit); 
+
+	ImGui::Text("Exit Time");
+	ImGui::SameLine();
+	ImGui::DragFloat("##ExitTimeFloat", &fExitTime);
+
+	ImGui::Text("Fixed Duration");
+	ImGui::SameLine();
+	ImGui::Checkbox("##FixedDurationBool", &bFixedDur);
+
+	ImGui::Text("Duration");
+	ImGui::SameLine();
+	ImGui::DragFloat("##DurationFloat", &fTransitionDur);
+
+	ImGui::Text("Offset");
+	ImGui::SameLine();
+	ImGui::DragFloat("##OffsetFloat", &fTransitionOffset);
+	
+	_link.m_pTransit->SetHasExitTime(bHasExit);
+	_link.m_pTransit->SetExitTime(fExitTime);
+	_link.m_pTransit->SetFixedDuration(bFixedDur);
+	_link.m_pTransit->SetTransitionDuration(fTransitionDur);
+	_link.m_pTransit->SetTransitionOffset(fTransitionOffset);
 }
 
 void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height)
@@ -420,6 +470,16 @@ list<Node>::iterator AnimatorGraphEditorWindow::GetNode(ed::NodeId _id)
 			return it;
 		}
 	}
-	throw std::runtime_error("Node not found");
+	return m_Nodes.end();
+}
+
+list<Link>::iterator AnimatorGraphEditorWindow::GetLink(ed::LinkId _id)
+{
+	for (auto it = m_Links.begin(); it != m_Links.end(); ++it) {
+		if (it->id == _id) {
+			return it;
+		}
+	}
+	return m_Links.end();
 }
 

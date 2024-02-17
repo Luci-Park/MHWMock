@@ -1,11 +1,10 @@
 #pragma once
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_node_editor.h"
-#include <Engine/CAnimator3D.h>
 #include <Engine/CAnimationStateMachine.h>
-
 namespace ed = ax::NodeEditor;
 
+class CAnimator3D;
 struct Node;
 struct Link;
 
@@ -34,16 +33,17 @@ private:
 	void DealWithPopup();
 	void ShowLeftPanel(float _width);
 	void ShowSelection(float _width, float _height);
-	void DrawSelection(ed::NodeId* _node);
-	void DrawSelection(ed::LinkId* _link);
+	void DrawSelection(Node& _node);
+	void DrawSelection(Link& _link);
 	void ShowParamConfigPanel(float _width, float _height);	
 	bool Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size = -1.0f);
 private:
-	Node& CreateNode();
 	Node& CreateNode(CAnimationState* _state);
+	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
 
 	list<Node>::iterator GetNode(ed::NodeId _id);
+	list<Link>::iterator GetLink(ed::LinkId _id);
 
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);

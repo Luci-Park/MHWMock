@@ -30,3 +30,12 @@ Node::Node(CAnimationState* _state)
 	, id(ed::NodeId(_state))
 {
 }
+
+Link::Link(CAnimationTransition* _transit)
+	: m_pTransit(_transit)
+	, id(ed::LinkId(_transit))
+{
+	string prevState = WSTR2STR(_transit->GetPrevState()->GetName());
+	string nextState = WSTR2STR(_transit->GetNextState()->GetName());
+	name = prevState + " -> " + nextState;
+}
