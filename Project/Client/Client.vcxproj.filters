@@ -38,9 +38,6 @@
     <Filter Include="UI\InspectorUI\ComponentUI\02. MeshRenderUI">
       <UniqueIdentifier>{638439d2-548a-47d7-b2fc-769d9a7a787b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\InspectorUI\ComponentUI\03. Collider2DUI">
-      <UniqueIdentifier>{fea9eec1-6d0a-4370-865e-d7872a2047a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\InspectorUI\ComponentUI\04. CameraUI">
       <UniqueIdentifier>{66289c5d-97fb-4459-b506-d0b584d9ec9d}</UniqueIdentifier>
     </Filter>
@@ -140,6 +137,15 @@
     <Filter Include="UI\InspectorUI\ComponentUI\14. Light3DUI">
       <UniqueIdentifier>{615f3a92-b169-41ca-a39a-cc360bffd450}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\03. Collider">
+      <UniqueIdentifier>{4d55493f-d422-409e-a89c-8282e6f68a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\03. Collider\03. Collider2DUI">
+      <UniqueIdentifier>{fea9eec1-6d0a-4370-865e-d7872a2047a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI">
+      <UniqueIdentifier>{94afced9-29ea-4199-b0f6-085a083048fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -197,7 +203,7 @@
       <Filter>UI\InspectorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="Collider2DUI.h">
-      <Filter>UI\InspectorUI\ComponentUI\03. Collider2DUI</Filter>
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\03. Collider2DUI</Filter>
     </ClInclude>
     <ClInclude Include="CameraUI.h">
       <Filter>UI\InspectorUI\ComponentUI\04. CameraUI</Filter>
@@ -341,6 +347,9 @@
     <ClInclude Include="AnimatorGraphStructures.h">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClInclude>
+    <ClInclude Include="Collider3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -405,7 +414,7 @@
       <Filter>UI\InspectorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DUI.cpp">
-      <Filter>UI\InspectorUI\ComponentUI\03. Collider2DUI</Filter>
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\03. Collider2DUI</Filter>
     </ClCompile>
     <ClCompile Include="CameraUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\04. CameraUI</Filter>
@@ -534,6 +543,9 @@
     </ClCompile>
     <ClCompile Include="AnimatorGraphStructures.cpp">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
