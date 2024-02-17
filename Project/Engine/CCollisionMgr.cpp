@@ -25,25 +25,25 @@ void CCollisionMgr::tick()
 {
 	// Layer m_matrix를 바탕으로 PxFilterData 수정.
 	// 변경점이 있는 FilterData만 수정.
-	if (m_bMatrixChange)
+
+	for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
 	{
-		for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
+		if (m_bMatrixChange[iRow])
 		{
-			if (m_bMatrixChange[iRow])
+			// Layer에 맞는 FilterData 가져온 뒤 수정.
+			PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iRow);
+			filter.word1 = 0;
+
+			for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
 			{
-				// Layer에 맞는 FilterData 가져온 뒤 수정.
-				PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iRow);
-				filter.word1 = 0;
+				if (!(m_matrix[iRow] & (1 << iCol)))
+					continue;
 
-				for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
-				{
-					if (!(m_matrix[iRow] & (1 << iCol)))
-						continue;
-
-					filter.word1 += (1 << iCol + 1);
-				}
+				filter.word1 |= (1 << iCol + 1);
 			}
-			m_bMatrixChange[iRow] = false;
+			
+		CPhysXMgr::GetInst()->SetPxFilterData(filter, iRow);
+		m_bMatrixChange[iRow] = false;
 		}
 	}
 
@@ -65,6 +65,7 @@ void CCollisionMgr::LayerCheck(UINT _left, UINT _right)
 	m_matrix[iRow] |= (1 << iCol);
 
 	m_bMatrixChange[iRow] = true;
+	
 }
 
 void CCollisionMgr::LayerCheck(const wstring& _strLeftLayer, const wstring& _strRightLayer)

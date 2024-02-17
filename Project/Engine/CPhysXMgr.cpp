@@ -20,8 +20,15 @@ PxFilterFlags contactReportFilterShader(PxFilterObjectAttributes attributes0, Px
 	PX_UNUSED(attributes1);
 	PX_UNUSED(filterData0);
 	PX_UNUSED(filterData1);
+	
 	PX_UNUSED(constantBlockSize);
 	PX_UNUSED(constantBlock);
+
+	// 두 객체가 모두 그룹이면 충돌을 비활성화
+	if ((filterData0.word1 & filterData1.word0) != filterData1.word0)
+	{
+		return PxFilterFlag::eSUPPRESS;
+	}
 
 	if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 	{
@@ -120,7 +127,8 @@ void CPhysXMgr::init()
 	// FilterData Group설정.
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_FilterData[i].word0 = i + 1;
+		m_FilterData[i].word0 = (1 << i+1);
+		m_FilterData[i].word1 = 0;
 	}
 
 }

@@ -70,16 +70,16 @@ void CreateTestLevel()
 
 	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
 
-	CGameObject* ptestUI = new CGameObject;
-	ptestUI->SetName(L"TestUI");
+	//CGameObject* ptestUI = new CGameObject;
+	//ptestUI->SetName(L"TestUI");
 
-	ptestUI->AddComponent(new CTransform);
-	ptestUI->AddComponent(new CCanvas);
+	//ptestUI->AddComponent(new CTransform);
+	//ptestUI->AddComponent(new CCanvas);
 
-	ptestUI->Transform()->SetRelativeScale(100.f, 100.f,100.f);
-	ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
+	//ptestUI->Transform()->SetRelativeScale(100.f, 100.f,100.f);
+	//ptestUI->Canvas()->SetUITexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
 
-	SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
+	//SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
 
 	// SkyBox �߰�
 	CGameObject* pSkyBox = new CGameObject;
@@ -126,12 +126,12 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pParentObj);
 	// ������Ʈ ����
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);
-	SpawnGameObject(pObject);
+	//CGameObject* pObject = new CGameObject;
+	//pObject->SetName(L"Player");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CMeshRender);
+	//pObject->AddComponent(new CPlayerScript);
+	//SpawnGameObject(pObject);
 	// LandScape Object
 	//CGameObject* pLandScape = new CGameObject;
 	//pLandScape->SetName(L"LandScape");
@@ -178,10 +178,9 @@ void CreateTestLevel()
 	pObject2->SetName(L"Player2");
 	pObject2->AddComponent(new CTransform);
 	pObject2->AddComponent(new CMeshRender);
-	pObject2->AddComponent(new CPlayerScript);
 	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	SpawnGameObject(pObject2, Vec3(0.f, 0.f, 0.f), 3);
+	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 2);
 }
 
 void testtick()

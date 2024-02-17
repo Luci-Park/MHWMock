@@ -135,12 +135,16 @@ void CCollider3D::CreateRigidActor()
 
 	m_pRigidActor->userData = (void*)&m_pUserData;
 
-	m_pRigidActor->attachShape(*m_pShape);
-
 	// SetFilterData.
 	UINT iLayerIdx = GetOwner()->GetLayerIndex();
-	m_pShape->setSimulationFilterData(CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx));
+	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
+	m_pShape->setSimulationFilterData(filter);
+
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+
+	m_pRigidActor->attachShape(*m_pShape);
+
+	
 }
 
 void CCollider3D::AddRigidActor()
