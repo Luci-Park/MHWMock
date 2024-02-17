@@ -10,6 +10,8 @@ private:
 	float							m_fSpeed;
 	vector<CAnimationTransition*>	m_vecTransitions;
 	double							m_dTick;
+	double							m_dDuration;
+	int								m_iRepeatNum;
 	CAnimationTransition*			m_pCurrentTransition;
 	CAnimationStateMachine*			m_pMachine;
 
@@ -25,6 +27,8 @@ public:
 	double GetTickPercent();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
+	void OnTransitionEnd();
+	void OnTransitionBegin(double _tickPercent);
 	vector<tAnimationKeyFrame>& GetBoneTransforms();
 public:
 	void finaltick();

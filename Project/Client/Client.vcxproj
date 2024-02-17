@@ -197,6 +197,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="ContentUI.h" />
+    <ClInclude Include="ImGuiFunc.h" />
     <ClInclude Include="ImGui\crude_json.h" />
     <ClInclude Include="ImGui\GraphEditor.h" />
     <ClInclude Include="ImGui\imgui_bezier_math.h" />

@@ -2,7 +2,6 @@
 #include "CAnimationState.h"
 #include "CAnimationTransition.h"
 #include "CTimeMgr.h"
-#define EMPTY_DURATION 0.5f
 
 CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 	: m_strName(L"New State")
@@ -36,14 +35,25 @@ CAnimationState::~CAnimationState()
 
 void CAnimationState::SetTick(double _percent)
 {
-	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : EMPTY_DURATION;
+	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
 	m_dTick = m_dDuration * _percent;
-	m_iRepeatNum = 0;
 }
 
 double CAnimationState::GetTickPercent()
 {
-	return m_dTick / m_dDuration;
+	return abs(m_dTick / m_dDuration);
+}
+
+void CAnimationState::OnTransitionEnd()
+{
+	m_dTick = 0;
+	m_pCurrentTransition = nullptr;
+}
+
+void CAnimationState::OnTransitionBegin(double _tickPercent)
+{
+	SetTick(_tickPercent);
+	m_iRepeatNum = 0;
 }
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
@@ -56,10 +66,10 @@ vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 
 void CAnimationState::finaltick()
 {
-	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : EMPTY_DURATION;
+	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
 	double offset = m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1;
 
-	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * m_fSpeed * offset;
+	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * offset * m_fSpeed;
 	if (m_dTick > m_dDuration) { m_dTick = 0; m_iRepeatNum++; }
 	if (m_dTick < 0) { m_dTick = m_dDuration; m_iRepeatNum++; }
 

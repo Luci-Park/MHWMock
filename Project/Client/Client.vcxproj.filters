@@ -341,6 +341,9 @@
     <ClInclude Include="AnimatorGraphStructures.h">
       <Filter>UI\InspectorUI\ComponentUI\12. Animator3DUI</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiFunc.h">
+      <Filter>Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

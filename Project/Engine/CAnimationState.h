@@ -27,6 +27,8 @@ public:
 	double GetTickPercent();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
+	void OnTransitionEnd();
+	void OnTransitionBegin(double _tickPercent);
 	vector<tAnimationKeyFrame>& GetBoneTransforms();
 public:
 	void finaltick();

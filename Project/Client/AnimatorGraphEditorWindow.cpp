@@ -4,6 +4,7 @@
 #include "AnimatorGraphEditorWindow.h"
 #include "ImGui/imgui_internal.h"
 #include "ImGui/imgui_stdlib.h"
+#include "ImGuiFunc.h"
 #include "AnimatorGraphStructures.h"
 #include "TreeUI.h"
 #include <Engine/CKeyMgr.h>
@@ -181,11 +182,28 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 
 void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 {
+	const float rounding = 5.0f;
+	const float padding = 12.0f;
+	ImColor color = _node.m_pState == m_pStateMachine->GetHead() ?
+		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
+	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
+	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32));
+
+	ed::PushStyleVar(ed::StyleVar_NodePadding, ImVec4(0, 0, 0, 0));
+	ed::PushStyleVar(ed::StyleVar_NodeRounding, rounding);
+	
 	ed::BeginNode(_node.id);
 
 	ImGui::Text(_node.GetName().c_str());
-	
+	if (_node.m_pState->GetTickPercent() > 0)
+	{
+		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
+		ImGui::ProgressBar(_node.m_pState->GetTickPercent(), ImVec2(0.0f, 0.0f));
+		ImGui::PopStyleColor();
+	}
 	ed::EndNode();
+	ed::PopStyleVar(2);
+	ed::PopStyleColor(2);
 }
 
 void AnimatorGraphEditorWindow::DrawSelection(ed::NodeId* _node)

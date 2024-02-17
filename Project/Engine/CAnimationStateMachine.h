@@ -20,6 +20,10 @@ public:
 	CAnimationState* CreateState(CAnimationState* _copyState);
 	void DeleteState(CAnimationState* _pState);
 
+	CAnimationState* GetHead() { return m_pHead; }
+	CAnimationState* GetCurrentState() { return m_pCurrentState; }
+	void ChangeState(CAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
+
 	AnimStateParam* CreateNewParam(AnimParamType _type);
 	void DeleteParam(wstring _name);
 	void DeleteParam(int _idx);

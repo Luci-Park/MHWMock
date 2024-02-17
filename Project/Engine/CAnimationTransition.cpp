@@ -108,7 +108,7 @@ bool CAnimationTransition::CheckCondition()
 void CAnimationTransition::StartTransition()
 {
 	m_dTick = 0;
-	m_pNextState->SetTick(m_dTransitionOffset);
+	m_pNextState->OnTransitionBegin(m_dTransitionOffset);
 }
 
 void CAnimationTransition::finaltick()
@@ -133,7 +133,8 @@ void CAnimationTransition::finaltick()
 
 void CAnimationTransition::EndTransition()
 {
-	//change to nextstate
+	m_pStateMachine->ChangeState(m_pNextState);
+	m_pPrevState->OnTransitionEnd();
 }
 
 void CAnimationTransition::BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus)
