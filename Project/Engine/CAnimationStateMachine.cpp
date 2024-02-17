@@ -47,6 +47,13 @@ CAnimationState* CAnimationStateMachine::CreateState()
 	return pNewState;
 }
 
+CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState)
+{
+	CAnimationState* pNewState = new CAnimationState(*_copyState);
+	m_States.insert(pNewState);
+	return pNewState;
+}
+
 void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 {
 	auto iter = m_States.find(_pState);

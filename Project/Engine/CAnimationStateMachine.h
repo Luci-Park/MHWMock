@@ -17,6 +17,7 @@ public:
 
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
+	CAnimationState* CreateState(CAnimationState* _copyState);
 	void DeleteState(CAnimationState* _pState);
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);

@@ -10,6 +10,8 @@ private:
 	float							m_fSpeed;
 	vector<CAnimationTransition*>	m_vecTransitions;
 	double							m_dTick;
+	double							m_dDuration;
+	int								m_iRepeatNum;
 	CAnimationTransition*			m_pCurrentTransition;
 	CAnimationStateMachine*			m_pMachine;
 
