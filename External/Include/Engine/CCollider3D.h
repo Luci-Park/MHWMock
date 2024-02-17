@@ -27,8 +27,6 @@ private:
     bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
     
     bool            m_bIsBegin;
-    bool            m_bGravity;
-
 public:
     void CreateColliderShape();
     void CreateRigidActor();
@@ -43,7 +41,7 @@ public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
-    void SetGravity(bool _bGravity) { m_bGravity = _bGravity; }
+    void SetGravity(bool _bGravity);
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
     PxRigidDynamic* GetActor() { return m_pRigidActor; }
