@@ -32,8 +32,8 @@ public:
     void CreateColliderShape();
     void CreateRigidActor();
     void AddRigidActor();
+    void ChangeFilterData();
     void UpdateActorInfo();
-
 public:
     virtual void begin() override;
     virtual void finaltick() override;

@@ -143,9 +143,20 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
-
 	
 }
+
+void CCollider3D::ChangeFilterData()
+{
+	// 여기서 뭔가 ACTOR을 삭제하든 FILTER를 바꾸든 뭔가 해야함..
+
+	// SetFilterData. (에러.) FILTER를 잘 가져오긴 하는데 filtershader에서 수정되지 않음..;;
+	UINT iLayerIdx = GetOwner()->GetLayerIndex();
+	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
+	m_pShape->setSimulationFilterData(filter);
+	m_pRigidActor->attachShape(*m_pShape);
+}
+
 
 void CCollider3D::AddRigidActor()
 {
