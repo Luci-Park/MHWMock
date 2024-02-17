@@ -180,7 +180,7 @@ void CreateTestLevel()
 	pObject2->AddComponent(new CMeshRender);
 	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 2);
+	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 3);
 }
 
 void testtick()

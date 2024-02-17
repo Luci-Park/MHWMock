@@ -265,42 +265,6 @@ void CPhysXMgr::FetchResults()
 
 void CPhysXMgr::SetTransformResult()
 {
-	//CGameObject* obj;
-	//PxU32		nNumActors = 0;
-	//PxRigidDynamic**	ppActors = nullptr;
-
-	////씬에서 액터들 가져오기
-	//nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
-
-	//if (nNumActors == 0)
-	//{
-	//	delete[] ppActors;
-	//	return;
-	//}
-
-	//ppActors = new PxRigidDynamic * [nNumActors];
-	//m_pScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, ppActors, nNumActors);
-	//
-	////다이나믹 액터가져오기
-	//for (PxU32 i = 0; i < nNumActors; ++i)
-	//{
-	//	if (ppActors[i]->userData)
-	//	{
-	//		PxRigidDynamic* dynamicActor = dynamic_cast<PxRigidDynamic*>(ppActors[i]);
-	//		if (dynamicActor)
-	//		{
-	//			obj = ((pPXUSERDATA)(ppActors[i]->userData))->pCollider->GetOwner();
-
-	//			PxTransform transform = dynamicActor->getGlobalPose();
-	//			PxVec3 position = transform.p;
-	//			PxQuat rotation = transform.q;
-
-	//			Vec3 pos = Vec3(position.z, position.y, position.z);
-	//		}
-	//	}
-	//}
-	//delete[] ppActors;
-
 	CGameObject* obj;
 	PxU32 nNumActors = 0;
 	PxRigidDynamic** ppDynamicActors = nullptr;
@@ -316,12 +280,15 @@ void CPhysXMgr::SetTransformResult()
 			obj = ((pPXUSERDATA)(ppDynamicActors[i]->userData))->pCollider->GetOwner();
 			PxTransform transform = ppDynamicActors[i]->getGlobalPose();
 			PxVec3 position = transform.p;
+			PxQuat rotation = transform.q;
+
 			// 가져온 위치 값을 사용하여 오브젝트의 위치 변경
-			Vec3 pos = Vec3(position.z, position.y, position.z);
+			Vec3 pos = Vec3(position.x, position.y, position.z);
+			Vec3 objPos = obj->Transform()->GetRelativePos();
+			objPos +=pos;
 			obj->Transform()->SetRelativePos(pos);
 		}
 
-		// 동적 할당한 메모리를 해제합니다.
 		delete[] ppDynamicActors;
 	}
 }
