@@ -81,10 +81,11 @@ bool CAnimationTransition::CheckCondition()
 		}
 		else if (AnimParamType::INT == c->lhs->type)
 		{
-			if ((c->expr == AnimConditionType::GREATER && c->lhs->value.INT < c->rhs)
-				|| (c->expr == AnimConditionType::LESS && c->lhs->value.INT > c->rhs)
-				|| (c->expr == AnimConditionType::EQUAL && c->lhs->value.INT != c->rhs)
-				|| (c->expr == AnimConditionType::NOTEQUAL && c->lhs->value.INT == c->rhs))
+			int value = (int)c->rhs;
+			if ((c->expr == AnimConditionType::GREATER && c->lhs->value.INT <= value)
+				|| (c->expr == AnimConditionType::LESS && c->lhs->value.INT >= value)
+				|| (c->expr == AnimConditionType::EQUAL && c->lhs->value.INT != value)
+				|| (c->expr == AnimConditionType::NOTEQUAL && c->lhs->value.INT == value))
 				return false;
 		}
 		else if (AnimParamType::FLOAT == c->lhs->type)
@@ -109,6 +110,11 @@ void CAnimationTransition::StartTransition()
 {
 	m_dTick = 0;
 	m_pNextState->OnTransitionBegin(m_dTransitionOffset);
+}
+
+void CAnimationTransition::Remove()
+{
+	m_pPrevState->DeleteTransition(this);
 }
 
 void CAnimationTransition::finaltick()

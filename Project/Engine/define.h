@@ -344,7 +344,7 @@ enum class AnimBehaviour
 };
 
 enum class AnimParamType { FLOAT, INT, BOOL, TRIGGER, NONE };
-enum class AnimConditionType { GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE };
+enum class AnimConditionType { GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE, NONE };
 
 union AnimParamUnion
 {

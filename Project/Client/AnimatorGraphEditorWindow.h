@@ -19,6 +19,7 @@ private:
 	list<Link>					m_Links;
 
 	ed::NodeId					m_currSelectedNode;
+	ed::LinkId					m_currSelectedLink;
 	int							m_iCurrSelectedAnimationIdx;
 	
 	float						m_fLeftPlaneWidth;
@@ -41,6 +42,9 @@ private:
 	Node& CreateNode(CAnimationState* _state);
 	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
+
+
+	void DeleteLink(ed::LinkId _link);
 
 	list<Node>::iterator GetNode(ed::NodeId _id);
 	list<Link>::iterator GetLink(ed::LinkId _id);

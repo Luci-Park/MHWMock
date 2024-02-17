@@ -41,10 +41,11 @@ public:
 	void DeleteCondition(AnimCondition* _condition);
 	bool CheckCondition();
 	void StartTransition();
-
+	vector<AnimCondition*>& GetAllConditions() { return m_vecConditions; }
 	CAnimationState* GetPrevState() { return m_pPrevState; }
 	CAnimationState* GetNextState() { return m_pNextState; }
 
+	void Remove();
 public:
 	void finaltick();
 private:

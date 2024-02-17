@@ -2,13 +2,16 @@
 #include "CAnimationClip.h"
 class CAnimationTransition;
 class CAnimationStateMachine;
+
+typedef unordered_set<CAnimationTransition*> HashTransition;
+
 class CAnimationState
 {
 private:
 	wstring							m_strName;
 	Ptr<CAnimationClip>				m_pClip;
 	float							m_fSpeed;
-	vector<CAnimationTransition*>	m_vecTransitions;
+	HashTransition					m_Transitions;
 	double							m_dTick;
 	double							m_dDuration;
 	int								m_iRepeatNum;
@@ -26,8 +29,12 @@ public:
 	void SetTick(double _percent);
 	double GetTickPercent();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
-	vector<CAnimationTransition*>& GetAllTransitions() { return m_vecTransitions; }
+
+	HashTransition& GetAllTransitions() { return m_Transitions; }
 	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
+	void AddTransition(CAnimationTransition* _transit) { m_Transitions.insert(_transit); }
+	void DeleteTransition(CAnimationTransition* _transit);
+	
 	void OnTransitionEnd();
 	void OnTransitionBegin(double _tickPercent);
 	vector<tAnimationKeyFrame>& GetBoneTransforms();

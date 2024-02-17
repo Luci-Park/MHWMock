@@ -54,6 +54,14 @@ void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 
 }
 
+void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
+{
+	auto iter = GetLink(_link);
+	iter->m_pTransit->Remove();
+	m_Links.erase(iter);
+}
+
+
 void AnimatorGraphEditorWindow::OnDraw()
 {
 	ed::SetCurrentEditor(m_pEditor);
@@ -72,6 +80,12 @@ void AnimatorGraphEditorWindow::OnDraw()
 		{
 			if (ed::AcceptDeletedItem())
 				DeleteNode(nodeId);
+		}
+		ed::LinkId linkId;
+		while (ed::QueryDeletedLink(&linkId))
+		{
+			if (ed::AcceptDeletedItem())
+				DeleteLink(linkId);
 		}
 		ed::EndDelete();
 	}
@@ -95,7 +109,10 @@ void AnimatorGraphEditorWindow::DealWithPopup()
 			ImGui::OpenPopup("Node Context Menu");
 		}
 		if (ed::ShowLinkContextMenu(&link))
+		{
+			m_currSelectedLink = link;
 			ImGui::OpenPopup("Link Context Menu");
+		}
 		if (ed::ShowBackgroundContextMenu())
 			ImGui::OpenPopup("Background Context Menu");
 	}
@@ -114,7 +131,7 @@ void AnimatorGraphEditorWindow::DealWithPopup()
 		if (ImGui::BeginPopup("Link Context Menu"))
 		{
 			if (ImGui::MenuItem("Delete"))
-				ed::DeleteLink(link);
+				ed::DeleteLink(m_currSelectedLink);
 			ImGui::EndPopup();
 		}
 
@@ -130,20 +147,6 @@ void AnimatorGraphEditorWindow::DealWithPopup()
 		ImGui::PopStyleVar();
 	}
 	ed::Resume();
-}
-
-void AnimatorGraphEditorWindow::ShowLeftPanel(float _width)
-{
-	ImGui::BeginChild("Left Panel", ImVec2(_width, 0), false, ImGuiWindowFlags_NoScrollbar);
-	float fullHeight = ImGui::GetContentRegionAvail().y;
-	float halfHeight1 = fullHeight * 0.5f;
-	float halfHeight2 = fullHeight * 0.5f;
-	Splitter(false, 4.0f, &halfHeight1, &halfHeight2, 50.0f, 50.0f, 0);
-	ShowSelection(_width, halfHeight1 - 5.2f);
-	ImGui::Dummy(ImVec2(0, 5.f));
-	ShowParamConfigPanel(_width, halfHeight2 - 5.2f);
-
-	ImGui::EndChild();
 }
 
 void AnimatorGraphEditorWindow::DrawNode(Node& _node)
@@ -179,6 +182,20 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 
 	ed::PopStyleVar(7);
 	ed::PopStyleColor(2);
+}
+
+void AnimatorGraphEditorWindow::ShowLeftPanel(float _width)
+{
+	ImGui::BeginChild("Left Panel", ImVec2(_width, 0), false, ImGuiWindowFlags_NoScrollbar);
+	float fullHeight = ImGui::GetContentRegionAvail().y;
+	float halfHeight1 = fullHeight * 0.5f;
+	float halfHeight2 = fullHeight * 0.5f;
+	Splitter(false, 4.0f, &halfHeight1, &halfHeight2, 50.0f, 50.0f, 0);
+	ShowSelection(_width, halfHeight1 - 5.2f);
+	ImGui::Dummy(ImVec2(0, 5.f));
+	ShowParamConfigPanel(_width, halfHeight2 - 5.2f);
+
+	ImGui::EndChild();
 }
 
 void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
@@ -280,10 +297,10 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 	ImGui::Spacing(); ImGui::SameLine();
 	ImGui::TextUnformatted("Transitions");
 	ImGui::Separator();
-	vector<CAnimationTransition*> transits = _node.m_pState->GetAllTransitions();
-	for (int i = 0; i < transits.size(); i++)
+	HashTransition& transits = _node.m_pState->GetAllTransitions();
+	for (auto t : transits)
 	{
-		ed::LinkId id(transits[i]);
+		ed::LinkId id(t);
 		auto link = GetLink(id);
 		if (ImGui::MenuItem(link->name.c_str()))
 			DrawSelection(*link);
@@ -300,7 +317,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 {
 	ImGui::Text(_link.name.c_str());
 	ImGui::Separator();
-	
+#pragma region Transition Settings
 	bool	bHasExit =			_link.m_pTransit->GetHasExitTime();
 	float	fExitTime =			_link.m_pTransit->GetExitTime();
 	bool	bFixedDur =			_link.m_pTransit->GetFixedDuration();
@@ -332,6 +349,98 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	_link.m_pTransit->SetFixedDuration(bFixedDur);
 	_link.m_pTransit->SetTransitionDuration(fTransitionDur);
 	_link.m_pTransit->SetTransitionOffset(fTransitionOffset);
+#pragma endregion
+#pragma region Parameter Settings
+	float width = ImGui::GetContentRegionAvail().x;
+	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+	ImGui::BeginChild("Conditions", ImVec2(width, 0), true);
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetCursorScreenPos(),
+		ImGui::GetCursorScreenPos() + ImVec2(width, ImGui::GetTextLineHeight() * 1.3),
+		ImColor(100, 100, 100)
+	);
+	ImGui::Spacing(); ImGui::SameLine();
+	ImGui::TextUnformatted("Conditions");
+	ImGui::Separator();
+
+	if (ImGui::Button("Create Condition"))
+	{
+		_link.m_pTransit->CreateCondition();
+	}
+
+	vector<AnimCondition*> conditions = _link.m_pTransit->GetAllConditions();
+	vector<AnimStateParam*> params = m_pStateMachine->GetAllParams();
+	for (int i = 0; i < conditions.size(); i++)
+	{
+		AnimCondition* cond = conditions[i];
+		if (ImGui::BeginCombo("##SelectParam", WSTR2STR(cond->lhs->name).c_str()))
+		{
+			for (int j = 0; j < params.size(); j++)
+			{
+				ImGui::PushID((void*)params[i]);
+				if (ImGui::Selectable(WSTR2STR(params[i]->name).c_str(), cond->lhs == params[i]))
+					cond->lhs = params[i];
+				ImGui::PopID();
+			}
+			ImGui::EndCombo();
+		}
+		if (AnimParamType::FLOAT == cond->lhs->type)
+		{
+			ImGui::SameLine();
+			if (ImGui::BeginCombo("##ParamExpression", GetAnimConditionStr(cond->expr).c_str()))
+			{
+				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
+				{
+					AnimConditionType type = (AnimConditionType)j;
+					if (type != AnimConditionType::GREATER || type != AnimConditionType::LESS) continue;
+					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
+						cond->expr = type;
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::SameLine();
+			ImGui::DragFloat("##FloatParam", &cond->rhs);
+		}
+		if (AnimParamType::INT == cond->lhs->type)
+		{
+			ImGui::SameLine();
+			if (ImGui::BeginCombo("##ParamExpression", GetAnimConditionStr(cond->expr).c_str()))
+			{
+				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
+				{
+					AnimConditionType type = (AnimConditionType)j;
+					if (type != AnimConditionType::GREATER || type != AnimConditionType::LESS
+						|| type != AnimConditionType::EQUAL || type != AnimConditionType::NOTEQUAL) continue;
+					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
+						cond->expr = type;
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::SameLine();
+			int num;
+			ImGui::DragInt("##FloatParam", &num);
+			cond->rhs = num;
+		}
+		if (AnimParamType::BOOL == cond->lhs->type)
+		{
+			ImGui::SameLine();
+			if (ImGui::BeginCombo("##ParamExpression", GetAnimConditionStr(cond->expr).c_str()))
+			{
+				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
+				{
+					AnimConditionType type = (AnimConditionType)j;
+					if (type != AnimConditionType::ISFALSE || type != AnimConditionType::ISTRUE) continue;
+					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
+						cond->expr = type;
+				}
+				ImGui::EndCombo();
+			}
+		}
+	}
+
+	ImGui::EndChild();
+	ImGui::PopStyleVar();
+#pragma endregion
 }
 
 void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height)
@@ -462,6 +571,7 @@ bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness,
 	bb.Max = bb.Min + CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness), 0.0f, 0.0f);
 	return SplitterBehavior(bb, id, split_vertically ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, min_size1, min_size2, 0.0f);
 }
+
 
 list<Node>::iterator AnimatorGraphEditorWindow::GetNode(ed::NodeId _id)
 {

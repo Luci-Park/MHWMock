@@ -5,7 +5,7 @@
 
 CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 	: m_strName(L"New State")
-	, m_vecTransitions()
+	, m_Transitions()
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
@@ -16,7 +16,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 
 CAnimationState::CAnimationState(const CAnimationState& _other)
 	: m_strName(L"New State")
-	, m_vecTransitions()
+	, m_Transitions()
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
@@ -27,9 +27,9 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 
 CAnimationState::~CAnimationState()
 {
-	for (size_t i = 0; i < m_vecTransitions.size(); i++)
+	for (auto t : m_Transitions)
 	{
-		delete m_vecTransitions[i];
+		delete t;
 	}
 }
 
@@ -42,6 +42,14 @@ void CAnimationState::SetTick(double _percent)
 double CAnimationState::GetTickPercent()
 {
 	return abs(m_dTick / m_dDuration);
+}
+
+void CAnimationState::DeleteTransition(CAnimationTransition* _transit)
+{
+	auto iter = m_Transitions.find(_transit);
+	if (iter != m_Transitions.end())
+		m_Transitions.erase(iter);
+	delete _transit;
 }
 
 void CAnimationState::OnTransitionEnd()
@@ -75,7 +83,7 @@ void CAnimationState::finaltick()
 
 	if (m_pCurrentTransition != nullptr)
 	{
-		for (auto t : m_vecTransitions)
+		for (auto t : m_Transitions)
 		{
 			if (t->CheckCondition())
 			{
