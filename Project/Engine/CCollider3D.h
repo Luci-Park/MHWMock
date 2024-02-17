@@ -10,9 +10,9 @@ class CCollider3D : public CComponent
 private:
     SHAPE_TYPE  m_ShapeType;
 
-    PxShape*        m_pShape;
-    PxMaterial*     m_pMaterial;
-    PxRigidActor*  m_pRigidActor;
+    PxShape*            m_pShape;
+    PxMaterial*         m_pMaterial;
+    PxRigidDynamic*     m_pRigidActor;
 
     PXUSERDATA  m_pUserData;
 
@@ -21,10 +21,10 @@ private:
 
     Matrix          m_matCollider3D;    
     
-    int               m_iCollisionCount;
+    int             m_iCollisionCount;
 
-    bool             m_bAbsolute;
-    bool             m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
+    bool            m_bAbsolute;
+    bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
     
     bool            m_bIsBegin;
 
@@ -42,8 +42,9 @@ public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
-
+public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
+    PxRigidDynamic* GetActor() { return m_pRigidActor; }
 
 public:
     void OnCollisionEnter(CCollider3D* _Other);

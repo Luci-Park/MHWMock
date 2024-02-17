@@ -129,7 +129,6 @@ void CCollider3D::CreateRigidActor()
 		m_pRigidActor = Physics::GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));*/
 
 	m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
-
 	m_pUserData.pCollider = this;
 	m_pUserData.bGround = false;
 
@@ -143,7 +142,7 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
-	
+	m_pRigidActor->setMass(1.f);
 }
 
 void CCollider3D::ChangeFilterData()

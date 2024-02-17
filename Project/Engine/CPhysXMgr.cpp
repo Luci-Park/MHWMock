@@ -83,21 +83,27 @@ CPhysXMgr::~CPhysXMgr()
 	//PX_RELEASE(m_pMaterial);
 }
 
+
+
 void CPhysXMgr::init()
 {
 	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
-	
+
+
 	if (!m_pFoundation) throw("PxCreateFoundation failed!");
 	
+	//PhysX Visual Debugger
 	m_pPvd = PxCreatePvd(*m_pFoundation);
 	
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
 	
 	m_pPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 	
+
 	mToleranceScale.length = 100;        // typical length of an object
 	mToleranceScale.speed = 981;         // typical speed of an object, gravity*1s is a reasonable choice
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, mToleranceScale, true, m_pPvd);
+
 
 	PxSceneDesc sceneDesc(m_pPhysics->getTolerancesScale());
 
@@ -148,6 +154,7 @@ void CPhysXMgr::tick()
 	//	}
 	//}
 
+	//피직스 디버거로 정보 보내는 부분
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 
@@ -176,6 +183,8 @@ void CPhysXMgr::tick()
 	}
 	delete[] ppActors;
 
+
+	//실제 시뮬레이션 돌리는 부분 여기서 피직스를 계산
 	m_pScene->simulate(1.0f / 60.0f);
 
 	m_bSimulate = true;
@@ -183,6 +192,7 @@ void CPhysXMgr::tick()
 	//m_pScene->fetchResults(true);
 }
 
+//시뮬레이션 결과 값 가져옴
 void CPhysXMgr::FetchResults()
 {
 	if (false == m_bSimulate || nullptr == m_pScene)
@@ -248,8 +258,72 @@ void CPhysXMgr::FetchResults()
 	m_lCallback.clear();
 
 	// 시물레이션 도중 Transform 변환 정보 전달. ..~~
+	SetTransformResult();
 
 	m_bSimulate = false;
+}
+
+void CPhysXMgr::SetTransformResult()
+{
+	//CGameObject* obj;
+	//PxU32		nNumActors = 0;
+	//PxRigidDynamic**	ppActors = nullptr;
+
+	////씬에서 액터들 가져오기
+	//nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
+
+	//if (nNumActors == 0)
+	//{
+	//	delete[] ppActors;
+	//	return;
+	//}
+
+	//ppActors = new PxRigidDynamic * [nNumActors];
+	//m_pScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, ppActors, nNumActors);
+	//
+	////다이나믹 액터가져오기
+	//for (PxU32 i = 0; i < nNumActors; ++i)
+	//{
+	//	if (ppActors[i]->userData)
+	//	{
+	//		PxRigidDynamic* dynamicActor = dynamic_cast<PxRigidDynamic*>(ppActors[i]);
+	//		if (dynamicActor)
+	//		{
+	//			obj = ((pPXUSERDATA)(ppActors[i]->userData))->pCollider->GetOwner();
+
+	//			PxTransform transform = dynamicActor->getGlobalPose();
+	//			PxVec3 position = transform.p;
+	//			PxQuat rotation = transform.q;
+
+	//			Vec3 pos = Vec3(position.z, position.y, position.z);
+	//		}
+	//	}
+	//}
+	//delete[] ppActors;
+
+	CGameObject* obj;
+	PxU32 nNumActors = 0;
+	PxRigidDynamic** ppDynamicActors = nullptr;
+
+	nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
+
+	if (nNumActors > 0) {
+		ppDynamicActors = new PxRigidDynamic * [nNumActors];
+		m_pScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, (PxActor**)&ppDynamicActors[0], nNumActors);
+
+		// 각 다이나믹 액터의 위치 값을 가져옴
+		for (PxU32 i = 0; i < nNumActors; ++i) {
+			obj = ((pPXUSERDATA)(ppDynamicActors[i]->userData))->pCollider->GetOwner();
+			PxTransform transform = ppDynamicActors[i]->getGlobalPose();
+			PxVec3 position = transform.p;
+			// 가져온 위치 값을 사용하여 오브젝트의 위치 변경
+			Vec3 pos = Vec3(position.z, position.y, position.z);
+			obj->Transform()->SetRelativePos(pos);
+		}
+
+		// 동적 할당한 메모리를 해제합니다.
+		delete[] ppDynamicActors;
+	}
 }
 
 void CPhysXMgr::CreateSimulation()
@@ -279,6 +353,7 @@ PxRigidDynamic* CPhysXMgr::createDynamic(const PxGeometry& geometry, const PxVec
 	PxRigidDynamic* dynamic = PxCreateDynamic(*m_pPhysics, PxTransform(PxVec3(0.0f, 10.0f, 30.0f)), geometry, *m_pMaterial, 10.0f);
 	dynamic->setAngularDamping(0.5f);
 	dynamic->setLinearVelocity(velocity);
+	dynamic->setMass(1.0f);
 	m_pScene->addActor(*dynamic);
 	return dynamic;
 }
