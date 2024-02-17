@@ -68,6 +68,15 @@ void CCollider3D::finaltick()
 		DrawDebugConvex3D(matWorld, vColor, 0.f);
 		CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 	}
+
+	if (m_bGravity)
+		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+	else
+	{
+		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+		m_pRigidActor->setLinearVelocity(PxVec3(0.f,0.f,0.f));
+	}
+
 }
 
 void CCollider3D::CreateColliderShape()
@@ -143,6 +152,7 @@ void CCollider3D::CreateRigidActor()
 
 	m_pRigidActor->attachShape(*m_pShape);
 	m_pRigidActor->setMass(1.f);
+	m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY,true);
 }
 
 void CCollider3D::ChangeFilterData()

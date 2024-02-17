@@ -21,6 +21,11 @@ int Collider3DUI::render_update()
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
 
+	ImGui::Checkbox("Gravity", &_Gravity);
+
+	GetTarget()->Collider3D()->SetGravity(_Gravity);
+
+
 	PxRigidDynamic* actor = GetTarget()->Collider3D()->GetActor();
 	auto velocity = actor->getLinearVelocity();
 	ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);
