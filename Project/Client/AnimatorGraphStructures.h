@@ -1,6 +1,7 @@
 #pragma once
 #include "ImGui/imgui_node_editor.h"
 #include <Engine/CAnimationStateMachine.h>
+#define NUMBEROFPINS 2
 namespace ed = ax::NodeEditor;
 
 struct Node;
@@ -22,8 +23,8 @@ private:
 public:
 	ed::NodeId			id;
 	CAnimationState*	pState;
-	const Pin			inputPins[4];
-	const Pin			outputPins[4];
+	const Pin			inputPins[NUMBEROFPINS];
+	const Pin			outputPins[NUMBEROFPINS];
 
 	string	GetName();
 	void	SetName(string _name);

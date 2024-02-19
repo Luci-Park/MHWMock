@@ -204,7 +204,6 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 {
 	const float rounding = 5.0f;
 	const float padding = 12.0f;
-	ImVec2 windowScale = ImGui::GetItemRectSize();
 	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
 		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
 	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
@@ -218,17 +217,24 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	ed::PushStyleVar(ed::StyleVar_PinBorderWidth, 1.0f);
 	ed::PushStyleVar(ed::StyleVar_PinRadius, 6.0f);
 
+	const ImVec2 nodeSize(200, 50);
+	float sizeY = nodeSize.y;
+	auto textSize = ImGui::CalcTextSize(_node.GetName().c_str());
 	ed::BeginNode(_node.id);
+	ImGui::Dummy(ImVec2(nodeSize.x, nodeSize.y * 0.1)); sizeY -= nodeSize.y * 0.1;
+	ImGui::Dummy(ImVec2((nodeSize.x - textSize.x) * 0.5 - 10, 0)); 
+	ImGui::SameLine();
+	ImGui::Text(_node.GetName().c_str()); sizeY -= textSize.y;
 
-	ImGui::Dummy(ImVec2(0, 10));
-
-	ImGui::Text(_node.GetName().c_str());
 	if (_node.pState->GetTickPercent() > 0)
 	{
 		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
-		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(400.0f, 50.0f));
+		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(0, nodeSize.y * 0.1));
 		ImGui::PopStyleColor();
+		sizeY -= nodeSize.y * 0.1;
 	}
+	ImGui::Dummy(ImVec2(0, sizeY));
+
 	ed::EndNode();
 
 	ed::PopStyleVar(7);

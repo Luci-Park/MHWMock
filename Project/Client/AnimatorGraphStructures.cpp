@@ -30,7 +30,7 @@ void Node::SetAnimation(Ptr<CAnimationClip> _clip)
 const Pin* Node::PinExists(ed::PinId _pinId, ed::PinKind _pinType)
 {
 	const Pin* pins = _pinType == ed::PinKind::Input ? inputPins : outputPins;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < NUMBEROFPINS; i++)
 		if (pins[i].id == _pinId)
 			return &pins[i];
 	return nullptr;
@@ -39,8 +39,8 @@ const Pin* Node::PinExists(ed::PinId _pinId, ed::PinKind _pinType)
 Node::Node(CAnimationState* _state)
 	: pState(_state)
 	, id(ed::NodeId(_state))
-	, inputPins{ {PINID++, 0, this}, {PINID++, 1, this}, {PINID++, 2, this}, {PINID++, 3, this} }
-	, outputPins{ {PINID++, 0, this}, {PINID++, 1, this}, {PINID++, 2, this}, {PINID++, 3, this} }
+	, inputPins{ {PINID++, 0, this}, {PINID++, 1, this} }
+	, outputPins{ {PINID++, 0, this}, {PINID++, 1, this}}
 {
 }
 
