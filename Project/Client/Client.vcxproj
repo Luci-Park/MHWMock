@@ -194,6 +194,7 @@
     <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collider2DUI.h" />
+    <ClInclude Include="Collider3DUI.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="ContentUI.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CLevelSaveLoad.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
+    <ClCompile Include="Collider3DUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />

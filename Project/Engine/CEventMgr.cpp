@@ -128,6 +128,12 @@ void CEventMgr::tick()
 				pObj->SetLayerIndex((int)DestType);
 			}
 
+			CCollider3D* pCollider3D = pObj->Collider3D();
+			if (pCollider3D != nullptr)
+			{
+				pCollider3D->ChangeFilterData();
+			}
+
 			m_LevelChanged = true;
 		}
 			break;

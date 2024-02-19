@@ -20,8 +20,15 @@ PxFilterFlags contactReportFilterShader(PxFilterObjectAttributes attributes0, Px
 	PX_UNUSED(attributes1);
 	PX_UNUSED(filterData0);
 	PX_UNUSED(filterData1);
+	
 	PX_UNUSED(constantBlockSize);
 	PX_UNUSED(constantBlock);
+
+	// 두 객체가 모두 그룹이면 충돌을 비활성화
+	if ((filterData0.word1 & filterData1.word0) != filterData1.word0)
+	{
+		return PxFilterFlag::eSUPPRESS;
+	}
 
 	if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 	{
@@ -76,27 +83,36 @@ CPhysXMgr::~CPhysXMgr()
 	//PX_RELEASE(m_pMaterial);
 }
 
+
+
 void CPhysXMgr::init()
 {
 	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
-	
+
+
 	if (!m_pFoundation) throw("PxCreateFoundation failed!");
 	
+	//PhysX Visual Debugger
 	m_pPvd = PxCreatePvd(*m_pFoundation);
 	
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
 	
 	m_pPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 	
+
 	mToleranceScale.length = 100;        // typical length of an object
 	mToleranceScale.speed = 981;         // typical speed of an object, gravity*1s is a reasonable choice
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, mToleranceScale, true, m_pPvd);
 
+
 	PxSceneDesc sceneDesc(m_pPhysics->getTolerancesScale());
 
+	// 중력설정.
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	m_pDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = m_pDispatcher;
+
+	// 물리용 Shader 교체
 	//sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	sceneDesc.filterShader = contactReportFilterShader;
 	
@@ -114,7 +130,13 @@ void CPhysXMgr::init()
 		m_pPvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
-	//CreateSimulation();
+	// FilterData Group설정.
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		m_FilterData[i].word0 = (1 << i+1);
+		m_FilterData[i].word1 = 0;
+	}
+
 }
 
 void CPhysXMgr::process()
@@ -124,15 +146,15 @@ void CPhysXMgr::process()
 
 void CPhysXMgr::tick()
 {
-	// Sphere충돌체 발사.
-	{
-		if (KEY_TAP(KEY::SPACE))
-		{
-			createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
-		}
-	}
+	//// Sphere충돌체 발사.
+	//{
+	//	if (KEY_TAP(KEY::SPACE))
+	//	{
+	//		createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
+	//	}
+	//}
 
-	// Simulate()
+	//피직스 디버거로 정보 보내는 부분
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 
@@ -161,6 +183,8 @@ void CPhysXMgr::tick()
 	}
 	delete[] ppActors;
 
+
+	//실제 시뮬레이션 돌리는 부분 여기서 피직스를 계산
 	m_pScene->simulate(1.0f / 60.0f);
 
 	m_bSimulate = true;
@@ -168,6 +192,7 @@ void CPhysXMgr::tick()
 	//m_pScene->fetchResults(true);
 }
 
+//시뮬레이션 결과 값 가져옴
 void CPhysXMgr::FetchResults()
 {
 	if (false == m_bSimulate || nullptr == m_pScene)
@@ -233,8 +258,39 @@ void CPhysXMgr::FetchResults()
 	m_lCallback.clear();
 
 	// 시물레이션 도중 Transform 변환 정보 전달. ..~~
+	SetTransformResult();
 
 	m_bSimulate = false;
+}
+
+void CPhysXMgr::SetTransformResult()
+{
+	CGameObject* obj;
+	PxU32 nNumActors = 0;
+	PxRigidDynamic** ppDynamicActors = nullptr;
+
+	nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
+
+	if (nNumActors > 0) {
+		ppDynamicActors = new PxRigidDynamic * [nNumActors];
+		m_pScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, (PxActor**)&ppDynamicActors[0], nNumActors);
+
+		// 각 다이나믹 액터의 위치 값을 가져옴
+		for (PxU32 i = 0; i < nNumActors; ++i) {
+			obj = ((pPXUSERDATA)(ppDynamicActors[i]->userData))->pCollider->GetOwner();
+			PxTransform transform = ppDynamicActors[i]->getGlobalPose();
+			PxVec3 position = transform.p;
+			PxQuat rotation = transform.q;
+
+			// 가져온 위치 값을 사용하여 오브젝트의 위치 변경
+			Vec3 pos = Vec3(position.x, position.y, position.z);
+			Vec3 objPos = obj->Transform()->GetRelativePos();
+			objPos +=pos;
+			obj->Transform()->SetRelativePos(pos);
+		}
+
+		delete[] ppDynamicActors;
+	}
 }
 
 void CPhysXMgr::CreateSimulation()
@@ -264,6 +320,7 @@ PxRigidDynamic* CPhysXMgr::createDynamic(const PxGeometry& geometry, const PxVec
 	PxRigidDynamic* dynamic = PxCreateDynamic(*m_pPhysics, PxTransform(PxVec3(0.0f, 10.0f, 30.0f)), geometry, *m_pMaterial, 10.0f);
 	dynamic->setAngularDamping(0.5f);
 	dynamic->setLinearVelocity(velocity);
+	dynamic->setMass(1.0f);
 	m_pScene->addActor(*dynamic);
 	return dynamic;
 }
