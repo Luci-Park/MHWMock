@@ -221,7 +221,8 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	float sizeY = nodeSize.y;
 	auto textSize = ImGui::CalcTextSize(_node.GetName().c_str());
 	ed::BeginNode(_node.id);
-	ImGui::Dummy(ImVec2(nodeSize.x, nodeSize.y * 0.1)); sizeY -= nodeSize.y * 0.1;
+
+	ImGui::Dummy(ImVec2(nodeSize.x, nodeSize.y * 0.05)); sizeY -= nodeSize.y * 0.05;
 	ImGui::Dummy(ImVec2((nodeSize.x - textSize.x) * 0.5 - 10, 0)); 
 	ImGui::SameLine();
 	ImGui::Text(_node.GetName().c_str()); sizeY -= textSize.y;
@@ -229,9 +230,10 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	if (_node.pState->GetTickPercent() > 0)
 	{
 		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
-		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(0, nodeSize.y * 0.1));
+		ImGui::Dummy(ImVec2(nodeSize.x * 0.02, textSize.y* 1.2)); ImGui::SameLine();
+		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(nodeSize.x * 0.87, textSize.y * 1.2));
 		ImGui::PopStyleColor();
-		sizeY -= nodeSize.y * 0.1;
+		sizeY -= textSize.y * 1.2;
 	}
 	ImGui::Dummy(ImVec2(0, sizeY));
 
