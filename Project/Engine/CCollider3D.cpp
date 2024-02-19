@@ -15,7 +15,6 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
-	, m_bIsBegin(true)
 {
 }
 
@@ -143,7 +142,6 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
-	
 }
 
 void CCollider3D::ChangeFilterData()
@@ -152,15 +150,14 @@ void CCollider3D::ChangeFilterData()
 	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
 
 	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) {
-		PxShape* shape;
-		m_pRigidActor->getShapes(&shape, 1, i);
+		
+		m_pRigidActor->detachShape(*m_pShape);
 
-		shape->setSimulationFilterData(filter);
+		m_pShape->setSimulationFilterData(filter);
+		PxFilterData filterCheck = m_pShape->getSimulationFilterData();
 
-		PxFilterData filterCheck = shape->getSimulationFilterData();
-
-		int a = 0;
-	}
+		m_pRigidActor->attachShape(*m_pShape);
+		}
 }
 
 
