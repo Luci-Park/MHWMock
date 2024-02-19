@@ -26,13 +26,15 @@ private:
     bool            m_bAbsolute;
     bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
     
-    bool            m_bIsBegin;
+    bool            m_bChangeLayer;
+
 public:
     void CreateColliderShape();
     void CreateRigidActor();
     void AddRigidActor();
     void ChangeFilterData();
     void UpdateActorInfo();
+
 public:
     virtual void begin() override;
     virtual void finaltick() override;
@@ -45,6 +47,11 @@ public:
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
     PxRigidDynamic* GetActor() { return m_pRigidActor; }
+
+    PxRigidActor* GetRigidActor() { return m_pRigidActor; }
+
+    bool GetChangeLayer() { return m_bChangeLayer; }
+    void SetChangeLayer(bool _ChangeLayer) { m_bChangeLayer = _ChangeLayer; }
 
 public:
     void OnCollisionEnter(CCollider3D* _Other);

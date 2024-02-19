@@ -15,7 +15,6 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
-	, m_bIsBegin(true)
 {
 }
 
@@ -46,7 +45,7 @@ void CCollider3D::finaltick()
 	{
 		m_matCollider3D *= matWorld;
 	}
-
+	
 	// DebugShape 요청
 	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	if (0 < m_iCollisionCount)
@@ -159,13 +158,18 @@ void CCollider3D::CreateRigidActor()
 
 void CCollider3D::ChangeFilterData()
 {
-	// 여기서 뭔가 ACTOR을 삭제하든 FILTER를 바꾸든 뭔가 해야함..
-
-	// SetFilterData. (에러.) FILTER를 잘 가져오긴 하는데 filtershader에서 수정되지 않음..;;
 	UINT iLayerIdx = GetOwner()->GetLayerIndex();
 	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
-	m_pShape->setSimulationFilterData(filter);
-	m_pRigidActor->attachShape(*m_pShape);
+
+	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) {
+		
+		m_pRigidActor->detachShape(*m_pShape);
+
+		m_pShape->setSimulationFilterData(filter);
+		PxFilterData filterCheck = m_pShape->getSimulationFilterData();
+
+		m_pRigidActor->attachShape(*m_pShape);
+		}
 }
 
 
