@@ -7,6 +7,7 @@ namespace ed = ax::NodeEditor;
 class CAnimator3D;
 struct Node;
 struct Link;
+struct Pin;
 
 class AnimatorGraphEditorWindow
 {
@@ -43,7 +44,7 @@ private:
 	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
 
-	Link CreateTransition(const Pin* _input, const Pin* _output);
+	Link& CreateTransition(const Pin* _input, const Pin* _output);
 
 	void DeleteLink(ed::LinkId _link);
 

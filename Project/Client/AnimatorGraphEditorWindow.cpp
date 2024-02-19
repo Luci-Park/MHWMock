@@ -2,14 +2,11 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 
 #include "AnimatorGraphEditorWindow.h"
+#include "AnimatorGraphStructures.h"
 #include "ImGui/imgui_internal.h"
 #include "ImGui/imgui_stdlib.h"
 #include "ImGuiFunc.h"
-#include "AnimatorGraphStructures.h"
-#include "TreeUI.h"
-#include <Engine/CKeyMgr.h>
-#include <Engine/CResMgr.h>
-#include "ListUI.h"
+
 
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	: m_iCurrentEditingParam(-1)
@@ -79,7 +76,29 @@ void AnimatorGraphEditorWindow::OnDraw()
 	ImGui::SameLine(0.0f, 12.0f);
 
 	ed::Begin("Node Editor");
-	
+
+#pragma region mousePos
+	{
+		auto pos = ImGui::GetMousePos();
+		string str = "X : " + std::to_string(pos.x) + " Y : " + std::to_string(pos.y); 
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
+		auto size = ImGui::CalcTextSize(str.c_str());
+
+		auto padding = ImGui::GetStyle().FramePadding;
+		auto spacing = ImGui::GetStyle().ItemSpacing;
+
+		ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
+
+		auto rectMin = ImGui::GetCursorScreenPos() - padding;
+		auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
+
+		auto drawList = ImGui::GetWindowDrawList();
+		drawList->AddRectFilled(rectMin, rectMax, ImColor(45, 32, 32, 180), size.y * 0.15f);
+		ImGui::TextUnformatted(str.c_str());
+
+	}
+#pragma endregion
+
 	for (auto n : m_Nodes)
 		DrawNode(n);
 	for (auto l : m_Links)
@@ -91,6 +110,10 @@ void AnimatorGraphEditorWindow::OnDraw()
 		{
 			if (inputPinId && outputPinId)
 			{
+				auto input = GetPin(inputPinId, ed::PinKind::Input);
+				auto output = GetPin(outputPinId, ed::PinKind::Output);
+				if (input == output)
+					ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
 				if (ed::AcceptNewItem())
 				{
 					Link newLink = CreateTransition(GetPin(inputPinId, ed::PinKind::Input), GetPin(outputPinId, ed::PinKind::Output));
@@ -98,8 +121,9 @@ void AnimatorGraphEditorWindow::OnDraw()
 				}
 			}
 		}
-		ed::EndCreate();
 	}
+	ed::EndCreate();
+	
 	if (ed::BeginDelete())
 	{
 		ed::NodeId nodeId;
@@ -114,8 +138,8 @@ void AnimatorGraphEditorWindow::OnDraw()
 			if (ed::AcceptDeletedItem())
 				DeleteLink(linkId);
 		}
-		ed::EndDelete();
 	}
+	ed::EndDelete();
 	DealWithPopup();
 	
 	ed::End();
@@ -583,8 +607,6 @@ void AnimatorGraphEditorWindow::OnEnd()
 		m_pEditor = nullptr;
 	}
 }
-
-
 
 bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size)
 {
