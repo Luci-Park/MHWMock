@@ -46,10 +46,19 @@ Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
 	return m_Nodes.back();
 }
 
+Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _input, const Pin* _output)
+{
+	CAnimationState* prevState = _input->node->pState;
+	CAnimationState* nextState = _output->node->pState;
+	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
+	m_Links.emplace_back(transition);
+	return m_Links.back();
+}
+
 void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 {
 	auto iter = GetNode(_node);	
-	m_pStateMachine->DeleteState(iter->m_pState);
+	m_pStateMachine->DeleteState(iter->pState);
 	m_Nodes.erase(iter);
 
 }
@@ -57,7 +66,7 @@ void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 {
 	auto iter = GetLink(_link);
-	iter->m_pTransit->Remove();
+	iter->pTransit->Remove();
 	m_Links.erase(iter);
 }
 
@@ -73,6 +82,24 @@ void AnimatorGraphEditorWindow::OnDraw()
 	
 	for (auto n : m_Nodes)
 		DrawNode(n);
+	for (auto l : m_Links)
+		ed::Link(l.id, l.inputPin->id, l.outputPin->id);
+	if (ed::BeginCreate())
+	{
+		ed::PinId inputPinId, outputPinId;
+		if (ed::QueryNewLink(&inputPinId, &outputPinId))
+		{
+			if (inputPinId && outputPinId)
+			{
+				if (ed::AcceptNewItem())
+				{
+					Link newLink = CreateTransition(GetPin(inputPinId, ed::PinKind::Input), GetPin(outputPinId, ed::PinKind::Output));
+					ed::Link(newLink.id, newLink.inputPin->id, newLink.outputPin->id);
+				}
+			}
+		}
+		ed::EndCreate();
+	}
 	if (ed::BeginDelete())
 	{
 		ed::NodeId nodeId;
@@ -154,7 +181,7 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	const float rounding = 5.0f;
 	const float padding = 12.0f;
 	ImVec2 windowScale = ImGui::GetItemRectSize();
-	ImColor color = _node.m_pState == m_pStateMachine->GetHead() ?
+	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
 		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
 	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
 	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32));
@@ -172,10 +199,10 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	ImGui::Dummy(ImVec2(0, 10));
 
 	ImGui::Text(_node.GetName().c_str());
-	if (_node.m_pState->GetTickPercent() > 0)
+	if (_node.pState->GetTickPercent() > 0)
 	{
 		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
-		ImGui::ProgressBar(_node.m_pState->GetTickPercent(), ImVec2(400.0f, 50.0f));
+		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(400.0f, 50.0f));
 		ImGui::PopStyleColor();
 	}
 	ed::EndNode();
@@ -297,7 +324,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 	ImGui::Spacing(); ImGui::SameLine();
 	ImGui::TextUnformatted("Transitions");
 	ImGui::Separator();
-	HashTransition& transits = _node.m_pState->GetAllTransitions();
+	HashTransition& transits = _node.pState->GetAllTransitions();
 	for (auto t : transits)
 	{
 		ed::LinkId id(t);
@@ -318,11 +345,11 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	ImGui::Text(_link.name.c_str());
 	ImGui::Separator();
 #pragma region Transition Settings
-	bool	bHasExit =			_link.m_pTransit->GetHasExitTime();
-	float	fExitTime =			_link.m_pTransit->GetExitTime();
-	bool	bFixedDur =			_link.m_pTransit->GetFixedDuration();
-	float	fTransitionDur =	_link.m_pTransit->GetTransitionDuration();
-	float	fTransitionOffset =	_link.m_pTransit->GetTransitionOffset();
+	bool	bHasExit =			_link.pTransit->GetHasExitTime();
+	float	fExitTime =			_link.pTransit->GetExitTime();
+	bool	bFixedDur =			_link.pTransit->GetFixedDuration();
+	float	fTransitionDur =	_link.pTransit->GetTransitionDuration();
+	float	fTransitionOffset =	_link.pTransit->GetTransitionOffset();
 
 	ImGui::Text("Has Exit Time");
 	ImGui::SameLine();
@@ -344,11 +371,11 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	ImGui::SameLine();
 	ImGui::DragFloat("##OffsetFloat", &fTransitionOffset);
 	
-	_link.m_pTransit->SetHasExitTime(bHasExit);
-	_link.m_pTransit->SetExitTime(fExitTime);
-	_link.m_pTransit->SetFixedDuration(bFixedDur);
-	_link.m_pTransit->SetTransitionDuration(fTransitionDur);
-	_link.m_pTransit->SetTransitionOffset(fTransitionOffset);
+	_link.pTransit->SetHasExitTime(bHasExit);
+	_link.pTransit->SetExitTime(fExitTime);
+	_link.pTransit->SetFixedDuration(bFixedDur);
+	_link.pTransit->SetTransitionDuration(fTransitionDur);
+	_link.pTransit->SetTransitionOffset(fTransitionOffset);
 #pragma endregion
 #pragma region Parameter Settings
 	float width = ImGui::GetContentRegionAvail().x;
@@ -365,10 +392,10 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 
 	if (ImGui::Button("Create Condition"))
 	{
-		_link.m_pTransit->CreateCondition();
+		_link.pTransit->CreateCondition();
 	}
 
-	vector<AnimCondition*> conditions = _link.m_pTransit->GetAllConditions();
+	vector<AnimCondition*> conditions = _link.pTransit->GetAllConditions();
 	vector<AnimStateParam*> params = m_pStateMachine->GetAllParams();
 	for (int i = 0; i < conditions.size(); i++)
 	{
@@ -392,7 +419,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
 				{
 					AnimConditionType type = (AnimConditionType)j;
-					if (type != AnimConditionType::GREATER || type != AnimConditionType::LESS) continue;
+					if (type != AnimConditionType::GREATER && type != AnimConditionType::LESS) continue;
 					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
 						cond->expr = type;
 				}
@@ -409,8 +436,8 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
 				{
 					AnimConditionType type = (AnimConditionType)j;
-					if (type != AnimConditionType::GREATER || type != AnimConditionType::LESS
-						|| type != AnimConditionType::EQUAL || type != AnimConditionType::NOTEQUAL) continue;
+					if (type != AnimConditionType::GREATER && type != AnimConditionType::LESS
+						|| type != AnimConditionType::EQUAL && type != AnimConditionType::NOTEQUAL) continue;
 					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
 						cond->expr = type;
 				}
@@ -429,7 +456,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				for (int j = 0; j < (UINT)AnimConditionType::NONE; j++)
 				{
 					AnimConditionType type = (AnimConditionType)j;
-					if (type != AnimConditionType::ISFALSE || type != AnimConditionType::ISTRUE) continue;
+					if (type != AnimConditionType::ISFALSE && type != AnimConditionType::ISTRUE) continue;
 					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
 						cond->expr = type;
 				}
@@ -575,6 +602,7 @@ bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness,
 
 list<Node>::iterator AnimatorGraphEditorWindow::GetNode(ed::NodeId _id)
 {
+	if (!_id) return m_Nodes.end();
 	for (auto it = m_Nodes.begin(); it != m_Nodes.end(); ++it) {
 		if (it->id == _id) {
 			return it;
@@ -585,6 +613,7 @@ list<Node>::iterator AnimatorGraphEditorWindow::GetNode(ed::NodeId _id)
 
 list<Link>::iterator AnimatorGraphEditorWindow::GetLink(ed::LinkId _id)
 {
+	if (!_id) return m_Links.end();
 	for (auto it = m_Links.begin(); it != m_Links.end(); ++it) {
 		if (it->id == _id) {
 			return it;
@@ -593,3 +622,11 @@ list<Link>::iterator AnimatorGraphEditorWindow::GetLink(ed::LinkId _id)
 	return m_Links.end();
 }
 
+const Pin* AnimatorGraphEditorWindow::GetPin(ed::PinId _id, ed::PinKind _type)
+{
+	for (auto it = m_Nodes.begin(); it != m_Nodes.end(); ++it)
+	{
+		return it->PinExists(_id, _type);
+	}
+	return nullptr;
+}

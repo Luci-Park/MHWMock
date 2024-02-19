@@ -15,6 +15,7 @@ CAnimationTransition::CAnimationTransition(CAnimationState* _pPrevState, CAnimat
 	, m_dTransitionDuration(0.25)
 	, m_dTransitionOffset(0)
 {
+	m_pPrevState->AddTransition(this);
 }
 
 CAnimationTransition::~CAnimationTransition()

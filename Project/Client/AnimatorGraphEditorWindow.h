@@ -43,11 +43,14 @@ private:
 	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
 
+	Link CreateTransition(const Pin* _input, const Pin* _output);
 
 	void DeleteLink(ed::LinkId _link);
 
 	list<Node>::iterator GetNode(ed::NodeId _id);
 	list<Link>::iterator GetLink(ed::LinkId _id);
+	const Pin* GetPin(ed::PinId _id, ed::PinKind _type);
+
 
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
