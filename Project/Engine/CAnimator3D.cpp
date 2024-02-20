@@ -46,6 +46,26 @@ Ptr<CAnimationClip> CAnimator3D::GetAnimation(wstring _key)
 	return nullptr;
 }
 
+void CAnimator3D::SetBool(wstring _param, bool _value)
+{
+	m_pAnimationStateMachine->SetBool(_param, _value);
+}
+
+void CAnimator3D::SetFloat(wstring _param, float _value)
+{
+	m_pAnimationStateMachine->SetFloat(_param, _value);
+}
+
+void CAnimator3D::SetInt(wstring _param, int _value)
+{
+	m_pAnimationStateMachine->SetInt(_param, _value);
+}
+
+void CAnimator3D::SetTrigger(wstring _param, bool _value)
+{
+	m_pAnimationStateMachine->SetTrigger(_param, _value);
+}
+
 void CAnimator3D::finaltick()
 {
 	m_pAnimationStateMachine->finaltick();

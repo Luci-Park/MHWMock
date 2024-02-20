@@ -129,6 +129,26 @@ AnimStateParam* CAnimationStateMachine::GetParamByIndex(int _idx)
 	return nullptr;
 }
 
+void CAnimationStateMachine::SetBool(wstring _param, bool _value)
+{
+	GetParamByName(_param)->value.BOOL = _value;
+}
+
+void CAnimationStateMachine::SetFloat(wstring _param, float _value)
+{
+	GetParamByName(_param)->value.FLOAT = _value;
+}
+
+void CAnimationStateMachine::SetInt(wstring _param, int _value)
+{
+	GetParamByName(_param)->value.INT = _value;
+}
+
+void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
+{
+	GetParamByName(_param)->value.TRIGGER = _value;
+}
+
 void CAnimationStateMachine::finaltick()
 {
 	m_pCurrentState->finaltick();
