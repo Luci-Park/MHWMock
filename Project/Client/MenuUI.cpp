@@ -127,6 +127,15 @@ int MenuUI::render_update()
             {
                 for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
                 {
+                    if (i == (UINT)COMPONENT_TYPE::COLLIDER3D)
+                    {
+                        if (ImGui::BeginMenu("Collider3D"))
+                        {
+                            AddColliderMenu();
+                            ImGui::EndMenu();
+                        }
+                        continue;
+                    }
                     if (ImGui::MenuItem(ToString((COMPONENT_TYPE)i)))
                     {
                         AddComponent(COMPONENT_TYPE(i));
@@ -391,6 +400,41 @@ void MenuUI::AddScript(const wstring& _strScriptName)
     pSelectedObject->AddComponent(pScript);
 
     inspector->SetTargetObject(pSelectedObject);
+}
+
+void MenuUI::AddColliderMenu()
+{
+    //Select Collider Mesh Type
+    if (ImGui::BeginMenu("BoxCollider"))
+    {
+        ColliderTypeMenu(SHAPE_TYPE::CUBE);
+        ImGui::EndMenu();
+    }
+    if (ImGui::BeginMenu("Triangle"))
+    {
+        ColliderTypeMenu(SHAPE_TYPE::CONVEX);
+        ImGui::EndMenu();
+    }
+    if (ImGui::BeginMenu("Capsule"))
+    {
+        ColliderTypeMenu(SHAPE_TYPE::CAPSULE);
+        ImGui::EndMenu();
+    }
+}
+
+void MenuUI::ColliderTypeMenu(SHAPE_TYPE _type)
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    CGameObject* pSelectedObject = outliner->GetSelectedObject();
+    //Select Actor Type
+    if (ImGui::MenuItem("Dynamic"))
+    {
+        pSelectedObject->AddCollider3D(_type, ACTOR_TYPE::DYNAMIC);
+    }
+    if (ImGui::MenuItem("Static"))
+    {
+        pSelectedObject->AddCollider3D(_type, ACTOR_TYPE::STATIC);
+    }
 }
 
 std::vector<std::wstring> MenuUI::GetLevels()

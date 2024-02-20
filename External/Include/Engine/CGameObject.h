@@ -59,6 +59,8 @@ public:
     void AddChild(CGameObject* _Object);
     void SetParent(CGameObject* _Object);
 
+    void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
+
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
