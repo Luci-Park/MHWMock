@@ -206,6 +206,12 @@
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCallback.h" />
+    <ClInclude Include="CFont.h">
+      <Filter>Source\06. Component\7. Font</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextMgr.h">
+      <Filter>Source\03. Manager\10. FontMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -401,6 +407,12 @@
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClCompile>
     <ClCompile Include="CollisionCallback.cpp" />
+    <ClCompile Include="CFont.cpp">
+      <Filter>Source\06. Component\7. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextMgr.cpp">
+      <Filter>Source\03. Manager\10. FontMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -594,6 +606,9 @@
     </Filter>
     <Filter Include="Source\06. Component\RenderComponent\7. Canvas">
       <UniqueIdentifier>{ab34bf7d-82d6-4be6-94f1-1a07dde1b4ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\7. Font">
+      <UniqueIdentifier>{71590406-335c-47a4-a710-10182eda0e49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

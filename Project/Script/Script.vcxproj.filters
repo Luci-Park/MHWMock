@@ -30,14 +30,17 @@
     <ClInclude Include="pch.h">
       <Filter>Script\Default</Filter>
     </ClInclude>
-    <ClInclude Include="CScriptMgr.h">
-      <Filter>ScriptMgr</Filter>
-    </ClInclude>
     <ClInclude Include="CGravityScript.h">
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CTestScript.h">
       <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>ScriptMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,14 +62,17 @@
     <ClCompile Include="Script.cpp">
       <Filter>Script\Default</Filter>
     </ClCompile>
-    <ClCompile Include="CScriptMgr.cpp">
-      <Filter>ScriptMgr</Filter>
-    </ClCompile>
     <ClCompile Include="CGravityScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CTestScript.cpp">
       <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>ScriptMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

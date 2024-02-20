@@ -45,6 +45,7 @@ enum class COMPONENT_TYPE
 	SKYBOX,			// SkyBox
 	DECAL,			// ���� ������
 	BONEHOLDER,
+	FONT,
 
 	END,
 
@@ -375,4 +376,12 @@ struct AnimCondition
 		else if (lhs->type != AnimParamType::TRIGGER)
 			expr = AnimConditionType::GREATER;
 	}
+};
+
+struct TextInfo
+{
+	UINT FontColor;
+	Vec2 FontPos;
+	float FontSize;
+	wstring Content;
 };

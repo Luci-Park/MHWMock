@@ -33,12 +33,13 @@ public:
     GET_OTHER_COMPONENT(SkinnedMeshRender);
     GET_OTHER_COMPONENT(Camera);
     //GET_OTHER_COMPONENT(Collider2D);
-    GET_OTHER_COMPONENT(Light2D);
+	GET_OTHER_COMPONENT(Light2D);
     GET_OTHER_COMPONENT(TileMap);
     GET_OTHER_COMPONENT(Animator2D);
     GET_OTHER_COMPONENT(Animator3D);
     GET_OTHER_COMPONENT(LandScape);
     GET_OTHER_COMPONENT(BoneHolder);
+    GET_OTHER_COMPONENT(Font);
 
 public:
     CComponent(COMPONENT_TYPE _Type);

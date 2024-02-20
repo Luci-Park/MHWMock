@@ -13,6 +13,7 @@
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
+#include <Script\CDamageScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -107,63 +108,25 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
-	//CGameObject* pParentObj = new CGameObject;
-	//pParentObj->SetName(L"Parent");
-	//pParentObj->AddComponent(new CTransform);
-	//pParentObj->AddComponent(new CMeshRender);
-	//pParentObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pParentObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	//
-	//CGameObject* pChildObj = new CGameObject;
-	//pChildObj->SetName(L"Child");
-	//pChildObj->AddComponent(new CTransform);
-	//pChildObj->AddComponent(new CMeshRender);
-	//pChildObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pChildObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	//pParentObj->AddChild(pChildObj);
-	//
-	//SpawnGameObject(pParentObj);
-	// ������Ʈ ����
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);
-	SpawnGameObject(pObject);
-	// LandScape Object
-	//CGameObject* pLandScape = new CGameObject;
-	//pLandScape->SetName(L"LandScape");
-	//
-	//pLandScape->AddComponent(new CTransform);
-	//pLandScape->AddComponent(new CLandScape);
-	//
-	//pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
-	//
-	//pLandScape->LandScape()->SetFace(32, 32);
-	//pLandScape->LandScape()->SetFrustumCheck(false);
-	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
-	//
-	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+	{
 
-	// LandScape Object
-	//CGameObject* pLandScape = new CGameObject;
-	//pLandScape->SetName(L"LandScape");
-	//
-	//pLandScape->AddComponent(new CTransform);
-	//pLandScape->AddComponent(new CLandScape);
-	//
-	//pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
-	//
-	//pLandScape->LandScape()->SetFace(32, 32);
-	//pLandScape->LandScape()->SetFrustumCheck(false);
-	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
-	//
-	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+		wstring test = L"CDamageScript";
+		CGameObject* sgPlayer = new CGameObject;
+		sgPlayer->SetName(L"sgPlayer");
+		sgPlayer->AddComponent(new CTransform);
+		sgPlayer->AddComponent(new CMeshRender);
+		sgPlayer->AddComponent(new CPlayerScript);
+		sgPlayer->AddComponent(new CDamageScript);
+		sgPlayer->GetScrip
+		SpawnGameObject(sgPlayer, L"Player");
 
+		//CGameObject* sgMonster = new CGameObject;
+		//sgMonster->SetName(L"sgMonster");
+		//sgMonster->AddComponent(new CTransform);
+		//sgMonster->AddComponent(new CMeshRender);
+		//SpawnGameObject(sgMonster, L"Monster");
+	}
 
-	// �浹 ��ų ���̾� ¦ ����
 	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
 }

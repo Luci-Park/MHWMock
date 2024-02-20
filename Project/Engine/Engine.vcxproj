@@ -228,6 +228,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CEngine.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CEventMgr.h" />
+    <ClInclude Include="CFont.h" />
     <ClInclude Include="CFontMgr.h" />
     <ClInclude Include="CFrustum.h" />
     <ClInclude Include="CGameObject.h" />
@@ -262,6 +263,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CSkyBox.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CStructuredBuffer.h" />
+    <ClInclude Include="CTextMgr.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CTimeMgr.h" />
@@ -301,6 +303,7 @@ call EngineCopy.bat</Command>
     </ClCompile>
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
+    <ClCompile Include="CFont.cpp" />
     <ClCompile Include="CFontMgr.cpp" />
     <ClCompile Include="CFrustum.cpp" />
     <ClCompile Include="CGameObject.cpp" />
@@ -335,6 +338,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CSkyBox.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CStructuredBuffer.cpp" />
+    <ClCompile Include="CTextMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />

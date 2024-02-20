@@ -1,6 +1,6 @@
 #pragma once
 #include "CEntity.h"
-
+#include <Script\CScriptMgr.h>
 
 class CComponent;
 class CTransform;
@@ -22,6 +22,7 @@ class CLandScape;
 class CScript;
 class CBoneHolder;
 class CCanvas;
+class CFont;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
 
@@ -60,6 +61,7 @@ public:
     void SetParent(CGameObject* _Object);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
+    //CComponent* GetComponent(SCRIPT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
     CGameObject* GetParent() const { return m_Parent; }
@@ -83,6 +85,7 @@ public:
     GET_COMPONENT(LandScape, LANDSCAPE);
     GET_COMPONENT(BoneHolder, BONEHOLDER); 
     GET_COMPONENT(Canvas, CANVAS);
+    GET_COMPONENT(Font, FONT);
 
     CComponent* GetComponentInParent(COMPONENT_TYPE _CType);
 
@@ -93,6 +96,9 @@ public:
 
     template<typename T>
     T* GetScript();
+
+    template<typename T>
+    CScript* GetScript_test(const wstring& _strScriptName);
 
     const vector<CScript*>& GetScripts() { return m_vecScript; }
 
@@ -132,6 +138,19 @@ inline T* CGameObject::GetScript()
     {
         T* pScript = dynamic_cast<T*> (m_vecScript[i]);
         if (nullptr != pScript)
+            return pScript;
+    }
+
+    return nullptr;
+}
+
+template<typename T>
+inline CScript* CGameObject::GetScript_test(const wstring& _strScriptName)
+{
+    for (size_t i = 0; i < m_vecScript.size(); ++i)
+    {
+        CScript* pScript = dynamic_cast<T*> (m_vecScript[i]);
+        if (CScriptMgr::GetScriptName(pScript) == _strScriptName)
             return pScript;
     }
 

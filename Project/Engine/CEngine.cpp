@@ -11,6 +11,7 @@
 #include "CRenderMgr.h"
 #include "CEventMgr.h"
 #include "CFontMgr.h"
+#include "CTextMgr.h"
 #include "CPhysXMgr.h"
 
 CEngine::CEngine()
@@ -59,6 +60,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CFontMgr::GetInst()->init();
 
 	CLevelMgr::GetInst()->init();		
+
+	CTextMgr::GetInst()->init();
 	
 
 
@@ -108,4 +111,5 @@ void CEngine::render()
 
 	// FPS, DT Ãâ·Â
 	CTimeMgr::GetInst()->render();
+	CTextMgr::GetInst()->render();
 }
