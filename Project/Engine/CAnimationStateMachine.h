@@ -42,7 +42,6 @@ public:
 	void finaltick();
 
 private:
-	AnimStateParam* GetParamByName(wstring _param);
 public:
 	CAnimationStateMachine(CAnimator3D* _pAnimator);
 	~CAnimationStateMachine();
