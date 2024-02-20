@@ -21,21 +21,27 @@ int Collider3DUI::render_update()
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
 
-	ImGui::Checkbox("Gravity", &_Gravity);
-
 	ACTOR_TYPE type = GetTarget()->Collider3D()->GetActorType();
+	PxRigidActor* actor = GetTarget()->Collider3D()->GetActor();
 
-	if(type == ACTOR_TYPE::DYNAMIC)
+	if (type == ACTOR_TYPE::DYNAMIC)
+	{
+		ImGui::Checkbox("Gravity", &_Gravity);
 		GetTarget()->Collider3D()->SetGravity(_Gravity);
 
+		auto velocity = actor->is<PxRigidDynamic>()->getLinearVelocity();
+		ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);
 
-	//PxRigidDynamic* actor = GetTarget()->Collider3D()->GetActor();
-	//auto velocity = actor->getLinearVelocity();
-	//ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);
-
-	//PxBounds3 bounds = actor->getWorldBounds();
-	//PxVec3 scale = bounds.getExtents();
-	//ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
+		PxBounds3 bounds = actor->getWorldBounds();
+		PxVec3 scale = bounds.getExtents();
+		ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
+	}
+	else if (type == ACTOR_TYPE::STATIC)
+	{
+		PxBounds3 bounds = actor->getWorldBounds();
+		PxVec3 scale = bounds.getExtents();
+		ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
+	}
 
 	return TRUE;
 }
