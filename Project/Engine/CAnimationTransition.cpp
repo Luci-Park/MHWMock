@@ -113,6 +113,20 @@ void CAnimationTransition::StartTransition()
 	m_pNextState->OnTransitionBegin(m_dTransitionOffset);
 }
 
+void CAnimationTransition::ChangeConditionParam(AnimCondition* _cond, AnimStateParam* _param)
+{
+	if (_cond->lhs->type != _param->type)
+	{
+		if (AnimParamType::FLOAT == _param->type
+			|| AnimParamType::INT == _param->type)
+			_cond->expr = AnimConditionType::GREATER;
+		if (AnimParamType::BOOL == _param->type
+			|| AnimParamType::TRIGGER == _param->type)
+			_cond->expr = AnimConditionType::ISTRUE;
+	}
+	_cond->lhs = _param;
+}
+
 void CAnimationTransition::Remove()
 {
 	m_pPrevState->DeleteTransition(this);

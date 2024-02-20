@@ -513,7 +513,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 			{
 				ImGui::PushID((void*)params[j]);
 				if (ImGui::Selectable(WSTR2STR(params[j]->name).c_str(), cond->lhs == params[j]))
-					cond->lhs = params[j];
+					_link.pTransit->ChangeConditionParam(cond, params[j]);
 				ImGui::PopID();
 			}
 			ImGui::EndCombo();
@@ -552,7 +552,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 			}
 			ImGui::SameLine();
 			int num;
-			ImGui::DragInt("##FloatParam", &num);
+			ImGui::DragInt("##IntParam", &num);
 			cond->rhs = num;
 		}
 		if (AnimParamType::BOOL == cond->lhs->type)

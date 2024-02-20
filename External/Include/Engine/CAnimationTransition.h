@@ -42,6 +42,7 @@ public:
 	bool CheckCondition();
 	void StartTransition();
 	vector<AnimCondition*>& GetAllConditions() { return m_vecConditions; }
+	void ChangeConditionParam(AnimCondition* _cond, AnimStateParam* _param);
 	CAnimationState* GetPrevState() { return m_pPrevState; }
 	CAnimationState* GetNextState() { return m_pNextState; }
 
