@@ -104,7 +104,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
 	}
 
-
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	return pMesh;
 }
