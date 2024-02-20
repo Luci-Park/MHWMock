@@ -52,7 +52,9 @@ private:
 	list<Link>::iterator GetLink(ed::LinkId _id);
 	const Pin* GetPin(ed::PinId _id, ed::PinKind _type);
 
-
+	void BeginColumn();
+	void NextColumn();
+	void EndColumn();
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();

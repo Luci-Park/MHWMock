@@ -39,8 +39,8 @@ const Pin* Node::PinExists(ed::PinId _pinId, ed::PinKind _pinType)
 Node::Node(CAnimationState* _state)
 	: pState(_state)
 	, id(ed::NodeId(_state))
-	, inputPins{ {PINID++, 0, this}, {PINID++, 1, this} }
-	, outputPins{ {PINID++, 0, this}, {PINID++, 1, this}}
+	, inputPins{ {PINID++, 0, ed::PinKind::Input, this}, {PINID++, 1, ed::PinKind::Input, this}, {PINID++, 2, ed::PinKind::Input, this},{PINID++, 3, ed::PinKind::Input, this} }
+	, outputPins{ {PINID++, 0, ed::PinKind::Input, this}, {PINID++, 1, ed::PinKind::Input, this}, {PINID++, 2, ed::PinKind::Input, this}, {PINID++, 3, ed::PinKind::Input, this} }
 {
 }
 
@@ -53,7 +53,7 @@ Link::Link(CAnimationTransition* _transit)
 	name = prevState + " -> " + nextState;
 }
 
-Pin::Pin(int _id, int _idx, Node* _node)
-	: id(ed::PinId(_id)), idx(_idx), node(_node)
+Pin::Pin(int _id, int _idx, ed::PinKind _kind, Node* _node)
+	: id(ed::PinId(_id)), idx(_idx), kind(_kind), node(_node)
 {
 }

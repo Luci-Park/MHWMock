@@ -1,7 +1,7 @@
 #pragma once
 #include "ImGui/imgui_node_editor.h"
 #include <Engine/CAnimationStateMachine.h>
-#define NUMBEROFPINS 2
+#define NUMBEROFPINS 4
 namespace ed = ax::NodeEditor;
 
 struct Node;

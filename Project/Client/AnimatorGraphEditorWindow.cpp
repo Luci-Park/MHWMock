@@ -77,44 +77,50 @@ void AnimatorGraphEditorWindow::OnDraw()
 
 	ed::Begin("Node Editor");
 
-#pragma region mousePos
-	{
-		auto pos = ImGui::GetMousePos();
-		string str = "X : " + std::to_string(pos.x) + " Y : " + std::to_string(pos.y); 
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
-		auto size = ImGui::CalcTextSize(str.c_str());
-
-		auto padding = ImGui::GetStyle().FramePadding;
-		auto spacing = ImGui::GetStyle().ItemSpacing;
-
-		ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
-
-		auto rectMin = ImGui::GetCursorScreenPos() - padding;
-		auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
-
-		auto drawList = ImGui::GetWindowDrawList();
-		drawList->AddRectFilled(rectMin, rectMax, ImColor(45, 32, 32, 180), size.y * 0.15f);
-		ImGui::TextUnformatted(str.c_str());
-
-	}
-#pragma endregion
-
 	for (auto n : m_Nodes)
 		DrawNode(n);
 	for (auto l : m_Links)
 		ed::Link(l.id, l.inputPin->id, l.outputPin->id);
 	if (ed::BeginCreate())
 	{
-		ed::PinId inputPinId, outputPinId;
-		if (ed::QueryNewLink(&inputPinId, &outputPinId))
+		auto showLabel = [](const char* label, ImColor color)
 		{
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
+			auto size = ImGui::CalcTextSize(label);
+
+			auto padding = ImGui::GetStyle().FramePadding;
+			auto spacing = ImGui::GetStyle().ItemSpacing;
+
+			ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
+
+			auto rectMin = ImGui::GetCursorScreenPos() - padding;
+			auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
+
+			auto drawList = ImGui::GetWindowDrawList();
+			drawList->AddRectFilled(rectMin, rectMax, color, size.y * 0.15f);
+			ImGui::TextUnformatted(label);
+		}; 
+		ed::PinId startPinId = 0, endPinId = 0;
+		if (ed::QueryNewLink(&startPinId, &endPinId))
+		{
+			auto startPin = GetPin(startPinId, ed::PinKind::Input);
+			auto endPin = GetPin(endPinId, ed::PinKind::Output);
+
+			if (startPin->kind == ed::PinKind::Input)
+			{
+				std::swap(startPin, endPin);
+				std::swap(startPinId, endPinId);
+			}
+			if(input)
+
 			if (inputPinId && outputPinId)
 			{
-				auto input = GetPin(inputPinId, ed::PinKind::Input);
-				auto output = GetPin(outputPinId, ed::PinKind::Output);
 				if (input == output)
+				{
 					ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
-				if (ed::AcceptNewItem())
+				}
+				else if(input->kind == )
+				else if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
 				{
 					Link newLink = CreateTransition(GetPin(inputPinId, ed::PinKind::Input), GetPin(outputPinId, ed::PinKind::Output));
 					ed::Link(newLink.id, newLink.inputPin->id, newLink.outputPin->id);
@@ -204,43 +210,83 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 {
 	const float rounding = 5.0f;
 	const float padding = 12.0f;
+	const auto pinBackground = ed::GetStyle().Colors[ed::StyleColor_NodeBg];
 	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
 		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
+
 	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
-	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32));
+	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32, 200));
+	ed::PushStyleColor(ed::StyleColor_PinRect, ImColor(60, 180, 255, 150));
+	ed::PushStyleColor(ed::StyleColor_PinRectBorder, ImColor(60, 180, 255, 150));
 
 	ed::PushStyleVar(ed::StyleVar_NodePadding, ImVec4(0, 0, 0, 0));
 	ed::PushStyleVar(ed::StyleVar_NodeRounding, rounding);
 	ed::PushStyleVar(ed::StyleVar_SourceDirection, ImVec2(0.0f, 1.0f));
 	ed::PushStyleVar(ed::StyleVar_TargetDirection, ImVec2(0.0f, -1.0f));
 	ed::PushStyleVar(ed::StyleVar_LinkStrength, 0.0f);
-	ed::PushStyleVar(ed::StyleVar_PinBorderWidth, 1.0f);
-	ed::PushStyleVar(ed::StyleVar_PinRadius, 6.0f);
+
+	ed::BeginNode(_node.id);
 
 	const ImVec2 nodeSize(200, 50);
 	float sizeY = nodeSize.y;
-	auto textSize = ImGui::CalcTextSize(_node.GetName().c_str());
-	ed::BeginNode(_node.id);
-
-	ImGui::Dummy(ImVec2(nodeSize.x, nodeSize.y * 0.05)); sizeY -= nodeSize.y * 0.05;
-	ImGui::Dummy(ImVec2((nodeSize.x - textSize.x) * 0.5 - 10, 0)); 
-	ImGui::SameLine();
-	ImGui::Text(_node.GetName().c_str()); sizeY -= textSize.y;
-
-	if (_node.pState->GetTickPercent() > 0)
 	{
-		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
-		ImGui::Dummy(ImVec2(nodeSize.x * 0.02, textSize.y* 1.2)); ImGui::SameLine();
-		ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(nodeSize.x * 0.87, textSize.y * 1.2));
-		ImGui::PopStyleColor();
-		sizeY -= textSize.y * 1.2;
+		ed::BeginPin(_node.inputPins[0].id, ed::PinKind::Input);
+		ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+		ed::EndPin();
+		ImGui::SameLine(0, 0);
+		ed::BeginPin(_node.outputPins[0].id, ed::PinKind::Output);
+		ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+		ed::EndPin();
+		sizeY -= 10;
 	}
-	ImGui::Dummy(ImVec2(0, sizeY));
+	BeginColumn();
+	float pinSizeY = sizeY;
+	ed::BeginPin(_node.inputPins[1].id, ed::PinKind::Input);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();
+	ed::BeginPin(_node.outputPins[1].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();
+	NextColumn();
+	{
+		auto textSize = ImGui::CalcTextSize(_node.GetName().c_str());
+		ImGui::Dummy(ImVec2(nodeSize.x - 20, nodeSize.y * 0.05)); sizeY -= nodeSize.y * 0.05;
+		ImGui::Dummy(ImVec2((nodeSize.x - textSize.x - 20) * 0.5, 0));
+		ImGui::SameLine(0, 0);
+		ImGui::Text(_node.GetName().c_str()); sizeY -= textSize.y;
+		if (_node.pState->GetTickPercent() > 0)
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
+			ImGui::Dummy(ImVec2(nodeSize.x * 0.02, textSize.y * 1.2)); ImGui::SameLine(0, 0);
+			ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(nodeSize.x - 30, textSize.y * 1.2));
+			ImGui::PopStyleColor();
+			sizeY -= textSize.y * 1.2;
+		}
+	}
+	NextColumn();
+	
+	ed::BeginPin(_node.inputPins[2].id, ed::PinKind::Input);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();
+	
+	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();	
+	EndColumn();
+
+	ImGui::Dummy(ImVec2(0, sizeY - 10));
+	ed::BeginPin(_node.inputPins[3].id, ed::PinKind::Input);
+	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+	ed::EndPin();
+	ImGui::SameLine(0, 0);
+	ed::BeginPin(_node.outputPins[3].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+	ed::EndPin();
 
 	ed::EndNode();
 
-	ed::PopStyleVar(7);
-	ed::PopStyleColor(2);
+	ed::PopStyleVar(5);
+	ed::PopStyleColor(4);
 }
 
 void AnimatorGraphEditorWindow::ShowLeftPanel(float _width)
@@ -662,4 +708,21 @@ const Pin* AnimatorGraphEditorWindow::GetPin(ed::PinId _id, ed::PinKind _type)
 		return it->PinExists(_id, _type);
 	}
 	return nullptr;
+}
+
+void AnimatorGraphEditorWindow::BeginColumn()
+{
+	ImGui::BeginGroup();
+}
+
+void AnimatorGraphEditorWindow::NextColumn()
+{
+	ImGui::EndGroup();
+	ImGui::SameLine(0, 0);
+	ImGui::BeginGroup();
+}
+
+void AnimatorGraphEditorWindow::EndColumn()
+{
+	ImGui::EndGroup();
 }
