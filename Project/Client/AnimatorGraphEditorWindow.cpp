@@ -15,13 +15,13 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 {
-	OnStart();
+	OnStart(WSTR2STR(_animator->GetOwner()->GetName()));
 	m_pStateMachine = _animator->GetStateMachine();
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
-		ed::SetNodePosition(newNode.id, ImVec2(-20094.5781, 13565.7627));
+		ed::SetNodePosition(newNode.id, ImVec2(0, 0));
 	}
 	ed::NavigateToContent();
 }
@@ -601,9 +601,12 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 	ImGui::EndChild();
 }
 
-void AnimatorGraphEditorWindow::OnStart()
+void AnimatorGraphEditorWindow::OnStart(string _gameObjectName)
 {
-	m_pEditor = ed::CreateEditor();
+	string filename = "Animator-" + _gameObjectName + ".json";
+	ed::Config config;
+	config.SettingsFile = filename.c_str();
+	m_pEditor = ed::CreateEditor(&config);
 	ed::SetCurrentEditor(m_pEditor);
 }
 
