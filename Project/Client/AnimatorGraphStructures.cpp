@@ -27,12 +27,15 @@ void Node::SetAnimation(Ptr<CAnimationClip> _clip)
 	pState->SetClip(_clip);
 }
 
-const Pin* Node::PinExists(ed::PinId _pinId, ed::PinKind _pinType)
+const Pin* Node::PinExists(ed::PinId _pinId)
 {
-	const Pin* pins = _pinType == ed::PinKind::Input ? inputPins : outputPins;
 	for (int i = 0; i < NUMBEROFPINS; i++)
-		if (pins[i].id == _pinId)
-			return &pins[i];
+	{
+		if (outputPins[i].id == _pinId)
+			return &outputPins[i];
+		if (inputPins[i].id == _pinId)
+			return &inputPins[i];
+	}
 	return nullptr;
 }
 
@@ -40,13 +43,15 @@ Node::Node(CAnimationState* _state)
 	: pState(_state)
 	, id(ed::NodeId(_state))
 	, inputPins{ {PINID++, 0, ed::PinKind::Input, this}, {PINID++, 1, ed::PinKind::Input, this}, {PINID++, 2, ed::PinKind::Input, this},{PINID++, 3, ed::PinKind::Input, this} }
-	, outputPins{ {PINID++, 0, ed::PinKind::Input, this}, {PINID++, 1, ed::PinKind::Input, this}, {PINID++, 2, ed::PinKind::Input, this}, {PINID++, 3, ed::PinKind::Input, this} }
+	, outputPins{ {PINID++, 0, ed::PinKind::Output, this}, {PINID++, 1, ed::PinKind::Output, this}, {PINID++, 2, ed::PinKind::Output, this}, {PINID++, 3, ed::PinKind::Output, this} }
 {
 }
 
-Link::Link(CAnimationTransition* _transit)
+Link::Link(CAnimationTransition* _transit, const Pin* _output, const Pin* _input)
 	: pTransit(_transit)
 	, id(ed::LinkId(_transit))
+	, outputPin(_output)
+	, inputPin(_input)
 {
 	string prevState = WSTR2STR(_transit->GetPrevState()->GetName());
 	string nextState = WSTR2STR(_transit->GetNextState()->GetName());

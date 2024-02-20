@@ -26,7 +26,7 @@ public:
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
 
-	void SetTick(double _percent);
+	void SetTick(double _percent = 0);
 	double GetTickPercent();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 

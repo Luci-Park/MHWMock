@@ -9,10 +9,11 @@ struct Pin
 {
 	friend class Node;
 	ed::PinId	id;
+	ed::PinKind kind;
 	int			idx;
 	Node*		node;
 private:
-	Pin(int _id, int _idx, Node* _node);
+	Pin(int _id, int _idx, ed::PinKind _kind, Node* _node);
 	Pin();
 };
 
@@ -34,7 +35,7 @@ public:
 	float	GetSpeed() { return pState->GetSpeed(); }
 	void	SetSpeed(float _fSpeed) { pState->SetSpeed(_fSpeed); }
 
-	const Pin* PinExists(ed::PinId _pinId, ed::PinKind _pinType);
+	const Pin* PinExists(ed::PinId _pinId);
 
 	Node(CAnimationState* _state);
 };
@@ -42,11 +43,11 @@ public:
 struct Link
 {
 	ed::LinkId				id;
-	const Pin*				inputPin;
 	const Pin*				outputPin;
+	const Pin*				inputPin;
 
 	CAnimationTransition*	pTransit;
 	string					name;
 
-	Link(CAnimationTransition* _transit);
+	Link(CAnimationTransition* _transit, const Pin* _output, const Pin* _input);
 };

@@ -24,6 +24,7 @@ public:
 	CAnimationState* GetHead() { return m_pHead; }
 	CAnimationState* GetCurrentState() { return m_pCurrentState; }
 	void ChangeState(CAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
+	void Reset();
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);
 	void DeleteParam(wstring _name);

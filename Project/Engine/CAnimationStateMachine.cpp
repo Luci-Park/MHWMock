@@ -63,6 +63,12 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 	}
 }
 
+void CAnimationStateMachine::Reset()
+{
+	ChangeState(m_pHead);
+	m_pHead->SetTick(0);
+}
+
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 {
 	if (AnimParamType::NONE == _type)

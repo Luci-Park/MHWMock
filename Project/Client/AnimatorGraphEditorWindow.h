@@ -22,6 +22,7 @@ private:
 	ed::NodeId					m_currSelectedNode;
 	ed::LinkId					m_currSelectedLink;
 	int							m_iCurrSelectedAnimationIdx;
+	Link*						m_pSelectedNodeTransition;
 	
 	float						m_fLeftPlaneWidth;
 	float						m_fRightPlaneWidth;
@@ -50,7 +51,7 @@ private:
 
 	list<Node>::iterator GetNode(ed::NodeId _id);
 	list<Link>::iterator GetLink(ed::LinkId _id);
-	const Pin* GetPin(ed::PinId _id, ed::PinKind _type);
+	const Pin* GetPin(ed::PinId _id);
 
 	void BeginColumn();
 	void NextColumn();
