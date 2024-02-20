@@ -9,7 +9,7 @@
 #include "CPhysXMgr.h"
 
 CCollisionMgr::CCollisionMgr()
-    : m_matrix{}
+	: m_matrix{}
 	, m_bMatrixChange{}
 {
 
@@ -23,30 +23,6 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::tick()
 {
-	// Layer m_matrix를 바탕으로 PxFilterData 수정.
-	// 변경점이 있는 FilterData만 수정.
-
-	for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
-	{
-		if (m_bMatrixChange[iRow])
-		{
-			// Layer에 맞는 FilterData 가져온 뒤 수정.
-			PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iRow);
-			filter.word1 = 0;
-
-			for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
-			{
-				if (!(m_matrix[iRow] & (1 << iCol)))
-					continue;
-
-				filter.word1 |= (1 << iCol + 1);
-			}
-			
-		CPhysXMgr::GetInst()->SetPxFilterData(filter, iRow);
-		m_bMatrixChange[iRow] = false;
-		}
-	}
-
 }
 
 
@@ -55,17 +31,14 @@ void CCollisionMgr::LayerCheck(UINT _left, UINT _right)
 	UINT iRow = (UINT)_left;
 	UINT iCol = (UINT)_right;
 
-	if (iRow > iCol)
-	{
-		UINT iTemp = iCol;
-		iCol = iRow;
-		iRow = iTemp;
-	}
+	PxFilterData rFilter = CPhysXMgr::GetInst()->GetPxFilterData(iRow);
+	PxFilterData cFilter = CPhysXMgr::GetInst()->GetPxFilterData(iCol);
 
-	m_matrix[iRow] |= (1 << iCol);
+	rFilter.word1 |= (1 << iCol + 1);
+	cFilter.word1 |= (1 << iRow + 1);
 
-	m_bMatrixChange[iRow] = true;
-	
+	CPhysXMgr::GetInst()->SetPxFilterData(rFilter, iRow);
+	CPhysXMgr::GetInst()->SetPxFilterData(cFilter, iCol);
 }
 
 void CCollisionMgr::LayerCheck(const wstring& _strLeftLayer, const wstring& _strRightLayer)
@@ -77,3 +50,4 @@ void CCollisionMgr::LayerCheck(const wstring& _strLeftLayer, const wstring& _str
 
 	LayerCheck(pLeft->GetLayerIndex(), pRight->GetLayerIndex());
 }
+

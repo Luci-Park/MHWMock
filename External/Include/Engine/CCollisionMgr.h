@@ -5,7 +5,7 @@ class CLayer;
 class CCollider3D;
 
 class CCollisionMgr :
-    public CSingleton<CCollisionMgr>
+	public CSingleton<CCollisionMgr>
 {
 	SINGLE(CCollisionMgr);
 private:
@@ -15,6 +15,9 @@ private:
 public:
 	void LayerCheck(UINT _left, UINT _right);
 	void LayerCheck(const wstring& _strLeftLayer, const wstring& _strRightLayer);
+
+	void LayerIgnore(UINT _left, UINT _right);
+	void LayerIgnore(const wstring& _strLeftLayer, const wstring& _strRightLayer);
 
 	void Clear()
 	{

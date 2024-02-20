@@ -39,7 +39,6 @@ void CreateTestLevel()
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
-
 	// Main Camera Object ����
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");

@@ -5,7 +5,7 @@ class CLayer;
 class CCollider3D;
 
 class CCollisionMgr :
-    public CSingleton<CCollisionMgr>
+	public CSingleton<CCollisionMgr>
 {
 	SINGLE(CCollisionMgr);
 private:
