@@ -306,6 +306,7 @@ void CGameObject::AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType)
 	CCollider3D* coll = dynamic_cast<CCollider3D*>(m_arrCom[(UINT)COMPONENT_TYPE::COLLIDER3D]);
 	//setting Actor type
 
+	//sss
 	coll->begin();
 	coll->SetGravity(false);
 }
