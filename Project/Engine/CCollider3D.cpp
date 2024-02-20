@@ -117,6 +117,66 @@ void CCollider3D::ChangeFilterData()
 		}
 }
 
+void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
+{
+	//Dettach shape from Actor
+	m_pRigidActor->detachShape(*m_pShape);
+
+	//GetGeometry
+	PxGeometryHolder geoHolder = m_pShape->getGeometry();
+	physx::PxGeometryType::Enum tpye = geoHolder.getType();
+
+	//Edit Geometry
+	if (tpye == physx::PxGeometryType::eCAPSULE)
+	{
+		PxCapsuleGeometry capGeo = geoHolder.capsule();
+		capGeo.radius = PxReal(_radius);
+		capGeo.halfHeight = PxReal(_halfHeight);
+		m_pShape->setGeometry(capGeo);
+	}
+
+	//attachShape
+	m_pRigidActor->attachShape(*m_pShape);
+}
+
+void CCollider3D::EditBoxShape(Vec3 _halfExtents)
+{
+	//Dettach shape from Actor
+	m_pRigidActor->detachShape(*m_pShape);
+
+	//GetGeometry
+	PxGeometryHolder geoHolder = m_pShape->getGeometry();
+	physx::PxGeometryType::Enum tpye = geoHolder.getType();
+
+	if (tpye == physx::PxGeometryType::eBOX)
+	{
+		PxBoxGeometry boxGeo = geoHolder.box();
+		boxGeo.halfExtents = PxVec3(_halfExtents.x, _halfExtents.y, _halfExtents.z);
+		m_pShape->setGeometry(boxGeo);
+	}
+	//attachShape
+	m_pRigidActor->attachShape(*m_pShape);
+}
+
+void CCollider3D::EditConvexShape(Vec3 _scale)
+{
+	//Dettach shape from Actor
+	m_pRigidActor->detachShape(*m_pShape);
+
+	//GetGeometry
+	PxGeometryHolder geoHolder = m_pShape->getGeometry();
+	physx::PxGeometryType::Enum tpye = geoHolder.getType();
+
+	if (tpye == physx::PxGeometryType::eCONVEXMESH)
+	{
+		PxConvexMeshGeometry convexGeo = geoHolder.convexMesh();
+		convexGeo.scale.scale = PxVec3(_scale.x, _scale.y, _scale.z);
+		m_pShape->setGeometry(convexGeo);
+	}
+
+	//attachShape
+	m_pRigidActor->attachShape(*m_pShape);
+}
 
 void CCollider3D::AddRigidActor()
 {
@@ -149,32 +209,6 @@ void CCollider3D::UpdateActorInfo()
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
 	m_pRigidActor->setGlobalPose(physx::PxTransform(pxPos, pxQuat));
-
-	//Dettach shape from Actor
-	m_pRigidActor->detachShape(*m_pShape);
-
-	//GetGeometry
-	PxGeometryHolder geoHolder = m_pShape->getGeometry();
-
-	switch (geoHolder.getType())
-	{
-	case physx::PxGeometryType::eCAPSULE:
-		PxCapsuleGeometry capGeo = geoHolder.capsule();
-		capGeo.radius += 1.f;
-		capGeo.halfHeight += 1.f;
-		m_pShape->setGeometry(capGeo);
-		break;
-	case physx::PxGeometryType::eBOX:
-		PxBoxGeometry boxGeo = geoHolder.box();
-		boxGeo.halfExtents *= 1.f;
-		m_pShape->setGeometry(boxGeo);
-		break;
-	case physx::PxGeometryType::eCONVEXMESH:
-		PxConvexMeshGeometry convexGeo = geoHolder.convexMesh();
-		convexGeo.scale.scale *= 1.f;
-		m_pShape->setGeometry(convexGeo);
-		break;
-	}
 
 	return;
 

@@ -34,6 +34,9 @@ public:
     void UpdateActorInfo();
     
     void ChangeFilterData();
+    void EditCapsuleShape(float _radius, float _halfHeight);
+    void EditBoxShape(Vec3 _halfExtents);
+    void EditConvexShape(Vec3 _scale);
 
 public:
     virtual void begin() override;
@@ -48,8 +51,9 @@ public:
     
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
-    ACTOR_TYPE GetActorType() { return m_eActorType; }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
+    ACTOR_TYPE GetActorType() { return m_eActorType; }
+    SHAPE_TYPE GetShapeType() { return m_ShapeType; }
 
 public:
     void OnCollisionEnter(CCollider3D* _Other);
