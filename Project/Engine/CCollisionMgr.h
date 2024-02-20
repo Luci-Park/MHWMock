@@ -16,6 +16,9 @@ public:
 	void LayerCheck(UINT _left, UINT _right);
 	void LayerCheck(const wstring& _strLeftLayer, const wstring& _strRightLayer);
 
+	void LayerIgnore(UINT _left, UINT _right);
+	void LayerIgnore(const wstring& _strLeftLayer, const wstring& _strRightLayer);
+
 	void Clear()
 	{
 		memset(m_matrix, 0, sizeof(UINT) * MAX_LAYER);
