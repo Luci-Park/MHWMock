@@ -661,7 +661,7 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 			ImGui::InputText("##ParamName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
 			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 			{
-				params[i]->name = STR2WSTR(name);
+				m_pStateMachine->SetParamName(params[i], STR2WSTR(name));
 				m_iCurrentEditingParam = -1;
 			}
 			else if (ImGui::IsKeyPressed(ImGuiKey_Delete)

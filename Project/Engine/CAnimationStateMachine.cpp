@@ -42,6 +42,7 @@ vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 CAnimationState* CAnimationStateMachine::CreateState()
 {
 	CAnimationState* pNewState = new CAnimationState(this);
+	pNewState->SetName(L"New State");
 	m_States.insert(pNewState);
 	return pNewState;
 }
@@ -62,7 +63,13 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 		m_States.erase(iter);
 	}
 }
-
+CAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
+{
+	for (auto s : m_States)
+		if (s->GetName() == _name)
+			return s;
+	return nullptr;
+}
 void CAnimationStateMachine::Reset()
 {
 	ChangeState(m_pHead);
@@ -75,7 +82,6 @@ AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 		return nullptr;
 
 	auto param = new AnimStateParam();
-	param->name = L"New " + GetAnimParamWStr(_type);
 	
 	param->type = _type;
 	if (AnimParamType::FLOAT == _type)
@@ -86,9 +92,32 @@ AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 		param->value.BOOL = false;
 	else if (AnimParamType::TRIGGER == _type)
 		param->value.TRIGGER = false;
-
 	m_vecParams.push_back(param);
+
+	SetParamName(param, L"New " + GetAnimParamWStr(_type));	
 	return param;
+}
+
+void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
+{
+	wstring newName = _name;
+	int postFix = 0;
+	bool noDuplicateFlag = false;
+	while (!noDuplicateFlag)
+	{
+		noDuplicateFlag = true;
+		for (int i = 0; i < m_vecParams.size(); i++)
+		{
+			if (m_vecParams[i] != param && m_vecParams[i]->name == newName)
+			{
+				noDuplicateFlag = false;
+				break;
+			}
+		}
+		if(!noDuplicateFlag)
+			newName = _name + L" " + std::to_wstring(postFix++);
+	}
+	param->name = newName;
 }
 
 void CAnimationStateMachine::DeleteParam(wstring _name)
@@ -152,4 +181,13 @@ void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 void CAnimationStateMachine::finaltick()
 {
 	m_pCurrentState->finaltick();
+}
+
+void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
+{
+	
+}
+
+void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
+{
 }

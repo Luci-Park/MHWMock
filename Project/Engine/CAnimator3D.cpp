@@ -89,6 +89,7 @@ void CAnimator3D::SaveToLevelFile(FILE* _FILE)
 	fwrite(&count, sizeof(UINT), 1, _FILE);
 	for (auto& clips : m_mapAnims)
 		SaveResRef(clips.second.Get(), _FILE);
+	m_pAnimationStateMachine->SaveToLevelFile(_FILE);
 }
 
 void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
@@ -100,4 +101,5 @@ void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
 		Ptr<CAnimationClip> pAnim;
 		LoadResRef(pAnim, _FILE);
 	}
+	m_pAnimationStateMachine->LoadFromLevelFile(_FILE);
 }

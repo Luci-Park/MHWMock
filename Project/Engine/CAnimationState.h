@@ -19,7 +19,7 @@ private:
 	CAnimationStateMachine*			m_pMachine;
 
 public:
-	void SetName(wstring _name) { m_strName = _name; }
+	void SetName(wstring _name);
 	wstring GetName() { return m_strName; }
 	void SetClip(Ptr<CAnimationClip> _pClip) { m_pClip = _pClip; }
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
@@ -40,6 +40,8 @@ public:
 	vector<tAnimationKeyFrame>& GetBoneTransforms();
 public:
 	void finaltick();
+	void SaveToLevelFile(FILE* _FILE);
+	void LoadFromLevelFile(FILE* _FILE);
 
 public:
 	CAnimationState(CAnimationStateMachine* _pParent);

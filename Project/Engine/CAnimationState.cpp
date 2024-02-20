@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "CAnimationState.h"
 #include "CAnimationTransition.h"
+#include "CAnimationStateMachine.h"
 #include "CTimeMgr.h"
 
 CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
-	: m_strName(L"New State")
-	, m_Transitions()
+	: m_Transitions()
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
@@ -15,8 +15,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 }
 
 CAnimationState::CAnimationState(const CAnimationState& _other)
-	: m_strName(L"New State")
-	, m_Transitions()
+	: m_Transitions()
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
@@ -32,7 +31,14 @@ CAnimationState::~CAnimationState()
 		delete t;
 	}
 }
-
+void CAnimationState::SetName(wstring _name)
+{
+	int postFix = 0;
+	wstring newName = _name;
+	while (m_pMachine->GetStateByName(newName) != nullptr)
+		newName = _name + L" " + std::to_wstring(postFix++);
+	m_strName = newName;
+}
 void CAnimationState::SetTick(double _percent)
 {
 	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;

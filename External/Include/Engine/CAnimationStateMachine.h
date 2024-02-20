@@ -23,18 +23,29 @@ public:
 
 	CAnimationState* GetHead() { return m_pHead; }
 	CAnimationState* GetCurrentState() { return m_pCurrentState; }
+	CAnimationState* GetStateByName(wstring _name);
 	void ChangeState(CAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
 	void Reset();
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);
+	void SetParamName(AnimStateParam* param, wstring _name);
 	void DeleteParam(wstring _name);
 	void DeleteParam(int _idx);
 	AnimStateParam* GetParamByName(wstring _name);
 	AnimStateParam* GetParamByIndex(int _idx);
 	vector<AnimStateParam*>& GetAllParams() { return m_vecParams; }
 
+	void SetBool(wstring _param, bool _value);
+	void SetFloat(wstring _param, float _value);
+	void SetInt(wstring _param, int _value);
+	void SetTrigger(wstring _param, bool _value = true);
+
 public:
 	void finaltick();
+	void SaveToLevelFile(FILE* _FILE);
+	void LoadFromLevelFile(FILE* _FILE);
+
+private:
 public:
 	CAnimationStateMachine(CAnimator3D* _pAnimator);
 	~CAnimationStateMachine();
