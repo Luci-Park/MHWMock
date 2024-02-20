@@ -9,10 +9,12 @@ class CCollider3D : public CComponent
 {
 protected:
     SHAPE_TYPE  m_ShapeType;
+    ACTOR_TYPE m_eActorType;
 
     PxShape*            m_pShape;
     PxMaterial*         m_pMaterial;
-    PxRigidDynamic*     m_pRigidActor;
+    //PxRigidDynamic*     m_pRigidActor;
+    PxRigidActor*     m_pRigidActor;
 
     PXUSERDATA  m_pUserData;
 
@@ -25,6 +27,7 @@ protected:
 
     bool            m_bAbsolute;
     bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
+
 
 public:
     void CreateRigidActor();
@@ -43,9 +46,11 @@ public:
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
     void SetGravity(bool _bGravity);
+    void SetActorType(ACTOR_TYPE _Type) { m_eActorType = _Type; }
+    
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
-    PxRigidDynamic* GetActor() { return m_pRigidActor; }
+    PxRigidDynamic* GetActor() { return dynamic_cast<PxRigidDynamic*>(m_pRigidActor); }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
 
 public:

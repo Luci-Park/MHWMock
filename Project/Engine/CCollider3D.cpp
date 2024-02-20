@@ -15,7 +15,6 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
-	, m_bDynamic(false)
 {
 }
 
@@ -38,7 +37,7 @@ void CCollider3D::SetGravity(bool _bGravity)
 	else
 	{
 		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
-		m_pRigidActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
+		m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
 	}
 }
 
@@ -69,12 +68,11 @@ void CCollider3D::CreateRigidActor()
 	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
-	/*if ()
-		m_pRigidActor = Physics::GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
+	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
+		m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
 	else
-		m_pRigidActor = Physics::GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));*/
+		m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));
 
-	m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
 	m_pUserData.pCollider = this;
 	m_pUserData.bGround = false;
 
@@ -88,7 +86,7 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
-	m_pRigidActor->setMass(1.f);
+	m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);
 	m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY,true);
 }
 

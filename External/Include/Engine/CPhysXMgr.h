@@ -3,7 +3,6 @@
 
 #include <PxPhysics.h>
 #include <PxPhysicsApi.h>
-#include <cooking/PxCooking.h>
 
 // PhysX Library
 #ifdef _DEBUG
@@ -51,8 +50,6 @@ private:
 	PxPvd*				m_pPvd = NULL;
 	PxPvdSceneClient*	m_pPvdClient;
 
-	//Cooking
-	//PxCooking* m_pCooking;
 
 	CollisionCallback*	m_pCollisionCallback;
 	bool				m_bSimulate;
