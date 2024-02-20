@@ -15,6 +15,11 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
+	, m_MeshChanged(false)
+	, m_eActorType(ACTOR_TYPE::END)
+	, m_pMaterial(nullptr)
+	, m_pRigidActor(nullptr)
+	, m_pShape(nullptr)
 {
 }
 
@@ -144,6 +149,33 @@ void CCollider3D::UpdateActorInfo()
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
 	m_pRigidActor->setGlobalPose(physx::PxTransform(pxPos, pxQuat));
+
+	//Dettach shape from Actor
+	m_pRigidActor->detachShape(*m_pShape);
+
+	//GetGeometry
+	PxGeometryHolder geoHolder = m_pShape->getGeometry();
+
+	switch (geoHolder.getType())
+	{
+	case physx::PxGeometryType::eCAPSULE:
+		PxCapsuleGeometry capGeo = geoHolder.capsule();
+		capGeo.radius += 1.f;
+		capGeo.halfHeight += 1.f;
+		m_pShape->setGeometry(capGeo);
+		break;
+	case physx::PxGeometryType::eBOX:
+		PxBoxGeometry boxGeo = geoHolder.box();
+		boxGeo.halfExtents *= 1.f;
+		m_pShape->setGeometry(boxGeo);
+		break;
+	case physx::PxGeometryType::eCONVEXMESH:
+		PxConvexMeshGeometry convexGeo = geoHolder.convexMesh();
+		convexGeo.scale.scale *= 1.f;
+		m_pShape->setGeometry(convexGeo);
+		break;
+	}
+
 	return;
 
 	//// 만약 중간에 충돌 할경우 위치를 멈추도록 구현.

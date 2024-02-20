@@ -13,7 +13,6 @@ protected:
 
     PxShape*            m_pShape;
     PxMaterial*         m_pMaterial;
-    //PxRigidDynamic*     m_pRigidActor;
     PxRigidActor*     m_pRigidActor;
 
     PXUSERDATA  m_pUserData;
@@ -27,7 +26,6 @@ protected:
 
     bool            m_bAbsolute;
     bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
-
 
 public:
     void CreateRigidActor();

@@ -79,6 +79,7 @@ public:
 	void init();
 	void process();
 	void tick();
+	void SimulatePhysX();
 	void FetchResults();
 
 public:

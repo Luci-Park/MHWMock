@@ -24,6 +24,15 @@ int Collider3DUI::render_update()
 	ACTOR_TYPE type = GetTarget()->Collider3D()->GetActorType();
 	PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
 
+	ImGui::Checkbox("Edit Collider Size", &_EditSize);
+
+	if (_EditSize)
+	{
+		ImGui::Text("Scale");
+		ImGui::SameLine();
+		ImGui::DragFloat3("##Scale", _ScaleVec);
+	}
+
 	if (type == ACTOR_TYPE::DYNAMIC)
 	{
 		ImGui::Checkbox("Gravity", &_Gravity);
@@ -42,6 +51,7 @@ int Collider3DUI::render_update()
 		PxVec3 scale = bounds.getExtents();
 		ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
 	}
+
 
 	return TRUE;
 }
