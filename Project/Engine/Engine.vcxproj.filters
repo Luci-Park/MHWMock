@@ -112,9 +112,6 @@
     <ClInclude Include="CPrefab.h">
       <Filter>Source\07. Resource\5. Prefab</Filter>
     </ClInclude>
-    <ClInclude Include="CCollider2D.h">
-      <Filter>Source\06. Component\2. Collider</Filter>
-    </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
       <Filter>Source\03. Manager\07. CollisionMgr</Filter>
     </ClInclude>
@@ -206,6 +203,9 @@
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCallback.h" />
+    <ClInclude Include="CCapsuleCollider.h">
+      <Filter>Source\06. Component\2. Collider\CapsuleCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -297,9 +297,6 @@
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>Source\07. Resource\5. Prefab</Filter>
-    </ClCompile>
-    <ClCompile Include="CCollider2D.cpp">
-      <Filter>Source\06. Component\2. Collider</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>Source\03. Manager\07. CollisionMgr</Filter>
@@ -401,6 +398,9 @@
       <Filter>Source\06. Component\RenderComponent\7. Canvas</Filter>
     </ClCompile>
     <ClCompile Include="CollisionCallback.cpp" />
+    <ClCompile Include="CCapsuleCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\CapsuleCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -594,6 +594,9 @@
     </Filter>
     <Filter Include="Source\06. Component\RenderComponent\7. Canvas">
       <UniqueIdentifier>{ab34bf7d-82d6-4be6-94f1-1a07dde1b4ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\2. Collider\CapsuleCollider">
+      <UniqueIdentifier>{197cc248-987b-4c3d-87b5-7e27e2f41885}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
