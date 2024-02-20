@@ -50,6 +50,7 @@ private:
 	PxPvd*				m_pPvd = NULL;
 	PxPvdSceneClient*	m_pPvdClient;
 
+
 	CollisionCallback*	m_pCollisionCallback;
 	bool				m_bSimulate;
 

@@ -15,6 +15,7 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
+	, m_bDynamic(false)
 {
 }
 
@@ -24,49 +25,10 @@ CCollider3D::~CCollider3D()
 
 void CCollider3D::begin()
 {
-	CreateColliderShape();
 }
 
 void CCollider3D::finaltick()
 {
-	assert(0 <= m_iCollisionCount);
-
-	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
-	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
-
-	const Matrix& matWorld = Transform()->GetWorldMat();
-
-	if (m_bAbsolute)
-	{
-		Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
-		m_matCollider3D = m_matCollider3D * matParentScaleInv * matWorld;
-	}
-	else
-	{
-		m_matCollider3D *= matWorld;
-	}
-	
-	// DebugShape 요청
-	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	if (0 < m_iCollisionCount)
-		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-
-	if (m_ShapeType == SHAPE_TYPE::CAPSULE)
-	{
-		DrawDebugCapsule3D(matWorld, vColor, 0.f);
-	}
-	else if (m_ShapeType == SHAPE_TYPE::CONVEX)
-	{
-		CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
-
-		// 렌더링 기능이 없는 오브젝트는 제외
-		if (pRenderCom == nullptr
-			|| pRenderCom->GetMesh() == nullptr )
-			return;
-
-		DrawDebugConvex3D(matWorld, vColor, 0.f);
-		CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
-	}
 }
 
 void CCollider3D::SetGravity(bool _bGravity)
@@ -78,32 +40,6 @@ void CCollider3D::SetGravity(bool _bGravity)
 		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
 		m_pRigidActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
 	}
-}
-
-void CCollider3D::CreateColliderShape()
-{
-	Vec3 vPos;
-	Quaternion qRot;
-	Vec3 vScale;
-
-	if (Transform()->Decompose(vScale, qRot, vPos) == false)
-		return;
-
-	vPos.z = -vPos.z;
-	qRot.z = -qRot.z;
-
-	float fRadius = Transform()->GetRelativeScale().x / 2.0f;
-	float fHalfHeight = Transform()->GetRelativeScale().y / 2.0f;
-
-	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
-
-	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
-
-	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));
-
-	m_pShape->setLocalPose(relativePose);
-
-	AddRigidActor();
 }
 
 void CCollider3D::CreateRigidActor()
@@ -133,7 +69,7 @@ void CCollider3D::CreateRigidActor()
 	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
-	/*if (m_bRigid)
+	/*if ()
 		m_pRigidActor = Physics::GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
 	else
 		m_pRigidActor = Physics::GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));*/
