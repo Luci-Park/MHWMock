@@ -43,6 +43,7 @@ public:
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
     void SetGravity(bool _bGravity);
+    
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
     PxRigidDynamic* GetActor() { return m_pRigidActor; }

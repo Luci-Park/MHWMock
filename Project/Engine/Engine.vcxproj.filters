@@ -206,6 +206,9 @@
     <ClInclude Include="CCapsuleCollider.h">
       <Filter>Source\06. Component\2. Collider\CapsuleCollider</Filter>
     </ClInclude>
+    <ClInclude Include="CConvexCollider.h">
+      <Filter>Source\06. Component\2. Collider\ConvexCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -400,6 +403,9 @@
     <ClCompile Include="CollisionCallback.cpp" />
     <ClCompile Include="CCapsuleCollider.cpp">
       <Filter>Source\06. Component\2. Collider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CConvexCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\ConvexCollider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,6 +603,12 @@
     </Filter>
     <Filter Include="Source\06. Component\2. Collider\CapsuleCollider">
       <UniqueIdentifier>{197cc248-987b-4c3d-87b5-7e27e2f41885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\2. Collider\BoxCollider">
+      <UniqueIdentifier>{7b87c408-3189-429f-8684-874dea06cac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\2. Collider\ConvexCollider">
+      <UniqueIdentifier>{4c194dee-b72f-4f56-af5d-3437c11c049a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

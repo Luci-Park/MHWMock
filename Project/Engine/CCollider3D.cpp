@@ -15,6 +15,7 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
+	, m_bDynamic(false)
 {
 }
 
@@ -68,7 +69,7 @@ void CCollider3D::CreateRigidActor()
 	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
-	/*if (m_bRigid)
+	/*if ()
 		m_pRigidActor = Physics::GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
 	else
 		m_pRigidActor = Physics::GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));*/
