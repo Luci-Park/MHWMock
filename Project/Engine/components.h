@@ -19,6 +19,8 @@
 #include "CBoneHolder.h"
 
 #include "CCapsuleCollider.h"
+#include "CConvexCollider.h"
+#include "CBoxCollider.h"
 
 //#include "CAnimator3D.h"
 

@@ -30,14 +30,17 @@ void CCollider3D::finaltick()
 {
 }
 
-void CCollider3D::SetGravity(bool _bGravity)
+void CCollider3D::SetGravity(bool _gravity)
 {
-	if (_bGravity)
-		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
-	else
+	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
 	{
-		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
-		m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
+		if (_gravity)
+			m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+		else
+		{
+			m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+			m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
+		}
 	}
 }
 
@@ -86,8 +89,11 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
-	m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);
-	m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY,true);
+	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
+	{
+		m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);
+		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY,true);
+	}
 }
 
 void CCollider3D::ChangeFilterData()

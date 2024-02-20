@@ -209,6 +209,9 @@
     <ClInclude Include="CConvexCollider.h">
       <Filter>Source\06. Component\2. Collider\ConvexCollider</Filter>
     </ClInclude>
+    <ClInclude Include="CBoxCollider.h">
+      <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -406,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="CConvexCollider.cpp">
       <Filter>Source\06. Component\2. Collider\ConvexCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoxCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

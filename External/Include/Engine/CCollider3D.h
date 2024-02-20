@@ -45,12 +45,13 @@ public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
-    void SetGravity(bool _bGravity);
+    void SetGravity(bool _gravity);
     void SetActorType(ACTOR_TYPE _Type) { m_eActorType = _Type; }
     
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
     PxRigidDynamic* GetActor() { return dynamic_cast<PxRigidDynamic*>(m_pRigidActor); }
+    ACTOR_TYPE GetActorType() { return m_eActorType; }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
 
 public:

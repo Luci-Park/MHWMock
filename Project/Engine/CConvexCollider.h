@@ -1,5 +1,5 @@
 #pragma once
-class CConvexCollider
+class CConvexCollider : public CCollider3D
 {
 };
 

@@ -4,6 +4,9 @@
 #include "CComponent.h"
 #include "CMeshRender.h"
 #include "CCollider3D.h"
+#include "CCapsuleCollider.h"
+#include "CConvexCollider.h"
+#include "CBoxCollider.h"
 
 #include "CScript.h"
 
@@ -302,13 +305,22 @@ void CGameObject::AddParentList()
 void CGameObject::AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType)
 {
 	CGameObject* owner = this;
-	owner->AddComponent(new CCollider3D);
+	switch (_type)
+	{
+	case SHAPE_TYPE::CUBE:
+		owner->AddComponent(new CBoxCollider);
+		break;
+	case SHAPE_TYPE::CAPSULE:
+		owner->AddComponent(new CCapsuleCollider);
+		break;
+	case SHAPE_TYPE::CONVEX:
+		owner->AddComponent(new CConvexCollider);
+		break;
+	}
 	CCollider3D* coll = dynamic_cast<CCollider3D*>(m_arrCom[(UINT)COMPONENT_TYPE::COLLIDER3D]);
 	//setting Actor type
-
-	//sss
+	coll->SetActorType(_actorType);
 	coll->begin();
-	coll->SetGravity(false);
 }
 
 CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)

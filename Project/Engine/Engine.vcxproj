@@ -215,6 +215,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CAnimator2D.h" />
     <ClInclude Include="CAnimator3D.h" />
     <ClInclude Include="CBoneHolder.h" />
+    <ClInclude Include="CBoxCollider.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCanvas.h" />
     <ClInclude Include="CCapsuleCollider.h" />
@@ -286,6 +287,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CAnimator2D.cpp" />
     <ClCompile Include="CAnimator3D.cpp" />
     <ClCompile Include="CBoneHolder.cpp" />
+    <ClCompile Include="CBoxCollider.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCanvas.cpp" />
     <ClCompile Include="CCapsuleCollider.cpp" />
