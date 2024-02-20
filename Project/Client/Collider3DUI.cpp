@@ -22,7 +22,7 @@ int Collider3DUI::render_update()
 		return FALSE;
 
 	ACTOR_TYPE type = GetTarget()->Collider3D()->GetActorType();
-	PxRigidActor* actor = GetTarget()->Collider3D()->GetActor();
+	PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
 
 	if (type == ACTOR_TYPE::DYNAMIC)
 	{

@@ -50,7 +50,6 @@ public:
     
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
-    PxRigidDynamic* GetActor() { return dynamic_cast<PxRigidDynamic*>(m_pRigidActor); }
     ACTOR_TYPE GetActorType() { return m_eActorType; }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
 
