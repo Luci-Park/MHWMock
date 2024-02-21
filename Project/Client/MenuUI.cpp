@@ -339,7 +339,7 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     case COMPONENT_TYPE::COLLIDER3D:
         //pSelectedObject->AddComponent(new CCollider3D);
-        pSelectedObject->AddComponent(new CCapsuleCollider);
+        //pSelectedObject->AddComponent(new CCapsuleCollider);
         break;
     case COMPONENT_TYPE::ANIMATOR2D:
         pSelectedObject->AddComponent(new CAnimator2D);

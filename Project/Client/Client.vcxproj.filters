@@ -146,6 +146,9 @@
     <Filter Include="UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI">
       <UniqueIdentifier>{94afced9-29ea-4199-b0f6-085a083048fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\CollisionUI">
+      <UniqueIdentifier>{530d36db-f9f0-4e33-82ff-6ebb65893704}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -350,6 +353,9 @@
     <ClInclude Include="Collider3DUI.h">
       <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionUI.h">
+      <Filter>UI\CollisionUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -546,6 +552,9 @@
     </ClCompile>
     <ClCompile Include="Collider3DUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionUI.cpp">
+      <Filter>UI\CollisionUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

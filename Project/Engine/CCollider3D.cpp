@@ -94,6 +94,7 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
+
 	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
 	{
 		m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);
@@ -135,6 +136,8 @@ void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
 		m_pShape->setGeometry(capGeo);
 	}
 
+	//
+
 	//attachShape
 	m_pRigidActor->attachShape(*m_pShape);
 }
@@ -154,6 +157,7 @@ void CCollider3D::EditBoxShape(Vec3 _halfExtents)
 		boxGeo.halfExtents = PxVec3(_halfExtents.x, _halfExtents.y, _halfExtents.z);
 		m_pShape->setGeometry(boxGeo);
 	}
+
 	//attachShape
 	m_pRigidActor->attachShape(*m_pShape);
 }
