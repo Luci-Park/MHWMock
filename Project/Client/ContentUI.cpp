@@ -88,6 +88,7 @@ void ContentUI::Reload()
 			break;
 		case RES_TYPE::ANIMATION:
 			CResMgr::GetInst()->Load<CAnimationClip>(m_vecResPath[i], m_vecResPath[i]);
+			break;
 		case RES_TYPE::SOUND:
 			CResMgr::GetInst()->Load<CSound>(m_vecResPath[i], m_vecResPath[i]);
 			break;		
