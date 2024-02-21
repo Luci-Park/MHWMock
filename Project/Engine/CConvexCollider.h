@@ -5,6 +5,7 @@ class CConvexCollider : public CCollider3D
 {
 private:
     PxTriangleMesh* m_pTriangleMesh;
+    Vec3 _ConvexScale;
 
 public:
     void CookingTriangleMesh(Vector3* _pPoints, UINT _nNumPoint, UINT* _pIndices, UINT _nNumFace);

@@ -13,7 +13,9 @@
 #include "CGameObject.h"
 
 CBoxCollider::CBoxCollider()
+	: _HalfExtents(Vec3(1.f,1.f,1.f))
 {
+	m_ShapeType = SHAPE_TYPE::CUBE;
 }
 
 CBoxCollider::~CBoxCollider()
@@ -50,7 +52,7 @@ void CBoxCollider::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	DrawDebugCube(matWorld, vColor, 0.f);
+	DrawDebugCube(matWorld, vColor, 0.f,false,_HalfExtents);
 }
 
 void CBoxCollider::CreateColliderShape()

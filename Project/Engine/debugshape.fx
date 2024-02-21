@@ -13,6 +13,14 @@
 // Parameter
 // g_vec4_0 : OutColor
 // ==================
+//--------------------------------------------------------
+//                              Capsule
+//--------------------------------------------------------
+#define Input_0 g_float_0 //    radius
+#define Input_1 g_float_1 //    HalfHeight
+#define Input_2 g_float_2 //    NULL
+//========================================================
+
 struct VS_DEBUG_IN
 {
     float3 vPos : POSITION;    
@@ -41,6 +49,34 @@ VS_DEBUG_OUT VS_DebugShape(VS_DEBUG_IN _in)
 }
 
 float4 PS_DebugShape(VS_DEBUG_OUT _in) : SV_Target
+{
+    float4 vOutColor = (float4) 0.f;
+    
+    vOutColor = g_vec4_0;
+    
+    return vOutColor;
+}
+
+VS_DEBUG_OUT VS_DebugShape_Capslue(VS_DEBUG_IN _in)
+{
+    VS_DEBUG_OUT output = (VS_DEBUG_OUT)0.f;
+
+    // 버텍스의 위치를 가져옵니다.
+    float3 vertexPos = _in.vPos;
+
+    // 높이의 절반과 반지름을 이용하여 캡슐의 크기를 조정합니다.
+    vertexPos.x *= Input_1;
+    vertexPos.y *= Input_0;
+    vertexPos.z *= Input_1;
+
+    // 출력을 설정합니다.
+    output.vPosition = mul(float4(vertexPos, 1), g_matWVP);
+    output.vViewNormal = mul(float4(_in.vNormal, 0), g_matWVP).xyz;
+   
+    return output;
+}
+
+float4 PS_DebugShape_Capslue(VS_DEBUG_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     

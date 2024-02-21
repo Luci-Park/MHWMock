@@ -30,15 +30,15 @@ void DrawDebugCircle(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotat
 void DrawDebugCircle(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
 void DrawDebugCube(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotation, float _fTime = 0.f, bool DepthTest = false);
-void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
+void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false, Vec3 _HalfExtents = Vec3(0.f, 0.f, 0.f));
 
 void DrawDebugSphere(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor, Vec3 _vRotation, float _fTime = 0.f, bool DepthTest = false);
 void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
 
 void DrawDebugLine(Vec3 from, Vec3 to);
 
-void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
-void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false);
+void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false,float _radius = 1.f,float _HalfHeight = 1.f);
+void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f, bool DepthTest = false,Vec3 _convexScale = Vec3(1.f,1.f,1.f));
 
 bool IsValidObj(CGameObject*& _Target);
 

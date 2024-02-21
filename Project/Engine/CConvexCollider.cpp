@@ -5,7 +5,7 @@
 
 #include "CScript.h"
 #include "components.h"
-#include "CTransform.h"
+#include "CTransform.h"`
 #include "CRenderComponent.h"
 
 #include "CRenderMgr.h"
@@ -15,6 +15,7 @@
 
 CConvexCollider::CConvexCollider()
 {
+	m_ShapeType = SHAPE_TYPE::CONVEX;
 }
 
 CConvexCollider::~CConvexCollider()
@@ -41,7 +42,7 @@ void CConvexCollider::CreateColliderShape()
 
 
 
-	CookingTriangleMesh();
+	//CookingTriangleMesh();
 
 	PxTriangleMeshGeometry geometry;
 

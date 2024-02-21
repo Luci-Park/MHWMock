@@ -38,6 +38,7 @@ int Collider3DUI::render_update()
 		SHAPE_TYPE shapeType = GetTarget()->Collider3D()->GetShapeType();
 		if (shapeType == SHAPE_TYPE::CUBE)
 		{
+			_HalfExtents = GetTarget()->Collider3D()->GetBoxExtents();
 			ImGui::Text("halfExtents");
 			ImGui::SameLine();
 			ImGui::DragFloat3("##halfExtents", _HalfExtents);
@@ -46,9 +47,12 @@ int Collider3DUI::render_update()
 		}
 		else if (shapeType == SHAPE_TYPE::CAPSULE)
 		{
+			_Radius = GetTarget()->Collider3D()->GetCapsuleRadius();
+			_HalfHeight = GetTarget()->Collider3D()->GetCapsuleHalfHeight();
 			ImGui::Text("Radius");
 			ImGui::SameLine();
 			ImGui::DragFloat("##Radius", &_Radius);
+
 			ImGui::Text("halfHeight");
 			ImGui::SameLine();
 			ImGui::DragFloat("##halfHeight", &_HalfHeight);
