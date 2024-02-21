@@ -149,7 +149,7 @@ void DrawDebugCube(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor
 	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 
-void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
+void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest, Vec3 _HalfExtents)
 {
 	tDebugShapeInfo3D info = {};
 
@@ -158,6 +158,11 @@ void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool Dep
 	info.fMaxTime = _fTime;
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
+	
+	info.vHalfExtents = _HalfExtents;
+	info.fRadius = 1.f;
+	info.fHalfHeight = 1.f;
+	info.vConvexScale = Vec3(1.f, 1.f, 1.f);
 
 	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
@@ -211,7 +216,7 @@ void DrawDebugLine(Vec3 from, Vec3 to)
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
 }
 
-void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
+void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest, float _radius, float _HalfHeight)
 {
 	tDebugShapeInfo3D info = {};
 
@@ -220,10 +225,16 @@ void DrawDebugCapsule3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, boo
 	info.fMaxTime = _fTime;
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
+
+	info.vHalfExtents = Vec3(1.f,1.f,1.f);
+	info.fRadius = _radius;
+	info.fHalfHeight = _HalfHeight;
+	info.vConvexScale = Vec3(1.f, 1.f, 1.f);
+
 	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 
-void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
+void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest, Vec3 _convexScale)
 {
 	tDebugShapeInfo3D info = {};
 
@@ -232,6 +243,12 @@ void DrawDebugConvex3D(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool
 	info.fMaxTime = _fTime;
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
+
+	info.vHalfExtents = Vec3(1.f, 1.f, 1.f);
+	info.fRadius = 1.f;
+	info.fHalfHeight = 1.f;
+	info.vConvexScale = _convexScale;
+
 	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 

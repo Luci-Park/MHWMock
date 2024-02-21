@@ -55,9 +55,13 @@ struct tDebugShapeInfo3D
 	Vec3				vWorldPos;
 	Vec3				vWorldScale;
 	Vec3				vWorldRotation;
+	Vec3				vHalfExtents;
+	Vec3				vConvexScale;
 	Vec4				vColor;
 	float				fMaxTime;
 	float				fCurTime;
+	float				fRadius;
+	float				fHalfHeight;
 	bool				bDepthTest;
 };
 

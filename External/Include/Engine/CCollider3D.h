@@ -38,6 +38,9 @@ public:
     void EditBoxShape(Vec3 _halfExtents);
     void EditConvexShape(Vec3 _scale);
     void SetGravity(bool _gravity);
+    Vec3 GetBoxExtents();
+    float GetCapsuleRadius();
+    float GetCapsuleHalfHeight();
 
 public:
     virtual void begin() override;

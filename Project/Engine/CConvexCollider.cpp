@@ -5,7 +5,7 @@
 
 #include "CScript.h"
 #include "components.h"
-#include "CTransform.h"
+#include "CTransform.h"`
 #include "CRenderComponent.h"
 
 #include "CRenderMgr.h"
@@ -15,6 +15,7 @@
 
 CConvexCollider::CConvexCollider()
 {
+	m_ShapeType = SHAPE_TYPE::CONVEX;
 }
 
 CConvexCollider::~CConvexCollider()
@@ -38,7 +39,7 @@ void CConvexCollider::CreateColliderShape()
 		|| pRenderComponet->GetMesh() == nullptr)
 		return;
 
-	// Á¤Á¡ Á¤º¸, ÀÎµ¦½º Á¤º¸ °¡Á®¿À±â.
+	// ì •ì  ì •ë³´, ì¸ë±ìŠ¤ ì •ë³´ ê°€ì ¸ì˜¤ê¸°.
 	Ptr<CMesh> pMesh = pRenderComponet->GetMesh();
 
 	vector<Vector3> Verticies = pMesh->GetVerticies();

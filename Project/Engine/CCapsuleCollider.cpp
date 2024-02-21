@@ -13,7 +13,10 @@
 #include "CGameObject.h"
 
 CCapsuleCollider::CCapsuleCollider()
+	: _CapsuleRadius(1.f)
+	, _CapsuleHeight(1.f)
 {
+	m_ShapeType = SHAPE_TYPE::CAPSULE;
 }
 
 CCapsuleCollider::~CCapsuleCollider()
@@ -49,7 +52,7 @@ void CCapsuleCollider::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	DrawDebugCapsule3D(matWorld, vColor, 0.f);
+	DrawDebugCapsule3D(matWorld, vColor, 0.f,false,_CapsuleRadius,_CapsuleHeight);
 }
 
 

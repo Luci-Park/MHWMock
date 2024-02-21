@@ -13,6 +13,8 @@
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
+	, m_vOffsetPos(Vec3(0.f,0.f,0.f))
+	, m_vOffsetScale(Vec3(1.f,1.f,1.f))
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
 	, m_MeshChanged(false)
@@ -120,6 +122,8 @@ void CCollider3D::ChangeFilterData()
 
 void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
 {
+	dynamic_cast<CCapsuleCollider*>(this)->SetRadius(_radius);
+	dynamic_cast<CCapsuleCollider*>(this)->SetHalfHeight(_halfHeight);
 	//Dettach shape from Actor
 	m_pRigidActor->detachShape(*m_pShape);
 
@@ -144,6 +148,7 @@ void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
 
 void CCollider3D::EditBoxShape(Vec3 _halfExtents)
 {
+	dynamic_cast<CBoxCollider*>(this)->SetExtents(_halfExtents);
 	//Dettach shape from Actor
 	m_pRigidActor->detachShape(*m_pShape);
 
@@ -180,6 +185,21 @@ void CCollider3D::EditConvexShape(Vec3 _scale)
 
 	//attachShape
 	m_pRigidActor->attachShape(*m_pShape);
+}
+
+Vec3 CCollider3D::GetBoxExtents()
+{
+	return dynamic_cast<CBoxCollider*>(this)->GetExtents();
+}
+
+float CCollider3D::GetCapsuleRadius()
+{
+	return dynamic_cast<CCapsuleCollider*>(this)->GetRadius();
+}
+
+float CCollider3D::GetCapsuleHalfHeight()
+{
+	return dynamic_cast<CCapsuleCollider*>(this)->GetHeight();
 }
 
 void CCollider3D::AddRigidActor()
