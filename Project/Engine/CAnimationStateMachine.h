@@ -41,7 +41,7 @@ public:
 	void SetTrigger(wstring _param, bool _value = true);
 
 public:
-	void finaltick();
+	void tick();
 	void SaveToLevelFile(FILE* _FILE);
 	void LoadFromLevelFile(FILE* _FILE);
 

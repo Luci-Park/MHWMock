@@ -66,11 +66,10 @@ void CAnimator3D::SetTrigger(wstring _param, bool _value)
 	m_pAnimationStateMachine->SetTrigger(_param, _value);
 }
 
-void CAnimator3D::finaltick()
+void CAnimator3D::tick()
 {
-	m_pAnimationStateMachine->finaltick();
-
 	if (!BoneHolder()->IsReady())return;
+	m_pAnimationStateMachine->tick();
 	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
 	for (int i =0; i < frame.size(); i++)
 	{
@@ -80,6 +79,10 @@ void CAnimator3D::finaltick()
 		pTransform->SetRelativeRot(frame[i].qRot);
 		pTransform->SetRelativeScale(frame[i].vScale);
 	}
+}
+
+void CAnimator3D::finaltick()
+{
 }
 
 
@@ -100,6 +103,8 @@ void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
 	{
 		Ptr<CAnimationClip> pAnim;
 		LoadResRef(pAnim, _FILE);
+		m_mapAnims.insert(make_pair(pAnim->GetKey(), pAnim));
+		m_vecAnimNames.push_back(pAnim->GetKey());
 	}
 	m_pAnimationStateMachine->LoadFromLevelFile(_FILE);
 }

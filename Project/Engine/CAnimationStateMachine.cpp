@@ -178,9 +178,9 @@ void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 	GetParamByName(_param)->value.TRIGGER = _value;
 }
 
-void CAnimationStateMachine::finaltick()
+void CAnimationStateMachine::tick()
 {
-	m_pCurrentState->finaltick();
+	m_pCurrentState->tick();
 }
 
 void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
@@ -217,6 +217,9 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 
 void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 {
+	delete m_pHead;
+	m_States.clear();
+
 	int count; fread(&count, sizeof(int), 1, _FILE);
 	m_vecParams.resize(count);
 

@@ -78,7 +78,7 @@ vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 	return m_pClip->GetTransformsAtFrame(m_dTick);
 }
 
-void CAnimationState::finaltick()
+void CAnimationState::tick()
 {
 	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
 	double offset = m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1;
@@ -101,7 +101,7 @@ void CAnimationState::finaltick()
 	}
 	if (m_pCurrentTransition != nullptr)
 	{
-		m_pCurrentTransition->finaltick();
+		m_pCurrentTransition->tick();
 	}
 }
 

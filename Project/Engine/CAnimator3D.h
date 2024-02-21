@@ -22,6 +22,7 @@ public:
 	void SetInt(wstring _param, int _value);
 	void SetTrigger(wstring _param, bool _value = true);
 public:
+	virtual void tick() override;
 	virtual void finaltick() override;
 	CLONE(CAnimator3D);
 

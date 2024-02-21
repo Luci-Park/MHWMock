@@ -132,7 +132,7 @@ void CAnimationTransition::Remove()
 	m_pPrevState->DeleteTransition(this);
 }
 
-void CAnimationTransition::finaltick()
+void CAnimationTransition::tick()
 {
 	double offset = 1;
 	if (!m_bFixedDuration)
