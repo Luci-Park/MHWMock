@@ -507,6 +507,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	for (int i = 0; i < conditions.size(); i++)
 	{
 		AnimCondition* cond = conditions[i];
+		ImGui::PushID(cond);
 		if (ImGui::BeginCombo("##SelectParam", WSTR2STR(cond->lhs->name).c_str()))
 		{
 			for (int j = 0; j < params.size(); j++)
@@ -570,6 +571,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				ImGui::EndCombo();
 			}
 		}
+		ImGui::PopID();
 	}
 #pragma endregion
 }

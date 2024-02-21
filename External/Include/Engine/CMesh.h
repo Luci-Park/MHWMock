@@ -38,8 +38,8 @@ public:
 
 	void SetVerticies(vector<Vec3> _Verticies) { m_vecVertices = _Verticies; }
 	void SetIndicies(vector<UINT> _Verticies) { m_vecIdx = _Verticies; }
-	vector<Vec3> GetVerticies() { return m_vecVertices; }
-	vector<UINT> GetIndicies() { return m_vecIdx; }
+	vector<Vec3>& GetVerticies() { return m_vecVertices; }
+	vector<UINT>& GetIndicies() { return m_vecIdx; }
 
 public:
 	virtual int Save(const wstring& _strRelativePath) override;
