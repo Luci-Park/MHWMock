@@ -105,6 +105,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
+	pModel->Save(_strRelativePath);
 	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
 }
