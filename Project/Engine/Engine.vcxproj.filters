@@ -405,6 +405,15 @@
     </ClCompile>
     <ClCompile Include="CollisionCallback.cpp" />
     <ClCompile Include="struct.cpp" />
+    <ClCompile Include="CCapsuleCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CConvexCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\ConvexCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoxCollider.cpp">
+      <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
