@@ -63,7 +63,6 @@ private:
 template<typename T>
 RES_TYPE GetResType()
 {
-    //const type_info& meshdata = typeid(CMeshData);
     const type_info& material = typeid(CMaterial);
     const type_info& prefab = typeid(CPrefab);
     const type_info& model = typeid(CModel);

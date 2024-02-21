@@ -350,6 +350,7 @@ call EngineCopy.bat</Command>
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="CPhysXMgr.cpp" />
+    <ClCompile Include="struct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

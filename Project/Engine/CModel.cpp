@@ -15,7 +15,7 @@
 
 
 CModel::CModel()
-	:CRes(RES_TYPE::MODEL, true)
+	:CRes(RES_TYPE::MODEL)
 {
 }
 
@@ -58,15 +58,14 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 			pModel->m_vecMeshes[i] = pMesh;
 			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
 
-			//���� �̸� ó��
-			int num = 1;
+			int num = 0;
 			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
 			{
 				strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + std::to_wstring(num++) + L".mesh";
 			}
 
+			pMesh->Save(strMeshKey);
 			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
-			//pMesh->Save(strMeshKey);
 		}
 		else
 		{
@@ -77,14 +76,14 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
-		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
+		Ptr<CMaterial> pNewMtrl = new CMaterial();
 		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
 		pNewMtrl->SetName(wstrName);
 		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
+		pNewMtrl->Save(strMtrlKey);
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
-		//pNewMtrl->Save(strMtrlKey);
 		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
 
@@ -95,6 +94,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		if (nullptr != pAnim)
 		{
 			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
+			pAnim->Save(strAnimKey);
 			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
 			pModel->m_vecAnimNames[i] = strAnimKey;
 		}
@@ -126,8 +126,11 @@ void CModel::CreateGameObjectFromModel()
 
 int CModel::Save(const wstring& _strRelativePath)
 {
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
+	if (IsEngineRes())
+		return E_FAIL;
+
+	SetRelativePath(_strRelativePath);
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	path parentFolder(strFilePath);
 	filesystem::create_directories(parentFolder.parent_path());
@@ -135,42 +138,39 @@ int CModel::Save(const wstring& _strRelativePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
 
-	if (pFile != nullptr)
-	{
-		SaveWString(GetName(), pFile);
-		SaveWString(GetKey(), pFile);
-
-		UINT iSize = m_vecMeshes.size();
-		fwrite(&iSize, sizeof(UINT), 1, pFile);
-		for (int i = 0; i < m_vecMeshes.size(); i++)
-			SaveResRef(m_vecMeshes[i].Get(), pFile);
-
-		iSize = m_vecMaterials.size();
-		fwrite(&iSize, sizeof(UINT), 1, pFile);
-		for (size_t i = 0; i < m_vecMaterials.size(); i++)
-			SaveResRef(m_vecMaterials[i].Get(), pFile);
-
-		iSize = m_vecAnimNames.size();
-		fwrite(&iSize, sizeof(UINT), 1, pFile);
-		for (size_t i = 0; i < iSize; i++)
-			SaveWString(m_vecAnimNames[i], pFile);
-		
-		iSize = m_setBoneNames.size();
-		fwrite(&iSize, sizeof(UINT), 1, pFile);
-		for(auto str : m_setBoneNames)
-			SaveWString(str, pFile);
-
-		if (FAILED(m_pRootNode->Save(pFile)))
-		{
-			MessageBox(nullptr, L"Resource Save Failed", (L"Model Node " + _strRelativePath).c_str(), MB_OK);
-		}
-
-		fclose(pFile);
-
-		return S_OK;
-	}
-	else
+	if (pFile == nullptr)
 		return E_FAIL;
+
+	SaveWString(GetName(), pFile);
+	SaveWString(GetKey(), pFile);
+
+	UINT iSize = m_vecMeshes.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (int i = 0; i < m_vecMeshes.size(); i++)
+		SaveResRef(m_vecMeshes[i].Get(), pFile);
+
+	iSize = m_vecMaterials.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < m_vecMaterials.size(); i++)
+		SaveResRef(m_vecMaterials[i].Get(), pFile);
+
+	iSize = m_vecAnimNames.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < iSize; i++)
+		SaveWString(m_vecAnimNames[i], pFile);
+
+	iSize = m_setBoneNames.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (auto str : m_setBoneNames)
+		SaveWString(str, pFile);
+
+	if (FAILED(m_pRootNode->Save(pFile)))
+	{
+		MessageBox(nullptr, L"Resource Save Failed", (L"Model Node " + _strRelativePath).c_str(), MB_OK);
+	}
+
+	fclose(pFile);
+	return S_OK;
 }
 int CModel::Load(const wstring& _strFilePath)
 {
@@ -179,43 +179,51 @@ int CModel::Load(const wstring& _strFilePath)
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-
-	if (pFile != nullptr)
-	{
-		wstring str;
-		LoadWString(str, pFile);
-		SetName(str);
-		LoadWString(str, pFile);
-		SetKey(str);
-
-		UINT iSize;
-		fread(&iSize, sizeof(UINT), 1, pFile);
-		m_vecMeshes.resize(iSize);
-		for (int i = 0; i < m_vecMeshes.size(); i++)
-		{
-			LoadResRef(m_vecMeshes[i], pFile);
-		}
-
-		iSize;
-		fread(&iSize, sizeof(UINT), 1, pFile);
-		m_vecMaterials.resize(iSize);
-		for (size_t i = 0; i < m_vecMaterials.size(); i++)
-		{
-			LoadResRef(m_vecMaterials[i], pFile);
-		}
-
-		m_pRootNode = new tModelNode;
-		if (FAILED(m_pRootNode->Load(pFile)))
-		{
-			MessageBox(nullptr, L"Resource Load Failed", (L"Model Node " + _strFilePath).c_str(), MB_OK);
-		}
-
-		fclose(pFile);
-
-		return S_OK;
-	}
-	else
+	if (pFile == nullptr)
 		return E_FAIL;
+
+	wstring name, key;
+	LoadWString(name, pFile);
+	LoadWString(key, pFile);
+
+	SetName(name);
+	SetKey(key);
+
+	UINT iSize;
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_vecMeshes.resize(iSize);
+	for (int i = 0; i < m_vecMeshes.size(); i++)
+		LoadResRef(m_vecMeshes[i], pFile);
+
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_vecMaterials.resize(iSize);
+	for (size_t i = 0; i < m_vecMaterials.size(); i++)
+		LoadResRef(m_vecMaterials[i], pFile);
+
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_vecAnimNames.resize(iSize);
+	for (size_t i = 0; i < iSize; i++)
+		LoadWString(m_vecAnimNames[i], pFile);
+
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < iSize; i++)
+	{
+		wstring boneName;
+		LoadWString(boneName, pFile);
+		m_setBoneNames.insert(boneName);
+	}
+	for (auto str : m_setBoneNames)
+		SaveWString(str, pFile);
+
+	m_pRootNode = new tModelNode;
+
+	if (FAILED(m_pRootNode->Load(pFile)))
+	{
+		MessageBox(nullptr, L"Resource Load Failed", (L"Model Node " + _strFilePath).c_str(), MB_OK);
+	}
+
+	fclose(pFile);
+	return S_OK;
 }
 
 tModelNode::~tModelNode()
@@ -227,15 +235,22 @@ tModelNode::~tModelNode()
 
 int tModelNode::Save(FILE* _File)
 {
-	SaveWString(strName, _File);
-	fwrite(&vPos, sizeof(Vec3), 1, _File);
-	fwrite(&qRot, sizeof(Quaternion), 1, _File);
-	fwrite(&vScale, sizeof(Vec3), 1, _File);
-	SaveResRef(pMesh.Get(), _File);
-	SaveResRef(pMaterial.Get() , _File);
-	for (int i = 0; i < vecChildren.size(); i++)
-		vecChildren[i]->Save(_File);
-	return S_OK;
+	try
+	{
+		SaveWString(strName, _File);
+		fwrite(&vPos, sizeof(Vec3), 1, _File);
+		fwrite(&qRot, sizeof(Quaternion), 1, _File);
+		fwrite(&vScale, sizeof(Vec3), 1, _File);
+		SaveResRef(pMesh.Get(), _File);
+		SaveResRef(pMaterial.Get(), _File);
+		for (int i = 0; i < vecChildren.size(); i++)
+			vecChildren[i]->Save(_File);
+		return S_OK;
+	}
+	catch (const std::exception&)
+	{
+		return E_FAIL;
+	}
 }
 
 int tModelNode::Load(FILE* _File)

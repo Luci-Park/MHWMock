@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "CAnimationClip.h"
 #include <assimp/scene.h>
+#include "CPathMgr.h"
 //#include "Assimp.hpp"
 
 CAnimationClip::CAnimationClip()
-	: CRes(RES_TYPE::ANIMATION, true)
+	: CRes(RES_TYPE::ANIMATION)
 	, m_dDuration(0)
 	, m_dTicksPerSecond(30)
 {
@@ -143,13 +144,95 @@ Quaternion CAnimationClip::FindValueAtFrame(double _dTick, vector<tQuatAnimation
 	}
 }
 
-int CAnimationClip::Save(const wstring& _strFilePath)
+int CAnimationClip::Save(const wstring& _strRelativePath)
 {
-	return 0;
+	if (IsEngineRes())
+		return E_FAIL;
+
+	SetRelativePath(_strRelativePath);
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
+
+	path parentFolder(strFilePath);
+	filesystem::create_directories(parentFolder.parent_path());
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+	if (pFile == nullptr)
+		return E_FAIL;
+
+	SaveWString(GetName(), pFile);
+	SaveWString(GetKey(), pFile);
+
+	fwrite(&m_dDuration, sizeof(double), 1, pFile);
+	fwrite(&m_dTicksPerSecond, sizeof(double), 1, pFile);
+
+	UINT iSize = m_vecChannels.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < iSize; i++)
+		m_vecChannels[i].Save(pFile);
+
+	iSize = m_BoneNames.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < iSize; i++)
+		SaveWString(m_BoneNames[i], pFile);
+
+	iSize = m_vecRsltChannel.size();
+	fwrite(&iSize, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < iSize; i++)
+	{
+		SaveWString(m_vecRsltChannel[i].strBoneName, pFile);
+		fwrite(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
+		fwrite(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
+		fwrite(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
+	}
+
+	fclose(pFile);
+	return S_OK;
 }
 
 int CAnimationClip::Load(const wstring& _strFilePath)
 {
-	return 0;
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strFilePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	if (pFile == nullptr)
+		return E_FAIL;
+
+	wstring name, key;
+	LoadWString(name, pFile);
+	LoadWString(key, pFile);
+
+	SetName(name);
+	SetKey(key);
+
+	fread(&m_dDuration, sizeof(double), 1, pFile);
+	fread(&m_dTicksPerSecond, sizeof(double), 1, pFile);
+
+	UINT iSize;
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_vecChannels.resize(iSize);
+	for (size_t i = 0; i < iSize; i++)
+		m_vecChannels[i].Load(pFile);
+
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_BoneNames.resize(iSize);
+	for (size_t i = 0; i < iSize; i++)
+		LoadWString(m_BoneNames[i], pFile);
+
+	fread(&iSize, sizeof(UINT), 1, pFile);
+	m_vecRsltChannel.resize(iSize);
+	for (size_t i = 0; i < iSize; i++)
+	{
+		LoadWString(m_vecRsltChannel[i].strBoneName, pFile);
+		fread(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
+		fread(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
+		fread(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
+	}
+
+	fclose(pFile);
+	return S_OK;
 }
 

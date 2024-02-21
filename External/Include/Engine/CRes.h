@@ -10,7 +10,7 @@ private:
 
     wstring         m_strRelativePath;
 
-    bool            m_bEngine;  // ������ �����ϴ� ���ҽ�
+    bool            m_bEngine;
 
 protected:
     void SetKey(const wstring& _strKey) { SetRelativePath(_strKey); }
@@ -21,14 +21,13 @@ private:
     void Release();
 
 
-    // ���ҽ� ���ε�
     virtual void UpdateData() {};
+
 
 public:
     virtual int Save(const wstring& _strFilePath) = 0;
     virtual int Load(const wstring& _strFilePath) = 0;
 
-    // ���ҽ��� Clone �� �������� �ʴ´�.
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 public:

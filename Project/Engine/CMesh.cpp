@@ -37,7 +37,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 {
 	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
-	CMesh* pMesh = new CMesh(true);
+	CMesh* pMesh = new CMesh();
 	pMesh->SetName(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
@@ -49,7 +49,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		if (_aiMesh->HasPositions())
 		{
 			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
-			pMesh->m_vecVerticies.push_back(vecVtx[i].vPos);
 		}
 		if (_aiMesh->HasVertexColors(i))
 			vecVtx[i].vColor = aiColorToVec4(_aiMesh->mColors[i][0]);
@@ -114,15 +113,12 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	m_VtxCount = _iVtxCount;
 	m_IdxCount = _IdxCount;
 
-	// SystemMem ������ ����
 	m_pVtxSys = new Vtx[m_VtxCount];
 	memcpy(m_pVtxSys, _VtxSysMem, sizeof(Vtx) * m_VtxCount);
 
 	m_pIdxSys = new UINT[m_IdxCount];
 	memcpy(m_pIdxSys, _IdxSysMem, sizeof(UINT) * m_IdxCount);
-	
 
-	// Vertex ���� ����
 	m_tVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 	m_tVBDesc.CPUAccessFlags = 0;
 	m_tVBDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -135,7 +131,6 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 		assert(nullptr);
 	}
 
-	// Index ���� ����
 	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 	m_tIBDesc.CPUAccessFlags = 0;
 	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;	
@@ -170,119 +165,151 @@ void CMesh::render()
 void CMesh::render_particle(UINT _iParticleCount)
 {
 	UpdateData();
-
-	// �ν��Ͻ�
 	CONTEXT->DrawIndexedInstanced(m_IdxCount, _iParticleCount, 0, 0, 0);
-}
-
-int CMesh::Load(const wstring& _strFilePath)
-{
-	// �б���� ���Ͽ���
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
-	if (nullptr != pFile)
-	{
-		// Ű��, �����
-		wstring strName, strKey, strRelativePath;
-		LoadWString(strName, pFile);
-		LoadWString(strKey, pFile);
-		LoadWString(strRelativePath, pFile);
-
-		SetName(strName);
-		SetKey(strKey);
-		SetRelativePath(strRelativePath);
-
-		// ����������
-		UINT iByteSize = 0;
-		fread(&iByteSize, sizeof(int), 1, pFile);
-		if (iByteSize == 0)
-		{
-			fclose(pFile);
-			return E_FAIL;
-		}
-		m_pVtxSys = (Vtx*)malloc(iByteSize);
-		fread(m_pVtxSys, 1, iByteSize, pFile);
-
-		m_VtxCount = iByteSize / sizeof(Vtx);
-
-		D3D11_BUFFER_DESC tDesc = {};
-		tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		tDesc.ByteWidth = iByteSize;
-		tDesc.Usage = D3D11_USAGE_DEFAULT;
-
-		D3D11_SUBRESOURCE_DATA tSubData = {};
-		tSubData.pSysMem = m_pVtxSys;
-
-		if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())))
-		{
-			assert(nullptr);
-		}
-
-		// ����������
-		fread(&iByteSize, sizeof(int), 1, pFile);
-
-		if (iByteSize == 0)
-		{
-			fclose(pFile);
-			return E_FAIL;
-		}
-
-		m_pIdxSys = (UINT*)malloc(iByteSize);
-		fread(m_pIdxSys, 1, iByteSize, pFile);
-
-		m_IdxCount = iByteSize / sizeof(UINT);
-
-		m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-		m_tIBDesc.CPUAccessFlags = 0;
-		m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;
-		m_tIBDesc.ByteWidth = iByteSize; //sizeof(UINT) * m_IdxCount;
-
-		tSubData.pSysMem = m_pIdxSys;
-		if (FAILED(DEVICE->CreateBuffer(&m_tIBDesc, &tSubData, m_IB.GetAddressOf())))
-		{
-			assert(nullptr);
-		}
-
-		fclose(pFile);
-		return S_OK;
-	}
-	return E_FAIL;
 }
 
 int CMesh::Save(const wstring& _strRelativePath)
 {
-	// ����� ����
-	SetRelativePath(_strRelativePath);
+	if (IsEngineRes())
+		return E_FAIL;
 
-	// ���� ��� �����
+	SetRelativePath(_strRelativePath);
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	path parentFolder(strFilePath);
 	filesystem::create_directories(parentFolder.parent_path());
 
-	// ���� ������� ����
 	FILE* pFile = nullptr;
-	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-	assert(pFile);
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	if (pFile == nullptr)
+		return E_FAIL;
 
-	// Ű��, ��� ���	
 	SaveWString(GetName(), pFile);
 	SaveWString(GetKey(), pFile);
-	SaveWString(GetRelativePath(), pFile);
 
-	// ���� ������ ����				
 	int iByteSize = m_tVBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pVtxSys, iByteSize, 1, pFile);
 
-	// �ε��� ����
 	iByteSize = m_tIBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pIdxSys, iByteSize, 1, pFile);
 
+	int count = m_vecBones.size();
+	fwrite(&count, sizeof(int), 1, pFile);
+
+	if (count > 0)
+	{
+		for (int i = 0; i < count; i++)
+			SaveWString(m_vecBones[i], pFile);
+
+		UINT size = m_pBoneOffset->GetElementSize();
+		fwrite(&size, sizeof(UINT), 1, pFile);
+		UINT count = m_pBoneOffset->GetElementCount();
+		fwrite(&count, sizeof(UINT), 1, pFile);
+		void* data = malloc(size * count);
+		if (data == nullptr) return E_FAIL;
+
+		m_pBoneOffset->GetData(data);
+		fwrite(data, size, count, pFile);
+		free(data);
+	}
+
+
 	fclose(pFile);
 
-
 	return S_OK;
-	
+
+}
+
+int CMesh::Load(const wstring& _strFilePath)
+{
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+
+	if (pFile == nullptr)
+		return E_FAIL;
+
+	wstring strName, strKey; 
+	LoadWString(strName, pFile);
+	LoadWString(strKey, pFile);
+	SetName(strName);
+	SetKey(strKey);
+
+	UINT iByteSize = 0;
+	fread(&iByteSize, sizeof(int), 1, pFile);
+	if (iByteSize == 0)
+	{
+		fclose(pFile);
+		return E_FAIL;
+	}
+	m_pVtxSys = (Vtx*)malloc(iByteSize);
+	fread(m_pVtxSys, 1, iByteSize, pFile);
+
+	m_VtxCount = iByteSize / sizeof(Vtx);
+
+	D3D11_BUFFER_DESC tDesc = {};
+	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	tDesc.ByteWidth = iByteSize;
+	tDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	D3D11_SUBRESOURCE_DATA tSubData = {};
+	tSubData.pSysMem = m_pVtxSys;
+
+	if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())))
+	{
+		assert(nullptr);
+	}
+
+	fread(&iByteSize, sizeof(int), 1, pFile);
+
+	if (iByteSize == 0)
+	{
+		fclose(pFile);
+		return E_FAIL;
+	}
+
+	m_pIdxSys = (UINT*)malloc(iByteSize);
+	fread(m_pIdxSys, 1, iByteSize, pFile);
+
+	m_IdxCount = iByteSize / sizeof(UINT);
+
+	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+	m_tIBDesc.CPUAccessFlags = 0;
+	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_tIBDesc.ByteWidth = iByteSize;
+
+	tSubData.pSysMem = m_pIdxSys;
+	if (FAILED(DEVICE->CreateBuffer(&m_tIBDesc, &tSubData, m_IB.GetAddressOf())))
+	{
+		assert(nullptr);
+	}
+
+	int count;
+	fread(&count, sizeof(int), 1, pFile);
+	if (count > 0)
+	{
+		m_vecBones.resize(count);
+		for (int i = 0; i < count; i++)
+			LoadWString(m_vecBones[i], pFile);
+		UINT size, count;
+		fread(&size, sizeof(UINT), 1, pFile);
+		fread(&count, sizeof(UINT), 1, pFile);
+
+		void* data = malloc(size * count);
+		if (data == nullptr)
+		{
+			fclose(pFile);
+			return E_FAIL;
+		}
+
+		fread(data, size, count, pFile);
+		m_pBoneOffset = new CStructuredBuffer;
+		m_pBoneOffset->Create(size, count, SB_TYPE::READ_ONLY, false, data);
+
+		free(data);
+	}
+
+	fclose(pFile);
+	return S_OK;
 }

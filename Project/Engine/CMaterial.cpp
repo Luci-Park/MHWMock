@@ -163,40 +163,33 @@ int CMaterial::Save(const wstring& _strRelativePath)
 	if (IsEngineRes())
 		return E_FAIL;
 
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
+	SetRelativePath(_strRelativePath);
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
 	path parentFolder(strFilePath);
 	filesystem::create_directories(parentFolder.parent_path());
 		
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-	if (pFile != nullptr)
-	{
-		// Entity
-		SaveWString(GetName(), pFile);
-
-		// Res
-		SaveWString(GetKey(), pFile);
-
-		// Shader
-		SaveResRef(m_pShader.Get(), pFile);
-
-		// Constant
-		fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
-
-		// Texture
-		for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
-		{
-			SaveResRef(m_arrTex[i].Get(), pFile);
-		}
-
-		fclose(pFile);
-
-		return S_OK;
-	}
-	else
+	if (pFile == nullptr)
 		return E_FAIL;
+
+	SaveWString(GetName(), pFile);
+	SaveWString(GetKey(), pFile);
+	SaveResRef(m_pShader.Get(), pFile);
+
+	fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
+
+	// Texture
+	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+	{
+		SaveResRef(m_arrTex[i].Get(), pFile);
+	}
+
+	fclose(pFile);
+
+	return S_OK;
 }
 
 
@@ -205,35 +198,27 @@ int CMaterial::Load(const wstring& _strFilePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
-	if (pFile != nullptr)
-	{
-		// Entity
-		wstring strName;
-		LoadWString(strName, pFile);
-		SetName(strName);
-
-		// Res
-		wstring strKey;
-		LoadWString(strKey, pFile);
-
-		// Shader
-		LoadResRef(m_pShader, pFile);
-
-		// Constant
-		fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
-
-		// Texture
-		for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
-		{
-			LoadResRef(m_arrTex[i], pFile);
-		}
-
-		fclose(pFile);
-
-		return S_OK;
-	}
-	else
-	{
+	if (pFile == nullptr)
 		return E_FAIL;
+
+	wstring strName, strKey;
+	LoadWString(strName, pFile);
+	LoadWString(strKey, pFile);
+
+	SetName(strName);
+	SetKey(strKey);
+
+	LoadResRef(m_pShader, pFile);
+
+	fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
+
+	// Texture
+	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
+	{
+		LoadResRef(m_arrTex[i], pFile);
 	}
+
+	fclose(pFile);
+
+	return S_OK;
 }

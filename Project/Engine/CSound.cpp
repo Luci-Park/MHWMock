@@ -106,6 +106,10 @@ int CSound::Load(const wstring& _strFilePath)
 	{
 		assert(nullptr);
 	}
+	wchar_t szFileName[512] = L"";
+	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, szFileName, 512, nullptr, 50);
+	wstring strFileName = szFileName;
+	SetName(strFileName);
 
 	return S_OK;
 }

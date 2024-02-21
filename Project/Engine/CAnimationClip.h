@@ -22,7 +22,7 @@ private:
     virtual int Load(const wstring& _strFilePath);
 
 public:
-    virtual int Save(const wstring& _strFilePath);
+    virtual int Save(const wstring& _strRelativePath);
 
     static CAnimationClip* CreateFromAssimp(aiAnimation* _aiAnimation);
 

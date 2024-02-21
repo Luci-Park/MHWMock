@@ -208,6 +208,9 @@ struct tAnimationChannel
 	vector<tVecAnimationKey>	vecPositionKeys;
 	vector<tVecAnimationKey>	vecScaleKeys;
 	vector<tQuatAnimationKey>	vecRotationKeys;
+
+	virtual int Save(FILE* _FILE);
+	virtual int Load(FILE* _FILE);
 };
 
 struct tAnimationKeyFrame

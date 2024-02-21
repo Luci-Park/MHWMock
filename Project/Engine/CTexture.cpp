@@ -102,8 +102,10 @@ void CTexture::UpdateData()
 int CTexture::Load(const wstring& _strFilePath)
 {
 	wchar_t szExt[50] = L"";
-	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
+	wchar_t szFileName[512] = L"";
+	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, szFileName, 512, szExt, 50);
 	wstring strExt = szExt;
+	wstring strFileName = szFileName;
 
 	HRESULT hr = S_OK;
 	if (L".dds" == strExt || L".DDS" == strExt)
@@ -144,6 +146,8 @@ int CTexture::Load(const wstring& _strFilePath)
 
 	m_SRV->GetResource((ID3D11Resource**)m_Tex2D.GetAddressOf());
 	m_Tex2D->GetDesc(&m_Desc);
+
+	SetName(strFileName);
 
 	return S_OK;
 }
