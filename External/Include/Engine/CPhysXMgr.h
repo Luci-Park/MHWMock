@@ -28,8 +28,8 @@ class CPhysXMgr : public CSingleton<CPhysXMgr>
 public:
 	typedef struct tCollisionPair
 	{
-		bool								bTrigger;
-		physx::PxPairFlag::Enum		ePairFlag;
+		bool							bTrigger;
+		physx::PxPairFlag::Enum			ePairFlag;
 		CGameObject*					pFirst;
 		CGameObject*					pSecond;
 	}COLLISIONPAIR, *pCOLLISIONPAIR;
@@ -38,39 +38,48 @@ public:
 private:
 	PxDefaultAllocator			mDefaultAllocatorCallback;
 	PxDefaultErrorCallback		mDefaultErrorCallback;
-	PxDefaultCpuDispatcher* m_pDispatcher = NULL;
-	PxTolerancesScale				mToleranceScale;
+	PxDefaultCpuDispatcher*		m_pDispatcher = NULL;
+	PxTolerancesScale			mToleranceScale;
 
-	PxFoundation* m_pFoundation = NULL;
-	PxPhysics* m_pPhysics = NULL;
+	PxFoundation*		m_pFoundation = NULL;
+	PxPhysics*			m_pPhysics = NULL;
 
-	PxScene* m_pScene = NULL;
-	PxMaterial* m_pMaterial = NULL;
+	PxScene*			m_pScene = NULL;
+	PxMaterial*			m_pMaterial = NULL;
 
-	PxPvd* m_pPvd = NULL;
-	PxPvdSceneClient* m_pPvdClient;
+	PxPvd*				m_pPvd = NULL;
+	PxPvdSceneClient*	m_pPvdClient;
 
-	CollisionCallback* m_pCollisionCallback;
-	bool					m_bSimulate;
+
+	CollisionCallback*	m_pCollisionCallback;
+	bool				m_bSimulate;
+
+	PxFilterData		m_FilterData[MAX_LAYER];
 
 	std::list<tCollisionPair> m_lCallback;
 
-// TestPublic:
 public:
 	void CreateSimulation();
 	PxRigidDynamic* createDynamic(const PxGeometry& geometry, const PxVec3& velocity = PxVec3(0));
 
+public:
 	void AddActor(PxActor& _Actor);
 	void AddCallbackPair(const COLLISIONPAIR _tCollsionPair) {m_lCallback.emplace_back(_tCollsionPair);}
 
 public:
 	PxPhysics* GetPxPhysics() { return m_pPhysics; }
 	PxMaterial* GetDefaultMaterial() { return m_pMaterial; }
+	PxFilterData GetPxFilterData(UINT _Idx) { return m_FilterData[_Idx]; }
 
+public:
+	void SetPxFilterData(PxFilterData _FilterData, UINT _Idx) { m_FilterData[_Idx] = _FilterData; }
+public:
+	void SetTransformResult();
 public:
 	void init();
 	void process();
 	void tick();
+	void SimulatePhysX();
 	void FetchResults();
 
 public:

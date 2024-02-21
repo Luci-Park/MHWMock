@@ -4,6 +4,9 @@
 #include "CComponent.h"
 #include "CMeshRender.h"
 #include "CCollider3D.h"
+#include "CCapsuleCollider.h"
+#include "CConvexCollider.h"
+#include "CBoxCollider.h"
 
 #include "CScript.h"
 
@@ -183,11 +186,11 @@ void CGameObject::AddComponent(CComponent* _Component)
 		m_arrCom[(UINT)_Component->GetType()] = _Component;
 
 		// Collider3D 확인
-		CCollider3D* pCollider3D = dynamic_cast<CCollider3D*>(_Component);
-		if (pCollider3D)
-		{
-			pCollider3D->begin();
-		}
+		//CCollider3D* pCollider3D = dynamic_cast<CCollider3D*>(_Component);
+		//if (pCollider3D)
+		//{
+		//	pCollider3D->begin();
+		//}
 
 		// RenderComponent 확인
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Component);
@@ -297,6 +300,27 @@ void CGameObject::AddParentList()
 {
 	CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
 	pLayer->AddParentList(this);
+}
+
+void CGameObject::AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType)
+{
+	CGameObject* owner = this;
+	switch (_type)
+	{
+	case SHAPE_TYPE::CUBE:
+		owner->AddComponent(new CBoxCollider);
+		break;
+	case SHAPE_TYPE::CAPSULE:
+		owner->AddComponent(new CCapsuleCollider);
+		break;
+	case SHAPE_TYPE::CONVEX:
+		owner->AddComponent(new CConvexCollider);
+		break;
+	}
+	CCollider3D* coll = dynamic_cast<CCollider3D*>(m_arrCom[(UINT)COMPONENT_TYPE::COLLIDER3D]);
+	//setting Actor type
+	coll->SetActorType(_actorType);
+	coll->begin();
 }
 
 CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)
