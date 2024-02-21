@@ -44,13 +44,13 @@ Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
 	return m_Nodes.back();
 }
 
-Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _input, const Pin* _output)
+Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pin* _endPin)
 {
-	CAnimationState* prevState = _input->node->pState;
-	CAnimationState* nextState = _output->node->pState;
+	CAnimationState* prevState = _startPin->node->pState;
+	CAnimationState* nextState = _endPin->node->pState;
 	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
 	m_pStateMachine->Reset();
-	m_Links.emplace_back(transition, _output, _input);
+	m_Links.emplace_back(transition, _endPin, _startPin);
 	return m_Links.back();
 }
 
@@ -507,6 +507,9 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	for (int i = 0; i < conditions.size(); i++)
 	{
 		AnimCondition* cond = conditions[i];
+		ImGui::PushID(cond);
+		float size = ImGui::GetContentRegionAvail().x;
+		ImGui::PushItemWidth(size * 0.33f);
 		if (ImGui::BeginCombo("##SelectParam", WSTR2STR(cond->lhs->name).c_str()))
 		{
 			for (int j = 0; j < params.size(); j++)
@@ -544,14 +547,14 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				{
 					AnimConditionType type = (AnimConditionType)j;
 					if (type != AnimConditionType::GREATER && type != AnimConditionType::LESS
-						|| type != AnimConditionType::EQUAL && type != AnimConditionType::NOTEQUAL) continue;
+						&& type != AnimConditionType::EQUAL && type != AnimConditionType::NOTEQUAL) continue;
 					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
 						cond->expr = type;
 				}
 				ImGui::EndCombo();
 			}
 			ImGui::SameLine();
-			int num;
+			int num = cond->rhs;
 			ImGui::DragInt("##IntParam", &num);
 			cond->rhs = num;
 		}
@@ -570,6 +573,8 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				ImGui::EndCombo();
 			}
 		}
+		ImGui::PopItemWidth();
+		ImGui::PopID();
 	}
 #pragma endregion
 }
