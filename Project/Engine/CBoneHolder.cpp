@@ -75,10 +75,11 @@ void CBoneHolder::LoadFromLevelFile(FILE* _FILE)
 {
 	UINT count;
 	fread(&count, sizeof(UINT), 1, _FILE);
-	for (int i = 0; i < count; i++)
+	while (count--)
 	{
 		wstring name;
 		LoadWString(name, _FILE);
+		m_setBoneNames.insert(name);
 	}
 	m_bIsSet = false;
 }

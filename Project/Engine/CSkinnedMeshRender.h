@@ -18,6 +18,8 @@ public:
 
 	CLONE(CSkinnedMeshRender);
 
+	virtual void SaveToLevelFile(FILE* _File) override;
+	virtual void LoadFromLevelFile(FILE* _File) override;
 public:
 	CSkinnedMeshRender();
 	CSkinnedMeshRender(const CSkinnedMeshRender& _origin);
