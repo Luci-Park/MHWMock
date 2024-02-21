@@ -37,6 +37,7 @@ public:
     void EditCapsuleShape(float _radius, float _halfHeight);
     void EditBoxShape(Vec3 _halfExtents);
     void EditConvexShape(Vec3 _scale);
+    void SetGravity(bool _gravity);
 
 public:
     virtual void begin() override;
@@ -46,7 +47,6 @@ public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
-    void SetGravity(bool _gravity);
     void SetActorType(ACTOR_TYPE _Type) { m_eActorType = _Type; }
     
 public:

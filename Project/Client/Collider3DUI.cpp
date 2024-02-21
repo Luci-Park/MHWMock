@@ -8,6 +8,7 @@ using namespace physx;
 
 Collider3DUI::Collider3DUI()
 	: ComponentUI("##Coillider3D",COMPONENT_TYPE::COLLIDER3D)
+	, _GravityFlag(true)
 {
 	SetName("Coillider3D");
 }
@@ -61,7 +62,16 @@ int Collider3DUI::render_update()
 	{
 		PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
 		ImGui::Checkbox("Gravity", &_Gravity);
-		GetTarget()->Collider3D()->SetGravity(_Gravity);
+		if (_Gravity && _GravityFlag)
+		{
+			GetTarget()->Collider3D()->SetGravity(_Gravity);
+			_GravityFlag = false;
+		}
+		else if (!_Gravity && !_GravityFlag)
+		{
+			GetTarget()->Collider3D()->SetGravity(_Gravity);
+			_GravityFlag = true;
+		}
 
 		auto velocity = actor->is<PxRigidDynamic>()->getLinearVelocity();
 		ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);

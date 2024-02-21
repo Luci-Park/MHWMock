@@ -10,6 +10,7 @@ private:
     bool    _EditSize;
     float   _Radius;
     float   _HalfHeight;
+    bool    _GravityFlag;
 public:
     virtual int render_update() override;
 
