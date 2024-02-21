@@ -3,6 +3,12 @@
 #include "CTransform.h"
 
 
+CBoneHolder::CBoneHolder()
+	: CComponent(COMPONENT_TYPE::BONEHOLDER)
+	, m_bIsSet(false)
+{
+}
+
 CBoneHolder::CBoneHolder(set<wstring> _boneNames)
 	: CComponent(COMPONENT_TYPE::BONEHOLDER)
 	, m_bIsSet(false)
@@ -58,7 +64,8 @@ void CBoneHolder::finaltick()
 			}
 		}
 	}
-	m_bIsSet = true;
+	if(m_setBoneNames.size() > 0)
+		m_bIsSet = true;
 }
 
 void CBoneHolder::SaveToLevelFile(FILE* _FILE)

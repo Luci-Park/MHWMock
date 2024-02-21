@@ -201,6 +201,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			Component = new CAnimator2D;
 			break;
 		case COMPONENT_TYPE::ANIMATOR3D:
+			Component = new CAnimator3D;
 			break;
 		case COMPONENT_TYPE::LIGHT2D:
 			Component = new CLight2D;
@@ -213,6 +214,9 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			break;
 		case COMPONENT_TYPE::MESHRENDER:
 			Component = new CMeshRender;
+			break;
+		case COMPONENT_TYPE::SKINNEDMESHRENDER:
+			Component = new CSkinnedMeshRender;
 			break;
 		case COMPONENT_TYPE::PARTICLESYSTEM:
 			Component = new CParticleSystem;
@@ -228,6 +232,9 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			break;
 		case COMPONENT_TYPE::DECAL:
 			Component = new CDecal;
+			break;
+		case COMPONENT_TYPE::BONEHOLDER:
+			Component = new CBoneHolder;
 			break;
 		}
 
