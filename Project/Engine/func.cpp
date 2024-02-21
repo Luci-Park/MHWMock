@@ -135,7 +135,7 @@ void DrawDebugCircle(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool D
 void DrawDebugCube(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor
 					, Vec3 _vRotation, float _fTime, bool DepthTest)
 {
-	tDebugShapeInfo info = {};
+	tDebugShapeInfo3D info = {};
 
 	info.matWorld = XMMatrixIdentity();
 	info.eShape = SHAPE_TYPE::CUBE;
@@ -146,12 +146,12 @@ void DrawDebugCube(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
 
-	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 
 void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool DepthTest)
 {
-	tDebugShapeInfo info = {};
+	tDebugShapeInfo3D info = {};
 
 	info.matWorld = _matWorld;
 	info.eShape = SHAPE_TYPE::CUBE;
@@ -159,7 +159,7 @@ void DrawDebugCube(const Matrix& _matWorld, Vec4 _vColor, float _fTime, bool Dep
 	info.vColor = _vColor;
 	info.bDepthTest = DepthTest;
 
-	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+	CRenderMgr::GetInst()->AddDebugShapeInfo3D(info);
 }
 
 void DrawDebugSphere(Vec3 _vWorldPos, float _fRadius, Vec4 _vColor
