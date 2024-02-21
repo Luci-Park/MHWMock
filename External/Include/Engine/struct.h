@@ -300,8 +300,10 @@ struct AnimCondition
 	float rhs;
 
 	AnimCondition(AnimStateParam* _param)
+		: lhs(_param)
+		, expr(AnimConditionType::GREATER)
+		, rhs(0)
 	{
-		lhs = _param;
 		if (lhs->type == AnimParamType::BOOL)
 			expr = AnimConditionType::ISTRUE;
 		else if (lhs->type != AnimParamType::TRIGGER)

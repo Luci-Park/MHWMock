@@ -508,6 +508,8 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	{
 		AnimCondition* cond = conditions[i];
 		ImGui::PushID(cond);
+		float size = ImGui::GetContentRegionAvail().x;
+		ImGui::PushItemWidth(size * 0.33f);
 		if (ImGui::BeginCombo("##SelectParam", WSTR2STR(cond->lhs->name).c_str()))
 		{
 			for (int j = 0; j < params.size(); j++)
@@ -545,14 +547,14 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				{
 					AnimConditionType type = (AnimConditionType)j;
 					if (type != AnimConditionType::GREATER && type != AnimConditionType::LESS
-						|| type != AnimConditionType::EQUAL && type != AnimConditionType::NOTEQUAL) continue;
+						&& type != AnimConditionType::EQUAL && type != AnimConditionType::NOTEQUAL) continue;
 					if (ImGui::Selectable(GetAnimConditionStr(type).c_str(), cond->expr == type))
 						cond->expr = type;
 				}
 				ImGui::EndCombo();
 			}
 			ImGui::SameLine();
-			int num;
+			int num = cond->rhs;
 			ImGui::DragInt("##IntParam", &num);
 			cond->rhs = num;
 		}
@@ -571,6 +573,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				ImGui::EndCombo();
 			}
 		}
+		ImGui::PopItemWidth();
 		ImGui::PopID();
 	}
 #pragma endregion
