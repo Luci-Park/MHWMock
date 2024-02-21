@@ -92,9 +92,6 @@
     <Filter Include="UI\InspectorUI\ResUI\ComputeShaderUI">
       <UniqueIdentifier>{2270a1d7-6d7d-4a35-b1f1-47a3bcef806c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\InspectorUI\ResUI\MeshDataUI">
-      <UniqueIdentifier>{60f9e28d-3a49-4570-adf7-be98346cbd09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\InspectorUI\ResUI\PrefabUI">
       <UniqueIdentifier>{e6a095f5-a739-45ef-a32d-00edece3c90b}</UniqueIdentifier>
     </Filter>
@@ -234,9 +231,6 @@
     </ClInclude>
     <ClInclude Include="MaterialUI.h">
       <Filter>UI\InspectorUI\ResUI\MaterialUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshDataUI.h">
-      <Filter>UI\InspectorUI\ResUI\MeshDataUI</Filter>
     </ClInclude>
     <ClInclude Include="PrefabUI.h">
       <Filter>UI\InspectorUI\ResUI\PrefabUI</Filter>
@@ -444,9 +438,6 @@
       <Filter>UI\InspectorUI\ResUI\MaterialUI</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MeshDataUI.cpp">
-      <Filter>UI\InspectorUI\ResUI\MeshDataUI</Filter>
-    </ClCompile>
     <ClCompile Include="PrefabUI.cpp">
       <Filter>UI\InspectorUI\ResUI\PrefabUI</Filter>
     </ClCompile>

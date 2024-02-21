@@ -71,9 +71,6 @@ void ContentUI::Reload()
 
 		switch (type)
 		{
-		case RES_TYPE::MESHDATA:
-
-			break;
 		case RES_TYPE::MATERIAL:
 			CResMgr::GetInst()->Load<CMaterial>(m_vecResPath[i], m_vecResPath[i]);
 			break;
@@ -201,9 +198,7 @@ RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath)
 	_wsplitpath_s(_relativepath.c_str(), 0, 0, 0, 0, 0, 0, szExt, 50);	
 	wstring strExt = szExt;
 		
-	if (L".mdat" == strExt)
-		return RES_TYPE::MESHDATA;
-	else if (L".pref" == strExt)
+	if (L".pref" == strExt)
 		return RES_TYPE::PREFAB;
 	else if (L".mesh" == strExt)
 		return RES_TYPE::MESH;

@@ -26,9 +26,9 @@ public:
     void CreateGameObjectFromModel();
     void AddBoneName(wstring _strName) { m_setBoneNames.insert(_strName); }
 
-    virtual int Save(const wstring& _strRelativePath);
+    virtual int Save(const wstring& _strRelativePath) override;
 private:
-    virtual int Load(const wstring& _strRelativePath);
+    virtual int Load(const wstring& _strRelativePath) override;
 
     virtual void UpdateData() {}
 public:

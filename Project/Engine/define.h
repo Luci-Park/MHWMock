@@ -58,13 +58,12 @@ extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END];
 
 enum class RES_TYPE
 {
-	MESHDATA,
 	MATERIAL,
 	PREFAB,
 
 	MODEL,
-	MESH,			// ����
-	TEXTURE,		// �̹���
+	MESH,			
+	TEXTURE,	
 	ANIMATION,
 
 	SOUND,

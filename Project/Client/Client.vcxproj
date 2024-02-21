@@ -228,7 +228,6 @@
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="MaterialUI.h" />
     <ClInclude Include="MenuUI.h" />
-    <ClInclude Include="MeshDataUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
     <ClInclude Include="MeshUI.h" />
     <ClInclude Include="ObjectInfoUI.h" />
@@ -372,7 +371,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaterialUI.cpp" />
     <ClCompile Include="MenuUI.cpp" />
-    <ClCompile Include="MeshDataUI.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
     <ClCompile Include="MeshUI.cpp" />
     <ClCompile Include="ObjectInfoUI.cpp" />

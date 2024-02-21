@@ -21,7 +21,6 @@
 #include "LandScapeUI.h"
 #include "ParticleSystemUI.h"
 
-#include "MeshDataUI.h"
 #include "TextureUI.h"
 #include "MeshUI.h"
 #include "SoundUI.h"
@@ -110,10 +109,6 @@ InspectorUI::InspectorUI()
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]);
 
 	// ResUI
-	m_arrResUI[(UINT)RES_TYPE::MESHDATA] = new MeshDataUI;
-	m_arrResUI[(UINT)RES_TYPE::MESHDATA]->SetSize(0.f, 0.f);
-	AddChildUI(m_arrResUI[(UINT)RES_TYPE::MESHDATA]);
-
 	m_arrResUI[(UINT)RES_TYPE::MESH] = new MeshUI;
 	m_arrResUI[(UINT)RES_TYPE::MESH]->SetSize(0.f, 0.f);
 	AddChildUI(m_arrResUI[(UINT)RES_TYPE::MESH]);

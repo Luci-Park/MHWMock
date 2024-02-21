@@ -142,12 +142,13 @@ Quaternion CAnimationClip::FindValueAtFrame(double _dTick, vector<tQuatAnimation
 		return _vecKeys[idx - 1].value;
 	}
 }
-int CAnimationClip::Load(const wstring& _strFilePath)
+
+int CAnimationClip::Save(const wstring& _strFilePath)
 {
 	return 0;
 }
 
-int CAnimationClip::Save(const wstring& _strFilePath)
+int CAnimationClip::Load(const wstring& _strFilePath)
 {
 	return 0;
 }
