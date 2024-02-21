@@ -143,20 +143,26 @@ int CModel::Save(const wstring& _strRelativePath)
 		UINT iSize = m_vecMeshes.size();
 		fwrite(&iSize, sizeof(UINT), 1, pFile);
 		for (int i = 0; i < m_vecMeshes.size(); i++)
-		{
 			SaveResRef(m_vecMeshes[i].Get(), pFile);
-		}
 
 		iSize = m_vecMaterials.size();
 		fwrite(&iSize, sizeof(UINT), 1, pFile);
 		for (size_t i = 0; i < m_vecMaterials.size(); i++)
-		{
 			SaveResRef(m_vecMaterials[i].Get(), pFile);
-		}
+
+		iSize = m_vecAnimNames.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (size_t i = 0; i < iSize; i++)
+			SaveWString(m_vecAnimNames[i], pFile);
+		
+		iSize = m_setBoneNames.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for(auto str : m_setBoneNames)
+			SaveWString(str, pFile);
 
 		if (FAILED(m_pRootNode->Save(pFile)))
 		{
-			MessageBox(nullptr, L"���ҽ� ���� ����", L"Model Node ���� ����", MB_OK);
+			MessageBox(nullptr, L"Resource Save Failed", (L"Model Node " + _strRelativePath).c_str(), MB_OK);
 		}
 
 		fclose(pFile);
@@ -201,7 +207,7 @@ int CModel::Load(const wstring& _strFilePath)
 		m_pRootNode = new tModelNode;
 		if (FAILED(m_pRootNode->Load(pFile)))
 		{
-			MessageBox(nullptr, L"���ҽ� �ε� ����", L"Model Node �ε� ����", MB_OK);
+			MessageBox(nullptr, L"Resource Load Failed", (L"Model Node " + _strFilePath).c_str(), MB_OK);
 		}
 
 		fclose(pFile);
