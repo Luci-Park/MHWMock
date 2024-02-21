@@ -77,12 +77,17 @@ void ContentUI::Reload()
 		case RES_TYPE::PREFAB:
 			CResMgr::GetInst()->Load<CPrefab>(m_vecResPath[i], m_vecResPath[i]);
 			break;
+		case RES_TYPE::MODEL:
+			CResMgr::GetInst()->Load<CModel>(m_vecResPath[i], m_vecResPath[i]);
+			break;
 		case RES_TYPE::MESH:
-
+			CResMgr::GetInst()->Load<CMesh>(m_vecResPath[i], m_vecResPath[i]);
 			break;
 		case RES_TYPE::TEXTURE:
 			CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
 			break;
+		case RES_TYPE::ANIMATION:
+			CResMgr::GetInst()->Load<CAnimationClip>(m_vecResPath[i], m_vecResPath[i]);
 		case RES_TYPE::SOUND:
 			CResMgr::GetInst()->Load<CSound>(m_vecResPath[i], m_vecResPath[i]);
 			break;		
@@ -197,17 +202,21 @@ RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath)
 	wchar_t szExt[50] = {};
 	_wsplitpath_s(_relativepath.c_str(), 0, 0, 0, 0, 0, 0, szExt, 50);	
 	wstring strExt = szExt;
-		
-	if (L".pref" == strExt)
+
+	if (L".mtrl" == strExt)
+		return RES_TYPE::MATERIAL;
+	else if (L".prefab" == strExt)
 		return RES_TYPE::PREFAB;
+	else if (L".model" == strExt)
+		return RES_TYPE::MODEL;
 	else if (L".mesh" == strExt)
 		return RES_TYPE::MESH;
-	else if (L".mtrl" == strExt)
-		return RES_TYPE::MATERIAL;
 	else if (L".png" == strExt || L".jpg" == strExt
 		|| L".jpeg" == strExt || L".bmp" == strExt
 		|| L".tga" == strExt || L".dds" == strExt)
 		return RES_TYPE::TEXTURE;
+	else if (L".anim" == strExt)
+		return RES_TYPE::ANIMATION;
 	else if (L".mp3" == strExt || L".wav" == strExt || L".oga" == strExt)
 		return RES_TYPE::SOUND;
 	else
