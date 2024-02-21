@@ -22,6 +22,7 @@ public:
 	virtual void SaveToLevelFile(FILE* _FILE);
 	virtual void LoadFromLevelFile(FILE* _FILE);
 public:
+	CBoneHolder();
 	CBoneHolder(set<wstring> _boneNames);
 	CBoneHolder(const CBoneHolder& _other);
 	~CBoneHolder();

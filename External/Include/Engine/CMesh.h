@@ -18,8 +18,11 @@ private:
 	UINT					m_IdxCount;
 	void*					m_pIdxSys;
 
+	vector<Vec3>			m_vecVertices;
+	vector<UINT>			m_vecIdx;
 	vector<wstring>			m_vecBones;
 	CStructuredBuffer*		m_pBoneOffset;
+
 
 public:
 	static CMesh* CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel);
@@ -33,9 +36,9 @@ public:
 	UINT	GetVtxCount() {return m_VtxCount;}
 	UINT	GetVIdxCount() {return m_IdxCount;}
 
-	void SetVerticies(vector<Vec3> _Verticies) { m_vecVerticies = _Verticies; }
+	void SetVerticies(vector<Vec3> _Verticies) { m_vecVertices = _Verticies; }
 	void SetIndicies(vector<UINT> _Verticies) { m_vecIdx = _Verticies; }
-	vector<Vec3> GetVerticies() { return m_vecVerticies; }
+	vector<Vec3> GetVerticies() { return m_vecVertices; }
 	vector<UINT> GetIndicies() { return m_vecIdx; }
 
 public:

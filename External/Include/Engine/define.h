@@ -26,24 +26,24 @@
 enum class COMPONENT_TYPE
 {
 	// update
-	TRANSFORM,		
-	COLLIDER2D,		
-	COLLIDER3D,		
-	ANIMATOR2D,		
-	ANIMATOR3D,		
-	LIGHT2D,		
-	LIGHT3D,		
-	CAMERA,			
-	CANVAS,			
+	TRANSFORM,		// ��ġ, ũ��, ȸ��
+	COLLIDER2D,		// 2���� �浹
+	COLLIDER3D,		// 3���� �浹
+	ANIMATOR2D,		// Sprite Animation
+	ANIMATOR3D,		// Bone Sknning Animation
+	LIGHT2D,		// 2���� ����
+	LIGHT3D,		// 3���� ����
+	CAMERA,			// Camera
+	CANVAS,			// UI Canvas
 
 	// render
-	MESHRENDER,
+	MESHRENDER,		// �⺻���� ������
 	SKINNEDMESHRENDER,
-	PARTICLESYSTEM, 
-	TILEMAP,		
-	LANDSCAPE,		
-	SKYBOX,			
-	DECAL,			
+	PARTICLESYSTEM, // ���� ������
+	TILEMAP,		// 2���� Ÿ��
+	LANDSCAPE,		// 3���� ����
+	SKYBOX,			// SkyBox
+	DECAL,			// ���� ������
 	BONEHOLDER,
 
 	END,
