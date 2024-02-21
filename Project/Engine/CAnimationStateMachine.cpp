@@ -185,9 +185,76 @@ void CAnimationStateMachine::finaltick()
 
 void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 {
-	
+	int count = m_vecParams.size();
+	fwrite(&count, sizeof(int), 1, _FILE);
+	for (int i = 0; i < count; i++)
+	{
+		auto param = m_vecParams[i];
+		SaveWString(param->name, _FILE);
+		int type = (int)param->type;
+		fwrite(&type, sizeof(int), 1, _FILE);
+		if (AnimParamType::FLOAT == param->type)
+			fwrite(&param->value.FLOAT, sizeof(float), 1, _FILE);
+		else if (AnimParamType::INT == param->type)
+			fwrite(&param->value.INT, sizeof(int), 1, _FILE);
+		else if (AnimParamType::BOOL == param->type)
+			fwrite(&param->value.BOOL, sizeof(bool), 1, _FILE);
+		else if (AnimParamType::TRIGGER == param->type)
+			fwrite(&param->value.TRIGGER, sizeof(float), 1, _FILE);
+	}
+	count = m_States.size();
+	fwrite(&count, sizeof(int), 1, _FILE);
+	for (auto state : m_States)
+		SaveWString(state->GetName(), _FILE);
+	for (auto state : m_States)
+	{
+		SaveWString(state->GetName(), _FILE);
+		state->SaveToLevelFile(_FILE);
+	}
+
+	SaveWString(m_pHead->GetName(), _FILE);
 }
 
 void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 {
+	int count; fread(&count, sizeof(int), 1, _FILE);
+	m_vecParams.resize(count);
+
+	for (int i = 0; i < count; i++)
+	{
+		auto param = new AnimStateParam();
+		LoadWString(param->name, _FILE);
+		
+		int type; fread(&type, sizeof(int), 1, _FILE);
+		param->type = (AnimParamType)type;
+		if (AnimParamType::FLOAT == param->type)
+			fread(&param->value.FLOAT, sizeof(float), 1, _FILE);
+		else if (AnimParamType::INT == param->type)
+			fread(&param->value.INT, sizeof(int), 1, _FILE);
+		else if (AnimParamType::BOOL == param->type)
+			fread(&param->value.BOOL, sizeof(bool), 1, _FILE);
+		else if (AnimParamType::TRIGGER == param->type)
+			fread(&param->value.TRIGGER, sizeof(float), 1, _FILE);
+		m_vecParams[i] = param;
+	}
+	fread(&count, sizeof(int), 1, _FILE);
+	for (size_t i = 0; i < count; i++)
+	{
+		auto state = new CAnimationState(this);
+		wstring name;
+		LoadWString(name, _FILE);
+		state->SetName(name);
+		m_States.insert(state);
+	}
+	for (size_t i = 0; i < count; i++)
+	{
+		wstring name;
+		LoadWString(name, _FILE);
+		auto state = GetStateByName(name);
+		state->LoadFromLevelFile(_FILE);
+	}
+
+	wstring name;
+	LoadWString(name, _FILE);
+	m_pHead = GetStateByName(name);
 }

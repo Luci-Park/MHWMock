@@ -89,7 +89,6 @@ void CSkinnedMeshRender::SetMesh(Ptr<CMesh> _Mesh)
 void CSkinnedMeshRender::SaveToLevelFile(FILE* _File)
 {
 	CRenderComponent::SaveToLevelFile(_File);
-
 }
 
 void CSkinnedMeshRender::LoadFromLevelFile(FILE* _File)

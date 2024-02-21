@@ -9,7 +9,6 @@ private:
 	CAnimationState*					m_pNextState;
 
 	map<wstring, tAnimationKeyFrame>	m_mapKeyFrame;
-	vector<tAnimationKeyFrame>			m_vecKeyFrames;
 	vector<AnimCondition*>				m_vecConditions;
 
 	bool								m_bHasExitTime;
@@ -49,6 +48,8 @@ public:
 	void Remove();
 public:
 	void finaltick();
+	void SaveToLevelFile(FILE* _FILE);
+	void LoadFromLevelFile(FILE* _FILE);
 private:
 	void EndTransition();
 	void BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);

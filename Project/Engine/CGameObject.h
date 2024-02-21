@@ -36,15 +36,13 @@ private:
     CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChildren;
 
-    int                     m_iLayerIdx; // �Ҽӵ� ���̾� �ε�����
+    int                     m_iLayerIdx;
     bool                    m_bDead;
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
 
 public:
-    // ������ ���۵� �� ȣ�� or ���� �� ������ �շ��� �� ȣ��
-    // ������
     void begin();       
 
     void tick();        

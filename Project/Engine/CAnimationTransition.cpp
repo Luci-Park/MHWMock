@@ -175,3 +175,47 @@ void CAnimationTransition::BlendKeyFrame(vector<tAnimationKeyFrame>& frames, boo
 		}
 	}
 }
+
+void CAnimationTransition::SaveToLevelFile(FILE* _FILE)
+{
+	fwrite(&m_bHasExitTime, sizeof(bool), 1, _FILE);
+	fwrite(&m_dExitTime, sizeof(double), 1, _FILE);
+	fwrite(&m_bFixedDuration, sizeof(bool), 1, _FILE);
+	fwrite(&m_dTransitionDuration, sizeof(double), 1, _FILE);
+	fwrite(&m_dTransitionOffset, sizeof(double), 1, _FILE);
+
+	int count = m_vecConditions.size();
+	fwrite(&count, sizeof(int), 1, _FILE);
+	for (size_t i = 0; i < count; i++)
+	{
+		auto cond = m_vecConditions[i];
+		SaveWString(cond->lhs->name, _FILE);
+		int expr = (int)cond->expr;
+		fwrite(&expr, sizeof(int), 1, _FILE);
+		fwrite(&cond->rhs, sizeof(float), 1, _FILE);
+	}
+}
+
+void CAnimationTransition::LoadFromLevelFile(FILE* _FILE)
+{
+	fread(&m_bHasExitTime, sizeof(bool), 1, _FILE);
+	fread(&m_dExitTime, sizeof(double), 1, _FILE);
+	fread(&m_bFixedDuration, sizeof(bool), 1, _FILE);
+	fread(&m_dTransitionDuration, sizeof(double), 1, _FILE);
+	fread(&m_dTransitionOffset, sizeof(double), 1, _FILE);
+
+	int count;
+	fread(&count, sizeof(int), 1, _FILE);
+	m_vecConditions.resize(count);
+	for (size_t i = 0; i < count; i++)
+	{
+		wstring paramName; LoadWString(paramName, _FILE);
+		AnimStateParam* param = m_pStateMachine->GetParamByName(paramName);
+
+		AnimCondition* newCond = new AnimCondition(param);
+		int type = 0; fread(&type, sizeof(int), 1, _FILE);
+		newCond->expr = (AnimConditionType)type;
+		fread(&newCond->rhs, sizeof(float), 1, _FILE);
+		m_vecConditions[i] = newCond;
+	}
+}

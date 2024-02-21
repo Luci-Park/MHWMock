@@ -104,3 +104,35 @@ void CAnimationState::finaltick()
 		m_pCurrentTransition->finaltick();
 	}
 }
+
+void CAnimationState::SaveToLevelFile(FILE* _FILE)
+{
+	SaveResRef(m_pClip.Get(), _FILE);
+	fwrite(&m_fSpeed, sizeof(float), 1, _FILE);
+
+	int count = m_Transitions.size();
+	fwrite(&count, sizeof(int), 1, _FILE);
+	for (auto transit : m_Transitions)
+	{
+		SaveWString(transit->GetNextState()->GetName(), _FILE);
+		transit->SaveToLevelFile(_FILE);
+	}
+}
+
+void CAnimationState::LoadFromLevelFile(FILE* _FILE)
+{
+	LoadResRef(m_pClip, _FILE);
+	fread(&m_fSpeed, sizeof(float), 1, _FILE);
+
+	int count; 
+	fread(&count, sizeof(int), 1, _FILE);
+	while (count--)
+	{
+		wstring nextStateName;
+		LoadWString(nextStateName, _FILE);
+		auto nextState = m_pMachine->GetStateByName(nextStateName);
+		auto newTransition = new CAnimationTransition(this, nextState, m_pMachine);
+		m_Transitions.insert(newTransition);
+		newTransition->LoadFromLevelFile(_FILE);
+	}
+}

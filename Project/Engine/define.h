@@ -354,25 +354,3 @@ union AnimParamUnion
 	bool	TRIGGER;
 };
 
-struct AnimStateParam
-{
-	wstring			name;
-	AnimParamType	type;
-	AnimParamUnion	value;
-};
-
-struct AnimCondition
-{
-	AnimStateParam* lhs;
-	AnimConditionType expr;
-	float rhs;
-
-	AnimCondition(AnimStateParam* _param)
-	{
-		lhs = _param;
-		if (lhs->type == AnimParamType::BOOL)
-			expr = AnimConditionType::ISTRUE;
-		else if (lhs->type != AnimParamType::TRIGGER)
-			expr = AnimConditionType::GREATER;
-	}
-};
