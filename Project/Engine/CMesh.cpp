@@ -94,7 +94,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 			}
 		}
 		pMesh->m_pBoneOffset = new CStructuredBuffer;
-		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, false, vecOffset.data());
+		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, true, vecOffset.data());
 	}
 	for (int i = 0; i < _aiMesh->mNumFaces; i++)
 	{
@@ -305,7 +305,7 @@ int CMesh::Load(const wstring& _strFilePath)
 
 		fread(data, size, count, pFile);
 		m_pBoneOffset = new CStructuredBuffer;
-		m_pBoneOffset->Create(size, count, SB_TYPE::READ_ONLY, false, data);
+		m_pBoneOffset->Create(size, count, SB_TYPE::READ_ONLY, true, data);
 
 		free(data);
 	}
