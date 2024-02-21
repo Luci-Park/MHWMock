@@ -94,6 +94,7 @@ void CCollider3D::CreateRigidActor()
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	m_pRigidActor->attachShape(*m_pShape);
+
 	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
 	{
 		m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);

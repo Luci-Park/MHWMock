@@ -46,28 +46,20 @@ void CConvexCollider::CreateColliderShape()
 	UINT uNumPoint = pMesh->GetVtxCount();
 	UINT uNumFace = pMesh->GetVIdxCount();
 	
-	/*vector<Vector3>* pPoints = static_cast<vector<Vector3>*>(pMesh->GetVtxSys());
-	vector<UINT>* pIndices = static_cast<vector<UINT>*>(pMesh->GetIdxSys());
-
-	vector<PxVec3>* pxPoints;
-	vector<PxU32>* pxIndices;
-
-	memcpy_s(&pxPoints, sizeof(vector<Vector3>*), &pPoints, sizeof(vector<Vector3>*));
-	memcpy_s(&pxIndices, sizeof(vector<UINT>*), &pIndices, sizeof(vector<UINT>*));*/
-
 	CookingTriangleMesh(Verticies.data(), uNumPoint, Indicies.data(), uNumFace);
+	//CookingTriangleMesh(pMesh->GetVtxSys(), uNumPoint, pMesh->GetIdxSys(), uNumFace);
 
 	PxTriangleMeshGeometry geometry;
 
 	geometry.triangleMesh = m_pTriangleMesh;
-	geometry.scale = PxVec3(0.001f, 0.001f, 0.001f);
+	geometry.scale = PxVec3(1.f, 1.f, 1.f);
 
-	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(geometry, *CPhysXMgr::GetInst()->GetDefaultMaterial(), true);
+	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(geometry, *CPhysXMgr::GetInst()->GetDefaultMaterial());
 
 	AddRigidActor();
 }
 
-void CConvexCollider::CookingTriangleMesh(Vector3* _pPoints, UINT _nNumPoint, UINT* _pIndices, UINT _nNumFace)
+void CConvexCollider::CookingTriangleMesh(void* _pPoints, UINT _nNumPoint, void* _pIndices, UINT _nNumFace)
 {
 	PxTriangleMeshDesc triangleMeshDesc;
 
@@ -85,7 +77,8 @@ void CConvexCollider::CookingTriangleMesh(Vector3* _pPoints, UINT _nNumPoint, UI
 
 	PxTriangleMeshCookingResult::Enum eResult;
 
-	bool bTemp = PxValidateTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc);
+	//bool bTemp = PxValidateTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc);
+
 	bool status = PxCookTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc, writeBuffer, &eResult);
 
 	if (false == status)
