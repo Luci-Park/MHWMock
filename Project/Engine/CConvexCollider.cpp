@@ -23,13 +23,12 @@ CConvexCollider::~CConvexCollider()
 
 void CConvexCollider::begin()
 {
+	CreateColliderShape();
 }
 
 void CConvexCollider::finaltick()
 {
 }
-
-
 
 void CConvexCollider::CreateColliderShape()
 {
@@ -40,9 +39,23 @@ void CConvexCollider::CreateColliderShape()
 		return;
 
 	// 정점 정보, 인덱스 정보 가져오기.
+	Ptr<CMesh> pMesh = pRenderComponet->GetMesh();
 
+	vector<Vector3> Verticies = pMesh->GetVerticies();
+	vector<UINT> Indicies= pMesh->GetIndicies();
+	UINT uNumPoint = pMesh->GetVtxCount();
+	UINT uNumFace = pMesh->GetVIdxCount();
+	
+	/*vector<Vector3>* pPoints = static_cast<vector<Vector3>*>(pMesh->GetVtxSys());
+	vector<UINT>* pIndices = static_cast<vector<UINT>*>(pMesh->GetIdxSys());
 
-	//CookingTriangleMesh();
+	vector<PxVec3>* pxPoints;
+	vector<PxU32>* pxIndices;
+
+	memcpy_s(&pxPoints, sizeof(vector<Vector3>*), &pPoints, sizeof(vector<Vector3>*));
+	memcpy_s(&pxIndices, sizeof(vector<UINT>*), &pIndices, sizeof(vector<UINT>*));*/
+
+	CookingTriangleMesh(Verticies.data(), uNumPoint, Indicies.data(), uNumFace);
 
 	PxTriangleMeshGeometry geometry;
 
@@ -65,7 +78,7 @@ void CConvexCollider::CookingTriangleMesh(Vector3* _pPoints, UINT _nNumPoint, UI
 	triangleMeshDesc.triangles.count = _nNumFace / 3;
 	triangleMeshDesc.triangles.stride = 3 * sizeof(PxU32);
 	triangleMeshDesc.triangles.data = _pIndices;
-
+	
 	triangleMeshDesc.flags = PxMeshFlags(0);
 
 	PxDefaultMemoryOutputStream writeBuffer;

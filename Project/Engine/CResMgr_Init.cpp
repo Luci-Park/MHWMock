@@ -343,6 +343,9 @@ void CResMgr::CreateDefaultMesh()
 	// ===========
 	// Sphere Mesh
 	// ===========
+	vector<Vec3>			m_vecVerticies;
+	vector<UINT>			m_vecIdx;
+
 	fRadius = 0.5f;
 
 	// Top
@@ -354,6 +357,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vTangent = Vec3(1.f, 0.f, 0.f);
 	v.vBinormal = Vec3(0.f, 0.f, -1.f);
 	vecVtx.push_back(v);
+
+	m_vecVerticies.push_back(v.vPos);
 
 	// Body
 	UINT iStackCount = 40; // °¡·Î ºÐÇÒ °³¼ö
@@ -391,6 +396,8 @@ void CResMgr::CreateDefaultMesh()
 			v.vBinormal.Normalize();
 
 			vecVtx.push_back(v);
+
+			m_vecVerticies.push_back(v.vPos);
 		}
 	}
 
@@ -405,6 +412,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vBinormal = Vec3(0.f, 0.f, -1.f);
 	vecVtx.push_back(v);
 
+	m_vecVerticies.push_back(v.vPos);
+
 	// ÀÎµ¦½º
 	// ºÏ±ØÁ¡
 	for (UINT i = 0; i < iSliceCount; ++i)
@@ -412,6 +421,10 @@ void CResMgr::CreateDefaultMesh()
 		vecIdx.push_back(0);
 		vecIdx.push_back(i + 2);
 		vecIdx.push_back(i + 1);
+
+		m_vecIdx.push_back(0);
+		m_vecIdx.push_back(i + 2);
+		m_vecIdx.push_back(i + 1);
 	}
 
 	// ¸öÅë
@@ -426,12 +439,19 @@ void CResMgr::CreateDefaultMesh()
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
 
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
 			// +--+
 			//  \ |
 			//    +
 			vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
 			vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
 		}
 	}
 
@@ -442,14 +462,20 @@ void CResMgr::CreateDefaultMesh()
 		vecIdx.push_back(iBottomIdx);
 		vecIdx.push_back(iBottomIdx - (i + 2));
 		vecIdx.push_back(iBottomIdx - (i + 1));
+
+		m_vecIdx.push_back(iBottomIdx);
+		m_vecIdx.push_back(iBottomIdx - (i + 2));
+		m_vecIdx.push_back(iBottomIdx - (i + 1));
 	}
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetVerticies(m_vecVerticies);
+	pMesh->SetIndicies(m_vecIdx);
+
 	AddRes<CMesh>(L"SphereMesh", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
-
 
 	// Capsule Mesh
 	//float radius = sqrt(pow(0.5f, 2) * 2.0f);

@@ -20,6 +20,7 @@ private:
 
 	vector<Vec3>			m_vecVerticies;
 	vector<Vec3>			m_vecNormals;
+	vector<UINT>			m_vecIdx;
 
 	vector<wstring>			m_vecBones;
 	CStructuredBuffer*		m_pBoneOffset;
@@ -30,6 +31,16 @@ public:
 	vector<wstring>& GetBoneNames() { return m_vecBones; }
 	int GetNumberOfBones() { return m_vecBones.size(); }
 	bool HasBones() { return m_vecBones.size() != 0; }
+
+	void* GetVtxSys() { return m_pVtxSys; }
+	void* GetIdxSys() { return m_pIdxSys; }
+	UINT	GetVtxCount() {return m_VtxCount;}
+	UINT	GetVIdxCount() {return m_IdxCount;}
+
+	void SetVerticies(vector<Vec3> _Verticies) { m_vecVerticies = _Verticies; }
+	void SetIndicies(vector<UINT> _Verticies) { m_vecIdx = _Verticies; }
+	vector<Vec3> GetVerticies() { return m_vecVerticies; }
+	vector<UINT> GetIndicies() { return m_vecIdx; }
 
 public:
 	virtual int Save(const wstring& _strRelativePath) override;
