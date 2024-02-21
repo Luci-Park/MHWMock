@@ -6,11 +6,13 @@ class Collider3DUI :
 private:
     Vec3    _ScaleVec;
     Vec3    _HalfExtents;
+
     bool    _Gravity;
     bool    _EditSize;
+    bool    _GravityFlag;
+    
     float   _Radius;
     float   _HalfHeight;
-    bool    _GravityFlag;
 public:
     virtual int render_update() override;
 

@@ -9,6 +9,12 @@ using namespace physx;
 Collider3DUI::Collider3DUI()
 	: ComponentUI("##Coillider3D",COMPONENT_TYPE::COLLIDER3D)
 	, _GravityFlag(true)
+	, _EditSize(false)
+	, _Gravity(false)
+	, _Radius(1.f)
+	, _HalfHeight(1.f)
+	, _ScaleVec( Vec3(1.f,1.f,1.f))
+	, _HalfExtents( Vec3(1.f,1.f,1.f))
 {
 	SetName("Coillider3D");
 }
@@ -23,6 +29,7 @@ int Collider3DUI::render_update()
 		return FALSE;
 
 	ACTOR_TYPE type = GetTarget()->Collider3D()->GetActorType();
+	PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
 
 	ImGui::Checkbox("Edit Collider Size", &_EditSize);
 
@@ -60,7 +67,6 @@ int Collider3DUI::render_update()
 
 	if (type == ACTOR_TYPE::DYNAMIC)
 	{
-		PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
 		ImGui::Checkbox("Gravity", &_Gravity);
 		if (_Gravity && _GravityFlag)
 		{
@@ -75,19 +81,11 @@ int Collider3DUI::render_update()
 
 		auto velocity = actor->is<PxRigidDynamic>()->getLinearVelocity();
 		ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);
-
-		PxBounds3 bounds = actor->getWorldBounds();
-		PxVec3 scale = bounds.getExtents();
-		ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
-	}
-	else if (type == ACTOR_TYPE::STATIC)
-	{
-		PxRigidActor* actor = GetTarget()->Collider3D()->GetRigidActor();
-		PxBounds3 bounds = actor->getWorldBounds();
-		PxVec3 scale = bounds.getExtents();
-		ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
 	}
 
+	PxBounds3 bounds = actor->getWorldBounds();
+	PxVec3 scale = bounds.getExtents();
+	ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
 
 	return TRUE;
 }
