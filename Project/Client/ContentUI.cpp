@@ -223,7 +223,7 @@ void ContentUI::DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 {
 	TreeNode* pDragNode = (TreeNode*)_DragNode;
 	TreeNode* pDropNode = (TreeNode*)_DropNode;
-	if ((CModel*)pDragNode->GetData() != nullptr)
+	if (RES_TYPE::MODEL == ((CRes*)pDragNode->GetData())->GetType())
 	{
 		CModel* pModel = (CModel*)pDragNode->GetData();
 		pModel->CreateGameObjectFromModel();
