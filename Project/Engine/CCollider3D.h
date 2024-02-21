@@ -13,7 +13,6 @@ protected:
 
     PxShape*            m_pShape;
     PxMaterial*         m_pMaterial;
-    //PxRigidDynamic*     m_pRigidActor;
     PxRigidActor*     m_pRigidActor;
 
     PXUSERDATA  m_pUserData;
@@ -28,7 +27,6 @@ protected:
     bool            m_bAbsolute;
     bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
 
-
 public:
     void CreateRigidActor();
     void AddRigidActor();
@@ -36,6 +34,10 @@ public:
     void UpdateActorInfo();
     
     void ChangeFilterData();
+    void EditCapsuleShape(float _radius, float _halfHeight);
+    void EditBoxShape(Vec3 _halfExtents);
+    void EditConvexShape(Vec3 _scale);
+    void SetGravity(bool _gravity);
 
 public:
     virtual void begin() override;
@@ -45,13 +47,13 @@ public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
-    void SetGravity(bool _gravity);
     void SetActorType(ACTOR_TYPE _Type) { m_eActorType = _Type; }
     
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
-    ACTOR_TYPE GetActorType() { return m_eActorType; }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
+    ACTOR_TYPE GetActorType() { return m_eActorType; }
+    SHAPE_TYPE GetShapeType() { return m_ShapeType; }
 
 public:
     void OnCollisionEnter(CCollider3D* _Other);

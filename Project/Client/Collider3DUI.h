@@ -4,7 +4,15 @@ class Collider3DUI :
     public ComponentUI
 {
 private:
+    Vec3    _ScaleVec;
+    Vec3    _HalfExtents;
+
     bool    _Gravity;
+    bool    _EditSize;
+    bool    _GravityFlag;
+    
+    float   _Radius;
+    float   _HalfHeight;
 public:
     virtual int render_update() override;
 
