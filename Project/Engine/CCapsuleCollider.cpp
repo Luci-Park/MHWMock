@@ -31,7 +31,7 @@ void CCapsuleCollider::begin()
 void CCapsuleCollider::finaltick()
 {
 	assert(0 <= m_iCollisionCount);
-
+	
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
 
