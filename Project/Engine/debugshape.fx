@@ -13,6 +13,14 @@
 // Parameter
 // g_vec4_0 : OutColor
 // ==================
+//--------------------------------------------------------
+//                              Capsule         BOX
+//--------------------------------------------------------
+#define Input_0 g_float_0 //    radius          ExtentsX
+#define Input_1 g_float_1 //    HalfHeight      ExtentsY
+#define Input_2 g_float_2 //    NULL            ExtentsZ
+//========================================================
+
 struct VS_DEBUG_IN
 {
     float3 vPos : POSITION;    
@@ -29,7 +37,7 @@ struct VS_DEBUG_OUT
 
 VS_DEBUG_OUT VS_DebugShape(VS_DEBUG_IN _in)
 {
-    VS_DEBUG_OUT output = (VS_DEBUG_OUT) 0.f;    
+    VS_DEBUG_OUT output = (VS_DEBUG_OUT) 0.f;
     
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
     
@@ -37,10 +45,64 @@ VS_DEBUG_OUT VS_DebugShape(VS_DEBUG_IN _in)
     output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV));
     
     
-    return output;    
+    return output;
 }
 
 float4 PS_DebugShape(VS_DEBUG_OUT _in) : SV_Target
+{
+    float4 vOutColor = (float4) 0.f;
+    
+    vOutColor = g_vec4_0;
+    
+    return vOutColor;
+}
+
+
+VS_DEBUG_OUT VS_DebugShape_Box(VS_DEBUG_IN _in)
+{
+    VS_DEBUG_OUT output = (VS_DEBUG_OUT) 0.f;
+    
+    float3 vertexPos = _in.vPos;
+    
+    vertexPos.x *= Input_0;
+    vertexPos.y *= Input_1;
+    vertexPos.z *= Input_2;
+    
+    output.vPosition = mul(float4(vertexPos, 1.f), g_matWVP);
+    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV));
+    
+    return output;
+}
+
+float4 PS_DebugShape_Box(VS_DEBUG_OUT _in) : SV_Target
+{
+    float4 vOutColor = (float4) 0.f;
+    
+    vOutColor = g_vec4_0;
+    
+    return vOutColor;
+}
+
+VS_DEBUG_OUT VS_DebugShape_Capslue(VS_DEBUG_IN _in)
+{
+    VS_DEBUG_OUT output = (VS_DEBUG_OUT)0.f;
+
+    // 버텍스의 위치를 가져옵니다.
+    float3 vertexPos = _in.vPos;
+
+    // 높이의 절반과 반지름을 이용하여 캡슐의 크기를 조정합니다.
+    vertexPos.x *= Input_0;
+    vertexPos.y *= Input_1;
+    vertexPos.z *= Input_0;
+
+    // 출력을 설정합니다.
+    output.vPosition = mul(float4(vertexPos, 1), g_matWVP);
+    output.vViewNormal = mul(float4(_in.vNormal, 0), g_matWVP).xyz;
+   
+    return output;
+}
+
+float4 PS_DebugShape_Capslue(VS_DEBUG_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     

@@ -335,6 +335,15 @@ enum class MRT_TYPE
 	END,
 };
 
+enum class ACTOR_TYPE
+{
+	DYNAMIC,
+
+	STATIC,
+	
+	END,
+};
+
 enum class AnimBehaviour
 {
 	DEFAULT, //The value from the default node transformation is taken

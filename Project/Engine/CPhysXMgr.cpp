@@ -142,22 +142,15 @@ void CPhysXMgr::init()
 void CPhysXMgr::process()
 {
 	tick();
+	SimulatePhysX();
 }
 
 void CPhysXMgr::tick()
 {
-	//// Sphere충돌체 발사.
-	//{
-	//	if (KEY_TAP(KEY::SPACE))
-	//	{
-	//		createDynamic(PxSphereGeometry(3.0f), PxVec3(0, 0, -1) * 200);
-	//	}
-	//}
-
-	//피직스 디버거로 정보 보내는 부분
 	if (true == m_bSimulate || nullptr == m_pScene)
 		return;
 
+	//Update all of Actor's info
 	PxU32		nNumActors = 0;
 	PxActor** ppActors = nullptr;
 
@@ -182,14 +175,14 @@ void CPhysXMgr::tick()
 			((pPXUSERDATA)(ppActors[i]->userData))->pCollider->UpdateActorInfo();
 	}
 	delete[] ppActors;
+}
 
-
+void CPhysXMgr::SimulatePhysX()
+{
 	//실제 시뮬레이션 돌리는 부분 여기서 피직스를 계산
 	m_pScene->simulate(1.0f / 60.0f);
 
 	m_bSimulate = true;
-
-	//m_pScene->fetchResults(true);
 }
 
 //시뮬레이션 결과 값 가져옴

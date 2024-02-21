@@ -7,7 +7,6 @@ class CTransform;
 class CMeshRender;
 class CSkinnedMeshRender;
 class CParticleSystem;
-class CCollider2D;
 class CCollider3D;
 class CAnimator2D;
 class CAnimator3D;
@@ -59,6 +58,8 @@ public:
     void AddChild(CGameObject* _Object);
     void SetParent(CGameObject* _Object);
 
+    void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
+
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
@@ -71,7 +72,6 @@ public:
     GET_COMPONENT(SkinnedMeshRender, SKINNEDMESHRENDER);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Camera, CAMERA);
-    //GET_COMPONENT(Collider2D, COLLIDER2D);
     GET_COMPONENT(Collider3D, COLLIDER3D);
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(TileMap, TILEMAP);

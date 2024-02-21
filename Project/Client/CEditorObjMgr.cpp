@@ -42,13 +42,13 @@ void CEditorObjMgr::init()
 	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->AddComponent(new CTransform);
 	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->AddComponent(new CMeshRender);
 	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh_Debug"));
-	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
+	m_DebugShape[(UINT)SHAPE_TYPE::CUBE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeCubeMtrl"));
 
 	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE] = new CGameObjectEx;
 	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->AddComponent(new CTransform);
 	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->AddComponent(new CMeshRender);
 	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CapsuleMesh"));
-	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeMtrl"));
+	m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE]->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DebugShapeCapsuleMtrl"));
 
 	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]= new CGameObjectEx;
 	m_DebugShape[(UINT)SHAPE_TYPE::CONVEX]->AddComponent(new CTransform);
@@ -140,9 +140,14 @@ void CEditorObjMgr::render()
 			break;
 		case SHAPE_TYPE::CUBE:
 			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CUBE];
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, &iter->vHalfExtents.x);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_1, &iter->vHalfExtents.y);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_2, &iter->vHalfExtents.z);
 			break;
 		case SHAPE_TYPE::CAPSULE:
 			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CAPSULE];
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, &iter->fRadius);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_1, &iter->fHalfHeight);
 			break;
 		case SHAPE_TYPE::SPHERE:
 			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::SPHERE];
@@ -150,6 +155,10 @@ void CEditorObjMgr::render()
 		case SHAPE_TYPE::CONVEX:
 			pShapeObj = m_DebugShape[(UINT)SHAPE_TYPE::CONVEX];
 			pShapeObj->MeshRender()->SetMesh(m_DebugShapeMesh3D[iConvexMeshCnt]);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, &iter->vConvexScale.x);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_1, &iter->vConvexScale.y);
+			pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_2, &iter->vConvexScale.z);
+
 			break;
 		}
 
@@ -192,5 +201,6 @@ void CEditorObjMgr::render()
 			
 			++iter;
 		}
+
 	}
 }

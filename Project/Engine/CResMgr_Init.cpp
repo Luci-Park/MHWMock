@@ -343,6 +343,9 @@ void CResMgr::CreateDefaultMesh()
 	// ===========
 	// Sphere Mesh
 	// ===========
+	vector<Vec3>			m_vecVerticies;
+	vector<UINT>			m_vecIdx;
+
 	fRadius = 0.5f;
 
 	// Top
@@ -354,6 +357,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vTangent = Vec3(1.f, 0.f, 0.f);
 	v.vBinormal = Vec3(0.f, 0.f, -1.f);
 	vecVtx.push_back(v);
+
+	m_vecVerticies.push_back(v.vPos);
 
 	// Body
 	UINT iStackCount = 40; // °¡·Î ºÐÇÒ °³¼ö
@@ -391,6 +396,8 @@ void CResMgr::CreateDefaultMesh()
 			v.vBinormal.Normalize();
 
 			vecVtx.push_back(v);
+
+			m_vecVerticies.push_back(v.vPos);
 		}
 	}
 
@@ -405,6 +412,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vBinormal = Vec3(0.f, 0.f, -1.f);
 	vecVtx.push_back(v);
 
+	m_vecVerticies.push_back(v.vPos);
+
 	// ÀÎµ¦½º
 	// ºÏ±ØÁ¡
 	for (UINT i = 0; i < iSliceCount; ++i)
@@ -412,6 +421,10 @@ void CResMgr::CreateDefaultMesh()
 		vecIdx.push_back(0);
 		vecIdx.push_back(i + 2);
 		vecIdx.push_back(i + 1);
+
+		m_vecIdx.push_back(0);
+		m_vecIdx.push_back(i + 2);
+		m_vecIdx.push_back(i + 1);
 	}
 
 	// ¸öÅë
@@ -426,12 +439,19 @@ void CResMgr::CreateDefaultMesh()
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
 
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
 			// +--+
 			//  \ |
 			//    +
 			vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
 			vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
 			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
+			m_vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
 		}
 	}
 
@@ -442,14 +462,20 @@ void CResMgr::CreateDefaultMesh()
 		vecIdx.push_back(iBottomIdx);
 		vecIdx.push_back(iBottomIdx - (i + 2));
 		vecIdx.push_back(iBottomIdx - (i + 1));
+
+		m_vecIdx.push_back(iBottomIdx);
+		m_vecIdx.push_back(iBottomIdx - (i + 2));
+		m_vecIdx.push_back(iBottomIdx - (i + 1));
 	}
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetVerticies(m_vecVerticies);
+	pMesh->SetIndicies(m_vecIdx);
+
 	AddRes<CMesh>(L"SphereMesh", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
-
 
 	// Capsule Mesh
 	//float radius = sqrt(pow(0.5f, 2) * 2.0f);
@@ -594,6 +620,50 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetKey(L"DebugShapeShader");
 	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape");
 	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape");
+
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+
+	AddRes(pShader->GetKey(), pShader);
+
+	// =================
+	// DebugShape Capsule Shader
+	// Topology : LineStrip
+	// RS_TYPE  : CULL_NONE
+	// DS_TYPE  : NO_TEST_NO_WRITE
+	// BS_TYPE  : Default
+	// g_vec4_0 : OutColor
+	// ==================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"DebugShapeShader_Capsule");
+	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape_Capslue");
+	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape_Capslue");
+
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+
+	AddRes(pShader->GetKey(), pShader);
+
+	// ===========================
+	// DebugShape Capsule Shader
+	// Topology : LineStrip
+	// RS_TYPE  : CULL_NONE
+	// DS_TYPE  : NO_TEST_NO_WRITE
+	// BS_TYPE  : Default
+	// g_vec4_0 : OutColor
+	// ===========================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"DebugShapeShader_Cube");
+	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape_Box");
+	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape_Box");
 
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
@@ -1067,6 +1137,16 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader"));
 	AddRes(L"DebugShapeMtrl", pMtrl);
+
+	//DebugShapeShader_Capsule Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader_Capsule"));
+	AddRes(L"DebugShapeCapsuleMtrl", pMtrl);
+
+	//DebugShapeShader_Cube Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader_Cube"));
+	AddRes(L"DebugShapeCubeMtrl", pMtrl);
 
 	// DebugShape_Sphere Material
 	pMtrl = new CMaterial(true);

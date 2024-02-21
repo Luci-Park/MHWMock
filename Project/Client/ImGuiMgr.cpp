@@ -14,7 +14,7 @@
 #include "Engine\CCamera.h"
 #include "Engine\CTransform.h"
 #include "OutlinerUI.h"
-
+#include "CollisionUI.h"
 
 ImGuiMgr::ImGuiMgr()
     : m_hMainHwnd(nullptr)   
@@ -183,17 +183,22 @@ void ImGuiMgr::CreateUI()
     pUI->SetActive(true);
     m_mapUI.insert(make_pair(pUI->GetID(), pUI));
 
+    // CollisionUI
+    pUI = new CollisionUI;
+    pUI->SetActive(true);
+    m_mapUI.insert(make_pair(pUI->GetID(), pUI));
+
     // Menu
     pUI = new MenuUI;
     pUI->SetActive(true);
     m_mapUI.insert(make_pair(pUI->GetID(), pUI));
-
 
     // ListUI
     pUI = new ListUI;
     pUI->SetModal(true);
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetID(), pUI));
+
 
 
     for (const auto& pair : m_mapUI)

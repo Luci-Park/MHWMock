@@ -46,6 +46,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 
 	// Manager ÃÊ±âÈ­
+	CPhysXMgr::GetInst()->init();
+
 	CPathMgr::GetInst()->init();
 
 	CKeyMgr::GetInst()->init();
@@ -60,7 +62,6 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 	CLevelMgr::GetInst()->init();		
 	
-
 
 	return S_OK;
 }
