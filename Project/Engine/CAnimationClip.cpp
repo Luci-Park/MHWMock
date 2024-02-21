@@ -19,7 +19,11 @@ CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 {
 	CAnimationClip* pAnim = new CAnimationClip();
 	
-	string strName = _aiAnimation->mName.C_Str();	
+	string strName = _aiAnimation->mName.C_Str();
+	auto pos = strName.find_last_of('|');
+	if (pos != string::npos)
+		strName = strName.substr(pos + 1);
+
 	pAnim->SetName(wstring(strName.begin(), strName.end()));
 
 	pAnim->m_dDuration = _aiAnimation->mDuration;
@@ -193,11 +197,8 @@ int CAnimationClip::Save(const wstring& _strRelativePath)
 
 int CAnimationClip::Load(const wstring& _strFilePath)
 {
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strFilePath;
-
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"wb");
 	if (pFile == nullptr)
 		return E_FAIL;
 
