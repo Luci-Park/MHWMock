@@ -44,13 +44,13 @@ Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
 	return m_Nodes.back();
 }
 
-Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _input, const Pin* _output)
+Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pin* _endPin)
 {
-	CAnimationState* prevState = _input->node->pState;
-	CAnimationState* nextState = _output->node->pState;
+	CAnimationState* prevState = _startPin->node->pState;
+	CAnimationState* nextState = _endPin->node->pState;
 	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
 	m_pStateMachine->Reset();
-	m_Links.emplace_back(transition, _output, _input);
+	m_Links.emplace_back(transition, _endPin, _startPin);
 	return m_Links.back();
 }
 
