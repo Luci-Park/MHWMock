@@ -5,7 +5,7 @@
 //#include "Assimp.hpp"
 
 CAnimationClip::CAnimationClip()
-	: CRes(RES_TYPE::ANIMATION)
+	: CRes(RES_TYPE::ANIMATION, true)
 	, m_dDuration(0)
 	, m_dTicksPerSecond(30)
 {

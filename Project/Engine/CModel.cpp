@@ -15,7 +15,7 @@
 
 
 CModel::CModel()
-	:CRes(RES_TYPE::MODEL)
+	:CRes(RES_TYPE::MODEL, true)
 {
 }
 
@@ -64,7 +64,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 				strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + std::to_wstring(num++) + L".mesh";
 			}
 
-			pMesh->Save(strMeshKey);
+			//pMesh->Save(strMeshKey);
 			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
 		}
 		else
@@ -76,13 +76,13 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
-		Ptr<CMaterial> pNewMtrl = new CMaterial();
+		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
 		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
 		pNewMtrl->SetName(wstrName);
 		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
 		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
-		pNewMtrl->Save(strMtrlKey);
+		//pNewMtrl->Save(strMtrlKey);
 		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
 		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
@@ -94,7 +94,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		if (nullptr != pAnim)
 		{
 			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
-			pAnim->Save(strAnimKey);
+			//pAnim->Save(strAnimKey);
 			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
 			pModel->m_vecAnimNames[i] = strAnimKey;
 		}
@@ -105,7 +105,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	}
 
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
-	pModel->Save(_strRelativePath);
+	//pModel->Save(_strRelativePath);
 	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
 }
