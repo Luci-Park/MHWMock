@@ -135,6 +135,8 @@ void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
 		m_pShape->setGeometry(capGeo);
 	}
 
+	//
+
 	//attachShape
 	m_pRigidActor->attachShape(*m_pShape);
 }
@@ -154,6 +156,7 @@ void CCollider3D::EditBoxShape(Vec3 _halfExtents)
 		boxGeo.halfExtents = PxVec3(_halfExtents.x, _halfExtents.y, _halfExtents.z);
 		m_pShape->setGeometry(boxGeo);
 	}
+
 	//attachShape
 	m_pRigidActor->attachShape(*m_pShape);
 }

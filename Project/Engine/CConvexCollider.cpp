@@ -39,9 +39,10 @@ void CConvexCollider::CreateColliderShape()
 		|| pRenderComponet->GetMesh() == nullptr)
 		return;
 
+	// 정점 정보, 인덱스 정보 가져오기.
 
 
-	CookingTriangleMesh();
+	//CookingTriangleMesh();
 
 	PxTriangleMeshGeometry geometry;
 
@@ -55,5 +56,31 @@ void CConvexCollider::CreateColliderShape()
 
 void CConvexCollider::CookingTriangleMesh(Vector3* _pPoints, UINT _nNumPoint, UINT* _pIndices, UINT _nNumFace)
 {
+	PxTriangleMeshDesc triangleMeshDesc;
 
+	triangleMeshDesc.points.count = _nNumPoint;
+	triangleMeshDesc.points.stride = sizeof(PxVec3);
+	triangleMeshDesc.points.data = _pPoints;
+
+	triangleMeshDesc.triangles.count = _nNumFace / 3;
+	triangleMeshDesc.triangles.stride = 3 * sizeof(PxU32);
+	triangleMeshDesc.triangles.data = _pIndices;
+
+	triangleMeshDesc.flags = PxMeshFlags(0);
+
+	PxDefaultMemoryOutputStream writeBuffer;
+
+	PxTriangleMeshCookingResult::Enum eResult;
+
+	bool bTemp = PxValidateTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc);
+	bool status = PxCookTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc, writeBuffer, &eResult);
+
+	if (false == status)
+	{
+		return;
+	}
+
+	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+
+	m_pTriangleMesh = CPhysXMgr::GetInst()->GetPxPhysics()->createTriangleMesh(readBuffer);
 }
