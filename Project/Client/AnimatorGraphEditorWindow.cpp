@@ -21,7 +21,22 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
-		ed::SetNodePosition(newNode.id, ImVec2(0, 0));
+		Vec2 pos = s->GetViewNode().vPos;
+		ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
+	}
+
+	for (auto s : states)
+	{
+		HashTransition transitions = s->GetAllTransitions();
+		for (auto t : transitions)
+		{
+			auto linkInfo = t->GetViewLink();
+			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
+			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
+			const Pin startPin = (*prevNode).outputPins[linkInfo.startIdx];
+			const Pin endPin = (*nextNode).outputPins[linkInfo.endIdx];
+			m_Links.emplace_back(t, &endPin, &startPin);
+		}
 	}
 	ed::NavigateToContent();
 }
@@ -70,7 +85,7 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 }
 
 
-void AnimatorGraphEditorWindow::OnDraw()
+void AnimatorGraphEditorWindow::OnFrame()
 {
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
@@ -161,7 +176,7 @@ void AnimatorGraphEditorWindow::OnDraw()
 	}
 	ed::EndDelete();
 	DealWithPopup();
-	
+	SavePosition();
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
 }
@@ -758,4 +773,22 @@ void AnimatorGraphEditorWindow::NextColumn()
 void AnimatorGraphEditorWindow::EndColumn()
 {
 	ImGui::EndGroup();
+}
+
+void AnimatorGraphEditorWindow::SavePosition()
+{
+	for (auto n : m_Nodes)
+	{
+		tAnimationStateNode info;
+		ImVec2 pos = ed::GetNodePosition(n.id);
+		info.vPos = Vec2(pos.x, pos.y);
+		n.pState->UpdatePos(info);
+	}
+	for (auto l : m_Links)
+	{
+		tAnimationTransitionLink info;
+		info.startIdx = l.outputPin->idx;
+		info.endIdx = l.outputPin->idx;
+		l.pTransit->UpdateLink(info);
+	}
 }

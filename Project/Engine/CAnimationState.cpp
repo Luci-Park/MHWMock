@@ -111,6 +111,7 @@ void CAnimationState::SaveToLevelFile(FILE* _FILE)
 {
 	SaveResRef(m_pClip.Get(), _FILE);
 	fwrite(&m_fSpeed, sizeof(float), 1, _FILE);
+	fwrite(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
 	int count = m_Transitions.size();
 	fwrite(&count, sizeof(int), 1, _FILE);
@@ -125,6 +126,7 @@ void CAnimationState::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadResRef(m_pClip, _FILE);
 	fread(&m_fSpeed, sizeof(float), 1, _FILE);
+	fread(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
 	int count; 
 	fread(&count, sizeof(int), 1, _FILE);

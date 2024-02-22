@@ -28,7 +28,7 @@ private:
 	float						m_fRightPlaneWidth;
 	int							m_iCurrentEditingParam;
 public:
-	virtual void OnDraw();
+	virtual void OnFrame();
 private:
 	void OnStart();
 	void OnEnd();
@@ -45,7 +45,7 @@ private:
 	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
 
-	Link& CreateTransition(const Pin* _input, const Pin* _output);
+	Link& CreateTransition(const Pin* _startPin, const Pin* _endPin);
 
 	void DeleteLink(ed::LinkId _link);
 
@@ -56,6 +56,8 @@ private:
 	void BeginColumn();
 	void NextColumn();
 	void EndColumn();
+
+	void SavePosition();
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();
