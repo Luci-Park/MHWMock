@@ -97,7 +97,6 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	}
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
 
-	assert(pModel->Save(strRootKey + pModel->GetName() + L".model") == S_OK);
 	for (size_t i = 0; i < pModel->m_vecMeshes.size(); i++)
 	{
 		wstring path = strRootKey + pModel->m_vecMeshes[i]->GetName() + L".mesh";
@@ -113,8 +112,10 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		wstring path = strRootKey + vecClips[i]->GetName() + L".anim";
 		assert(vecClips[i]->Save(path) == S_OK);
 	}
+	
+	assert(pModel->Save(strRootKey + pModel->GetName() + L".model") == S_OK);
 
-	//CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
+	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
 }
 
@@ -183,11 +184,8 @@ int CModel::Save(const wstring& _strRelativePath)
 }
 int CModel::Load(const wstring& _strFilePath)
 {
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strFilePath;
-
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 	if (pFile == nullptr)
 		return E_FAIL;
 
@@ -228,8 +226,8 @@ int CModel::Load(const wstring& _strFilePath)
 	{
 		MessageBox(nullptr, L"Resource Load Failed", (L"Model Node " + _strFilePath).c_str(), MB_OK);
 	}
-
 	fclose(pFile);
+
 	return S_OK;
 }
 
@@ -360,6 +358,7 @@ void tModelNode::CreateGameObjectFromNode()
 
 CGameObject* tModelNode::SpawnGameObjectFromNode()
 {
+	if (pGameObject == nullptr) CreateGameObjectFromNode();
 	CGameObject* pNewGameObject = pGameObject->Clone();
 	for (int i = 0; i < vecChildren.size(); i++)
 	{
