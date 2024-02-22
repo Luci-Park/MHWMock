@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 
+#ifndef _SCRIPTMGR_
+#define _SCRIPTMGR_
+
 enum SCRIPT_TYPE
 {
 	CAMERAMOVESCRIPT,
@@ -27,3 +30,5 @@ public:
 	static CScript * GetScript(UINT _iScriptType);
 	static const wchar_t * GetScriptName(CScript * _pScript);
 };
+
+#endif

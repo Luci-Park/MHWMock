@@ -17,7 +17,7 @@ CFont::~CFont()
 }
 
 void CFont::finaltick()
-{
+{	
 	CTextMgr::GetInst()->AddText(m_Text);
 }
 

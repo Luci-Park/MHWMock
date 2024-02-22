@@ -55,7 +55,7 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	for (size_t i = 0; i < _Other.m_vecChildren.size(); ++i)
 	{
 		AddChild(_Other.m_vecChildren[i]->Clone());
-	}	
+	}
 }
 
 CGameObject::~CGameObject()
@@ -125,9 +125,9 @@ void CGameObject::finaltick()
 	{
 		m_vecChildren[i]->finaltick();
 	}
-		
+
 	// 소속 레이어가 없는데 finaltick 이 호출되었다.
-	assert(-1 != m_iLayerIdx); 
+	assert(-1 != m_iLayerIdx);
 
 	// 레이어 등록
 	CLayer* pCurLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
@@ -176,7 +176,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	// 스크립트를 제외한 일반 컴포넌트인 경우
 	else
-	{		
+	{
 		// 이미 보유하고 있는 컴포넌트인 경우
 		assert(!m_arrCom[(UINT)_Component->GetType()]);
 
@@ -243,7 +243,7 @@ CGameObject* CGameObject::FindChildByName(wstring _strName)
 
 void CGameObject::SetParent(CGameObject* _Object)
 {
-	if(_Object != nullptr)
+	if (_Object != nullptr)
 		_Object->AddChild(this);
 }
 
@@ -308,3 +308,6 @@ CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)
 	}
 	return nullptr;
 }
+
+
+

@@ -42,7 +42,7 @@ void CFrustum::finaltick()
     {
         arrWorld[i] = XMVector3TransformCoord(m_arrProj[i], matPVInv);
     }
-
+    
     // 카메라 시야범위를 구성하는 6개의 평면을 구한다.
      //    4 -- 5 
     //   /|   /|  <-- Far

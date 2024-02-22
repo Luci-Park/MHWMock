@@ -61,7 +61,6 @@ public:
     void SetParent(CGameObject* _Object);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
-    //CComponent* GetComponent(SCRIPT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
     CGameObject* GetParent() const { return m_Parent; }
@@ -97,10 +96,10 @@ public:
     template<typename T>
     T* GetScript();
 
-    template<typename T>
-    CScript* GetScript_test(const wstring& _strScriptName);
-
     const vector<CScript*>& GetScripts() { return m_vecScript; }
+
+    template<typename T>
+    T* GetScript_test(const wchar_t* _strScriptName);
 
     void SetLifeSpan(float _fTime)
     {
@@ -145,12 +144,12 @@ inline T* CGameObject::GetScript()
 }
 
 template<typename T>
-inline CScript* CGameObject::GetScript_test(const wstring& _strScriptName)
+inline T* CGameObject::GetScript_test(const wchar_t* _strScriptName)
 {
     for (size_t i = 0; i < m_vecScript.size(); ++i)
     {
-        CScript* pScript = dynamic_cast<T*> (m_vecScript[i]);
-        if (CScriptMgr::GetScriptName(pScript) == _strScriptName)
+        T* pScript = dynamic_cast<T*> (m_vecScript[i]);
+        if (nullptr != pScript && CScriptMgr::GetScriptName(pScript) == _strScriptName)
             return pScript;
     }
 

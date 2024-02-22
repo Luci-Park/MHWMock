@@ -32,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMonsterScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"CDamageScript" == _strScriptName)
+		return new CDamageScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -56,6 +58,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
 		break;
+	case (UINT)SCRIPT_TYPE::DAMAGESCRIPT:
+		return new CDamageScript;
+		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
 		break;
@@ -63,7 +68,7 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	return nullptr;
 }
 
-const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
+const wchar_t* CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
@@ -85,6 +90,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
 		return L"CPlayerScript";
+		break;
+		
+	case SCRIPT_TYPE::DAMAGESCRIPT:
+		return L"CDamageScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

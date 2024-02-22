@@ -16,6 +16,7 @@ private:
 public:
     COMPONENT_TYPE GetType() { return m_Type; }
     CGameObject* GetOwner() { return m_pOwner ; }
+    void SetOwner(CGameObject* _Obj) { m_pOwner = _Obj; }
 
 public:
     virtual void begin() {}

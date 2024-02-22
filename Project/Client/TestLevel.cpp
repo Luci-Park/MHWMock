@@ -12,7 +12,7 @@
 
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
-#include <Script/CCameraMoveScript.h>
+#include <Script\CCameraMoveScript.h>
 #include <Script\CDamageScript.h>
 
 #include "CLevelSaveLoad.h"
@@ -22,6 +22,8 @@
 
 #include <Engine\CCanvas.h>
 
+CGameObject* sgPlayer = new CGameObject;
+CGameObject* pMainCam = new CGameObject;
 
 void CreateTestLevel()
 {
@@ -40,7 +42,7 @@ void CreateTestLevel()
 
 
 	// Main Camera Object ����
-	CGameObject* pMainCam = new CGameObject;
+	//CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
 
 	pMainCam->AddComponent(new CTransform);
@@ -56,18 +58,18 @@ void CreateTestLevel()
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 
 	// UI cameara
-	CGameObject* pUICam = new CGameObject;
-	pUICam->SetName(L"UICamera");
+	//CGameObject* pUICam = new CGameObject;
+	//pUICam->SetName(L"UICamera");
 
-	pUICam->AddComponent(new CTransform);
-	pUICam->AddComponent(new CCamera);
+	//pUICam->AddComponent(new CTransform);
+	//pUICam->AddComponent(new CCamera);
 
-	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
-	pUICam->Camera()->SetLayerMaskAll(false);
-	pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
+	//pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
+	//pUICam->Camera()->SetLayerMaskAll(false);
+	//pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
 
-	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
+	//SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
 
 	CGameObject* ptestUI = new CGameObject;
 	ptestUI->SetName(L"TestUI");
@@ -109,15 +111,15 @@ void CreateTestLevel()
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
 	{
-
-		wstring test = L"CDamageScript";
-		CGameObject* sgPlayer = new CGameObject;
 		sgPlayer->SetName(L"sgPlayer");
 		sgPlayer->AddComponent(new CTransform);
 		sgPlayer->AddComponent(new CMeshRender);
 		sgPlayer->AddComponent(new CPlayerScript);
 		sgPlayer->AddComponent(new CDamageScript);
-		sgPlayer->GetScrip
+
+		const wchar_t* test = L"CDamageScript";
+		sgPlayer->GetScript_test<CDamageScript>(test)->SetUIcamera(pMainCam->Camera());
+		sgPlayer->GetScript_test<CDamageScript>(test)->SetOwner(sgPlayer);
 		SpawnGameObject(sgPlayer, L"Player");
 
 		//CGameObject* sgMonster = new CGameObject;
@@ -133,6 +135,8 @@ void CreateTestLevel()
 
 void testtick()
 {
+	sgPlayer->tick();
+	pMainCam;
 
 	DrawDebugSphere(Vec3(10, 10, 10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
 	DrawDebugSphere(Vec3(-10, -10, -10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
