@@ -33,9 +33,8 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 			auto linkInfo = t->GetViewLink();
 			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
 			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
-			const Pin startPin = (*prevNode).outputPins[linkInfo.startIdx];
-			const Pin endPin = (*nextNode).outputPins[linkInfo.endIdx];
-			m_Links.emplace_back(t, &endPin, &startPin);
+			m_Links.emplace_back(t, &(*prevNode).outputPins[linkInfo.startIdx], 
+				&(*nextNode).inputPins[linkInfo.endIdx]);
 		}
 	}
 	ed::NavigateToContent();
@@ -65,7 +64,7 @@ Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pi
 	CAnimationState* nextState = _endPin->node->pState;
 	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
 	m_pStateMachine->Reset();
-	m_Links.emplace_back(transition, _endPin, _startPin);
+	m_Links.emplace_back(transition, _startPin, _endPin);
 	return m_Links.back();
 }
 
@@ -97,7 +96,7 @@ void AnimatorGraphEditorWindow::OnFrame()
 	for (auto n : m_Nodes)
 		DrawNode(n);
 	for (auto l : m_Links)
-		ed::Link(l.id, l.outputPin->id, l.inputPin->id);
+		ed::Link(l.id, l.startPin->id, l.endPin->id);
 	if (ed::BeginCreate(ImColor(255, 255, 255), 2.0f))
 	{
 		auto showLabel = [](const char* label, ImColor color)
@@ -150,7 +149,7 @@ void AnimatorGraphEditorWindow::OnFrame()
 					if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
 					{
 						Link newLink = CreateTransition(startPin, endPin);
-						ed::Link(newLink.id, newLink.outputPin->id, newLink.inputPin->id);
+						ed::Link(newLink.id, newLink.startPin->id, newLink.endPin->id);
 
 					}
 				}
@@ -787,8 +786,8 @@ void AnimatorGraphEditorWindow::SavePosition()
 	for (auto l : m_Links)
 	{
 		tAnimationTransitionLink info;
-		info.startIdx = l.outputPin->idx;
-		info.endIdx = l.outputPin->idx;
+		info.startIdx = l.startPin->idx;
+		info.endIdx = l.endPin->idx;
 		l.pTransit->UpdateLink(info);
 	}
 }
