@@ -326,7 +326,7 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 
-    // ���õ� ������Ʈ�� �����ͼ� ComponentType �� �´� ������Ʈ�� �����ؼ� �߰��Ѵ�.
+    // Selected GameObject at outliner witch wnat to add Component
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
     if (nullptr == pSelectedObject)
@@ -373,7 +373,10 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     case COMPONENT_TYPE::DECAL:
         //pSelectedObject->AddComponent(new CDecal);
-        break;            
+        break;
+    case COMPONENT_TYPE::CANVAS :
+        pSelectedObject->AddComponent(new CCanvas);
+        break;
     }
 
     // Inspector �� ���Ӱ� �߰��� ������Ʈ�� �˸��� ���ؼ� Ÿ���� �ٽ� �˷��ش�.
