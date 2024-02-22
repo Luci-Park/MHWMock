@@ -15,17 +15,12 @@
 
 
 CModel::CModel()
-	:CRes(RES_TYPE::MODEL, true)
+	:CRes(RES_TYPE::MODEL)
 {
 }
 
 CModel::~CModel()
 {
-	if (m_pRootNode != nullptr)
-	{
-		delete m_pRootNode;
-		m_pRootNode = nullptr;
-	}
 }
 
 Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
@@ -46,67 +41,80 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	path filepath(_strRelativePath);
 	Ptr<CModel> pModel = new CModel;
 	pModel->SetName(filepath.stem());
-	wstring strTopKey = filepath.parent_path() / filepath.stem();
-	pModel->SetKey(strTopKey + L".model");
+	wstring strRootKey = filepath.parent_path() / filepath.stem();
+	strRootKey += L"\\";
+
+	pModel->SetKey(strRootKey + pModel->GetName() + L".model");
+
+	unordered_set<wstring> nameCheck;
 
 	pModel->m_vecMeshes.resize(pScene->mNumMeshes);
 	for (int i = 0; i < pScene->mNumMeshes; i++)
 	{
 		Ptr<CMesh> pMesh = CMesh::CreateFromAssimp(pScene->mMeshes[i], pModel.Get());
-		if (nullptr != pMesh)
-		{
-			pModel->m_vecMeshes[i] = pMesh;
-			wstring strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + L".mesh";
-
-			int num = 0;
-			while (CResMgr::GetInst()->FindRes<CMesh>(strMeshKey) != nullptr)
-			{
-				strMeshKey = strTopKey + L"\\mesh\\" + pMesh->GetName() + std::to_wstring(num++) + L".mesh";
-			}
-
-			//pMesh->Save(strMeshKey);
-			CResMgr::GetInst()->AddRes<CMesh>(strMeshKey, pMesh);
-		}
-		else
-		{
-			return nullptr;
-		}
+		
+		if (pMesh == nullptr) return nullptr;
+		
+		int num = 0;
+		wstring finName = pMesh->GetName();
+		while (nameCheck.find(finName + L".mesh") != nameCheck.end())
+			finName = pMesh->GetName() + L" " + std::to_wstring(num++);
+		nameCheck.insert(finName);
+		pMesh->SetName(finName);
+		pModel->m_vecMeshes[i] = pMesh;
 	}
 
 	pModel->m_vecMaterials.resize(pScene->mNumMaterials);
 	for (int i = 0; i < pScene->mNumMaterials; i++)
 	{
-		Ptr<CMaterial> pNewMtrl = new CMaterial(true);
-		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
-		pNewMtrl->SetName(wstrName);
+		Ptr<CMaterial> pNewMtrl = new CMaterial();
 		pNewMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"SkinningShader"));
 
-		wstring strMtrlKey = strTopKey + L"\\material\\" + wstrName + L".mtrl";
-		//pNewMtrl->Save(strMtrlKey);
-		CResMgr::GetInst()->AddRes<CMaterial>(strMtrlKey, pNewMtrl);
+		int num = 0;
+		wstring wstrName = aiStrToWstr(pScene->mMaterials[i]->GetName());
+		wstring wstrFinName = wstrName;
+		while (nameCheck.find(wstrFinName + L".mtrl") != nameCheck.end())
+			wstrFinName = wstrName + L" " + std::to_wstring(num++);
+		nameCheck.insert(wstrFinName);
+		pNewMtrl->SetName(wstrFinName);
 		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
 
+	vector<Ptr<CAnimationClip>> vecClips(pScene->mNumAnimations);
 	pModel->m_vecAnimNames.resize(pScene->mNumAnimations);
 	for (int i = 0; i < pScene->mNumAnimations; i++)
 	{
 		Ptr<CAnimationClip> pAnim = CAnimationClip::CreateFromAssimp(pScene->mAnimations[i]);
-		if (nullptr != pAnim)
-		{
-			wstring strAnimKey = strTopKey + L"\\anim\\" + pAnim->GetName() + L".anim";
-			//pAnim->Save(strAnimKey);
-			CResMgr::GetInst()->AddRes<CAnimationClip>(strAnimKey, pAnim);
-			pModel->m_vecAnimNames[i] = strAnimKey;
-		}
-		else
-		{
-			return nullptr;
-		}
+		if (pAnim == nullptr) return nullptr;
+
+		int num = 0;
+		wstring finName = pAnim->GetName();
+		while (nameCheck.find(finName + L".anim") != nameCheck.end())
+			finName = pAnim->GetName() + L" " + std::to_wstring(num++);
+		nameCheck.insert(finName);
+		pAnim->SetName(finName);
+		vecClips[i] = pAnim;
+	}
+	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
+
+	assert(pModel->Save(strRootKey + pModel->GetName() + L".model") == S_OK);
+	for (size_t i = 0; i < pModel->m_vecMeshes.size(); i++)
+	{
+		wstring path = strRootKey + pModel->m_vecMeshes[i]->GetName() + L".mesh";
+		assert(pModel->m_vecMeshes[i]->Save(path) == S_OK);
+	}
+	for (size_t i = 0; i < pModel->m_vecMaterials.size(); i++)
+	{
+		wstring path = strRootKey + pModel->m_vecMaterials[i]->GetName() + L".mtrl";
+		assert(pModel->m_vecMaterials[i]->Save(path) == S_OK);
+	}
+	for (size_t i = 0; i < vecClips.size(); i++)
+	{
+		wstring path = strRootKey + vecClips[i]->GetName() + L".anim";
+		assert(vecClips[i]->Save(path) == S_OK);
 	}
 
-	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
-	//pModel->Save(_strRelativePath);
-	CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
+	//CResMgr::GetInst()->AddRes<CModel>(pModel->GetKey(), pModel);
 	return pModel;
 }
 
@@ -179,7 +187,7 @@ int CModel::Load(const wstring& _strFilePath)
 	strFilePath += _strFilePath;
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
 	if (pFile == nullptr)
 		return E_FAIL;
 
@@ -213,8 +221,6 @@ int CModel::Load(const wstring& _strFilePath)
 		LoadWString(boneName, pFile);
 		m_setBoneNames.insert(boneName);
 	}
-	for (auto str : m_setBoneNames)
-		SaveWString(str, pFile);
 
 	m_pRootNode = new tModelNode;
 

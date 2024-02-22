@@ -16,7 +16,7 @@ private:
     vector<Ptr<CMaterial>>  m_vecMaterials;
     vector<wstring>         m_vecAnimNames;
     set<wstring>            m_setBoneNames;
-    tModelNode*             m_pRootNode;
+    tModelNode*             m_pRootNode;;
 
 public:
     static Ptr<CModel> LoadFromFbx(const wstring& _strRelativePath);

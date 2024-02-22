@@ -37,7 +37,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 {
 	wstring wstrName = aiStrToWstr(_aiMesh->mName);
 
-	CMesh* pMesh = new CMesh(true);
+	CMesh* pMesh = new CMesh();
 	pMesh->SetName(wstrName);
 
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);

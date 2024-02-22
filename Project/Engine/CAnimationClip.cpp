@@ -5,7 +5,7 @@
 //#include "Assimp.hpp"
 
 CAnimationClip::CAnimationClip()
-	: CRes(RES_TYPE::ANIMATION, true)
+	: CRes(RES_TYPE::ANIMATION)
 	, m_dDuration(0)
 	, m_dTicksPerSecond(30)
 {
@@ -153,52 +153,62 @@ int CAnimationClip::Save(const wstring& _strRelativePath)
 	if (IsEngineRes())
 		return E_FAIL;
 
-	SetRelativePath(_strRelativePath);
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
-
-	path parentFolder(strFilePath);
-	filesystem::create_directories(parentFolder.parent_path());
-
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-
-	if (pFile == nullptr)
-		return E_FAIL;
-
-	SaveWString(GetName(), pFile);
-	SaveWString(GetKey(), pFile);
-
-	fwrite(&m_dDuration, sizeof(double), 1, pFile);
-	fwrite(&m_dTicksPerSecond, sizeof(double), 1, pFile);
-
-	UINT iSize = m_vecChannels.size();
-	fwrite(&iSize, sizeof(UINT), 1, pFile);
-	for (size_t i = 0; i < iSize; i++)
-		m_vecChannels[i].Save(pFile);
-
-	iSize = m_BoneNames.size();
-	fwrite(&iSize, sizeof(UINT), 1, pFile);
-	for (size_t i = 0; i < iSize; i++)
-		SaveWString(m_BoneNames[i], pFile);
-
-	iSize = m_vecRsltChannel.size();
-	fwrite(&iSize, sizeof(UINT), 1, pFile);
-	for (size_t i = 0; i < iSize; i++)
+	try
 	{
-		SaveWString(m_vecRsltChannel[i].strBoneName, pFile);
-		fwrite(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
-		fwrite(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
-		fwrite(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
-	}
+		SetRelativePath(_strRelativePath);
+		wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 
-	fclose(pFile);
-	return S_OK;
+		path parentFolder(strFilePath);
+		filesystem::create_directories(parentFolder.parent_path());
+
+		FILE* pFile = nullptr;
+		_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+		if (pFile == nullptr)
+			return E_FAIL;
+
+		SaveWString(GetName(), pFile);
+		SaveWString(GetKey(), pFile);
+
+		fwrite(&m_dDuration, sizeof(double), 1, pFile);
+		fwrite(&m_dTicksPerSecond, sizeof(double), 1, pFile);
+
+		UINT iSize = m_vecChannels.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (size_t i = 0; i < iSize; i++)
+		{
+			if (m_vecChannels[i].Save(pFile) == E_FAIL)
+				return E_FAIL;
+		}
+
+		iSize = m_BoneNames.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (size_t i = 0; i < iSize; i++)
+			SaveWString(m_BoneNames[i], pFile);
+
+		iSize = m_vecRsltChannel.size();
+		fwrite(&iSize, sizeof(UINT), 1, pFile);
+		for (size_t i = 0; i < iSize; i++)
+		{
+			SaveWString(m_vecRsltChannel[i].strBoneName, pFile);
+			fwrite(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
+			fwrite(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
+			fwrite(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
+		}
+
+		fclose(pFile);
+		return S_OK;
+	}
+	catch (const std::exception&)
+	{
+		return E_FAIL;
+	}
 }
 
 int CAnimationClip::Load(const wstring& _strFilePath)
 {
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, _strFilePath.c_str(), L"wb");
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 	if (pFile == nullptr)
 		return E_FAIL;
 

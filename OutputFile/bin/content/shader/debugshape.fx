@@ -91,9 +91,9 @@ VS_DEBUG_OUT VS_DebugShape_Capslue(VS_DEBUG_IN _in)
     float3 vertexPos = _in.vPos;
 
     // 높이의 절반과 반지름을 이용하여 캡슐의 크기를 조정합니다.
-    vertexPos.x *= Input_1;
-    vertexPos.y *= Input_0;
-    vertexPos.z *= Input_1;
+    vertexPos.x *= Input_0;
+    vertexPos.y *= Input_1;
+    vertexPos.z *= Input_0;
 
     // 출력을 설정합니다.
     output.vPosition = mul(float4(vertexPos, 1), g_matWVP);
