@@ -11,6 +11,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 	, m_dTick(0)
 	, m_pMachine(_pParent)
 	, m_iRepeatNum(0)
+	, m_tNodeInfo({Vec2(0, 0)})
 {
 }
 
@@ -21,6 +22,7 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 	, m_dTick(0)
 	, m_pMachine(_other.m_pMachine)
 	, m_iRepeatNum(0)
+	, m_tNodeInfo({ Vec2(0, 0) })
 {
 }
 
