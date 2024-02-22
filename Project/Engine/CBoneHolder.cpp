@@ -70,8 +70,8 @@ void CBoneHolder::finaltick()
 
 void CBoneHolder::SaveToLevelFile(FILE* _FILE)
 {
-	UINT count = m_setBoneNames.size();
-	fwrite(&count, sizeof(UINT), 1, _FILE);
+	int count = m_setBoneNames.size();
+	fwrite(&count, sizeof(int), 1, _FILE);
 	for (auto& name : m_setBoneNames)
 	{
 		SaveWString(name, _FILE);
@@ -80,8 +80,8 @@ void CBoneHolder::SaveToLevelFile(FILE* _FILE)
 
 void CBoneHolder::LoadFromLevelFile(FILE* _FILE)
 {
-	UINT count;
-	fread(&count, sizeof(UINT), 1, _FILE);
+	int count;
+	fread(&count, sizeof(int), 1, _FILE);
 	while (count--)
 	{
 		wstring name;

@@ -30,7 +30,7 @@ private:
 public:
 	virtual void OnDraw();
 private:
-	void OnStart(string _gameObjectName);
+	void OnStart();
 	void OnEnd();
 	void DrawNode(Node& _node);
 	void DealWithPopup();

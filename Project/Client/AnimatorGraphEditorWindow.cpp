@@ -15,7 +15,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 {
-	OnStart(WSTR2STR(_animator->GetOwner()->GetName()));
+	OnStart();
 	m_pStateMachine = _animator->GetStateMachine();
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
@@ -679,9 +679,9 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 	ImGui::EndChild();
 }
 
-void AnimatorGraphEditorWindow::OnStart(string _gameObjectName)
+void AnimatorGraphEditorWindow::OnStart()
 {
-	string filename = "Animator-" + _gameObjectName + ".json";
+	string filename = "Animator.json";
 	ed::Config config;
 	config.SettingsFile = filename.c_str();
 	m_pEditor = ed::CreateEditor(&config);

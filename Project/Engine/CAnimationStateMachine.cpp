@@ -7,7 +7,7 @@ CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _pAnimator)
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
 	m_pHead = pHead;
-	m_pCurrentState = m_pHead;
+	Reset();
 }
 
 CAnimationStateMachine::~CAnimationStateMachine()
@@ -260,4 +260,5 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
+	Reset();
 }
