@@ -141,12 +141,6 @@ void ContentUI::ResetContent()
 		for (const auto& pair : mapRes)
 		{
 			TreeNode* pNode = m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
-			pNode->SetDataType(TREEDATA_TYPE::RES);
-			if (i == (UINT)RES_TYPE::MODEL)
-			{				
-				Ptr<CModel> pModel = (CModel*)pair.second.Get();
-				ResetModelNodeContent(pModel->GetRootNode(), pNode);
-			}
 		}
 	}
 }
@@ -156,14 +150,7 @@ void ContentUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 	TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
 
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-	if (TREEDATA_TYPE::RES == pSelectedNode->GetDataType())
-	{
-		pInspector->SetTargetResource((CRes*)pSelectedNode->GetData());
-	}
-	else if (TREEDATA_TYPE::MODELNODE == pSelectedNode->GetDataType())
-	{
-		pInspector->SetTargetModelNode((tModelNode*)pSelectedNode->GetData());
-	}
+	pInspector->SetTargetResource((CRes*)pSelectedNode->GetData());
 }
 
 
@@ -232,24 +219,5 @@ void ContentUI::DragDropResource(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 	{
 		CModel* pModel = (CModel*)pDragNode->GetData();
 		pModel->CreateGameObjectFromModel();
-	}
-}
-
-void ContentUI::ResetModelNodeContent(tModelNode* _pNode, TreeNode* _ParentNode)
-{	
-	for (int i = 0; i < _pNode->vecChildren.size(); i++)
-	{
-		ResetModelNodeContentRec(_pNode->vecChildren[i], _ParentNode);
-	}
-}
-
-void ContentUI::ResetModelNodeContentRec(tModelNode* _pNode, TreeNode* _ParentNode)
-{
-	TreeNode* pNode = m_Tree->AddItem(string(_pNode->strName.begin(), _pNode->strName.end())
-		, (DWORD_PTR)_pNode, _ParentNode);
-	pNode->SetDataType(TREEDATA_TYPE::MODELNODE);
-	for (int i = 0; i < _pNode->vecChildren.size(); i++)
-	{
-		ResetModelNodeContentRec(_pNode->vecChildren[i], pNode);
 	}
 }

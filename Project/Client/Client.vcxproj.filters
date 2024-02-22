@@ -347,6 +347,12 @@
     <ClInclude Include="ImGuiFunc.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionUI.h">
+      <Filter>UI\CollisionUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

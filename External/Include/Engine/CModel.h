@@ -16,7 +16,7 @@ private:
     vector<Ptr<CMaterial>>  m_vecMaterials;
     vector<wstring>         m_vecAnimNames;
     set<wstring>            m_setBoneNames;
-    tModelNode*             m_pRootNode;
+    tModelNode*             m_pRootNode;;
 
 public:
     static Ptr<CModel> LoadFromFbx(const wstring& _strRelativePath);
@@ -45,7 +45,6 @@ struct tModelNode
         , vecChildren(0)
         , pMesh(nullptr)
         , pMaterial(nullptr)
-        , pGameObject(nullptr)
     {
 
     }
@@ -57,13 +56,12 @@ struct tModelNode
     vector<tModelNode*> vecChildren;
     Ptr<CMesh> pMesh;
     Ptr<CMaterial> pMaterial;
-    CGameObject* pGameObject;
 
     int Save(FILE* _File);
     int Load(FILE* _File);
 
     static tModelNode* CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel);
-    void CreateGameObjectFromNode();
+    CGameObject* CreateGameObjectFromNode();
     CGameObject* SpawnGameObjectFromNode();
     tModelNode* FindNode(wstring _strName);
 };

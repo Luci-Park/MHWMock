@@ -194,6 +194,7 @@ void CAnimationTransition::SaveToLevelFile(FILE* _FILE)
 		fwrite(&expr, sizeof(int), 1, _FILE);
 		fwrite(&cond->rhs, sizeof(float), 1, _FILE);
 	}
+	fwrite(&m_tLinkInfo, sizeof(tAnimationTransitionLink), 1, _FILE);
 }
 
 void CAnimationTransition::LoadFromLevelFile(FILE* _FILE)
@@ -218,4 +219,6 @@ void CAnimationTransition::LoadFromLevelFile(FILE* _FILE)
 		fread(&newCond->rhs, sizeof(float), 1, _FILE);
 		m_vecConditions[i] = newCond;
 	}
+
+	fread(&m_tLinkInfo, sizeof(tAnimationTransitionLink), 1, _FILE);
 }

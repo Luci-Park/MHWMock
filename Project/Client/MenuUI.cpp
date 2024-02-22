@@ -283,6 +283,9 @@ void MenuUI::SaveObject()
     wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
     strPath += filename;
     _wfopen_s(&saveFile, strPath.c_str(), L"ab");
+    
+    if (saveFile == nullptr) return;
+
     assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, saveFile) == S_OK);
     fclose(saveFile);
 }
@@ -293,6 +296,9 @@ void MenuUI::LoadObject()
     ContentUI* content = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     FILE* loadFile = BrowserOpen();
+
+    if (loadFile == nullptr) return;
+    
     CGameObject* pSelectedObject = CLevelSaveLoad::LoadGameObject(loadFile);
     tEvent evn;
     evn.wParam = (DWORD_PTR)pSelectedObject;
@@ -300,6 +306,7 @@ void MenuUI::LoadObject()
     evn.Type = EVENT_TYPE::CREATE_OBJECT;
     CEventMgr::GetInst()->AddEvent(evn);
     content->Reload();
+    fclose(loadFile);
 }
 
 void MenuUI::DeleteObject()

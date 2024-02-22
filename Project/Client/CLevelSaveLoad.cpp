@@ -11,8 +11,6 @@
 
 #include <Script\CScriptMgr.h>
 
-char CLevelSaveLoad::m_iLoadObjeNum = '0';
-
 int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 {
 	if (_Level->GetState() != LEVEL_STATE::STOP)
@@ -170,8 +168,6 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 	// 이름
 	wstring Name;
 	LoadWString(Name, _File);
-	m_iLoadObjeNum++;
-	Name += m_iLoadObjeNum;
 	pObject->SetName(Name);
 
 	// 컴포넌트

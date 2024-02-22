@@ -1,4 +1,6 @@
 #pragma once
+#include "CAnimStructures.h"
+
 class CAnimationStateMachine;
 class CAnimationState;
 class CAnimationTransition
@@ -18,6 +20,7 @@ private:
 	double								m_dTransitionOffset;
 	double								m_dTick;
 	double								m_dTickPercent;
+	tAnimationTransitionLink			m_tLinkInfo;
 
 
 public:
@@ -46,6 +49,9 @@ public:
 	CAnimationState* GetNextState() { return m_pNextState; }
 
 	void Remove();
+
+	tAnimationTransitionLink GetViewLink() { return m_tLinkInfo; }
+	void UpdateLink(tAnimationTransitionLink _link) { m_tLinkInfo = _link; }
 public:
 	void tick();
 	void SaveToLevelFile(FILE* _FILE);
