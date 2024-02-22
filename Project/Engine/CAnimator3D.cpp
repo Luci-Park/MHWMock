@@ -83,6 +83,17 @@ void CAnimator3D::tick()
 
 void CAnimator3D::finaltick()
 {
+	if (!BoneHolder()->IsReady())return;
+	m_pAnimationStateMachine->tick();
+	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
+	for (int i = 0; i < frame.size(); i++)
+	{
+		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
+		assert(pTransform);
+		pTransform->SetRelativePos(frame[i].vPos);
+		pTransform->SetRelativeRot(frame[i].qRot);
+		pTransform->SetRelativeScale(frame[i].vScale);
+	}
 }
 
 

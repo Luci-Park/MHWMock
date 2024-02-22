@@ -95,6 +95,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		pAnim->SetName(finName);
 		vecClips[i] = pAnim;
 	}
+
 	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
 
 	for (size_t i = 0; i < pModel->m_vecMeshes.size(); i++)
@@ -111,6 +112,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	{
 		wstring path = strRootKey + vecClips[i]->GetName() + L".anim";
 		assert(vecClips[i]->Save(path) == S_OK);
+		pModel->m_vecAnimNames[i] = path;
 	}
 	
 	assert(pModel->Save(strRootKey + pModel->GetName() + L".model") == S_OK);
@@ -234,8 +236,6 @@ int CModel::Load(const wstring& _strFilePath)
 tModelNode::~tModelNode()
 {
 	Safe_Del_Vec(vecChildren);
-	if (pGameObject != nullptr)
-		delete pGameObject;
 }
 
 int tModelNode::Save(FILE* _File)
@@ -248,6 +248,8 @@ int tModelNode::Save(FILE* _File)
 		fwrite(&vScale, sizeof(Vec3), 1, _File);
 		SaveResRef(pMesh.Get(), _File);
 		SaveResRef(pMaterial.Get(), _File);
+		int childnum = vecChildren.size();
+		fwrite(&childnum, sizeof(int), 1, _File);
 		for (int i = 0; i < vecChildren.size(); i++)
 			vecChildren[i]->Save(_File);
 		return S_OK;
@@ -268,11 +270,14 @@ int tModelNode::Load(FILE* _File)
 		fread(&vScale, sizeof(Vec3), 1, _File);
 		LoadResRef(pMesh, _File);
 		LoadResRef(pMaterial, _File);
+		int childnum;
+		fread(&childnum, sizeof(int), 1, _File);
+		vecChildren.resize(childnum);
 		for (int i = 0; i < vecChildren.size(); i++)
 		{
 			tModelNode* pNewChild = new tModelNode();
 			pNewChild->Load(_File);
-			vecChildren.push_back(pNewChild);
+			vecChildren[i] = pNewChild;
 		}
 		return S_OK;
 	}
@@ -318,12 +323,10 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 				pNewChild->strName = pNewNode->strName + std::to_wstring(i);
 				pNewChild->pMesh = _pModel->GetMesh(_aiNode->mMeshes[i]);
 				pNewChild->pMaterial = _pModel->GetMaterial(_aiScene->mMeshes[_aiNode->mMeshes[i]]->mMaterialIndex);
-				pNewChild->CreateGameObjectFromNode();
 				pNewNode->vecChildren.push_back(pNewChild);
 			}
 		}
 	}
-	pNewNode->CreateGameObjectFromNode();
 	for (size_t i = 0; i < _aiNode->mNumChildren; i++)
 	{
 		pNewNode->vecChildren.push_back(CreateFromAssimp(_aiScene, _aiNode->mChildren[i], _pModel));
@@ -331,12 +334,9 @@ tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNod
 	return pNewNode;
 }
 
-void tModelNode::CreateGameObjectFromNode()
+CGameObject* tModelNode::CreateGameObjectFromNode()
 {
-	if (pGameObject != nullptr)
-		delete pGameObject;
-
-	pGameObject = new CGameObject;
+	CGameObject* pGameObject = new CGameObject;
 	pGameObject->SetName(strName);
 
 	pGameObject->AddComponent(new CTransform);
@@ -354,12 +354,12 @@ void tModelNode::CreateGameObjectFromNode()
 		pGameObject->GetRenderComponent()->SetMesh(pMesh);
 		pGameObject->GetRenderComponent()->SetMaterial(pMaterial);
 	}
+	return pGameObject;
 }
 
 CGameObject* tModelNode::SpawnGameObjectFromNode()
 {
-	if (pGameObject == nullptr) CreateGameObjectFromNode();
-	CGameObject* pNewGameObject = pGameObject->Clone();
+	CGameObject* pNewGameObject = CreateGameObjectFromNode();
 	for (int i = 0; i < vecChildren.size(); i++)
 	{
 		pNewGameObject->AddChild(vecChildren[i]->SpawnGameObjectFromNode());
