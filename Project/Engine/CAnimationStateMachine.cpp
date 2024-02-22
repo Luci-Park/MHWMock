@@ -200,7 +200,7 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 		else if (AnimParamType::BOOL == param->type)
 			fwrite(&param->value.BOOL, sizeof(bool), 1, _FILE);
 		else if (AnimParamType::TRIGGER == param->type)
-			fwrite(&param->value.TRIGGER, sizeof(float), 1, _FILE);
+			fwrite(&param->value.TRIGGER, sizeof(bool), 1, _FILE);
 	}
 	count = m_States.size();
 	fwrite(&count, sizeof(int), 1, _FILE);
@@ -237,7 +237,7 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 		else if (AnimParamType::BOOL == param->type)
 			fread(&param->value.BOOL, sizeof(bool), 1, _FILE);
 		else if (AnimParamType::TRIGGER == param->type)
-			fread(&param->value.TRIGGER, sizeof(float), 1, _FILE);
+			fread(&param->value.TRIGGER, sizeof(bool), 1, _FILE);
 		m_vecParams[i] = param;
 	}
 	fread(&count, sizeof(int), 1, _FILE);
