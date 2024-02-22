@@ -205,7 +205,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			break;
 		case COMPONENT_TYPE::LIGHT2D:
 			Component = new CLight2D;
-			break;
+			break; 
 		case COMPONENT_TYPE::LIGHT3D:
 			Component = new CLight3D;
 			break;
@@ -235,6 +235,9 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			break;
 		case COMPONENT_TYPE::BONEHOLDER:
 			Component = new CBoneHolder;
+			break;
+		case COMPONENT_TYPE::CANVAS:
+			Component = new CCanvas;
 			break;
 		}
 

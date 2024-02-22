@@ -47,6 +47,16 @@ void CCanvas::render()
 	GetMesh()->render();
 }
 
+void CCanvas::SaveToLevelFile(FILE* _File)
+{
+	CRenderComponent::SaveToLevelFile(_File);
+}
+
+void CCanvas::LoadFromLevelFile(FILE* _FILE)
+{
+	CRenderComponent::LoadFromLevelFile(_FILE);
+}
+
 void CCanvas::SetUITexture(Ptr<CTexture> _Tex)
 {
 	m_UITex = _Tex;
