@@ -21,6 +21,7 @@ CModel::CModel()
 
 CModel::~CModel()
 {
+	delete m_pRootNode;
 }
 
 Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
