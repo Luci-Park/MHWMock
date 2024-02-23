@@ -33,7 +33,8 @@ int CollisionUI::render_update()
 {
     ImGuiStyle& style = ImGui::GetStyle();
 
-    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+    //const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+    const float TEXT_BASE_HEIGHT = ImGui::CalcTextSize("A").y * 2.0f;
     const float TEXT_BASE_WIDTH = ImGui::CalcTextSize("A").x;
 
 
@@ -74,7 +75,7 @@ int CollisionUI::render_update()
                     ImGui::Text("");
                     continue;
                 }
-                ImGui::TextUnformatted(ToString((LAYER_TYPE)(ImGui::TableGetColumnIndex() - 1)));
+                ImGui::TextUnformatted(ToString((LAYER_TYPE)(MAX_LAYER - ImGui::TableGetColumnIndex())));
                 continue;
             }
 
@@ -85,11 +86,22 @@ int CollisionUI::render_update()
                 continue;
             }
 
-            ImGui::Text("%d,%d", ImGui::TableGetColumnIndex(), ImGui::TableGetRowIndex());
+            // Cutting
+            if (ImGui::TableGetColumnIndex() > (MAX_LAYER + 1) - ImGui::TableGetRowIndex())
+            {
+                continue;
+            }
+
+            // CheckBox
+            static bool check = true;
+            ImGui::Checkbox("", &check);
+
+            //ImGui::Text("%d,%d", ImGui::TableGetColumnIndex(), ImGui::TableGetRowIndex());
         }
         ImGui::EndTable();
     }
   
+
 
     //static ImGuiTableFlags flags = ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable;
     //static int freeze_cols = 1;
