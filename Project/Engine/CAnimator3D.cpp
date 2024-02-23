@@ -16,6 +16,7 @@ CAnimator3D::CAnimator3D()
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	: CComponent(_origin)
 	, m_mapAnims(_origin.m_mapAnims)
+	, m_vecAnimNames(_origin.m_vecAnimNames)
 {
 	m_pAnimationStateMachine = new CAnimationStateMachine(this);
 }

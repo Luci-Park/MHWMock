@@ -65,7 +65,6 @@ int MenuUI::render_update()
                     if (ImGui::MenuItem(strNarrow.c_str()))
                     {
                         wstring filename = L"level\\" + vecLevels[i] + L".lv";
-                        // Level �ҷ�����
                         CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(filename);
 
                         tEvent evn = {};
@@ -97,10 +96,21 @@ int MenuUI::render_update()
         }
         if (ImGui::BeginMenu("GameObject"))
         {
-            // ���� ������ ���ӿ�����Ʈ ����
             if (ImGui::MenuItem("Create Empty Object"))
             {
                 CreateEmptyObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Copy Object"))
+            {
+                CopyObject();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Delete Object"))
+            {
+                DeleteObject();
             }
             ImGui::Separator();
 
@@ -116,11 +126,6 @@ int MenuUI::render_update()
             }
             ImGui::Separator();
 
-            if (ImGui::MenuItem("Delete Object"))
-            {
-                DeleteObject();
-            }
-            ImGui::Separator();
 
             
             if (ImGui::BeginMenu("Add Component"))
@@ -265,10 +270,8 @@ void MenuUI::CreateEmptyObject()
     pNewObject->SetName(L"New Object");
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), ToWString((LAYER_TYPE)0));
 
-    // Outliner �� �����´�.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
 
-    // �����߰��� ������Ʈ�� �����ͷ� �ϴ� ��尡 �߰��Ǹ�, ���û��·� �ΰ� �Ѵ�.
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
 }
 
@@ -309,10 +312,21 @@ void MenuUI::LoadObject()
     fclose(loadFile);
 }
 
+void MenuUI::CopyObject()
+{
+    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    CGameObject* pSelectedObject = outliner->GetSelectedObject();
+    if (pSelectedObject == nullptr) return;
+    CGameObject* pNewObject = pSelectedObject->Clone();
+    if (pNewObject->GetParent() == nullptr)
+        SpawnGameObject(pNewObject);
+}
+
 void MenuUI::DeleteObject()
 {
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
+    if (pSelectedObject == nullptr) return;
     DestroyObject(pSelectedObject);
 }
 
