@@ -506,6 +506,9 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	_link.pTransit->SetFixedDuration(bFixedDur);
 	_link.pTransit->SetTransitionDuration(fTransitionDur);
 	_link.pTransit->SetTransitionOffset(fTransitionOffset);
+	
+	vector<AnimCondition*> conditions = _link.pTransit->GetAllConditions();
+	if (conditions.size() == 0) _link.pTransit->SetHasExitTime(true);
 #pragma endregion
 #pragma region Parameter Settings
 	ImGui::TextUnformatted("Conditions");
@@ -516,7 +519,6 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 		_link.pTransit->CreateCondition();
 	}
 
-	vector<AnimCondition*> conditions = _link.pTransit->GetAllConditions();
 	vector<AnimStateParam*> params = m_pStateMachine->GetAllParams();
 	for (int i = 0; i < conditions.size(); i++)
 	{

@@ -41,6 +41,12 @@ void CAnimationState::SetName(wstring _name)
 		newName = _name + L" " + std::to_wstring(postFix++);
 	m_strName = newName;
 }
+double CAnimationState::GetDurationInSeconds()
+{
+	if (m_pClip != nullptr)
+		return m_pClip->GetDuration() / m_pClip->GetTicksPerSecond();
+	return m_dDuration;
+}
 void CAnimationState::SetTick(double _percent)
 {
 	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
@@ -50,6 +56,12 @@ void CAnimationState::SetTick(double _percent)
 double CAnimationState::GetTickPercent()
 {
 	return abs(m_dTick / m_dDuration);
+}
+
+double CAnimationState::GetTickPercentWithRepeat()
+{
+	float duration = m_dTick + m_dDuration * m_iRepeatNum;
+	return abs(duration / m_dDuration);
 }
 
 void CAnimationState::DeleteTransition(CAnimationTransition* _transit)
@@ -89,7 +101,7 @@ void CAnimationState::tick()
 	if (m_dTick > m_dDuration) { m_dTick = 0; m_iRepeatNum++; }
 	if (m_dTick < 0) { m_dTick = m_dDuration; m_iRepeatNum++; }
 
-	if (m_pCurrentTransition != nullptr)
+	if (m_pCurrentTransition == nullptr)
 	{
 		for (auto t : m_Transitions)
 		{

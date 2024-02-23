@@ -28,9 +28,12 @@ public:
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
+	double GetDurationInSeconds();
+	double GetOffset() { return m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1; }
 
 	void SetTick(double _percent = 0);
 	double GetTickPercent();
+	double GetTickPercentWithRepeat();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 
 	HashTransition& GetAllTransitions() { return m_Transitions; }
