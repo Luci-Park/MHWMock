@@ -177,7 +177,6 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 	ClearTargetResource();
 
 	// 타겟오브젝트 정보 노출
-	// Ÿ�ٿ�����Ʈ ���� ����
 	m_pTargetObj = _Target;
 
 	for (UINT i = 0; i < (UINT)OBJINFO_TYPE::END; ++i)
@@ -198,8 +197,6 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 
 	// 타겟 오브젝트가 nullptr 이면
 	// 스크립트UI 들을 전부 비활성화 시킨다.
-	// Ÿ�� ������Ʈ�� nullptr �̸�
-	// ��ũ��ƮUI ���� ���� ��Ȱ��ȭ ��Ų��.
 	if (nullptr == m_pTargetObj)
 	{
 		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)

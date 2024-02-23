@@ -24,10 +24,8 @@ void UI::finaltick()
 
 	string strFullName = m_strName + m_strID;
 
-	// �θ� UI
 	if (nullptr == m_ParentUI)
 	{
-		// ��޸���
 		if (!m_Modal)
 		{
 			ImGui::Begin(strFullName.c_str(), &m_Active);
@@ -36,7 +34,6 @@ void UI::finaltick()
 
 			for (size_t i = 0; i < m_vecChildUI.size(); ++i)
 			{
-				// �ڽ�UI �� ��Ȱ��ȭ ���¸� �ǳʶڴ�.
 				if (!m_vecChildUI[i]->IsActive())
 					continue;
 
@@ -45,7 +42,6 @@ void UI::finaltick()
 
 				if (m_vecChildUI[i]->m_bUseSeparator)
 				{
-					// �ڽ� UI ���� ���м�
 					if (i != m_vecChildUI.size() - 1)
 						ImGui::Separator();
 				}
@@ -53,8 +49,6 @@ void UI::finaltick()
 
 			ImGui::End();
 		}
-
-		// ���
 		else
 		{
 			ImGui::SetNextWindowPos(m_vPopupPos);
@@ -67,7 +61,6 @@ void UI::finaltick()
 
 				for (size_t i = 0; i < m_vecChildUI.size(); ++i)
 				{
-					// �ڽ�UI �� ��Ȱ��ȭ ���¸� �ǳʶڴ�.
 					if (!m_vecChildUI[i]->IsActive())
 						continue;
 
@@ -75,7 +68,6 @@ void UI::finaltick()
 
 					if (m_vecChildUI[i]->m_bUseSeparator)
 					{
-						// �ڽ� UI ���� ���м�
 						if (i != m_vecChildUI.size() - 1)
 							ImGui::Separator();
 					}
@@ -85,7 +77,6 @@ void UI::finaltick()
 			}
 		}
 	}
-	// �ڽ� UI
 	else
 	{
 		ImGui::BeginChild(strFullName.c_str(), m_vSize);
@@ -99,7 +90,6 @@ void UI::finaltick()
 
 			if (m_vecChildUI[i]->m_bUseSeparator)
 			{	
-				// �ڽ� UI ���� ���м�
 				if (i != m_vecChildUI.size() - 1)
 					ImGui::Separator();
 			}
