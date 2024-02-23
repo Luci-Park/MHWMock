@@ -29,6 +29,37 @@ void CConvexCollider::begin()
 
 void CConvexCollider::finaltick()
 {
+	assert(0 <= m_iCollisionCount);
+
+	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
+	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
+
+	const Matrix& matWorld = Transform()->GetWorldMat();
+
+	if (m_bAbsolute)
+	{
+		Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
+		m_matCollider3D = m_matCollider3D * matParentScaleInv * matWorld;
+	}
+	else
+	{
+		m_matCollider3D *= matWorld;
+	}
+
+	// DebugShape 요청
+	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	if (0 < m_iCollisionCount)
+		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+
+	CRenderComponent* pRenderCom = GetOwner()->GetRenderComponent();
+
+	// 렌더링 기능이 없는 오브젝트는 제외
+	if (pRenderCom == nullptr
+		|| pRenderCom->GetMesh() == nullptr)
+		return;
+
+	DrawDebugConvex3D(matWorld, vColor, 0.f);
+	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 }
 
 void CConvexCollider::CreateColliderShape()
@@ -42,13 +73,16 @@ void CConvexCollider::CreateColliderShape()
 	// 정점 정보, 인덱스 정보 가져오기.
 	Ptr<CMesh> pMesh = pRenderComponet->GetMesh();
 
-	vector<Vector3> Verticies = pMesh->GetVerticies();
-	vector<UINT> Indicies= pMesh->GetIndicies();
-	UINT uNumPoint = pMesh->GetVtxCount();
+	void* pVtxSys = pMesh->GetVtxSys();
+	void* pIdxSys = pMesh->GetIdxSys();
+	UINT uNumVtx = pMesh->GetVtxCount();
 	UINT uNumFace = pMesh->GetVIdxCount();
-	
-	CookingTriangleMesh(Verticies.data(), uNumPoint, Indicies.data(), uNumFace);
-	//CookingTriangleMesh(pMesh->GetVtxSys(), uNumPoint, pMesh->GetIdxSys(), uNumFace);
+
+	Vector3* vtxArray = static_cast<Vector3*>(pVtxSys);
+	//vector<Vector3> vtxPosData;
+	//vtxPosData.assign(vtxArray, vtxArray + uNumVtx);
+
+	CookingTriangleMesh(vtxArray, uNumVtx, pIdxSys, uNumFace);
 
 	PxTriangleMeshGeometry geometry;
 
