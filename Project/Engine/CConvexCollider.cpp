@@ -78,11 +78,11 @@ void CConvexCollider::CreateColliderShape()
 	UINT uNumVtx = pMesh->GetVtxCount();
 	UINT uNumFace = pMesh->GetVIdxCount();
 
-	Vector3* vtxArray = static_cast<Vector3*>(pVtxSys);
+	//Vector3* vtxArray = static_cast<Vector3*>(pVtxSys);
 	//vector<Vector3> vtxPosData;
 	//vtxPosData.assign(vtxArray, vtxArray + uNumVtx);
 
-	CookingTriangleMesh(vtxArray, uNumVtx, pIdxSys, uNumFace);
+	CookingTriangleMesh(pVtxSys, uNumVtx, pIdxSys, uNumFace);
 
 	PxTriangleMeshGeometry geometry;
 

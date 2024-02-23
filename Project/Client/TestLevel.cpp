@@ -34,7 +34,7 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
+	pCurLevel->GetLayer(15)->SetName(L"ViewPort UI");
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
@@ -63,9 +63,9 @@ void CreateTestLevel()
 	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pUICam->Camera()->SetCameraIndex(1);		
 	pUICam->Camera()->SetLayerMaskAll(false);
-	pUICam->Camera()->SetLayerMask(31, true);	
+	pUICam->Camera()->SetLayerMask(15, true);	
 
-	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
+	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 15);
 
 	//CGameObject* ptestUI = new CGameObject;
 	//ptestUI->SetName(L"TestUI");

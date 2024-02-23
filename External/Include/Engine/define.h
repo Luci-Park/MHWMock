@@ -13,7 +13,7 @@
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 
-#define MAX_LAYER 32
+#define MAX_LAYER 16
 
 #define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
 
@@ -87,8 +87,8 @@ enum class LAYER_TYPE
 	PlayerProjectile,
 	MonsterProjectile,
 
-	ViewPortUI = 31,
-	END = 32,
+	ViewPortUI = 15,
+	END = 16,
 };
 
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END];
