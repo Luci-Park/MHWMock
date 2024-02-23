@@ -1,5 +1,6 @@
 #pragma once
 #include "CComponent.h"
+#define DEBUG_ANIMATOR 1
 class CBoneHolder;
 class CAnimationClip;
 class CAnimationStateMachine;

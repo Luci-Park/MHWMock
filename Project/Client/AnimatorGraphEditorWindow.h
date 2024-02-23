@@ -22,11 +22,12 @@ private:
 	ed::NodeId					m_currSelectedNode;
 	ed::LinkId					m_currSelectedLink;
 	int							m_iCurrSelectedAnimationIdx;
-	Link*						m_pSelectedNodeTransition;
+	Link*						m_pSelectedTransition;
+	Node*						m_pSelectedNode;
 	
 	float						m_fLeftPlaneWidth;
 	float						m_fRightPlaneWidth;
-	int							m_iCurrentEditingParam;
+	int							m_iCurrentEditingParam; //idx of currently name editing param
 public:
 	virtual void OnFrame();
 private:
