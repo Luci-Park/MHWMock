@@ -48,7 +48,7 @@ void CreateTestLevel()
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		
 	pMainCam->Camera()->SetLayerMaskAll(true);	
-	pMainCam->Camera()->SetLayerMask(31, false);
+	pMainCam->Camera()->SetLayerMask(15, false);
 	pMainCam->Camera()->SetLayerMask(1, false);
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
