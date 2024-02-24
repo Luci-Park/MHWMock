@@ -6,6 +6,8 @@
 
 #include <Engine\CResMgr.h>
 #include <Engine\CRenderMgr.h>
+#include <Engine\CLevelMgr.h>
+#include <Engine\CLevel.h>
 #include <Engine\CTimeMgr.h>
 #include <Engine\CKeyMgr.h>
 
@@ -81,6 +83,13 @@ void CEditorObjMgr::init()
 
 void CEditorObjMgr::progress()
 {
+	CLevel* pCulLeve = CLevelMgr::GetInst()->GetCurLevel();
+	LEVEL_STATE eLevelStat = pCulLeve->GetState();
+
+	if (eLevelStat != LEVEL_STATE::STOP)
+		return;
+
+
 	// DebugShape 정보 가져오기
 	vector<tDebugShapeInfo>& vecInfo = CRenderMgr::GetInst()->GetDebugShapeInfo();
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
