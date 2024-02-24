@@ -54,8 +54,8 @@ void CRenderMgr::render()
         
     // 렌더 함수 호출
     (this->*RENDER_FUNC)();
-    
-    // 광원 해제
+    // 광원 해제    
+
     Clear();
 }
 
@@ -71,7 +71,7 @@ void CRenderMgr::render_play()
         m_vecCam[i]->SortObject();
 
         //UI Camera 제외 (LayerMask 31 번만 사용하는 카메라)
-        if (m_vecCam[i]->GetLayerMask() == (UINT)(1 << 31))
+        if (m_vecCam[i]->GetLayerMask() == (UINT)(1 << 15))
         {
             m_MRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
             m_vecCam[i]->render_ui();

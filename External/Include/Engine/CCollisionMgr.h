@@ -8,9 +8,10 @@ class CCollisionMgr :
 	public CSingleton<CCollisionMgr>
 {
 	SINGLE(CCollisionMgr);
+
 private:
-	UINT					m_matrix[MAX_LAYER];
-	bool					m_bMatrixChange[MAX_LAYER];
+	bool	m_bCollisionMap[MAX_LAYER][MAX_LAYER];
+	bool	m_bCollisionChange;
 
 public:
 	void LayerCheck(UINT _left, UINT _right);
@@ -19,10 +20,12 @@ public:
 	void LayerIgnore(UINT _left, UINT _right);
 	void LayerIgnore(const wstring& _strLeftLayer, const wstring& _strRightLayer);
 
-	void Clear()
-	{
-		memset(m_matrix, 0, sizeof(UINT) * MAX_LAYER);
-	}
+public:
+	bool GetCollisionMap(UINT _rIdx, UINT _cIdx) { return m_bCollisionMap[_rIdx][_cIdx]; }
+	void SetCollisionMap(UINT _rIdx, UINT _cIdx, bool _Check);
+
+	bool GetCollisionChange() { return m_bCollisionChange; }
+	void SetCollisionChange(bool _b) { m_bCollisionChange = _b; }
 
 public:
 	void tick();

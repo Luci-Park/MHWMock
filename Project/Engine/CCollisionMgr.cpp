@@ -9,8 +9,7 @@
 #include "CPhysXMgr.h"
 
 CCollisionMgr::CCollisionMgr()
-	: m_matrix{}
-	, m_bMatrixChange{}
+	: m_bCollisionMap{}
 {
 
 }
@@ -80,4 +79,23 @@ void CCollisionMgr::LayerIgnore(const wstring& _strLeftLayer, const wstring& _st
 	CLayer* pRight = pCurLevel->FindLayerByName(_strRightLayer);
 
 	LayerIgnore(pLeft->GetLayerIndex(), pRight->GetLayerIndex());
+}
+
+void CCollisionMgr::SetCollisionMap(UINT _rIdx, UINT _cIdx, bool _Check)
+{ 
+	if (m_bCollisionMap[_rIdx][_cIdx] == _Check)
+		return;
+
+	m_bCollisionMap[_rIdx][_cIdx] = _Check; 
+
+	if (_Check)
+	{
+		LayerCheck(_rIdx, _cIdx);
+	}
+	else
+	{
+		LayerIgnore(_rIdx, _cIdx);
+	}
+
+	m_bCollisionChange = true;
 }

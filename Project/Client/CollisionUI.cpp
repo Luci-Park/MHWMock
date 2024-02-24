@@ -8,6 +8,7 @@
 #include <Engine\CLevelMgr.h>
 #include <Engine\CLevel.h>
 #include <Engine\CLayer.h>
+#include <Engine\CCollisionMgr.h>
 
 CollisionUI::CollisionUI()
 	: UI("##Collision")
@@ -17,11 +18,27 @@ CollisionUI::CollisionUI()
 
 CollisionUI::~CollisionUI()
 {
+    for (int i = 0; i < (MAX_LAYER + 1) * (MAX_LAYER + 1); ++i)
+    {
+        delete m_pLabel[i];
+        m_pLabel[i] = nullptr;
+    }
 }
 
 
 void CollisionUI::init()
 {
+    //const char* label = std::to_string(cell).c_str();
+    for (int i = 0; i < (MAX_LAYER + 1) * (MAX_LAYER + 1); ++i)
+    {
+        int len1 = strlen("##");
+        int len2 = strlen(std::to_string(i).c_str());
+
+        m_pLabel[i] = new char[len1 + len2 + 1];
+        
+        strcpy(m_pLabel[i], "##");
+        strcat(m_pLabel[i], std::to_string(i).c_str());
+    }
 }
 
 void CollisionUI::tick()
@@ -61,6 +78,14 @@ int CollisionUI::render_update()
     // 레벨 매니저에서 현재 레밸 받아옴.
     CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
+    for (UINT row = 0; row < MAX_LAYER; ++row)
+    {
+        for (UINT col = 0; col < MAX_LAYER; ++col)
+        {
+            m_bCollisionMap[row][col] = CCollisionMgr::GetInst()->GetCollisionMap(row, col);
+        }
+    }
+
     if (ImGui::BeginTable("CollisionTable", MAX_LAYER + 1, flags2, outer_size, inner_width))
     {
         for (int cell = 0; cell < (MAX_LAYER + 1) * (MAX_LAYER + 1); ++cell)
@@ -92,16 +117,21 @@ int CollisionUI::render_update()
                 continue;
             }
 
-            // CheckBox
-            static bool check = true;
-            ImGui::Checkbox("", &check);
+         
 
-            //ImGui::Text("%d,%d", ImGui::TableGetColumnIndex(), ImGui::TableGetRowIndex());
+            ImGui::Checkbox(m_pLabel[cell], &m_bCollisionMap[ImGui::TableGetRowIndex() - 1][MAX_LAYER - ImGui::TableGetColumnIndex()]);
+            ImGui::Text("%d, %d", ImGui::TableGetRowIndex() - 1, MAX_LAYER - ImGui::TableGetColumnIndex());
         }
         ImGui::EndTable();
     }
   
-
+    for (UINT row = 0; row < MAX_LAYER; ++row)
+    {
+        for (UINT col = 0; col < MAX_LAYER; ++col)
+        {
+            CCollisionMgr::GetInst()->SetCollisionMap(row, col, m_bCollisionMap[row][col]);
+        }
+    }
 
     //static ImGuiTableFlags flags = ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable;
     //static int freeze_cols = 1;

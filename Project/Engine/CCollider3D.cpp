@@ -10,6 +10,8 @@
 
 #include "CGameObject.h"
 
+#include "CCollisionMgr.h"
+
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
@@ -27,6 +29,13 @@ CCollider3D::CCollider3D()
 
 CCollider3D::~CCollider3D()
 {
+	if (m_pRigidActor != nullptr)
+	{
+		if (m_pRigidActor->getScene())
+			m_pRigidActor->getScene()->removeActor(*m_pRigidActor);
+
+		PX_RELEASE(m_pRigidActor);
+	}
 }
 
 void CCollider3D::begin()
@@ -211,8 +220,9 @@ void CCollider3D::AddRigidActor()
 
 void CCollider3D::UpdateActorInfo()
 {
-	if (GetOwner() == nullptr)
+	if (GetOwner()->IsDead() || GetOwner() == nullptr)
 		return;
+
 	// Transform의 데이터가 바뀌지 않았을경우 예외처리 .
 	// ~~
 

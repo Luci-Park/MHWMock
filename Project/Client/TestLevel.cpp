@@ -36,7 +36,7 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
 	pCurLevel->GetLayer(15)->SetName(L"ViewPort UI");
 
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
