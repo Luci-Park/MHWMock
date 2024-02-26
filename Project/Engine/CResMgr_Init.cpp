@@ -25,6 +25,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(&v, 1, &idx, 1);
+	pMesh->SetName(L"PointMesh");
 	AddRes(L"PointMesh", pMesh);
 
 	// =============
@@ -49,6 +50,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"LineMesh_Debug");
 	AddRes(L"LineMesh_Debug", pMesh);
 	
 	vecVtx.clear();
@@ -95,6 +97,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"RectMesh");
 	AddRes(L"RectMesh", pMesh);
 
 	vecIdx.clear();
@@ -106,6 +109,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"RectMesh_Debug");
 	AddRes(L"RectMesh_Debug", pMesh);
 
 	vecVtx.clear();
@@ -159,6 +163,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"CircleMesh");
 	AddRes(L"CircleMesh", pMesh);
 
 	vecIdx.clear();
@@ -170,6 +175,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"CircleMesh_Debug");
 	AddRes(L"CircleMesh_Debug", pMesh);
 
 	vecVtx.clear();
@@ -322,6 +328,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"CubeMesh");
 	AddRes<CMesh>(L"CubeMesh", pMesh);
 	vecIdx.clear();
 
@@ -333,6 +340,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(5); vecIdx.push_back(4);
 
 	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"CubeMesh_Debug");
 	AddRes<CMesh>(L"CubeMesh_Debug", pMesh);
 	vecIdx.clear();
 
@@ -473,6 +481,7 @@ void CResMgr::CreateDefaultMesh()
 	pMesh->SetVerticies(m_vecVerticies);
 	pMesh->SetIndicies(m_vecIdx);
 
+	pMesh->SetName(L"SphereMesh");
 	AddRes<CMesh>(L"SphereMesh", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
@@ -538,6 +547,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetName(L"CapsuleMesh");
 	AddRes<CMesh>(L"CapsuleMesh", pMesh);
 
 	vecVtx.clear();
@@ -559,6 +569,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"Std2DShader");
+	pShader->SetName(L"Std2DShader");
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
@@ -587,6 +598,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ======================================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"Std2DLightShader");
+	pShader->SetName(L"Std2DLightShader");
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2DLight");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DLight");
 
@@ -618,6 +630,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ==================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DebugShapeShader");
+	pShader->SetName(L"DebugShapeShader");
 	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape");
 	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape");
 
@@ -640,6 +653,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ==================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DebugShapeShader_Capsule");
+	pShader->SetName(L"DebugShapeShader_Capsule");
 	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape_Capslue");
 	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape_Capslue");
 
@@ -662,6 +676,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ===========================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DebugShapeShader_Cube");
+	pShader->SetName(L"DebugShapeShader_Cube");
 	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape_Box");
 	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape_Box");
 
@@ -684,6 +699,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ==================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DebugShape_SphereShader");
+	pShader->SetName(L"DebugShape_SphereShader");
 	pShader->CreateVertexShader(L"shader\\debugshape.fx", "VS_DebugShape");
 	pShader->CreatePixelShader(L"shader\\debugshape.fx", "PS_DebugShape_Sphere");
 
@@ -711,6 +727,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"TileMapShader");
+	pShader->SetName(L"TileMapShader");
 	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
 	pShader->CreatePixelShader(L"shader\\tilemap.fx", "PS_TileMap");
 
@@ -737,6 +754,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"ParticleRenderShader");
+	pShader->SetName(L"ParticleRenderShader");
 	pShader->CreateVertexShader(L"shader\\particle_render.fx", "VS_ParticleRender");
 	pShader->CreateGeometryShader(L"shader\\particle_render.fx", "GS_ParticleRender");
 	pShader->CreatePixelShader(L"shader\\particle_render.fx", "PS_ParticleRender");
@@ -762,6 +780,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"GrayShader");
+	pShader->SetName(L"GrayShader");
 	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_GrayShader");
 	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_GrayShader");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
@@ -778,6 +797,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DistortionShader");
+	pShader->SetName(L"DistortionShader");
 	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Distortion");
 	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Distortion");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
@@ -800,6 +820,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"TestShader");
+	pShader->SetName(L"TestShader");
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_TestShader");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_TestShader");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
@@ -821,6 +842,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"Std3DShader");
+	pShader->SetName(L"Std3DShader");
 
 	pShader->CreateVertexShader(L"shader\\std3d.fx", "VS_Std3D");
 	pShader->CreatePixelShader(L"shader\\std3d.fx", "PS_Std3D");
@@ -845,6 +867,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"SkyBoxShader");
+	pShader->SetName(L"SkyBoxShader");
 
 	pShader->CreateVertexShader(L"shader\\skybox.fx", "VS_SkyBoxShader");
 	pShader->CreatePixelShader(L"shader\\skybox.fx", "PS_SkyBoxShader");
@@ -867,6 +890,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DecalShader");
+	pShader->SetName(L"DecalShader");
 
 	pShader->CreateVertexShader(L"shader\\decal.fx", "VS_Decal");
 	pShader->CreatePixelShader(L"shader\\decal.fx", "PS_Decal");
@@ -890,6 +914,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DeferredDecalShader");
+	pShader->SetName(L"DeferredDecalShader");
 
 	pShader->CreateVertexShader(L"shader\\decal.fx", "VS_DeferredDecal");
 	pShader->CreatePixelShader(L"shader\\decal.fx", "PS_DeferredDecal");
@@ -913,6 +938,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"Std3D_DeferredShader");
+	pShader->SetName(L"Std3D_DeferredShader");
 
 	pShader->CreateVertexShader(L"shader\\std3d_deferred.fx", "VS_Std3D_Deferred");
 	pShader->CreatePixelShader(L"shader\\std3d_deferred.fx", "PS_Std3D_Deferred");
@@ -938,6 +964,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"DirLightShader");
+	pShader->SetName(L"DirLightShader");
 
 	pShader->CreateVertexShader(L"shader\\light.fx", "VS_DirLightShader");
 	pShader->CreatePixelShader(L"shader\\light.fx", "PS_DirLightShader");
@@ -958,6 +985,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"PointLightShader");
+	pShader->SetName(L"PointLightShader");
 
 	pShader->CreateVertexShader(L"shader\\light.fx", "VS_PointLightShader");
 	pShader->CreatePixelShader(L"shader\\light.fx", "PS_PointLightShader");
@@ -982,6 +1010,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =====================================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"MergeShader");
+	pShader->SetName(L"MergeShader");
 
 	pShader->CreateVertexShader(L"shader\\light.fx", "VS_MergeShader");
 	pShader->CreatePixelShader(L"shader\\light.fx", "PS_MergeShader");
@@ -1002,6 +1031,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =====================================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"ShadowMapShader");
+	pShader->SetName(L"ShadowMapShader");
 
 	pShader->CreateVertexShader(L"shader\\light.fx", "VS_ShadowMap");
 	pShader->CreatePixelShader(L"shader\\light.fx", "PS_ShadowMap");
@@ -1022,6 +1052,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =====================================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"TessShader");
+	pShader->SetName(L"TessShader");
 
 	pShader->CreateVertexShader(L"shader\\tess.fx", "VS_Tess");
 	pShader->CreateHullShader(L"shader\\tess.fx", "HS_Tess");
@@ -1050,6 +1081,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"LandScapeShader");
+	pShader->SetName(L"LandScapeShader");
 	pShader->CreateVertexShader(L"shader\\landscape.fx", "VS_LandScape");
 	pShader->CreateHullShader(L"shader\\landscape.fx", "HS_LandScape");
 	pShader->CreateDomainShader(L"shader\\landscape.fx", "DS_LandScape");
@@ -1076,6 +1108,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"CanvasShader");
+	pShader->SetName(L"CanvasShader");
 	pShader->CreateVertexShader(L"shader\\canvas.fx", "VS_Canvas");
 	pShader->CreatePixelShader(L"shader\\canvas.fx", "PS_Canvas");
 
@@ -1094,12 +1127,14 @@ void CResMgr::CreateDefaultComputeShader()
 	// Texture »ö»ó º¯°æ ½¦ÀÌ´õ
 	pCS = new CSetColorShader(32, 32, 1);
 	pCS->SetKey(L"SetColorCS");
+	pCS->SetName(L"SetColorCS");
 	pCS->CreateComputeShader(L"shader\\setcolor.fx", "CS_SetColor");
 	AddRes(pCS->GetKey(), pCS);
 
 	// Particle Update ½¦ÀÌ´õ
 	pCS = new CParticleUpdateShader(128, 1, 1);
 	pCS->SetKey(L"ParticleUpdateCS");
+	pCS->SetName(L"ParticleUpdateCS");
 	pCS->CreateComputeShader(L"shader\\particle_update.fx", "CS_ParticleUpdate");
 	AddRes(pCS->GetKey(), pCS);
 }
@@ -1111,129 +1146,155 @@ void CResMgr::CreateDefaultMaterial()
 	// Test Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
+	pMtrl->SetName(L"TestMtrl");
 	AddRes(L"TestMtrl", pMtrl);
 
 	// Std2D Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	pMtrl->SetName(L"Std2DMtrl");
 	AddRes(L"Std2DMtrl", pMtrl);
 
 	// Std2DAnim Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	pMtrl->SetName(L"Std2DAnimMtrl");
 	AddRes(L"Std2DAnimMtrl", pMtrl);
 
 	// Std2DLight Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DLightShader"));
+	pMtrl->SetName(L"Std2DLightMtrl");
 	AddRes(L"Std2DLightMtrl", pMtrl);
 
 	// Std2DLight Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DLightShader"));
+	pMtrl->SetName(L"Std2DAnimLightMtrl");
 	AddRes(L"Std2DAnimLightMtrl", pMtrl);
 
 	// DebugShape Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader"));
+	pMtrl->SetName(L"DebugShapeMtrl");
 	AddRes(L"DebugShapeMtrl", pMtrl);
 
 	//DebugShapeShader_Capsule Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader_Capsule"));
+	pMtrl->SetName(L"DebugShapeCapsuleMtrl");
 	AddRes(L"DebugShapeCapsuleMtrl", pMtrl);
 
 	//DebugShapeShader_Cube Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShapeShader_Cube"));
+	pMtrl->SetName(L"DebugShapeCubeMtrl");
 	AddRes(L"DebugShapeCubeMtrl", pMtrl);
 
 	// DebugShape_Sphere Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShape_SphereShader"));
+	pMtrl->SetName(L"DebugShapeSphereMtrl");
 	AddRes(L"DebugShapeSphereMtrl", pMtrl);
 
 	// TileMap Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
+	pMtrl->SetName(L"TileMapMtrl");
 	AddRes(L"TileMapMtrl", pMtrl);
 
 	// Particle Render Material
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ParticleRenderShader"));
+	pMtrl->SetName(L"ParticleRenderMtrl");
 	AddRes(L"ParticleRenderMtrl", pMtrl);
 
 	// GrayShader(PostProcess)
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GrayShader"));
+	pMtrl->SetName(L"GrayMtrl");
 	AddRes(L"GrayMtrl", pMtrl);
 
 	// DistortionShader(PostProcess)
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DistortionShader"));
+	pMtrl->SetName(L"DistortionMtrl");
 	AddRes(L"DistortionMtrl", pMtrl);
 
 	// TestShader
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
+	pMtrl->SetName(L"TestShaderMtrl");
 	AddRes(L"TestShaderMtrl", pMtrl);
 
 	// Std3DMtrl	
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std3DShader"));
+	pMtrl->SetName(L"Std3DMtrl");
 	AddRes(L"Std3DMtrl", pMtrl);
 
 	// SkyBoxMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"SkyBoxShader"));
+	pMtrl->SetName(L"SkyBoxMtrl");
 	AddRes(L"SkyBoxMtrl", pMtrl);
 
 	// DecalMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DecalShader"));
+	pMtrl->SetName(L"DecalMtrl");
 	AddRes(L"DecalMtrl", pMtrl);
 
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DeferredDecalShader"));
+	pMtrl->SetName(L"DeferredDecalMtrl");
 	AddRes(L"DeferredDecalMtrl", pMtrl);
 
 	// Std3D_DeferredShader
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std3D_DeferredShader"));
+	pMtrl->SetName(L"Std3D_DeferredMtrl");
 	AddRes(L"Std3D_DeferredMtrl", pMtrl);
 
 	// DirLightMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DirLightShader"));
+	pMtrl->SetName(L"DirLightMtrl");
 	AddRes(L"DirLightMtrl", pMtrl);	
 
 	// PointLightMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PointLightShader"));
+	pMtrl->SetName(L"PointLightMtrl");
 	AddRes(L"PointLightMtrl", pMtrl);
 
 	// MergeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"MergeShader"));
+	pMtrl->SetName(L"MergeMtrl");
 	AddRes(L"MergeMtrl", pMtrl);	
 
 	// ShadowMapMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ShadowMapShader"));
+	pMtrl->SetName(L"ShadowMapMtrl");
 	AddRes(L"ShadowMapMtrl", pMtrl);
 
 	// TessMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TessShader"));
+	pMtrl->SetName(L"TessMtrl");
 	AddRes(L"TessMtrl", pMtrl);
 
 	// LandScapeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LandScapeShader"));
+	pMtrl->SetName(L"LandScapeMtrl");
 	AddRes(L"LandScapeMtrl", pMtrl);
 
 	// CanvasMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"CanvasShader"));
+	pMtrl->SetName(L"CanvasMtrl");
 	AddRes(L"CanvasMtrl", pMtrl);
 }

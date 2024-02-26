@@ -55,7 +55,7 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _Width, UINT _
 	{
 		assert(nullptr);
 	}
-
+	pTex->SetName(_strKey);
 	AddRes<CTexture>(_strKey, pTex);
 
 	return pTex;
@@ -72,7 +72,7 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Textur
 	{
 		assert(nullptr);
 	}
-
+	pTex->SetName(_strKey);
 	AddRes<CTexture>(_strKey, pTex);
 
 	return pTex;

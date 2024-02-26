@@ -18,8 +18,8 @@ void LoadCustomShader()
 	pShader->CreatePixelShader(L"shader\\skinning.fx", "frag");
 	pShader->SetRSType(RS_TYPE::WIRE_FRAME);
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
-
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+	pShader->SetName(L"SkinningShader");
 	CResMgr::GetInst()->AddRes(L"SkinningShader", pShader);
 }
 
