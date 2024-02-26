@@ -27,7 +27,7 @@ int MaterialUI::render_update()
     ImGui::SameLine();
 
     Ptr<CMaterial> pMtrl = (CMaterial*)GetTargetRes().Get();
-    string strKey = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
+    string strKey = WSTR2STR(pMtrl->GetName());
     ImGui::InputText("##MtrlUIName", (char*)strKey.c_str(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
 
     // GraphicsShader ¿Ã∏ß
@@ -37,7 +37,7 @@ int MaterialUI::render_update()
     Ptr<CGraphicsShader> pShader = pMtrl->GetShader();
     if (nullptr != pShader)
     {
-        string strKey = string(pShader->GetKey().begin(), pShader->GetKey().end());
+        string strKey = WSTR2STR(pShader->GetName());
         ImGui::InputText("##ShaderUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
     }
     else
