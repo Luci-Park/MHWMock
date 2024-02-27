@@ -146,6 +146,9 @@
     <Filter Include="UI\CollisionUI">
       <UniqueIdentifier>{530d36db-f9f0-4e33-82ff-6ebb65893704}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\15.CanvasUI">
+      <UniqueIdentifier>{c66407da-05ae-4c97-a811-bf7b7b8883e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -347,6 +350,9 @@
     <ClInclude Include="ImGuiFunc.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="Collider3DUI.h" />
+    <ClInclude Include="CollisionUI.h" />
+    <ClInclude Include="CanvasUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -544,6 +550,7 @@
     <ClCompile Include="CollisionUI.cpp">
       <Filter>UI\CollisionUI</Filter>
     </ClCompile>
+    <ClCompile Include="CanvasUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui_bezier_math.inl">
