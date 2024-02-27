@@ -330,8 +330,6 @@ enum class MRT_TYPE
 
 	SHADOWMAP,
 
-	CANVAS,
-
 	END,
 };
 

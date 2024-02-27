@@ -18,6 +18,8 @@ public:
 public:
     void SetUITexture(Ptr<CTexture> _Tex);
 public:
+    Ptr<CTexture> GetUITexture() { return m_UITex; }
+public:
     CCanvas();
     ~CCanvas();
 };

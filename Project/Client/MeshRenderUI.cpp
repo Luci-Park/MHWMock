@@ -33,7 +33,7 @@ int MeshRenderUI::render_update()
 	Ptr<CMaterial> pMtrl = GetTarget()->MeshRender()->GetMaterial();
 		
 	ImGui::Text("Mesh    ");
-	ImGui::SameLine();	
+	ImGui::SameLine();
 	GetResKey(pMesh.Get(), szBuff, buffsize);
 	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
