@@ -36,17 +36,8 @@ void CBoxCollider::finaltick()
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
-
-	if (m_bAbsolute)
-	{
-		Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
-		m_matCollider3D = m_matCollider3D * matParentScaleInv * matWorld;
-	}
-	else
-	{
-		m_matCollider3D *= matWorld;
-	}
-
+	m_matCollider3D *= matWorld;
+	
 	// DebugShape ฟไรป
 	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	if (0 < m_iCollisionCount)
