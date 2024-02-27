@@ -22,7 +22,7 @@ CCanvas::CCanvas()
 
 CCanvas::~CCanvas()
 {
-
+	m_UITex = nullptr;
 }
 
 void CCanvas::finaltick()

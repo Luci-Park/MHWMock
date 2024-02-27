@@ -323,6 +323,16 @@ void CGameObject::AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType)
 	coll->begin();
 }
 
+void CGameObject::DeleteComponent(COMPONENT_TYPE _type)
+{
+	CComponent* comp = m_arrCom[(UINT)_type];
+	m_arrCom[(UINT)_type] = nullptr;
+	CRenderComponent* RC;
+	if (RC = dynamic_cast<CRenderComponent*>(comp))
+		m_RenderCom = nullptr;
+	delete comp;
+}
+
 CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)
 {
 	if (m_arrCom[(UINT)_CType]) return m_arrCom[(UINT)_CType];

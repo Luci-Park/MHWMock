@@ -189,6 +189,28 @@ int CanvasUI::render_update()
 		}
 	}
 
+
+	if (ImGui::BeginPopupContextItem("Remove Component"))
+	{
+		ImGui::Text("Really want to remove Component?");
+		if (ImGui::Button("Yes"))
+		{
+			GetTarget()->DeleteComponent(this->GetComponentType());
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("NO"))
+			ImGui::CloseCurrentPopup();
+		ImGui::EndPopup();
+	}
+
+
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.6f));
+	ImGui::Button("Remove");
+	ImGui::PopStyleColor(1);
+	if (ImGui::IsItemHovered())
+		ImGui::SetTooltip("Remove this Component");
+	ImGui::OpenPopupOnItemClick("Remove Component", ImGuiPopupFlags_MouseButtonRight);
+
 	return TRUE;
 }
 
