@@ -58,7 +58,7 @@ void CConvexCollider::finaltick()
 		|| pRenderCom->GetMesh() == nullptr)
 		return;
 
-	DrawDebugConvex3D(matWorld, vColor, 0.f);
+	DrawDebugConvex3D(m_matCollider3D, vColor, 0.f);
 	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 }
 

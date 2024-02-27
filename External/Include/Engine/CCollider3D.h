@@ -42,6 +42,7 @@ public:
     float GetCapsuleRadius();
     float GetCapsuleHalfHeight();
 
+    void DeleteRigidActor();
 public:
     virtual void begin() override;
     virtual void finaltick() override;

@@ -73,6 +73,7 @@ void CCapsuleCollider::CreateColliderShape()
 
 	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
 
+	//m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
 	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
 
 	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));

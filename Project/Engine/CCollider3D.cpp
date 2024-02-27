@@ -211,6 +211,17 @@ float CCollider3D::GetCapsuleHalfHeight()
 	return dynamic_cast<CCapsuleCollider*>(this)->GetHeight();
 }
 
+void CCollider3D::DeleteRigidActor()
+{
+	if (m_pRigidActor != nullptr)
+	{
+		if (m_pRigidActor->getScene())
+			m_pRigidActor->getScene()->removeActor(*m_pRigidActor);
+
+		PX_RELEASE(m_pRigidActor);
+	}
+}
+
 void CCollider3D::AddRigidActor()
 {
 	CreateRigidActor();
