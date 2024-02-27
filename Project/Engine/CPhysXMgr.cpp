@@ -297,9 +297,10 @@ void CPhysXMgr::SetTransformResult()
 
 			// 가져온 위치 값을 사용하여 오브젝트의 위치 변경
 			Vec3 pos = Vec3(position.x, position.y, position.z);
-			Vec3 objPos = obj->Transform()->GetRelativePos();
-			objPos +=pos;
-			obj->Transform()->SetRelativePos(pos);
+			Quaternion rot = Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+			// 자식인경우 자식이 아닌경우 예외처리 두고 Transform에 적용시켜야함.
+			obj->Transform()->UpdateSimulateResult(pos, rot);
+			//obj->Transform()->SetRelativePos(pos);
 		}
 
 		delete[] ppDynamicActors;

@@ -52,7 +52,7 @@ void CCapsuleCollider::finaltick()
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	DrawDebugCapsule3D(matWorld, vColor, 0.f,false,_CapsuleRadius,_CapsuleHeight);
+	DrawDebugCapsule3D(m_matCollider3D, vColor, 0.f,false,_CapsuleRadius,_CapsuleHeight);
 }
 
 

@@ -171,11 +171,9 @@ void CEditorObjMgr::render()
 			break;
 		}
 
-		pShapeObj->Transform()->SetWorldMat(iter->matWorld);
-
-		/*if (iter->matWorld != XMMatrixIdentity())
+		if (iter->matWorld != XMMatrixIdentity())
 		{
-			Vec3 pos = iter->matWorld.Translation();
+			//Vec3 pos = iter->matWorld.Translation();
 			pShapeObj->Transform()->SetWorldMat(iter->matWorld);
 		}
 		else
@@ -184,7 +182,7 @@ void CEditorObjMgr::render()
 			pShapeObj->Transform()->SetRelativeScale(iter->vWorldScale);
 			pShapeObj->Transform()->SetRelativeRot(iter->vWorldRotation);
 			pShapeObj->finaltick();
-		}*/
+		}
 
 		pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &iter->vColor);
 		
