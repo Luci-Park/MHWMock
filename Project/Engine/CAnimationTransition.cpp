@@ -64,7 +64,7 @@ void CAnimationTransition::DeleteCondition(AnimCondition* _condition)
 
 bool CAnimationTransition::CheckCondition()
 {
-	if (m_bHasExitTime && m_pPrevState->GetTickPercent() < m_dExitTime)
+	if (m_bHasExitTime && m_pPrevState->GetTickPercentWithRepeat() < m_dExitTime)
 		return false;
 	for (int i = 0; i < m_vecConditions.size(); i++)
 	{
@@ -134,18 +134,9 @@ void CAnimationTransition::Remove()
 
 void CAnimationTransition::tick()
 {
-	double offset = 1;
-	if (!m_bFixedDuration)
-	{
-		offset = m_pPrevState->GetClip()->GetTicksPerSecond()
-			* m_pPrevState->GetSpeed();
-	}
-	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * offset;
-
-	if (m_bFixedDuration)
-		m_dTickPercent = m_dTick / m_dTransitionDuration;
-	else
-		m_dTickPercent = m_dTick / m_pPrevState->GetClip()->GetDuration();
+	double duration = m_bFixedDuration ? m_dTransitionDuration : m_pPrevState->GetDurationInSeconds() * m_dTransitionDuration;
+	m_dTick += CTimeMgr::GetInst()->GetDeltaTime();
+	m_dTickPercent = m_dTick / duration;
 
 	if (m_dTickPercent >= 1)
 		EndTransition();
@@ -194,6 +185,7 @@ void CAnimationTransition::SaveToLevelFile(FILE* _FILE)
 		fwrite(&expr, sizeof(int), 1, _FILE);
 		fwrite(&cond->rhs, sizeof(float), 1, _FILE);
 	}
+	fwrite(&m_tLinkInfo, sizeof(tAnimationTransitionLink), 1, _FILE);
 }
 
 void CAnimationTransition::LoadFromLevelFile(FILE* _FILE)
@@ -218,4 +210,6 @@ void CAnimationTransition::LoadFromLevelFile(FILE* _FILE)
 		fread(&newCond->rhs, sizeof(float), 1, _FILE);
 		m_vecConditions[i] = newCond;
 	}
+
+	fread(&m_tLinkInfo, sizeof(tAnimationTransitionLink), 1, _FILE);
 }

@@ -28,7 +28,6 @@ void CreateTestLevel()
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 	pCurLevel->SetName(L"TestLevel");
 
-	// Layer �̸�����
 	pCurLevel->GetLayer(0)->SetName(L"Default");
 	pCurLevel->GetLayer(1)->SetName(L"Tile");
 	pCurLevel->GetLayer(2)->SetName(L"Player");
@@ -39,7 +38,6 @@ void CreateTestLevel()
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
-	// Main Camera Object ����
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
 
@@ -48,10 +46,10 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCameraMoveScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera �� ����
-	pMainCam->Camera()->SetLayerMaskAll(true);	// ��� ���̾� üũ
-	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer �� ���������� �ʴ´�.
-	pMainCam->Camera()->SetLayerMask(1, false);// UI Layer �� ���������� �ʴ´�.
+	pMainCam->Camera()->SetCameraIndex(0);		
+	pMainCam->Camera()->SetLayerMaskAll(true);	
+	pMainCam->Camera()->SetLayerMask(31, false);
+	pMainCam->Camera()->SetLayerMask(1, false);
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
 
@@ -63,9 +61,9 @@ void CreateTestLevel()
 	pUICam->AddComponent(new CCamera);
 
 	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pUICam->Camera()->SetCameraIndex(1);		// Sub ī�޶�� ����
+	pUICam->Camera()->SetCameraIndex(1);		
 	pUICam->Camera()->SetLayerMaskAll(false);
-	pUICam->Camera()->SetLayerMask(31, true);	// 31�� ���̾ üũ
+	pUICam->Camera()->SetLayerMask(31, true);	
 
 	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
 
@@ -80,7 +78,6 @@ void CreateTestLevel()
 
 	//SpawnGameObject(ptestUI, Vec3(0.f, 0.f, 0.f), 31);
 
-	// SkyBox �߰�
 	CGameObject* pSkyBox = new CGameObject;
 	pSkyBox->SetName(L"SkyBox");
 
@@ -93,7 +90,6 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	// ���� �߰�
 	CGameObject* pLightObj = new CGameObject;
 	pLightObj->SetName(L"Directional Light");
 

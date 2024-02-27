@@ -269,11 +269,6 @@ void InspectorUI::SetTargetResource(Ptr<CRes> _Res)
 	m_arrResUI[(UINT)type]->SetTargetRes(_Res);	
 }
 
-void InspectorUI::SetTargetModelNode(tModelNode* _ModelNode)
-{
-	SetTargetObject(_ModelNode->pGameObject);
-}
-
 void InspectorUI::ClearTargetObject()
 {
 	// 타겟오브젝트 정보 노출

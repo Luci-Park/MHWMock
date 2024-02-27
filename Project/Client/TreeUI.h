@@ -4,11 +4,6 @@
 // =========
 // TreeNode
 // =========
-enum class TREEDATA_TYPE
-{
-    RES,
-    MODELNODE
-};
 class TreeUI;
 class TreeNode
 {
@@ -21,7 +16,6 @@ private:
     UINT                m_ID;           // 노드의 고유 ID
 
     DWORD_PTR           m_Data;         // 노드에 저장된 데이터
-    TREEDATA_TYPE       m_DataType;
 
     bool                m_CategoryNode; // 항목 대표 노드
     bool                m_Hilight;      // 노드 하이라이트 처리
@@ -33,8 +27,6 @@ public:
         m_CategoryNode = _category;
     }
 
-    void SetDataType(TREEDATA_TYPE _type) { m_DataType = _type; }
-    TREEDATA_TYPE GetDataType() { return m_DataType; }
 public:
     const string& GetName() { return m_strName; }
     DWORD_PTR GetData() { return m_Data; }

@@ -43,11 +43,11 @@ public:
 struct Link
 {
 	ed::LinkId				id;
-	const Pin*				outputPin;
-	const Pin*				inputPin;
+	const Pin*				startPin;
+	const Pin*				endPin;
 
 	CAnimationTransition*	pTransit;
 	string					name;
 
-	Link(CAnimationTransition* _transit, const Pin* _output, const Pin* _input);
+	Link(CAnimationTransition* _transit, const Pin* _startPin, const Pin* _endPin);
 };

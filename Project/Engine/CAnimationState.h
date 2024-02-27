@@ -1,5 +1,7 @@
 #pragma once
 #include "CAnimationClip.h"
+#include "CAnimStructures.h"
+
 class CAnimationTransition;
 class CAnimationStateMachine;
 
@@ -17,6 +19,7 @@ private:
 	int								m_iRepeatNum;
 	CAnimationTransition*			m_pCurrentTransition;
 	CAnimationStateMachine*			m_pMachine;
+	tAnimationStateNode				m_tNodeInfo;
 
 public:
 	void SetName(wstring _name);
@@ -25,9 +28,12 @@ public:
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
+	double GetDurationInSeconds();
+	double GetOffset() { return m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1; }
 
 	void SetTick(double _percent = 0);
 	double GetTickPercent();
+	double GetTickPercentWithRepeat();
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 
 	HashTransition& GetAllTransitions() { return m_Transitions; }
@@ -38,6 +44,9 @@ public:
 	void OnTransitionEnd();
 	void OnTransitionBegin(double _tickPercent);
 	vector<tAnimationKeyFrame>& GetBoneTransforms();
+
+	tAnimationStateNode GetViewNode() { return m_tNodeInfo; }
+	void UpdatePos(tAnimationStateNode _newPose) { m_tNodeInfo = _newPose; }
 public:
 	void tick();
 	void SaveToLevelFile(FILE* _FILE);

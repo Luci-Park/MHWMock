@@ -212,6 +212,9 @@
     <ClInclude Include="CBoxCollider.h">
       <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimStructures.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -413,6 +416,9 @@
     </ClCompile>
     <ClCompile Include="CBoxCollider.cpp">
       <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimStructures.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

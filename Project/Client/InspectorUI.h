@@ -24,8 +24,6 @@ private:
     Ptr<CRes>           m_pTargetRes;
     ResUI*              m_arrResUI[(UINT)RES_TYPE::END];
 
-
-
 public:
     virtual void init() override;
     virtual void tick() override;
@@ -34,7 +32,6 @@ public:
 public:
     void SetTargetObject(CGameObject* _Target);
     void SetTargetResource(Ptr<CRes> _Res);
-    void SetTargetModelNode(tModelNode* _ModelNode);
     
     CGameObject* GetTargetObject() { return m_pTargetObj; }
 

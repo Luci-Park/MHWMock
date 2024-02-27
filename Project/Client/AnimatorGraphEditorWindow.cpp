@@ -15,13 +15,27 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 {
-	OnStart(WSTR2STR(_animator->GetOwner()->GetName()));
+	OnStart();
 	m_pStateMachine = _animator->GetStateMachine();
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
-		ed::SetNodePosition(newNode.id, ImVec2(0, 0));
+		Vec2 pos = s->GetViewNode().vPos;
+		ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
+	}
+
+	for (auto s : states)
+	{
+		HashTransition transitions = s->GetAllTransitions();
+		for (auto t : transitions)
+		{
+			auto linkInfo = t->GetViewLink();
+			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
+			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
+			m_Links.emplace_back(t, &(*prevNode).outputPins[linkInfo.startIdx], 
+				&(*nextNode).inputPins[linkInfo.endIdx]);
+		}
 	}
 	ed::NavigateToContent();
 }
@@ -50,7 +64,7 @@ Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pi
 	CAnimationState* nextState = _endPin->node->pState;
 	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
 	m_pStateMachine->Reset();
-	m_Links.emplace_back(transition, _endPin, _startPin);
+	m_Links.emplace_back(transition, _startPin, _endPin);
 	return m_Links.back();
 }
 
@@ -70,7 +84,7 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 }
 
 
-void AnimatorGraphEditorWindow::OnDraw()
+void AnimatorGraphEditorWindow::OnFrame()
 {
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
@@ -82,7 +96,7 @@ void AnimatorGraphEditorWindow::OnDraw()
 	for (auto n : m_Nodes)
 		DrawNode(n);
 	for (auto l : m_Links)
-		ed::Link(l.id, l.outputPin->id, l.inputPin->id);
+		ed::Link(l.id, l.startPin->id, l.endPin->id);
 	if (ed::BeginCreate(ImColor(255, 255, 255), 2.0f))
 	{
 		auto showLabel = [](const char* label, ImColor color)
@@ -135,7 +149,7 @@ void AnimatorGraphEditorWindow::OnDraw()
 					if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
 					{
 						Link newLink = CreateTransition(startPin, endPin);
-						ed::Link(newLink.id, newLink.outputPin->id, newLink.inputPin->id);
+						ed::Link(newLink.id, newLink.startPin->id, newLink.endPin->id);
 
 					}
 				}
@@ -161,7 +175,7 @@ void AnimatorGraphEditorWindow::OnDraw()
 	}
 	ed::EndDelete();
 	DealWithPopup();
-	
+	SavePosition();
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
 }
@@ -298,7 +312,7 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	
 	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
 	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
-	ed::EndPin();	
+	ed::EndPin();
 	EndColumn();
 
 
@@ -366,10 +380,18 @@ void AnimatorGraphEditorWindow::ShowSelection(float _width, float _height)
 
 	auto node = GetNode(*selectedNode);
 	auto link = GetLink(*selectedLink);
-	if(node != m_Nodes.end())	
+	if (node != m_Nodes.end())
+	{
+		if (m_pSelectedNode != nullptr
+			&& node->id != m_pSelectedNode->id) 
+			m_pSelectedTransition = nullptr;
+		m_pSelectedNode = &(*node);
 		DrawSelection(*node);
-	if(link != m_Links.end())	
+	}
+	if (link != m_Links.end())
+	{
 		DrawSelection(*link);
+	}
 
 	ImGui::EndChild();
 }
@@ -443,11 +465,12 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		ed::LinkId id(t);
 		auto link = GetLink(id);
 		if (ImGui::MenuItem(link->name.c_str()))
-			m_pSelectedNodeTransition = &(*link);
+			m_pSelectedTransition = &(*link);
+
 	}
 	ImGui::Separator();
-	if (m_pSelectedNodeTransition != nullptr)
-		DrawSelection(*m_pSelectedNodeTransition);
+	if (m_pSelectedTransition != nullptr)
+		DrawSelection(*m_pSelectedTransition);
 
 	ImGui::EndChild();
 	ImGui::PopStyleVar();
@@ -492,6 +515,9 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 	_link.pTransit->SetFixedDuration(bFixedDur);
 	_link.pTransit->SetTransitionDuration(fTransitionDur);
 	_link.pTransit->SetTransitionOffset(fTransitionOffset);
+	
+	vector<AnimCondition*> conditions = _link.pTransit->GetAllConditions();
+	if (conditions.size() == 0) _link.pTransit->SetHasExitTime(true);
 #pragma endregion
 #pragma region Parameter Settings
 	ImGui::TextUnformatted("Conditions");
@@ -502,7 +528,6 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 		_link.pTransit->CreateCondition();
 	}
 
-	vector<AnimCondition*> conditions = _link.pTransit->GetAllConditions();
 	vector<AnimStateParam*> params = m_pStateMachine->GetAllParams();
 	for (int i = 0; i < conditions.size(); i++)
 	{
@@ -521,6 +546,8 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 			}
 			ImGui::EndCombo();
 		}
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+			ImGui::OpenPopup("##DeleteCondition");
 		if (AnimParamType::FLOAT == cond->lhs->type)
 		{
 			ImGui::SameLine();
@@ -573,6 +600,17 @@ void AnimatorGraphEditorWindow::DrawSelection(Link& _link)
 				ImGui::EndCombo();
 			}
 		}
+
+		if (ImGui::IsPopupOpen("##DeleteCondition"))
+		{
+			if (ImGui::MenuItem("Delete##ConditionDelete"))
+			{
+				_link.pTransit->DeleteCondition(i);
+				ImGui::CloseCurrentPopup();
+			}
+			if (ImGui::IsKeyPressed(ImGuiKey_Delete)) ImGui::CloseCurrentPopup();
+		}
+
 		ImGui::PopItemWidth();
 		ImGui::PopID();
 	}
@@ -679,9 +717,9 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 	ImGui::EndChild();
 }
 
-void AnimatorGraphEditorWindow::OnStart(string _gameObjectName)
+void AnimatorGraphEditorWindow::OnStart()
 {
-	string filename = "Animator-" + _gameObjectName + ".json";
+	string filename = "Animator.json";
 	ed::Config config;
 	config.SettingsFile = filename.c_str();
 	m_pEditor = ed::CreateEditor(&config);
@@ -758,4 +796,22 @@ void AnimatorGraphEditorWindow::NextColumn()
 void AnimatorGraphEditorWindow::EndColumn()
 {
 	ImGui::EndGroup();
+}
+
+void AnimatorGraphEditorWindow::SavePosition()
+{
+	for (auto n : m_Nodes)
+	{
+		tAnimationStateNode info;
+		ImVec2 pos = ed::GetNodePosition(n.id);
+		info.vPos = Vec2(pos.x, pos.y);
+		n.pState->UpdatePos(info);
+	}
+	for (auto l : m_Links)
+	{
+		tAnimationTransitionLink info;
+		info.startIdx = l.startPin->idx;
+		info.endIdx = l.endPin->idx;
+		l.pTransit->UpdateLink(info);
+	}
 }

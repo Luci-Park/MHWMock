@@ -47,11 +47,11 @@ Node::Node(CAnimationState* _state)
 {
 }
 
-Link::Link(CAnimationTransition* _transit, const Pin* _output, const Pin* _input)
+Link::Link(CAnimationTransition* _transit, const Pin* _startPin, const Pin* _endPin)
 	: pTransit(_transit)
 	, id(ed::LinkId(_transit))
-	, outputPin(_output)
-	, inputPin(_input)
+	, startPin(_startPin)
+	, endPin(_endPin)
 {
 	string prevState = WSTR2STR(_transit->GetPrevState()->GetName());
 	string nextState = WSTR2STR(_transit->GetNextState()->GetName());

@@ -11,6 +11,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 	, m_dTick(0)
 	, m_pMachine(_pParent)
 	, m_iRepeatNum(0)
+	, m_tNodeInfo({Vec2(0, 0)})
 {
 }
 
@@ -21,6 +22,7 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 	, m_dTick(0)
 	, m_pMachine(_other.m_pMachine)
 	, m_iRepeatNum(0)
+	, m_tNodeInfo({ Vec2(0, 0) })
 {
 }
 
@@ -39,6 +41,12 @@ void CAnimationState::SetName(wstring _name)
 		newName = _name + L" " + std::to_wstring(postFix++);
 	m_strName = newName;
 }
+double CAnimationState::GetDurationInSeconds()
+{
+	if (m_pClip != nullptr)
+		return m_pClip->GetDuration() / m_pClip->GetTicksPerSecond();
+	return m_dDuration;
+}
 void CAnimationState::SetTick(double _percent)
 {
 	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
@@ -48,6 +56,12 @@ void CAnimationState::SetTick(double _percent)
 double CAnimationState::GetTickPercent()
 {
 	return abs(m_dTick / m_dDuration);
+}
+
+double CAnimationState::GetTickPercentWithRepeat()
+{
+	float duration = m_dTick + m_dDuration * m_iRepeatNum;
+	return abs(duration / m_dDuration);
 }
 
 void CAnimationState::DeleteTransition(CAnimationTransition* _transit)
@@ -87,7 +101,7 @@ void CAnimationState::tick()
 	if (m_dTick > m_dDuration) { m_dTick = 0; m_iRepeatNum++; }
 	if (m_dTick < 0) { m_dTick = m_dDuration; m_iRepeatNum++; }
 
-	if (m_pCurrentTransition != nullptr)
+	if (m_pCurrentTransition == nullptr)
 	{
 		for (auto t : m_Transitions)
 		{
@@ -109,6 +123,7 @@ void CAnimationState::SaveToLevelFile(FILE* _FILE)
 {
 	SaveResRef(m_pClip.Get(), _FILE);
 	fwrite(&m_fSpeed, sizeof(float), 1, _FILE);
+	fwrite(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
 	int count = m_Transitions.size();
 	fwrite(&count, sizeof(int), 1, _FILE);
@@ -123,6 +138,7 @@ void CAnimationState::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadResRef(m_pClip, _FILE);
 	fread(&m_fSpeed, sizeof(float), 1, _FILE);
+	fread(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
 	int count; 
 	fread(&count, sizeof(int), 1, _FILE);

@@ -22,15 +22,16 @@ private:
 	ed::NodeId					m_currSelectedNode;
 	ed::LinkId					m_currSelectedLink;
 	int							m_iCurrSelectedAnimationIdx;
-	Link*						m_pSelectedNodeTransition;
+	Link*						m_pSelectedTransition;
+	Node*						m_pSelectedNode;
 	
 	float						m_fLeftPlaneWidth;
 	float						m_fRightPlaneWidth;
-	int							m_iCurrentEditingParam;
+	int							m_iCurrentEditingParam; //idx of currently name editing param
 public:
-	virtual void OnDraw();
+	virtual void OnFrame();
 private:
-	void OnStart(string _gameObjectName);
+	void OnStart();
 	void OnEnd();
 	void DrawNode(Node& _node);
 	void DealWithPopup();
@@ -45,7 +46,7 @@ private:
 	Node& CreateNode();
 	void DeleteNode(ed::NodeId _node);
 
-	Link& CreateTransition(const Pin* _input, const Pin* _output);
+	Link& CreateTransition(const Pin* _startPin, const Pin* _endPin);
 
 	void DeleteLink(ed::LinkId _link);
 
@@ -56,6 +57,8 @@ private:
 	void BeginColumn();
 	void NextColumn();
 	void EndColumn();
+
+	void SavePosition();
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();

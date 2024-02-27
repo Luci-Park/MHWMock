@@ -354,6 +354,11 @@
     <ClInclude Include="CollisionUI.h" />
     <ClInclude Include="CanvasUI.h">
       <Filter>UI\InspectorUI\ComponentUI\15.CanvasUI</Filter>
+    <ClInclude Include="CollisionUI.h">
+      <Filter>UI\CollisionUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\03. Collider\Collider3DUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

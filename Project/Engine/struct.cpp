@@ -2,38 +2,44 @@
 
 int tAnimationChannel::Save(FILE* _FILE)
 {
-    SaveWString(strBoneName, _FILE);
-    int preState = (int)ePreState;
-    int postState = (int)ePostState;
-    fwrite(&preState, sizeof(int), 1, _FILE);
-    fwrite(&postState, sizeof(int), 1, _FILE);
-    
-    int keyNum = vecPositionKeys.size();
-    fwrite(&keyNum, sizeof(int), 1, _FILE);
-    for (size_t i = 0; i < keyNum; i++)
+    try
     {
-        fwrite(&vecPositionKeys[i].time, sizeof(double), 1, _FILE);
-        fwrite(&vecPositionKeys[i].value, sizeof(Vec3), 1, _FILE);
-    }
+        SaveWString(strBoneName, _FILE);
+        int preState = (int)ePreState;
+        int postState = (int)ePostState;
+        fwrite(&preState, sizeof(int), 1, _FILE);
+        fwrite(&postState, sizeof(int), 1, _FILE);
 
-    keyNum = vecScaleKeys.size();
-    fwrite(&keyNum, sizeof(int), 1, _FILE);
-    for (size_t i = 0; i < keyNum; i++)
+        int keyNum = vecPositionKeys.size();
+        fwrite(&keyNum, sizeof(int), 1, _FILE);
+        for (size_t i = 0; i < keyNum; i++)
+        {
+            fwrite(&vecPositionKeys[i].time, sizeof(double), 1, _FILE);
+            fwrite(&vecPositionKeys[i].value, sizeof(Vec3), 1, _FILE);
+        }
+
+        keyNum = vecScaleKeys.size();
+        fwrite(&keyNum, sizeof(int), 1, _FILE);
+        for (size_t i = 0; i < keyNum; i++)
+        {
+            fwrite(&vecScaleKeys[i].time, sizeof(double), 1, _FILE);
+            fwrite(&vecScaleKeys[i].value, sizeof(Vec3), 1, _FILE);
+        }
+
+        keyNum = vecRotationKeys.size();
+        fwrite(&keyNum, sizeof(int), 1, _FILE);
+        for (size_t i = 0; i < keyNum; i++)
+        {
+            fwrite(&vecRotationKeys[i].time, sizeof(double), 1, _FILE);
+            fwrite(&vecRotationKeys[i].value, sizeof(Quaternion), 1, _FILE);
+        }
+
+        return S_OK;
+    }
+    catch (const std::exception&)
     {
-        fwrite(&vecScaleKeys[i].time, sizeof(double), 1, _FILE);
-        fwrite(&vecScaleKeys[i].value, sizeof(Vec3), 1, _FILE);
+        return E_FAIL;
     }
-
-    keyNum = vecRotationKeys.size();
-    fwrite(&keyNum, sizeof(int), 1, _FILE);
-    for (size_t i = 0; i < keyNum; i++)
-    {
-        fwrite(&vecRotationKeys[i].time, sizeof(double), 1, _FILE);
-        fwrite(&vecRotationKeys[i].value, sizeof(Quaternion), 1, _FILE);
-    }
-
-
-    return S_OK;
 }
 
 int tAnimationChannel::Load(FILE* _FILE)
