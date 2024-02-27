@@ -350,10 +350,9 @@
     <ClInclude Include="ImGuiFunc.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="Collider3DUI.h" />
-    <ClInclude Include="CollisionUI.h" />
     <ClInclude Include="CanvasUI.h">
       <Filter>UI\InspectorUI\ComponentUI\15.CanvasUI</Filter>
+    </ClInclude>
     <ClInclude Include="CollisionUI.h">
       <Filter>UI\CollisionUI</Filter>
     </ClInclude>
