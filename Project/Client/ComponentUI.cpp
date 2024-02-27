@@ -30,24 +30,35 @@ int ComponentUI::render_update()
 	return TRUE;
 }
 
+//Remove Component UI
 void ComponentUI::RemoveComponent()
 {
+	//Sorting at Right
 	ImGui::Text("\n");
 	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - ImGui::GetStyle().ItemSpacing.x - ImGui::CalcTextSize("Remove").x);
+	
 	bool failed = false;
+
+	//Remove Button
 	if (ImGui::Button("Remove"))
 		ImGui::OpenPopup("Remove Component");
+
+	//It can be open popup window like a stack
 	if (ImGui::BeginPopupModal("Remove Component", NULL))
 	{
 		ImGui::Text("Really want to remove this Component?");
 
 		if (ImGui::Button("Yes"))
 		{
+			//remove Component Func
 			if (GetTarget()->DeleteComponent(this->GetComponentType()) == FALSE)
 			{
+				//open popup window if it Failed
 				ImGui::OpenPopup("Failed Remove Component");
 			}
 		}
+
+		//it also can be opend popup window like a stack because of using modal type
 		bool unused_open = true;
 		if (ImGui::BeginPopupModal("Failed Remove Component", &unused_open))
 		{
@@ -59,8 +70,10 @@ void ComponentUI::RemoveComponent()
 			}
 			ImGui::EndPopup();
 		}
+
 		if (failed)
 			ImGui::CloseCurrentPopup();
+		
 		ImGui::SameLine();
 		if (ImGui::Button("No"))
 			ImGui::CloseCurrentPopup();

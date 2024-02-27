@@ -39,7 +39,7 @@ int CanvasUI::render_update()
 	GetResKey(pMesh.Get(), szBuff, buffsize);
 	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
-	// Mesh ��� üũ
+	// Mesh Drag Drop
 	if (ImGui::BeginDragDropTarget())
 	{
 		// �ش� ��忡�� ���콺 �� ���, ������ PayLoad Ű���� ��ġ�� ���
@@ -60,7 +60,7 @@ int CanvasUI::render_update()
 
 	ImGui::SameLine();
 
-
+	//Select Mesh from List
 	if (ImGui::Button("##MeshSelectBtn", ImVec2(18, 18)))
 	{
 		const map<wstring, Ptr<CRes>>& mapMesh = CResMgr::GetInst()->GetResources(RES_TYPE::MESH);
@@ -86,6 +86,7 @@ int CanvasUI::render_update()
 	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 	ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
 
+	//DragDrop Res to Change Material
 	if (ImGui::BeginDragDropTarget())
 	{
 		// �ش� ��忡�� ���콺 �� ���, ������ PayLoad Ű���� ��ġ�� ���
@@ -105,7 +106,7 @@ int CanvasUI::render_update()
 
 
 	ImGui::SameLine();
-
+	//Select Matrial from List
 	if (ImGui::Button("##MtrlSelectBtn", ImVec2(18, 18)))
 	{
 		const map<wstring, Ptr<CRes>>& mapMtrl = CResMgr::GetInst()->GetResources(RES_TYPE::MATERIAL);
@@ -123,10 +124,9 @@ int CanvasUI::render_update()
 
 	if (pMtrl != nullptr)
 	{
-		//if there is Texture
 		Ptr<CTexture> UITexture = GetTarget()->Canvas()->GetUITexture();
 
-		
+		//if there is Texture
 		if (UITexture != nullptr)
 		{
 			//show Texture
