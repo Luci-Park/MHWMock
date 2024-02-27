@@ -78,5 +78,7 @@ int Light3DUI::render_update()
     vLAngle = (vLAngle / 180.0f) * XM_PI;
     GetTarget()->Light3D()->SetAngle(vLAngle);
 
+    ComponentUI::RemoveComponent();
+
     return TRUE;
 }

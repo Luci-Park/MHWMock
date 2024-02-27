@@ -182,6 +182,9 @@ int ParticleSystemUI::render_update()
 
     GetTarget()->ParticleSystem()->SetModuleData(pModule);
 
+
+    ComponentUI::RemoveComponent();
+
     return TRUE;
 }
 

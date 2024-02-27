@@ -32,6 +32,8 @@ int ComponentUI::render_update()
 
 void ComponentUI::RemoveComponent()
 {
+	ImGui::Text("\n");
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - ImGui::GetStyle().ItemSpacing.x - ImGui::CalcTextSize("Remove").x);
 	bool failed = false;
 	if (ImGui::Button("Remove"))
 		ImGui::OpenPopup("Remove Component");
