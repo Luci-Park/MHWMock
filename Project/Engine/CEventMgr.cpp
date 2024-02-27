@@ -170,6 +170,12 @@ void CEventMgr::GC_Clear()
 			if (m_vecGC[i]->GetParent())			
 				m_vecGC[i]->DisconnectFromParent();
 			
+			CCollider3D* pCollider = m_vecGC[i]->Collider3D();
+			if (pCollider)
+			{
+				pCollider->DeleteRigidActor();
+			}
+
 			delete m_vecGC[i];
 
 			m_LevelChanged = true;

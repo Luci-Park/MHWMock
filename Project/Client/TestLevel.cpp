@@ -34,9 +34,9 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
+	pCurLevel->GetLayer(15)->SetName(L"ViewPort UI");
 
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -48,7 +48,7 @@ void CreateTestLevel()
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		
 	pMainCam->Camera()->SetLayerMaskAll(true);	
-	pMainCam->Camera()->SetLayerMask(31, false);
+	pMainCam->Camera()->SetLayerMask(15, false);
 	pMainCam->Camera()->SetLayerMask(1, false);
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
@@ -63,9 +63,9 @@ void CreateTestLevel()
 	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pUICam->Camera()->SetCameraIndex(1);		
 	pUICam->Camera()->SetLayerMaskAll(false);
-	pUICam->Camera()->SetLayerMask(31, true);	
+	pUICam->Camera()->SetLayerMask(15, true);	
 
-	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 31);
+	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 1.f), 15);
 
 	//CGameObject* ptestUI = new CGameObject;
 	//ptestUI->SetName(L"TestUI");
@@ -164,6 +164,8 @@ void CreateTestLevel()
 	pObject1->AddComponent(new CTransform);
 	pObject1->AddComponent(new CMeshRender);
 	//pObject1->AddComponent(new CPlayerScript);
+	pObject1->Transform()->SetRelativeScale(Vector3(100.f, 100.f, 100.f));
+
 	pObject1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject1->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject1, Vec3(0.f, 0.f, 0.f), 2);
@@ -173,6 +175,7 @@ void CreateTestLevel()
 	pObject2->SetName(L"Player2");
 	pObject2->AddComponent(new CTransform);
 	pObject2->AddComponent(new CMeshRender);
+	pObject2->Transform()->SetRelativeScale(Vector3(100.f, 100.f, 100.f));
 	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 3);

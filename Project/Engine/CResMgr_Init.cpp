@@ -470,8 +470,6 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh(true);
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	pMesh->SetVerticies(m_vecVerticies);
-	pMesh->SetIndicies(m_vecIdx);
 
 	AddRes<CMesh>(L"SphereMesh", pMesh);
 	vecVtx.clear();

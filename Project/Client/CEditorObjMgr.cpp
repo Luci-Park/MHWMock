@@ -6,6 +6,8 @@
 
 #include <Engine\CResMgr.h>
 #include <Engine\CRenderMgr.h>
+#include <Engine\CLevelMgr.h>
+#include <Engine\CLevel.h>
 #include <Engine\CTimeMgr.h>
 #include <Engine\CKeyMgr.h>
 
@@ -81,6 +83,13 @@ void CEditorObjMgr::init()
 
 void CEditorObjMgr::progress()
 {
+	CLevel* pCulLeve = CLevelMgr::GetInst()->GetCurLevel();
+	LEVEL_STATE eLevelStat = pCulLeve->GetState();
+
+	if (eLevelStat != LEVEL_STATE::STOP)
+		return;
+
+
 	// DebugShape 정보 가져오기
 	vector<tDebugShapeInfo>& vecInfo = CRenderMgr::GetInst()->GetDebugShapeInfo();
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
@@ -162,11 +171,9 @@ void CEditorObjMgr::render()
 			break;
 		}
 
-		pShapeObj->Transform()->SetWorldMat(iter->matWorld);
-
-		/*if (iter->matWorld != XMMatrixIdentity())
+		if (iter->matWorld != XMMatrixIdentity())
 		{
-			Vec3 pos = iter->matWorld.Translation();
+			//Vec3 pos = iter->matWorld.Translation();
 			pShapeObj->Transform()->SetWorldMat(iter->matWorld);
 		}
 		else
@@ -175,7 +182,7 @@ void CEditorObjMgr::render()
 			pShapeObj->Transform()->SetRelativeScale(iter->vWorldScale);
 			pShapeObj->Transform()->SetRelativeRot(iter->vWorldRotation);
 			pShapeObj->finaltick();
-		}*/
+		}
 
 		pShapeObj->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &iter->vColor);
 		

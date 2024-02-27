@@ -48,6 +48,8 @@ public:
 
     void SetWorldMat(const Matrix& _mat) { m_matWorld = _mat; }
 
+    void UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot);
+
 public:
     virtual void finaltick() override;    
     void UpdateData();

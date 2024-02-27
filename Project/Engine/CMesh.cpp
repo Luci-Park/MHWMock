@@ -101,10 +101,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[0]);
 		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[1]);
 		vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
-		
-		pMesh->m_vecIdx.push_back(_aiMesh->mFaces[i].mIndices[0]);
-		pMesh->m_vecIdx.push_back(_aiMesh->mFaces[i].mIndices[1]);
-		pMesh->m_vecIdx.push_back(_aiMesh->mFaces[i].mIndices[2]);
+
 	}
 
 
@@ -114,12 +111,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 
 void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount)
 {
-	Vec3* vtxArray = static_cast<Vec3*>(_VtxSysMem);
-	UINT* idxArray = static_cast<UINT*>(_IdxSysMem);
-
-	m_vecVertices.assign(vtxArray, vtxArray + _iVtxCount);
-	m_vecIdx.assign(idxArray, idxArray + _IdxCount);
-
 	m_VtxCount = _iVtxCount;
 	m_IdxCount = _IdxCount;
 
