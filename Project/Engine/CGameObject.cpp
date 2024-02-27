@@ -224,6 +224,29 @@ void CGameObject::AddChild(CGameObject* _Object)
 	m_vecChildren.push_back(_Object);
 }
 
+const vector<CGameObject*>& CGameObject::GetAllChildren()
+{
+	m_vecAllChildren.clear();
+	
+	for (UINT i = 0; i < m_vecChildren.size(); ++i)
+	{
+		PushChildObj(m_vecChildren[i]);
+	}
+
+	return m_vecAllChildren;
+}
+
+void CGameObject::PushChildObj(CGameObject* _Obj)
+{
+	m_vecAllChildren.push_back(_Obj);
+	const vector<CGameObject*>& vecChild = _Obj->GetChildren();
+
+	for (size_t i = 0; i < vecChild.size(); ++i)
+	{
+		PushChildObj(vecChild[i]);
+	}
+}
+
 CGameObject* CGameObject::GetRoot() const
 {
 	CGameObject* pParent = m_Parent;
