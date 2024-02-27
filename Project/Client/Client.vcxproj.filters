@@ -352,7 +352,9 @@
     </ClInclude>
     <ClInclude Include="Collider3DUI.h" />
     <ClInclude Include="CollisionUI.h" />
-    <ClInclude Include="CanvasUI.h" />
+    <ClInclude Include="CanvasUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\15.CanvasUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -550,7 +552,9 @@
     <ClCompile Include="CollisionUI.cpp">
       <Filter>UI\CollisionUI</Filter>
     </ClCompile>
-    <ClCompile Include="CanvasUI.cpp" />
+    <ClCompile Include="CanvasUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\15.CanvasUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui_bezier_math.inl">

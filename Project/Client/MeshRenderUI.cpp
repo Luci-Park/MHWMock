@@ -128,6 +128,8 @@ int MeshRenderUI::render_update()
 		}
 	}
 
+	ComponentUI::RemoveComponent();
+
 	return TRUE;
 }
 
