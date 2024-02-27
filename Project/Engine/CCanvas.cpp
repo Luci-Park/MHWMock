@@ -22,7 +22,7 @@ CCanvas::CCanvas()
 
 CCanvas::~CCanvas()
 {
-
+	m_UITex = nullptr;
 }
 
 void CCanvas::finaltick()
@@ -45,6 +45,18 @@ void CCanvas::render()
 	GetMaterial()->UpdateData();
 	// ·»´õ
 	GetMesh()->render();
+}
+
+void CCanvas::SaveToLevelFile(FILE* _File)
+{
+	CRenderComponent::SaveToLevelFile(_File);
+	SaveResRef(m_UITex.Get(), _File);
+}
+
+void CCanvas::LoadFromLevelFile(FILE* _FILE)
+{
+	CRenderComponent::LoadFromLevelFile(_FILE);
+	LoadResRef(m_UITex, _FILE);
 }
 
 void CCanvas::SetUITexture(Ptr<CTexture> _Tex)

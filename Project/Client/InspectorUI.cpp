@@ -21,6 +21,7 @@
 #include "Light3DUI.h"
 #include "LandScapeUI.h"
 #include "ParticleSystemUI.h"
+#include "CanvasUI.h"
 
 #include "TextureUI.h"
 #include "MeshUI.h"
@@ -112,6 +113,12 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM] = new ParticleSystemUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]->SetSize(0.f, 300.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]);
+	
+	m_arrComUI[(UINT)COMPONENT_TYPE::CANVAS] = new CanvasUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::CANVAS]->SetSize(0.f, 300.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::CANVAS]);
+
+
 
 	// ResUI
 	m_arrResUI[(UINT)RES_TYPE::MESH] = new MeshUI;

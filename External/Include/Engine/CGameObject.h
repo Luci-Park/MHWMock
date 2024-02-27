@@ -58,6 +58,8 @@ public:
 
     void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
 
+    int DeleteComponent(COMPONENT_TYPE _type);
+
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 

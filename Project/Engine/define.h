@@ -34,7 +34,7 @@ enum class COMPONENT_TYPE
 	LIGHT2D,		// 2���� ����
 	LIGHT3D,		// 3���� ����
 	CAMERA,			// Camera
-	CANVAS,			// UI Canvas
+
 
 	// render
 	MESHRENDER,		// �⺻���� ������
@@ -45,6 +45,7 @@ enum class COMPONENT_TYPE
 	SKYBOX,			// SkyBox
 	DECAL,			// ���� ������
 	BONEHOLDER,
+	CANVAS,			// UI Canvas
 
 	END,
 
@@ -328,8 +329,6 @@ enum class MRT_TYPE
 	LIGHT,
 
 	SHADOWMAP,
-
-	CANVAS,
 
 	END,
 };

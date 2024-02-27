@@ -41,6 +41,7 @@ int LandScapeUI::render_update()
     GetTarget()->LandScape()->SetFace(viFaceX, viFaceZ);
     //GetTarget()->LandScape()->SetHeightMap(vHeightMap);
 
+    ComponentUI::RemoveComponent();
 
 	return TRUE;
 }

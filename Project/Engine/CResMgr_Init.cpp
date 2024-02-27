@@ -1065,13 +1065,12 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	// ============================
 	// CanvasShader	
-	// RS_TYPE : CULL_BACK
+	// RS_TYPE : CULL_NONE
 	// DS_TYPE : LESS
 	// BS_TYPE : MASK
 	// 
 	// Parameter
 	// g_tex_0 : Output Texture
-	// g_tex_1 : Normal Texture
 	// Domain : UI
 	// ============================
 	pShader = new CGraphicsShader;
@@ -1083,6 +1082,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::MASK);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+
+	pShader->AddTexParam(TEX_0, "Output Texture");
 
 	AddRes(pShader->GetKey(), pShader);
 }

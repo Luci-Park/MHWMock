@@ -22,7 +22,7 @@ public:
 
 public:
     virtual int render_update() override;
-
+    virtual void RemoveComponent();
 
 public:
     ComponentUI(const string& _Name, COMPONENT_TYPE _Type);
