@@ -117,8 +117,6 @@ int CollisionUI::render_update()
                 continue;
             }
 
-         
-
             ImGui::Checkbox(m_pLabel[cell], &m_bCollisionMap[ImGui::TableGetRowIndex() - 1][MAX_LAYER - ImGui::TableGetColumnIndex()]);
             ImGui::Text("%d, %d", ImGui::TableGetRowIndex() - 1, MAX_LAYER - ImGui::TableGetColumnIndex());
         }

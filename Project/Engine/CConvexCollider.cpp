@@ -62,6 +62,8 @@ void CConvexCollider::finaltick()
 	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
 }
 
+
+
 void CConvexCollider::CreateColliderShape()
 {
 	CRenderComponent* pRenderComponet = GetOwner()->GetRenderComponent();
@@ -75,14 +77,22 @@ void CConvexCollider::CreateColliderShape()
 
 	void* pVtxSys = pMesh->GetVtxSys();
 	void* pIdxSys = pMesh->GetIdxSys();
-	UINT uNumVtx = pMesh->GetVtxCount();
-	UINT uNumFace = pMesh->GetVIdxCount();
+	UINT uVtxCount = pMesh->GetVtxCount();
+	UINT uIdxCount = pMesh->GetVIdxCount();
 
-	//Vector3* vtxArray = static_cast<Vector3*>(pVtxSys);
-	//vector<Vector3> vtxPosData;
-	//vtxPosData.assign(vtxArray, vtxArray + uNumVtx);
+	Vtx* pVtxArray = static_cast<Vtx*>(pVtxSys);
 
-	CookingTriangleMesh(pVtxSys, uNumVtx, pIdxSys, uNumFace);
+	vector<Vtx> vVtxData;
+	vVtxData.assign(pVtxArray, pVtxArray + (uVtxCount));
+
+	vector<Vec3> vVtxPosData;
+
+	for (UINT i = 0; i < uVtxCount; ++i)
+	{
+		vVtxPosData.push_back(vVtxData[i].vPos);
+	}
+
+	CookingTriangleMesh(vVtxPosData.data(), uVtxCount, pIdxSys, uIdxCount);
 
 	PxTriangleMeshGeometry geometry;
 
@@ -94,25 +104,25 @@ void CConvexCollider::CreateColliderShape()
 	AddRigidActor();
 }
 
-void CConvexCollider::CookingTriangleMesh(void* _pPoints, UINT _nNumPoint, void* _pIndices, UINT _nNumFace)
+void CConvexCollider::CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* _pIndices, UINT _IdxCount)
 {
 	PxTriangleMeshDesc triangleMeshDesc;
 
-	triangleMeshDesc.points.count = _nNumPoint;
+	triangleMeshDesc.points.count = _VtxCount;
 	triangleMeshDesc.points.stride = sizeof(PxVec3);
 	triangleMeshDesc.points.data = _pPoints;
 
-	triangleMeshDesc.triangles.count = _nNumFace / 3;
+	triangleMeshDesc.triangles.count = _IdxCount / 3;
 	triangleMeshDesc.triangles.stride = 3 * sizeof(PxU32);
 	triangleMeshDesc.triangles.data = _pIndices;
-	
+
 	triangleMeshDesc.flags = PxMeshFlags(0);
 
 	PxDefaultMemoryOutputStream writeBuffer;
 
 	PxTriangleMeshCookingResult::Enum eResult;
 
-	//bool bTemp = PxValidateTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc);
+	bool bTemp = PxValidateTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc);
 
 	bool status = PxCookTriangleMesh(CPhysXMgr::GetInst()->GetPxPhysics()->getTolerancesScale(), triangleMeshDesc, writeBuffer, &eResult);
 
