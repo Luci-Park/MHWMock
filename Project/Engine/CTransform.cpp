@@ -126,7 +126,6 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 
 void CTransform::SaveToLevelFile(FILE* _File)
 {
-	
 	fwrite(&m_matWorld, sizeof(Matrix), 1, _File);
 	fwrite(&m_vRelativePos	, sizeof(Vec3), 1, _File);
 	fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _File);

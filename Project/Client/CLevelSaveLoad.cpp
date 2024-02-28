@@ -8,8 +8,11 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
+#include <Engine\CCollisionMgr.h>
 
 #include <Script\CScriptMgr.h>
+
+
 
 int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 {
@@ -29,6 +32,12 @@ int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 	// 레벨 이름 저장
 	SaveWString(_Level->GetName(), pFile);
 
+	// CollisionMatrix 저장
+	vector<UINT> vecCollisionMatrix = CCollisionMgr::GetInst()->GetCollisionMatrixFromCollisionMgr();
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		fwrite(&vecCollisionMatrix[i], sizeof(UINT), 1, pFile);
+	}
 
 	// 레벨의 레이어들을 저장
 	for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -142,6 +151,15 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _LevelPath)
 	wstring strLevelName;
 	LoadWString(strLevelName, pFile);
 	NewLevel->SetName(strLevelName);
+
+	// CollisionMatrix 불러오기
+	vector<UINT> vecCollisionMatrix;
+	vecCollisionMatrix.resize(MAX_LAYER);
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		fread(&vecCollisionMatrix[i], sizeof(UINT), 1, pFile);
+	}
+	CCollisionMgr::GetInst()->SetCollisionMapFromLevel(vecCollisionMatrix);
 
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
