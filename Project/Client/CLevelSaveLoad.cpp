@@ -66,6 +66,9 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 	// 이름
 	SaveWString(_Object->GetName(), _File);
 
+	int LayerIdx = _Object->GetLayerIndex();
+	fwrite(&LayerIdx, sizeof(int), 1, _File);
+
 	// 컴포넌트
 	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
 	{		
@@ -82,6 +85,14 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 		// 컴포넌트 타입 저장
 		fwrite(&i, sizeof(UINT), 1, _File);
+
+		// Collider3D일경우 다양한 Type의 자식들이 존재하기 때문에 자세히 저장.
+		CCollider3D* pCollider = dynamic_cast<CCollider3D*>(Com);
+		if (pCollider != nullptr)
+		{
+			UINT uShapeType = (UINT)pCollider->GetShapeType();
+			fwrite(&uShapeType, sizeof(UINT), 1, _File);
+		}
 
 		// 컴포넌트 정보 저장
 		Com->SaveToLevelFile(_File);
@@ -170,6 +181,10 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 	LoadWString(Name, _File);
 	pObject->SetName(Name);
 
+	int LayerIdx = 0;
+	fread(&LayerIdx, sizeof(UINT), 1, _File);
+	pObject->SetLayerIndex(LayerIdx);
+
 	// 컴포넌트
 	while (true)
 	{
@@ -191,7 +206,21 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 		//	Component = new CCollider2D;
 		//	break;
 		case COMPONENT_TYPE::COLLIDER3D:
-			Component = new CCollider3D;
+			UINT ShapeType;
+			fread(&ShapeType, sizeof(UINT), 1, _File);
+
+			if ((SHAPE_TYPE)ShapeType == SHAPE_TYPE::CAPSULE)
+			{
+				Component = new CCapsuleCollider;
+			}
+			else if ((SHAPE_TYPE)ShapeType == SHAPE_TYPE::CUBE)
+			{
+				Component = new CBoxCollider;
+			}
+			else if ((SHAPE_TYPE)ShapeType == SHAPE_TYPE::CONVEX)
+			{
+				Component = new CConvexCollider;
+			}
 			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			Component = new CAnimator2D;

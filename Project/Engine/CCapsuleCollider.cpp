@@ -70,7 +70,7 @@ void CCapsuleCollider::CreateColliderShape()
 
 	m_pShape->setLocalPose(relativePose);
 
-	AddRigidActor();
+	CCollider3D::AddRigidActor();
 }
 
 void CCapsuleCollider::SaveToLevelFile(FILE* _File)
