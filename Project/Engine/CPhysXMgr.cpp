@@ -11,6 +11,7 @@
 #include "CCamera.h"
 #include "CTransform.h"
 #include "CCollider3D.h"
+#include "CCollisionMgr.h"
 
 PxFilterFlags contactReportFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
 	PxFilterObjectAttributes attributes1, PxFilterData filterData1,
@@ -153,6 +154,7 @@ void CPhysXMgr::tick()
 	//Update all of Actor's info
 	PxU32		nNumActors = 0;
 	PxActor** ppActors = nullptr;
+	bool bFilterChange = CCollisionMgr::GetInst()->GetCollisionChange();
 
 	nNumActors = m_pScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
 	ppActors = new PxActor * [nNumActors];
@@ -160,7 +162,15 @@ void CPhysXMgr::tick()
 	for (UINT i = 0; i < nNumActors; ++i)
 	{
 		if (ppActors[i]->userData)
-			((pPXUSERDATA)(ppActors[i]->userData))->pCollider->UpdateActorInfo();
+		{
+			CCollider3D* pCollider = ((pPXUSERDATA)(ppActors[i]->userData))->pCollider;
+			pCollider->UpdateActorInfo();
+			
+			if (bFilterChange)
+			{
+				pCollider->ChangeFilterData();
+			}
+		}
 	}
 	delete[] ppActors;
 
@@ -172,9 +182,19 @@ void CPhysXMgr::tick()
 	for (UINT i = 0; i < nNumActors; ++i)
 	{
 		if (ppActors[i]->userData)
-			((pPXUSERDATA)(ppActors[i]->userData))->pCollider->UpdateActorInfo();
+		{
+			CCollider3D* pCollider = ((pPXUSERDATA)(ppActors[i]->userData))->pCollider;
+			pCollider->UpdateActorInfo();
+
+			if (bFilterChange)
+			{
+				pCollider->ChangeFilterData();
+			}
+		}
 	}
 	delete[] ppActors;
+
+	CCollisionMgr::GetInst()->SetCollisionChange(false);
 }
 
 void CPhysXMgr::SimulatePhysX()
@@ -277,9 +297,10 @@ void CPhysXMgr::SetTransformResult()
 
 			// 가져온 위치 값을 사용하여 오브젝트의 위치 변경
 			Vec3 pos = Vec3(position.x, position.y, position.z);
-			Vec3 objPos = obj->Transform()->GetRelativePos();
-			objPos +=pos;
-			obj->Transform()->SetRelativePos(pos);
+			Quaternion rot = Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+			// 자식인경우 자식이 아닌경우 예외처리 두고 Transform에 적용시켜야함.
+			obj->Transform()->UpdateSimulateResult(pos, rot);
+			//obj->Transform()->SetRelativePos(pos);
 		}
 
 		delete[] ppDynamicActors;

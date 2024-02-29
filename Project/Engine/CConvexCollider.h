@@ -8,7 +8,7 @@ private:
     Vec3 _ConvexScale;
 
 public:
-    void CookingTriangleMesh(void* _pPoints, UINT _nNumPoint, void* _pIndices, UINT _nNumFace);
+    void CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* _pIndices, UINT _IdxCount);
     void CreateColliderShape();
 
 public:

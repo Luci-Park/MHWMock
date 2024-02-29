@@ -20,6 +20,7 @@ CTransform::~CTransform()
 {
 }
 
+
 void CTransform::finaltick()
 {
 	m_matWorldScale = XMMatrixIdentity();
@@ -88,8 +89,44 @@ void CTransform::UpdateData()
 	pTransformBuffer->UpdateData();
 }
 
+void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
+{
+	CGameObject* pParent = GetOwner()->GetParent();
+
+	if (pParent)
+	{
+		Matrix mParentWorldInv = pParent->Transform()->m_matWorldInv;
+
+		//Matrix mWorldMatrix = XMMatrixIdentity();
+		//Matrix matRot = Matrix::CreateFromQuaternion(_Rot);
+		//Matrix matTranslation = XMMatrixTranslation(_Pos.x, _Pos.y, _Pos.z);
+
+		//mWorldMatrix = m_matWorldScale * matRot * matTranslation;
+
+		Matrix mWorldMatrix = m_matWorld;
+		mWorldMatrix.CreateTranslation(_Pos);
+		mWorldMatrix.CreateFromQuaternion(_Rot);
+
+		Matrix mRelativeWorld = mWorldMatrix * mParentWorldInv;
+		
+		Vector3 vRelativePos;
+		Vector3 vRelativeScale;
+		Quaternion qRelativeRot;
+		mRelativeWorld.Decompose(vRelativeScale, qRelativeRot, vRelativePos);
+
+		m_vRelativePos = vRelativePos;
+		m_vRelativeRot = qRelativeRot.ToEuler();
+
+		return;
+	}
+
+	m_vRelativePos = _Pos;
+	m_vRelativeRot = _Rot.ToEuler();
+}
+
 void CTransform::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&m_matWorld, sizeof(Matrix), 1, _File);
 	fwrite(&m_vRelativePos	, sizeof(Vec3), 1, _File);
 	fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _File);
 	fwrite(&m_vRelativeRot	, sizeof(Vec3), 1, _File);
@@ -98,6 +135,7 @@ void CTransform::SaveToLevelFile(FILE* _File)
 
 void CTransform::LoadFromLevelFile(FILE* _FILE)
 {	
+	fread(&m_matWorld, sizeof(Matrix), 1, _FILE);
 	fread(&m_vRelativePos, sizeof(Vec3), 1, _FILE);
 	fread(&m_vRelativeScale, sizeof(Vec3), 1, _FILE);
 	fread(&m_vRelativeRot, sizeof(Vec3), 1, _FILE);

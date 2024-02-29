@@ -33,7 +33,7 @@ int MeshRenderUI::render_update()
 	Ptr<CMaterial> pMtrl = GetTarget()->MeshRender()->GetMaterial();
 		
 	ImGui::Text("Mesh    ");
-	ImGui::SameLine();	
+	ImGui::SameLine();
 	GetResKey(pMesh.Get(), szBuff, buffsize);
 	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
@@ -127,6 +127,8 @@ int MeshRenderUI::render_update()
 				ImGui::Image((ImTextureID)pMtrl.Get()->GetTexParam((TEX_PARAM)i)->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
 		}
 	}
+
+	ComponentUI::RemoveComponent();
 
 	return TRUE;
 }

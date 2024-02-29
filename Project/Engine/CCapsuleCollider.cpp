@@ -36,25 +36,15 @@ void CCapsuleCollider::finaltick()
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
-
-	if (m_bAbsolute)
-	{
-		Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
-		m_matCollider3D = m_matCollider3D * matParentScaleInv * matWorld;
-	}
-	else
-	{
-		m_matCollider3D *= matWorld;
-	}
+	m_matCollider3D *= matWorld;
 
 	// DebugShape ฟไรป
 	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	if (0 < m_iCollisionCount)
 		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	DrawDebugCapsule3D(matWorld, vColor, 0.f,false,_CapsuleRadius,_CapsuleHeight);
+	DrawDebugCapsule3D(m_matCollider3D, vColor, 0.f,false,_CapsuleRadius,_CapsuleHeight);
 }
-
 
 void CCapsuleCollider::CreateColliderShape()
 {
@@ -73,12 +63,24 @@ void CCapsuleCollider::CreateColliderShape()
 
 	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
 
+	//m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
 	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
 
 	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));
 
 	m_pShape->setLocalPose(relativePose);
 
-	AddRigidActor();
+	CCollider3D::AddRigidActor();
 }
 
+void CCapsuleCollider::SaveToLevelFile(FILE* _File)
+{
+	CCollider3D::SaveToLevelFile(_File);
+}
+
+void CCapsuleCollider::LoadFromLevelFile(FILE* _File)
+{
+	CCollider3D::LoadFromLevelFile(_File);
+
+	CreateColliderShape();
+}

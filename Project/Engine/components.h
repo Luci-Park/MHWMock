@@ -21,6 +21,7 @@
 #include "CCapsuleCollider.h"
 #include "CConvexCollider.h"
 #include "CBoxCollider.h"
+#include "CCanvas.h"
 
 //#include "CAnimator3D.h"
 

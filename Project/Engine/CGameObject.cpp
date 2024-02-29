@@ -228,6 +228,29 @@ void CGameObject::AddChild(CGameObject* _Object)
 	m_vecChildren.push_back(_Object);
 }
 
+const vector<CGameObject*>& CGameObject::GetAllChildren()
+{
+	m_vecAllChildren.clear();
+	
+	for (UINT i = 0; i < m_vecChildren.size(); ++i)
+	{
+		PushChildObj(m_vecChildren[i]);
+	}
+
+	return m_vecAllChildren;
+}
+
+void CGameObject::PushChildObj(CGameObject* _Obj)
+{
+	m_vecAllChildren.push_back(_Obj);
+	const vector<CGameObject*>& vecChild = _Obj->GetChildren();
+
+	for (size_t i = 0; i < vecChild.size(); ++i)
+	{
+		PushChildObj(vecChild[i]);
+	}
+}
+
 CGameObject* CGameObject::GetRoot() const
 {
 	CGameObject* pParent = m_Parent;
@@ -325,6 +348,26 @@ void CGameObject::AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType)
 	//setting Actor type
 	coll->SetActorType(_actorType);
 	coll->begin();
+}
+
+//Remove Component Func
+int CGameObject::DeleteComponent(COMPONENT_TYPE _type)
+{
+	//Detect can not be Remove Component
+	if (_type == COMPONENT_TYPE::TRANSFORM)
+		return FALSE;
+
+	//if it possible remove component
+	CComponent* comp = m_arrCom[(UINT)_type];
+	m_arrCom[(UINT)_type] = nullptr;
+
+	//if it is Render Component also remove and than release memory
+	CRenderComponent* RC;
+	if (RC = dynamic_cast<CRenderComponent*>(comp))
+		m_RenderCom = nullptr;
+	delete comp;
+
+	return TRUE;
 }
 
 CComponent* CGameObject::GetComponentInParent(COMPONENT_TYPE _CType)

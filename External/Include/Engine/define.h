@@ -13,7 +13,7 @@
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 
-#define MAX_LAYER 32
+#define MAX_LAYER 16
 
 #define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
 
@@ -34,7 +34,7 @@ enum class COMPONENT_TYPE
 	LIGHT2D,		// 2���� ����
 	LIGHT3D,		// 3���� ����
 	CAMERA,			// Camera
-	CANVAS,			// UI Canvas
+
 
 	// render
 	MESHRENDER,		// �⺻���� ������
@@ -45,6 +45,7 @@ enum class COMPONENT_TYPE
 	SKYBOX,			// SkyBox
 	DECAL,			// ���� ������
 	BONEHOLDER,
+	CANVAS,			// UI Canvas
 
 	END,
 
@@ -87,8 +88,8 @@ enum class LAYER_TYPE
 	PlayerProjectile,
 	MonsterProjectile,
 
-	ViewPortUI = 31,
-	END = 32,
+	ViewPortUI = 15,
+	END = 16,
 };
 
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END];
@@ -329,8 +330,6 @@ enum class MRT_TYPE
 
 	SHADOWMAP,
 
-	CANVAS,
-
 	END,
 };
 
@@ -349,6 +348,18 @@ enum class AnimBehaviour
 	CONSTANT, //The nearest key value is used without interpolation
 	LINEAR, //The value of the nearest two keys is linearly extrapolated for the current time value
 	REPEAT, // The animation is repeated.If the animation key go from n to m and the current time is t, use the value at(t - n) % (| m - n | )
+};
+
+enum class TEX_TYPE
+{
+	BML,		// Bitmap
+	CMM,		//Effect Color Map
+	NM,			//Normal
+	EM,			//Emission
+	RMT,		//Roughness , meatalic , Transparency
+	FM,			//Fur
+	XM,			//Specular
+	end,
 };
 
 enum class AnimParamType { FLOAT, INT, BOOL, TRIGGER, NONE };

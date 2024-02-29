@@ -9,8 +9,7 @@
 #include "CPhysXMgr.h"
 
 CCollisionMgr::CCollisionMgr()
-	: m_matrix{}
-	, m_bMatrixChange{}
+	: m_bCollisionMap{}
 {
 
 }
@@ -20,6 +19,8 @@ CCollisionMgr::~CCollisionMgr()
 {
 
 }
+
+
 
 void CCollisionMgr::tick()
 {
@@ -80,4 +81,58 @@ void CCollisionMgr::LayerIgnore(const wstring& _strLeftLayer, const wstring& _st
 	CLayer* pRight = pCurLevel->FindLayerByName(_strRightLayer);
 
 	LayerIgnore(pLeft->GetLayerIndex(), pRight->GetLayerIndex());
+}
+
+void CCollisionMgr::SetCollisionMap(UINT _rIdx, UINT _cIdx, bool _Check)
+{ 
+	if (m_bCollisionMap[_rIdx][_cIdx] == _Check)
+		return;
+
+	m_bCollisionMap[_rIdx][_cIdx] = _Check; 
+
+	if (_Check)
+	{
+		LayerCheck(_rIdx, _cIdx);
+	}
+	else
+	{
+		LayerIgnore(_rIdx, _cIdx);
+	}
+
+	m_bCollisionChange = true;
+}
+
+void CCollisionMgr::SetCollisionMapFromLevel(vector<UINT> _Matrix)
+{
+	m_bCollisionChange = true;
+
+	for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
+	{
+		for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
+		{
+			if (!(_Matrix[iRow] & (1 << iCol)))
+				SetCollisionMap(iRow, iCol, false);
+			else
+				SetCollisionMap(iRow, iCol, true);
+		}
+	}
+}
+
+vector<UINT> CCollisionMgr::GetCollisionMatrixFromCollisionMgr()
+{
+	vector<UINT> vecCollisionMatrix;
+	vecCollisionMatrix.resize(MAX_LAYER);
+
+	for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
+	{
+		for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
+		{
+			if (m_bCollisionMap[iRow][iCol])
+			{
+				vecCollisionMatrix[iRow] |= (1 << iCol);
+			}
+		}
+	}
+
+	return vecCollisionMatrix;
 }

@@ -10,14 +10,14 @@
 
 #include "CGameObject.h"
 
+#include "CCollisionMgr.h"
+
 CCollider3D::CCollider3D()
 	:CComponent(COMPONENT_TYPE::COLLIDER3D)
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_vOffsetPos(Vec3(0.f,0.f,0.f))
 	, m_vOffsetScale(Vec3(1.f,1.f,1.f))
-	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
-	, m_MeshChanged(false)
 	, m_eActorType(ACTOR_TYPE::END)
 	, m_pMaterial(nullptr)
 	, m_pRigidActor(nullptr)
@@ -27,6 +27,13 @@ CCollider3D::CCollider3D()
 
 CCollider3D::~CCollider3D()
 {
+	if (m_pRigidActor != nullptr)
+	{
+		if (m_pRigidActor->getScene())
+			m_pRigidActor->getScene()->removeActor(*m_pRigidActor);
+
+		PX_RELEASE(m_pRigidActor);
+	}
 }
 
 void CCollider3D::begin()
@@ -109,15 +116,15 @@ void CCollider3D::ChangeFilterData()
 	UINT iLayerIdx = GetOwner()->GetLayerIndex();
 	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
 
-	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) {
-		
+	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) 
+	{
 		m_pRigidActor->detachShape(*m_pShape);
 
 		m_pShape->setSimulationFilterData(filter);
 		PxFilterData filterCheck = m_pShape->getSimulationFilterData();
 
 		m_pRigidActor->attachShape(*m_pShape);
-		}
+	}
 }
 
 void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
@@ -202,6 +209,17 @@ float CCollider3D::GetCapsuleHalfHeight()
 	return dynamic_cast<CCapsuleCollider*>(this)->GetHeight();
 }
 
+void CCollider3D::DeleteRigidActor()
+{
+	if (m_pRigidActor != nullptr)
+	{
+		if (m_pRigidActor->getScene())
+			m_pRigidActor->getScene()->removeActor(*m_pRigidActor);
+
+		PX_RELEASE(m_pRigidActor);
+	}
+}
+
 void CCollider3D::AddRigidActor()
 {
 	CreateRigidActor();
@@ -211,8 +229,9 @@ void CCollider3D::AddRigidActor()
 
 void CCollider3D::UpdateActorInfo()
 {
-	if (GetOwner() == nullptr)
+	if (GetOwner()->IsDead() || GetOwner() == nullptr)
 		return;
+
 	// Transform의 데이터가 바뀌지 않았을경우 예외처리 .
 	// ~~
 
@@ -311,14 +330,18 @@ void CCollider3D::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_vOffsetPos, sizeof(Vec3), 1, _File);
 	fwrite(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fwrite(&m_bAbsolute, sizeof(bool), 1, _File);
+	fwrite(&m_ShapeType, sizeof(UINT), 1, _File);
+	fwrite(&m_eActorType, sizeof(UINT), 1, _File);
+	fwrite(&m_iCollisionCount, sizeof(int), 1, _File);
 }
 
 void CCollider3D::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_vOffsetPos, sizeof(Vec3), 1, _File);
 	fread(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fread(&m_bAbsolute, sizeof(bool), 1, _File);
+	fread(&m_ShapeType, sizeof(UINT), 1, _File);
+	fread(&m_eActorType, sizeof(UINT), 1, _File);
+	fread(&m_iCollisionCount, sizeof(int), 1, _File);
 }
 
 

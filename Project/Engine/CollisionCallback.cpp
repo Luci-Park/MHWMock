@@ -83,6 +83,8 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 		CPhysXMgr::COLLISIONPAIR tCollisionPair;
 		tCollisionPair.bTrigger = false;
 
+
+
 		if (physx::PxPairFlag::eNOTIFY_TOUCH_FOUND == (UINT)pairs[i].events)
 		{
 			if (pCollider[0] != nullptr && pCollider[1] != nullptr)

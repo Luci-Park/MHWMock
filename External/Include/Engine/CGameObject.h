@@ -34,6 +34,7 @@ private:
 
     CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChildren;
+    vector<CGameObject*>    m_vecAllChildren;
 
     int                     m_iLayerIdx;
     bool                    m_bDead;
@@ -58,8 +59,12 @@ public:
 
     void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
 
+    int DeleteComponent(COMPONENT_TYPE _type);
+
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
+    const vector<CGameObject*>& GetAllChildren();
+    void PushChildObj(CGameObject* _Obj);
 
     CGameObject* GetParent() const { return m_Parent; }
     CGameObject* GetRoot() const;

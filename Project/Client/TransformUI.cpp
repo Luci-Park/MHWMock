@@ -174,5 +174,7 @@ int TransformUI::render_update()
 
 	GetTarget()->Transform()->SetRelativeRot(vRotation);
 
+    ComponentUI::RemoveComponent();
+       
 	return TRUE;
 }

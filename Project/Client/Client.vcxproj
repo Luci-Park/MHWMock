@@ -188,6 +188,7 @@
     <ClInclude Include="AnimatorGraphStructures.h" />
     <ClInclude Include="BoneHolderUI.h" />
     <ClInclude Include="CameraUI.h" />
+    <ClInclude Include="CanvasUI.h" />
     <ClInclude Include="CCustomResourceLoader.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="AnimatorGraphStructures.cpp" />
     <ClCompile Include="BoneHolderUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
+    <ClCompile Include="CanvasUI.cpp" />
     <ClCompile Include="CCustomResourceLoader.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
