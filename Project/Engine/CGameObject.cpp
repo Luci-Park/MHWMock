@@ -58,7 +58,11 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	for (size_t i = 0; i < _Other.m_vecChildren.size(); ++i)
 	{
 		AddChild(_Other.m_vecChildren[i]->Clone());
-	}	
+	}
+	if (_Other.GetParent() != nullptr)
+	{
+		_Other.GetParent()->AddChild(this);
+	}
 }
 
 CGameObject::~CGameObject()

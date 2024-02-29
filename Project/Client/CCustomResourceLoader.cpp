@@ -22,6 +22,7 @@ void LoadCustomShader()
 
 	pShader->AddTexParam(TEX_0, "BML");
 
+	pShader->SetName(L"SkinningShader");
 	CResMgr::GetInst()->AddRes(L"SkinningShader", pShader);
 }
 

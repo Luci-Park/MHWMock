@@ -139,8 +139,8 @@ void ContentUI::ResetContent()
         pCategory->SetCategoryNode(true);
 
 		for (const auto& pair : mapRes)
-		{
-			TreeNode* pNode = m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
+		{			
+			TreeNode* pNode = m_Tree->AddItem(WSTR2STR(pair.second->GetName()), (DWORD_PTR)pair.second.Get(), pCategory);
 		}
 	}
 }
