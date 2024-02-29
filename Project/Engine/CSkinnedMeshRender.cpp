@@ -9,7 +9,9 @@ CSkinnedMeshRender::CSkinnedMeshRender()
 	: CRenderComponent(COMPONENT_TYPE::SKINNEDMESHRENDER)
 	, m_vecBones()
 	, m_bIsSet(false)
+	, m_Texture()
 {
+	m_Texture.assign((UINT)TEX_TYPE::end, nullptr);
 	m_pBoneTransforms = new CStructuredBuffer;
 }
 
@@ -75,6 +77,16 @@ void CSkinnedMeshRender::render()
 	}
 
 	GetMaterial()->SetNumberOfBones(m_vecBones.size());
+
+	//Texture
+	for (int i = 0; i < (int)TEX_TYPE::end; i++)
+	{
+		if (nullptr != m_Texture[i])
+		{
+			GetMaterial()->SetTexParam((TEX_PARAM)i, m_Texture[i]);
+		}
+	}
+
 	GetMaterial()->UpdateData();
 	GetMesh()->render();
 }
@@ -83,6 +95,11 @@ void CSkinnedMeshRender::SetMesh(Ptr<CMesh> _Mesh)
 {
 	CRenderComponent::SetMesh(_Mesh);
 	m_bIsSet = false;
+}
+
+void CSkinnedMeshRender::SetTexture(Ptr<CTexture> _Texture, UINT _Indx)
+{
+	m_Texture[_Indx] = _Texture;
 }
 
 

@@ -4,6 +4,8 @@
 class SkinnedMeshRenderUI :
 	public ComponentUI
 {
+private:
+	UINT m_Idx;
 public:
 	virtual int render_update() override;
 public:

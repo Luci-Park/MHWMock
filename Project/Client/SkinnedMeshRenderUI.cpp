@@ -139,7 +139,8 @@ int SkinnedMeshRenderUI::render_update()
 						CRes* pRes = (CRes*)pNode->GetData();
 						if (RES_TYPE::TEXTURE == pRes->GetType())
 						{
-							GetTarget()->SkinnedMeshRender()->GetMaterial()->SetTexParam((TEX_PARAM)i, *dynamic_cast<Ptr<CTexture>*>(pRes));
+							m_Idx = i;
+							GetTarget()->SkinnedMeshRender()->SetTexture((CTexture*)pRes, m_Idx);
 						}
 					}
 					ImGui::EndDragDropTarget();
@@ -158,6 +159,7 @@ int SkinnedMeshRenderUI::render_update()
 					}
 
 					//Set Texture
+					m_Idx = i;
 					pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&SkinnedMeshRenderUI::SelectTexture);
 				}
 
@@ -181,6 +183,7 @@ int SkinnedMeshRenderUI::render_update()
 					}
 
 					//Set Texture
+					m_Idx = i;
 					pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&SkinnedMeshRenderUI::SelectTexture);
 				}
 			}
@@ -208,4 +211,7 @@ void SkinnedMeshRenderUI::SelectMaterial(DWORD_PTR _Key)
 
 void SkinnedMeshRenderUI::SelectTexture(DWORD_PTR _Key)
 {
+	string strKey = (char*)_Key;
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+	GetTarget()->SkinnedMeshRender()->SetTexture(pTex, m_Idx);
 }
