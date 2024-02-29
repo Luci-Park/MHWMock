@@ -12,5 +12,7 @@ AnimationUI::~AnimationUI()
 }
 int AnimationUI::render_update()
 {
-    return 0;
+    if (!ResUI::render_update())
+        return 0;
+    return 1;
 }

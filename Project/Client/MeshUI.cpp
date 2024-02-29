@@ -15,7 +15,7 @@ MeshUI::~MeshUI()
 
 int MeshUI::render_update()
 {
-    ResUI::render_update();
+    if(!ResUI::render_update()) return 0;
 
     ImGui::Text("Mesh   ");
     ImGui::SameLine();
