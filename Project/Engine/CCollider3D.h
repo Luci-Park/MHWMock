@@ -24,8 +24,6 @@ protected:
     
     int             m_iCollisionCount;
 
-    bool            m_bAbsolute;
-    bool            m_MeshChanged;    // Obj의 Mesh가 변했을 경우 Shape를 다시 업데이트해줘야 함.
 
 public:
     void CreateRigidActor();
@@ -50,7 +48,6 @@ public:
 public:
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
-    void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }
     void SetActorType(ACTOR_TYPE _Type) { m_eActorType = _Type; }
     
 public:

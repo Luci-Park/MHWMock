@@ -126,6 +126,13 @@ void CEventMgr::tick()
 				pPrevLayer->RemoveFromParentList(pObj);
 				pDestLayer->AddParentList(pObj);
 				pObj->SetLayerIndex((int)DestType);
+
+				const vector<CGameObject*>& vecChildren = pObj->GetAllChildren();
+				for (UINT i = 0; i < vecChildren.size(); ++i)
+				{
+					vecChildren[i]->SetLayerIndex((int)DestType);
+				}
+
 			}
 
 			CCollider3D* pCollider3D = pObj->Collider3D();

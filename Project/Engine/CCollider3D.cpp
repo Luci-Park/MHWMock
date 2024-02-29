@@ -17,9 +17,7 @@ CCollider3D::CCollider3D()
 	, m_ShapeType(SHAPE_TYPE::CAPSULE)
 	, m_vOffsetPos(Vec3(0.f,0.f,0.f))
 	, m_vOffsetScale(Vec3(1.f,1.f,1.f))
-	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
-	, m_MeshChanged(false)
 	, m_eActorType(ACTOR_TYPE::END)
 	, m_pMaterial(nullptr)
 	, m_pRigidActor(nullptr)
@@ -118,15 +116,15 @@ void CCollider3D::ChangeFilterData()
 	UINT iLayerIdx = GetOwner()->GetLayerIndex();
 	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
 
-	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) {
-		
+	for (PxU32 i = 0; i < m_pRigidActor->getNbShapes(); ++i) 
+	{
 		m_pRigidActor->detachShape(*m_pShape);
 
 		m_pShape->setSimulationFilterData(filter);
 		PxFilterData filterCheck = m_pShape->getSimulationFilterData();
 
 		m_pRigidActor->attachShape(*m_pShape);
-		}
+	}
 }
 
 void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
@@ -332,14 +330,18 @@ void CCollider3D::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_vOffsetPos, sizeof(Vec3), 1, _File);
 	fwrite(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fwrite(&m_bAbsolute, sizeof(bool), 1, _File);
+	fwrite(&m_ShapeType, sizeof(UINT), 1, _File);
+	fwrite(&m_eActorType, sizeof(UINT), 1, _File);
+	fwrite(&m_iCollisionCount, sizeof(int), 1, _File);
 }
 
 void CCollider3D::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_vOffsetPos, sizeof(Vec3), 1, _File);
 	fread(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fread(&m_bAbsolute, sizeof(bool), 1, _File);
+	fread(&m_ShapeType, sizeof(UINT), 1, _File);
+	fread(&m_eActorType, sizeof(UINT), 1, _File);
+	fread(&m_iCollisionCount, sizeof(int), 1, _File);
 }
 
 

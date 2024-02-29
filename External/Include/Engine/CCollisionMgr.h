@@ -13,6 +13,8 @@ private:
 	bool	m_bCollisionMap[MAX_LAYER][MAX_LAYER];
 	bool	m_bCollisionChange;
 
+	UINT	m_CollisionMatrix[MAX_LAYER];
+
 public:
 	void LayerCheck(UINT _left, UINT _right);
 	void LayerCheck(const wstring& _strLeftLayer, const wstring& _strRightLayer);
@@ -26,6 +28,9 @@ public:
 
 	bool GetCollisionChange() { return m_bCollisionChange; }
 	void SetCollisionChange(bool _b) { m_bCollisionChange = _b; }
+
+	void SetCollisionMapFromLevel(vector<UINT> _Matrix);
+	vector<UINT> GetCollisionMatrixFromCollisionMgr();
 
 public:
 	void tick();
