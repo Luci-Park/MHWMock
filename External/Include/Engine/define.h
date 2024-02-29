@@ -350,6 +350,18 @@ enum class AnimBehaviour
 	REPEAT, // The animation is repeated.If the animation key go from n to m and the current time is t, use the value at(t - n) % (| m - n | )
 };
 
+enum class TEX_TYPE
+{
+	BML,		// Bitmap
+	CMM,		//Effect Color Map
+	NM,			//Normal
+	EM,			//Emission
+	RMT,		//Roughness , meatalic , Transparency
+	FM,			//Fur
+	XM,			//Specular
+	end,
+};
+
 enum class AnimParamType { FLOAT, INT, BOOL, TRIGGER, NONE };
 enum class AnimConditionType { GREATER, LESS, EQUAL, NOTEQUAL, ISTRUE, ISFALSE, NONE };
 
