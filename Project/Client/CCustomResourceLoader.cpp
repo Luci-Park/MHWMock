@@ -20,6 +20,8 @@ void LoadCustomShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
+	pShader->AddTexParam(TEX_0, "BML");
+
 	CResMgr::GetInst()->AddRes(L"SkinningShader", pShader);
 }
 

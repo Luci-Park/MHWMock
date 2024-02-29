@@ -4,6 +4,14 @@
 #include "value.fx"
 #include "func.fx"
 
+#define BMLTEX g_tex_0
+#define CMMTEX g_tex_1
+#define NMTEX  g_tex_2
+#define EMTEX  g_tex_3
+#define RMTTEX g_tex_4
+#define FMTEX  g_tex_5
+#define XMTEX  g_tex_6
+
 struct VS_IN
 {
     float3 vPos : POSITION;
@@ -90,14 +98,16 @@ PS_OUT frag(VS_OUT _in)
     
     float3 vViewNormal = _in.vViewNormal;
     
+    //if have BML(BM) tex
     if (g_btex_0)
     {
-        output.vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        output.vColor = BMLTEX.Sample(g_sam_0, _in.vUV);
     }
     
-    if (g_btex_1)
+    //if have normal tex
+    if (g_btex_2)
     {
-        float3 vNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
+        float3 vNormal = NMTEX.Sample(g_sam_0, _in.vUV).xyz;
         
         // 0 ~ 1 범위의 값을 -1 ~ 1 로 확장        
         vNormal = vNormal * 2.f - 1.f;
