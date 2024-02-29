@@ -128,10 +128,6 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
 
 int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_DELEGATE_1 _Func)
 {
-    ImGui::Text(_strDesc.c_str());
-
-    string strIntName = GetNextName("##Param_Tex");
-
     ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
     ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
     ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
@@ -139,11 +135,11 @@ int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_
 
     if (_Tex == nullptr)
     {
-        ImGui::Image((ImTextureID)0, ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+        ImGui::Image((ImTextureID)0, ImVec2(30, 30), uv_min, uv_max, tint_col, border_col);
     }
     else
     {
-        ImGui::Image((ImTextureID)_Tex->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+        ImGui::Image((ImTextureID)_Tex->GetSRV().Get(), ImVec2(30, 30), uv_min, uv_max, tint_col, border_col);
     }
 
     // 드랍 체크
@@ -166,12 +162,15 @@ int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_
         return 0;
     }
 
+    ImGui::SameLine();
+    ImGui::Text(_strDesc.c_str());
 
-
+    string strIntName = GetNextName("##Param_Tex");
     ImGui::SameLine();
 
-    string strBtnName = GetNextName("##TexSelectBtn");
-    if (ImGui::Button(strBtnName.c_str(), ImVec2(18, 18)))
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - ImGui::GetStyle().ItemSpacing.x - ImGui::CalcTextSize("...").x);
+    string strBtnName = GetNextName("...");
+    if (ImGui::Button(strBtnName.c_str(), ImVec2(25, 18)))
     {
         const map<wstring, Ptr<CRes>>& mapTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
 
