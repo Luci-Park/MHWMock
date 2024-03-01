@@ -18,16 +18,17 @@ int ComponentUI::render_update()
 {
 	if (nullptr == m_Target || nullptr == m_Target->GetComponent(m_Type) || m_Target->IsDead())
 		return FALSE;
-
 	ImGui::PushID(0);
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
-	ImGui::Button(GetName().c_str());
+	bool header = false;
+	header = ImGui::CollapsingHeader(GetName().c_str());
+	//ImGui::Button();
 	ImGui::PopStyleColor(3);
 	ImGui::PopID();
 
-	return TRUE;
+	return header;
 }
 
 //Remove Component UI

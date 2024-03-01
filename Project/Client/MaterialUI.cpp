@@ -20,7 +20,7 @@ MaterialUI::~MaterialUI()
 
 int MaterialUI::render_update()
 {
-    ResUI::render_update();
+    if (!ResUI::render_update()) return 0;
 
     // Material ÀÌ¸§
     ImGui::Text("Material"); 

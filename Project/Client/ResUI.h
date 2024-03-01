@@ -17,7 +17,6 @@ public:
     void SetTargetRes(Ptr<CRes> _Res) { m_TargetRes = _Res; }
     Ptr<CRes> GetTargetRes() { return m_TargetRes; }
 
-
 public:
     ResUI(RES_TYPE _type);
     ~ResUI();

@@ -16,7 +16,7 @@ TextureUI::~TextureUI()
 
 int TextureUI::render_update()
 {
-    ResUI::render_update();
+    if (!ResUI::render_update())return;
 
     if (RES_TYPE::TEXTURE == GetTargetRes()->GetType())
     {
