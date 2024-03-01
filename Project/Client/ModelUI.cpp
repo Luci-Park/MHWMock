@@ -22,7 +22,7 @@ ModelUI::~ModelUI()
 
 int ModelUI::render_update()
 {
-    if (!ResUI::render_update()) return;
+    if (!ResUI::render_update()) return 0;
 
     ImGui::Text("Model   ");
     ImGui::SameLine();
