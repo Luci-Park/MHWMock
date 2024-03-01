@@ -21,12 +21,13 @@ void LoadCustomShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
 	pShader->AddTexParam(TEX_0, "BML TEX");
-	pShader->AddTexParam(TEX_1, "CMM TEX");
-	pShader->AddTexParam(TEX_2, "NM TEX");
-	pShader->AddTexParam(TEX_3, "EM TEX");
-	pShader->AddTexParam(TEX_4, "RMT TEX");
-	pShader->AddTexParam(TEX_5, "FM TEX");
-	pShader->AddTexParam(TEX_6, "XM TEX");
+	pShader->AddTexParam(TEX_1, "BM TEX");
+	pShader->AddTexParam(TEX_2, "CMM TEX");
+	pShader->AddTexParam(TEX_3, "NM TEX");
+	pShader->AddTexParam(TEX_4, "EM TEX");
+	pShader->AddTexParam(TEX_5, "RMT TEX");
+	pShader->AddTexParam(TEX_6, "FM TEX");
+	pShader->AddTexParam(TEX_7, "XM TEX");
 
 	pShader->SetName(L"SkinningShader");
 	CResMgr::GetInst()->AddRes(L"SkinningShader", pShader);
@@ -37,6 +38,7 @@ void LoadCustomResources()
 	LoadCustomShader();
 
 	//CModel::LoadFromFbx(L"model\\anjanath_tail.fbx");
+	//CModel::LoadFromFbx(L"model\\anjanath.fbx");
 	//CModel::LoadFromFbx(L"model\\Character Running.fbx");
 	//CModel::LoadFromFbx(L"model\\Monster.fbx");
 }

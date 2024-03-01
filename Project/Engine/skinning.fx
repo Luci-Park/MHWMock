@@ -4,13 +4,23 @@
 #include "value.fx"
 #include "func.fx"
 
-#define BMLTEX g_tex_0
-#define CMMTEX g_tex_1
-#define NMTEX  g_tex_2
-#define EMTEX  g_tex_3
-#define RMTTEX g_tex_4
-#define FMTEX  g_tex_5
-#define XMTEX  g_tex_6
+#define BMLTEX  g_tex_0
+#define BMTEX   g_tex_1
+#define CMMTEX  g_tex_2
+#define NMTEX   g_tex_3
+#define EMTEX   g_tex_4
+#define RMTTEX  g_tex_5
+#define FMTEX   g_tex_6
+#define XMTEX   g_tex_7
+
+#define ISBMLTEX    g_btex_0
+#define ISBMTEX     g_btex_1
+#define ISCMMTEX    g_btex_2
+#define ISNMTEX     g_btex_3
+#define ISEMTEX     g_btex_4
+#define ISRMTTEX    g_btex_5
+#define ISFMTEX     g_btex_6
+#define ISXMTEX     g_btex_7
 
 struct VS_IN
 {
@@ -96,31 +106,74 @@ PS_OUT frag(VS_OUT _in)
    
     output.vColor = float4(1.f, 0.f, 1.f, 1.f);
     
+    float roughness = 1.f;
+    float metalness = 1.f;
+    float translucency = 1.f;
+    
+    
+    
     float3 vViewNormal = _in.vViewNormal;
     
-    //if have BML(BM) tex
-    if (g_btex_0)
+    //if have BML tex ( color tex no transparent )
+    if (ISBMLTEX && !ISBMTEX)
     {
         output.vColor = BMLTEX.Sample(g_sam_0, _in.vUV);
     }
     
-    //if have normal tex
-    if (g_btex_2)
+    //if have BM tex ( color tex R channel is alpha )
+    if (ISBMTEX && !ISBMLTEX)
     {
-        float3 vNormal = NMTEX.Sample(g_sam_0, _in.vUV).xyz;
+        output.vColor = (float4)0.f;
+        float3 color = BMTEX.Sample(g_sam_0, _in.vUV);
+        output.vColor.rgb = color.rgb;
+        output.vColor.a = color.r;
+    }
+    
+    if(ISRMTTEX)
+    {
+        float4 RMTcolor = RMTTEX.Sample(g_sam_0, _in.vUV);
         
-        // 0 ~ 1 범위의 값을 -1 ~ 1 로 확장        
-        vNormal = vNormal * 2.f - 1.f;
+        //Channel R is Roughness
+        //Channel G is Metalness
+        //Channel B is translucency
+        float roughness = 1.0f- RMTcolor.r;
+        float metalness = RMTcolor.g;
+        float translucency = RMTcolor.b;
+        
+        output.vColor.a = translucency;
+    }
+    
+    //if have normal tex
+    if (ISNMTEX)
+    {
+        //2-channel tangent space normal map
+        float2 normalMapColor = NMTEX.Sample(g_sam_0, _in.vUV);
+        float2 normalXY = normalMapColor * 2.0f - 1.0f;
+        
+        float z = sqrt(1.0f - saturate(dot(normalXY, normalXY)));
+        
+        float3 vNormal = float3(normalXY, z);
+        vNormal.y *= -1;
         
         float3x3 vRotateMat =
         {
             _in.vViewTangent,
             -_in.vViewBinormal,
-            _in.vViewNormal        
+            _in.vViewNormal     
         };
         
         vViewNormal = normalize(mul(vNormal, vRotateMat));
     }
+    
+    //If have emissive texture
+    if(ISEMTEX)
+    {
+        float4 emissive = EMTEX.Sample(g_sam_0, _in.vUV);
+        
+        output.vEmissive = output.vColor * emissive;
+    }
+    
+    
     
     output.vNormal = float4(vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);
