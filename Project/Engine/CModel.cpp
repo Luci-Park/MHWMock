@@ -29,12 +29,12 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 	
 	Assimp::Importer importer;
-	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality;
+	unsigned int originalFlags = aiProcess_ConvertToLeftHanded; //| aiProcessPreset_TargetRealtime_MaxQuality;
 	unsigned int excludeFlags = aiProcess_RemoveRedundantMaterials;
 
 	const aiScene* pScene = importer.ReadFile(
 		string(strFullPath.begin(), strFullPath.end()),
-		originalFlags & (~excludeFlags)
+		originalFlags //& (~excludeFlags)
 	);
 
 	assert(!(!pScene || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !pScene->mRootNode));
