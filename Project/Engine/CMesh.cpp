@@ -51,7 +51,7 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
 	{
-		if (_aiMesh->HasPositions(i))
+		if (_aiMesh->HasPositions())
 		{
 			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
 			positions[i] = aiVec3ToVec3(_aiMesh->mVertices[i]);
