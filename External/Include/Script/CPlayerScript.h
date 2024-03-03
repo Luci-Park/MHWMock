@@ -7,6 +7,7 @@ class CPlayerScript :
 private:
     float       m_fSpeed;
     Ptr<CTexture>   m_pPlayerTexture;
+    CGameObject* m_pTargetObj;
 
 public:
     virtual void begin() override;

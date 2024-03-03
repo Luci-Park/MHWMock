@@ -6,6 +6,7 @@
 #include "TreeUI.h"
 
 #include <Engine\CResMgr.h>
+#include <Engine\CScript.h>
 
 // 정적맴버 초기화
 UINT ParamUI::g_NextId = 0;
@@ -126,7 +127,54 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
     return 0;
 }
 
-int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI)
+int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData, CScript* _Script, UINT _Idx)
+{
+    ImGui::Text(_strDesc.c_str());
+    ImGui::SameLine(100);
+
+    string strIntName = GetNextName("##Param_Obj");
+    ImGui::SetNextItemWidth(200);
+
+    const int buffsize = 200;
+    char szBuff[buffsize] = {};
+
+    memset(szBuff, 0, sizeof(char) * buffsize);
+
+    if (_pData != nullptr)
+    {
+        wstring wstrKey = _pData->GetName();
+        string	strKey = string(wstrKey.begin(), wstrKey.end());
+        memcpy(szBuff, strKey.data(), sizeof(char) * strKey.length());
+    }
+
+    /*int len1 = strlen("##");
+    int len2 = strlen(_strDesc.c_str());
+
+    char* m_pLabel = new char[len1 + len2 + 1];
+
+    strcpy(m_pLabel, "##");
+    strcat(m_pLabel, _strDesc.c_str());*/
+
+    ImGui::InputText(strIntName.c_str(), szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("GameObject");
+        if (pPayLoad)
+        {
+            TreeNode* pNode = (TreeNode*)pPayLoad->Data;
+            CGameObject* pObj = (CGameObject*)pNode->GetData();
+            if (pObj != nullptr)
+            {
+                //_Script->SetScriptObjParam(_Idx, pObj);
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+    return 0;
+}
+
+int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex)
 {
     ImGui::Text(_strDesc.c_str());
 

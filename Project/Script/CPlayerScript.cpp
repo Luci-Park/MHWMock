@@ -10,9 +10,11 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 	, m_fSpeed(10.f)
+	, m_pTargetObj(nullptr)
 	, m_pPlayerTexture(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Player Speed");
+	AddScriptParam(SCRIPT_PARAM::OBJ, m_pTargetObj, "Target Obj");
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, &m_pPlayerTexture, "Script Texture");
 }
 

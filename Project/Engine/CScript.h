@@ -20,6 +20,7 @@ enum class SCRIPT_PARAM
     VEC2,
     VEC4,
     TEXTURE,
+    OBJ,
 };
 
 struct tScriptParam
@@ -60,6 +61,7 @@ public:
 
 protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
+    void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
 
 public:
     CScript(UINT _iScriptType);
