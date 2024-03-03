@@ -424,14 +424,22 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 	}
 	if (ImGui::BeginPopup("##AnimationSelector"))
 	{
-		vector<wstring>& names = m_pAnimator->GetAnimNames();
-		for (int i = 0; i < names.size(); i++)
+		if (ImGui::Selectable("(null)"))
 		{
-			if (ImGui::Selectable(WSTR2STR(names[i]).c_str()))
+			_node.SetAnimation(nullptr);
+			ImGui::CloseCurrentPopup();
+		}
+		else
+		{
+			vector<wstring>& names = m_pAnimator->GetAnimNames();
+			for (int i = 0; i < names.size(); i++)
 			{
-				_node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
-				ImGui::CloseCurrentPopup();
-				break;
+				if (ImGui::Selectable(WSTR2STR(names[i]).c_str()))
+				{
+					_node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
+					ImGui::CloseCurrentPopup();
+					break;
+				}
 			}
 		}
 		ImGui::EndPopup();

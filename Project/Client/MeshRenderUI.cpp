@@ -37,10 +37,8 @@ int MeshRenderUI::render_update()
 	GetResKey(pMesh.Get(), szBuff, buffsize);
 	ImGui::InputText("##MeshName", szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
-	// Mesh ��� üũ
 	if (ImGui::BeginDragDropTarget())
 	{
-		// �ش� ��忡�� ���콺 �� ���, ������ PayLoad Ű���� ��ġ�� ���
 		const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
 		if (pPayLoad)
 		{
@@ -65,12 +63,12 @@ int MeshRenderUI::render_update()
 
 		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
 		pListUI->Reset("Mesh List", ImVec2(300.f, 500.f));
+		pListUI->AddItem("(null)");
 		for (const auto& pair : mapMesh)
 		{
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
 		}
 
-		// �׸� ���ý� ȣ����� ��������Ʈ ���
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMesh);
 	}
 		
@@ -110,12 +108,12 @@ int MeshRenderUI::render_update()
 
 		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
 		pListUI->Reset("Material", ImVec2(300.f, 500.f));
+		pListUI->AddItem("(null)");
 		for (const auto& pair : mapMtrl)
 		{
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
 		}
 
-		// �׸� ���ý� ȣ����� ��������Ʈ ���
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMaterial);
 	}
 

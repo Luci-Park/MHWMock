@@ -267,6 +267,7 @@ int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_
 
         ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
         pListUI->Reset("Texture", ImVec2(300.f, 500.f));
+        pListUI->AddItem("(null)");
         for (const auto& pair : mapTex)
         {
             pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
