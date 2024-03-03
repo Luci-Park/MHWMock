@@ -57,6 +57,9 @@ int ScriptUI::render_update()
 		case SCRIPT_PARAM::VEC4:
 			ParamUI::Param_Vec4(vecScriptParam[i].strDesc, (Vec4*)vecScriptParam[i].pData);
 			break;
+		case SCRIPT_PARAM::TEXTURE:
+			ParamUI::Param_Tex(vecScriptParam[i].strDesc, *(Ptr<CTexture>*)vecScriptParam[i].pData, this);
+			break;
 		default:
 			break;
 		}
@@ -73,3 +76,12 @@ void ScriptUI::SetScript(CScript* _Script)
 	wstring wstr = CScriptMgr::GetScriptName(m_pTargetScript);
 	m_strScriptName = string(wstr.begin(), wstr.end());
 }
+
+//void ScriptUI::SelectTexture(DWORD_PTR _Key)
+//{
+//	string strKey = (char*)_Key;
+//	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+//
+//	Ptr<CMaterial> pMtrl = (CMaterial*)GetTargetRes().Get();
+//	pMtrl->SetTexParam(m_eSelected, pTex);
+//}

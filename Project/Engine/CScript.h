@@ -19,6 +19,7 @@ enum class SCRIPT_PARAM
     FLOAT,
     VEC2,
     VEC4,
+    TEXTURE,
 };
 
 struct tScriptParam
@@ -28,15 +29,14 @@ struct tScriptParam
     string          strDesc;
 };
 
-class CCollider2D;
+class CCollider3D;
 
 class CScript :
     public CComponent
 {
 private:  
-    UINT                    m_iScriptType;
+    UINT                          m_iScriptType;
     vector<tScriptParam>    m_vecParam;
-
 
 public:
     void Destroy() { DestroyObject(GetOwner()); }

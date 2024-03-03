@@ -6,6 +6,7 @@ class CPlayerScript :
 {
 private:
     float       m_fSpeed;
+    Ptr<CTexture>   m_pPlayerTexture;
 
 public:
     virtual void begin() override;

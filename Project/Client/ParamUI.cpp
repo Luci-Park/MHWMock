@@ -126,6 +126,49 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
     return 0;
 }
 
+int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI)
+{
+    ImGui::Text(_strDesc.c_str());
+
+    string strIntName = GetNextName("##Param_Tex");
+
+    ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+    ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+    ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+
+    if (_Tex == nullptr)
+    {
+        ImGui::Image((ImTextureID)0, ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+    }
+    else
+    {
+        ImGui::Image((ImTextureID)_Tex->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+    }
+
+    // 드랍 체크
+    if (ImGui::BeginDragDropTarget())
+    {
+        // 해당 노드에서 마우스 뗀 경우, 지정한 PayLoad 키값이 일치한 경우
+        const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
+        if (pPayLoad)
+        {
+            TreeNode* pNode = (TreeNode*)pPayLoad->Data;
+            CRes* pRes = (CRes*)pNode->GetData();
+            if (RES_TYPE::TEXTURE == pRes->GetType())
+            {
+                _Tex = (CTexture*)pRes;
+            }
+        }
+
+        ImGui::EndDragDropTarget();
+
+        return 0;
+    }
+
+    return 0;
+}
+
 int ParamUI::Param_Tex(const string& _strDesc, Ptr<CTexture>& _Tex, UI* _UI, UI_DELEGATE_1 _Func)
 {
     ImGui::Text(_strDesc.c_str());
