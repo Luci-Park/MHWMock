@@ -63,6 +63,7 @@ int SkinnedMeshRenderUI::render_update()
 
 		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
 		pListUI->Reset("Mesh List", ImVec2(300.f, 500.f));
+		pListUI->AddItem("(null)");
 		for (const auto& pair : mapMesh)
 		{
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
@@ -103,6 +104,7 @@ int SkinnedMeshRenderUI::render_update()
 
 		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
 		pListUI->Reset("Material", ImVec2(300.f, 500.f));
+		pListUI->AddItem("(null)");
 		for (const auto& pair : mapMtrl)
 		{
 			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
