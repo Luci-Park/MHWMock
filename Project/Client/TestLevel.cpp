@@ -28,13 +28,13 @@ void CreateTestLevel()
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 	pCurLevel->SetName(L"TestLevel");
 
-	pCurLevel->GetLayer(0)->SetName(L"Default");
+	/*pCurLevel->GetLayer(0)->SetName(L"Default");
 	pCurLevel->GetLayer(1)->SetName(L"Tile");
 	pCurLevel->GetLayer(2)->SetName(L"Player");
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(15)->SetName(L"ViewPort UI");
+	pCurLevel->GetLayer(15)->SetName(L"ViewPort UI");*/
 
 	//CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 

@@ -82,11 +82,9 @@ extern const wchar_t* RES_TYPE_WSTR[(UINT)RES_TYPE::END];
 enum class LAYER_TYPE
 {
 	Default,
-	Tile,
+	Ground,
 	Player,
 	Monster,
-	PlayerProjectile,
-	MonsterProjectile,
 
 	ViewPortUI = 15,
 	END = 16,

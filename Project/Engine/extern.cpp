@@ -79,11 +79,11 @@ extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END] =
 extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END] =
 {
 	"Default",
-	"Tile",
+	"Ground",
 	"Player",
 	"Monster",
-	"PlayerProjectile",
-	"MonsterProjectile",
+	"",
+	"",
 	"",
 	"",
 	"",
@@ -99,11 +99,11 @@ extern const char* LAYER_TYPE_STR[(UINT)LAYER_TYPE::END] =
 extern const wchar_t* LAYER_TYPE_WSTR[(UINT)LAYER_TYPE::END] =
 {
 	L"Default",
-	L"Tile",
+	L"Ground",
 	L"Player",
 	L"Monster",
-	L"PlayerProjectile",
-	L"MonsterProjectile",
+	L"",
+	L"",
 	L"",
 	L"",
 	L"",
