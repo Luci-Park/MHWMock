@@ -11,8 +11,11 @@ struct tVertex
 	Vec3 vTangent;
 	Vec3 vBinormal;
 
-	float vWeights[8];
-	float vIndices[8];
+	Vec4 vWeights0;
+	Vec4 vWeights1;
+
+	Vec4 vIndices0;
+	Vec4 vIndices1;
 };
 
 typedef tVertex Vtx;

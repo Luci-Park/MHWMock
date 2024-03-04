@@ -31,8 +31,11 @@ struct VS_IN
     float3 vTangent : TANGENT;
     float3 vBinormal : BINORMAL;
     
-    float4 vWeights : BLENDWEIGHT;
-    float4 vIndices : BLENDINDICES;
+    float4 vWeights0 : BLENDWEIGHT0;
+    float4 vWeights1 : BLENDWEIGHT1;
+    
+    float4 vIndices0 : BLENDINDICES0;
+    float4 vIndices1 : BLENDINDICES1;
 };
 
 struct VS_OUT
@@ -66,7 +69,7 @@ VS_OUT vert(VS_IN _in)
      
     if (BoneCount > 0)
     {
-        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices);
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights0, _in.vWeights1, _in.vIndices0, _in.vIndices1);
         output.vViewPos = mul(float4(_in.vPos, 1.f), g_matView);
     
         output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matView)).xyz;

@@ -8,7 +8,6 @@
 #include <assimp/scene.h>
 #include "Assimp.hpp"
 
-
 CMesh::CMesh(bool _bEngine)
 	: CRes(RES_TYPE::MESH, _bEngine)
 	, m_tVBDesc{}
@@ -98,10 +97,13 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 				for (int k = 0; k <= 8; k++)
 				{
 					assert(k < 8);
-					if (vecVtx[idx].vWeights[k] <= 0)
+					Vec4* vWeight = k < 4 ? &vecVtx[idx].vWeights0 : &vecVtx[idx].vWeights1;
+					Vec4* vIndices = k < 4 ? &vecVtx[idx].vIndices0 : &vecVtx[idx].vIndices1;
+					int l = k % 4;
+					if ((*vWeight)[l] <= 0)
 					{
-						vecVtx[idx].vIndices[k] = i;
-						vecVtx[idx].vWeights[k] = pBone->mWeights[j].mWeight;
+						(*vIndices)[l] = i;
+						(*vWeight)[l] = pBone->mWeights[j].mWeight, 0.f, 1.f;
 						break;
 					}
 				}
@@ -109,6 +111,20 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		}
 		pMesh->m_pBoneOffset = new CStructuredBuffer;
 		pMesh->m_pBoneOffset->Create(sizeof(Matrix), (UINT)vecOffset.size(), SB_TYPE::READ_ONLY, true, vecOffset.data());
+	}
+	for (int i = 0; i < vecVtx.size(); i++)
+	{
+		float fWeightSum = 0;
+		for (int j = 0; j < 8; j++)
+		{
+			Vec4* vWeight = j < 4 ? &vecVtx[i].vWeights0 : &vecVtx[i].vWeights1;
+			fWeightSum += (*vWeight)[j % 4];
+		}
+		for (int j = 0; j < 8; j++)
+		{
+			Vec4* vWeight = j < 4 ? &vecVtx[i].vWeights0 : &vecVtx[i].vWeights1;
+			(*vWeight)[j % 4] /= fWeightSum;
+		}		
 	}
 	for (int i = 0; i < _aiMesh->mNumFaces; i++)
 	{
