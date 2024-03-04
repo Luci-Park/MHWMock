@@ -127,9 +127,10 @@ PS_OUT frag(VS_OUT _in)
     if (ISBMTEX && !ISBMLTEX)
     {
         output.vColor = (float4)0.f;
-        float3 color = BMTEX.Sample(g_sam_0, _in.vUV);
-        output.vColor.rgb = color.rgb;
-        output.vColor.a = color.r;
+        float4 color = BMTEX.Sample(g_sam_0, _in.vUV);
+        output.vColor = color;
+        //output.vColor.rgb = color.rgb;
+        //output.vColor.a = color.r;
     }
     
     if(ISRMTTEX)
@@ -177,13 +178,26 @@ PS_OUT frag(VS_OUT _in)
         output.vEmissive = color;
     }
     
+    if(ISFMTEX)
+    {
+        float4 color = FMTEX.Sample(g_sam_0, _in.vUV);
+        float r, g, b;
+        r = color.r;
+        g = color.g;
+        b = color.b;
+        
+        //blue determins presence fur
+        
+        //green and red are determines direction
+    }
+    
     
     
     output.vNormal = float4(vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);
     output.vData = float4(0.f, 0.f, 0.f, 1.f);
         
-    output.vColor.a = saturate(SpecCoeff);
+    //output.vColor.a = saturate(SpecCoeff);
     
     return output;
 }
