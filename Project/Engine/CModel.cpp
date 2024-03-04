@@ -29,7 +29,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath() + _strRelativePath;
 	
 	Assimp::Importer importer;
-	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcess_PopulateArmatureData | aiProcess_LimitBoneWeights;
+	unsigned int originalFlags = aiProcess_ConvertToLeftHanded | aiProcess_PopulateArmatureData;
 	unsigned int excludeFlags = aiProcess_RemoveRedundantMaterials;
 
 	const aiScene* pScene = importer.ReadFile(

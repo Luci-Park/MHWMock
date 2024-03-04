@@ -396,6 +396,11 @@ namespace DirectX
             bool operator == (const Vector4& V) const;
             bool operator != (const Vector4& V) const;
 
+            float& operator[](int _iIdx)
+            {
+                return *((float*)this + _iIdx);
+            }
+
             // Assignment operators
             Vector4& operator= (const XMVECTORF32& F) { x = F.f[0]; y = F.f[1]; z = F.f[2]; w = F.f[3]; return *this; }
             Vector4& operator+= (const Vector4& V);

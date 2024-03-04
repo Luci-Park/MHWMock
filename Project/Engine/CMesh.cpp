@@ -95,9 +95,9 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 			{
 				int idx = pBone->mWeights[j].mVertexId;
 				
-				for (int k = 0; k <= 4; k++)
+				for (int k = 0; k <= 8; k++)
 				{
-					assert(k < 4);
+					assert(k < 8);
 					if (vecVtx[idx].vWeights[k] <= 0)
 					{
 						vecVtx[idx].vIndices[k] = i;
