@@ -42,10 +42,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 	vector<Vtx> vecVtx(_aiMesh->mNumVertices);
 	vector<UINT> vecIdx;
 	vecIdx.reserve(_aiMesh->mNumFaces * 3);
-	vector<Vec3> positions(_aiMesh->mNumVertices);
-	vector<Vec3> normals(_aiMesh->mNumVertices);
-	vector<Vec3> tangents(_aiMesh->mNumVertices);
-	vector<Vec3> uvs(_aiMesh->mNumVertices);
 
 
 	for (int i = 0; i < _aiMesh->mNumVertices; i++)
@@ -53,7 +49,6 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		if (_aiMesh->HasPositions())
 		{
 			vecVtx[i].vPos = aiVec3ToVec3(_aiMesh->mVertices[i]);
-			positions[i] = aiVec3ToVec3(_aiMesh->mVertices[i]);
 		}
 		if (_aiMesh->HasVertexColors(i))
 		{
@@ -62,20 +57,16 @@ CMesh* CMesh::CreateFromAssimp(aiMesh* _aiMesh, CModel* _pModel)
 		if (_aiMesh->HasTextureCoords(0))
 		{
 			vecVtx[i].vUV = Vec2(_aiMesh->mTextureCoords[0][i].x, _aiMesh->mTextureCoords[0][i].y);
-			uvs[i] = aiVec3ToVec3(_aiMesh->mTextureCoords[0][i]);
 		}
 
 		if (_aiMesh->HasNormals())
 		{
 			vecVtx[i].vNormal = aiVec3ToVec3(_aiMesh->mNormals[i]);
-			normals[i] = aiVec3ToVec3(_aiMesh->mNormals[i]);
 		}
 		if (_aiMesh->HasTangentsAndBitangents())
 		{
 			vecVtx[i].vTangent = aiVec3ToVec3(_aiMesh->mTangents[i]);
 			vecVtx[i].vBinormal = aiVec3ToVec3(_aiMesh->mBitangents[i]);
-
-			tangents[i] = aiVec3ToVec3(_aiMesh->mTangents[i]);
 		}
 	}
 
