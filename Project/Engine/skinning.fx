@@ -172,8 +172,9 @@ PS_OUT frag(VS_OUT _in)
     if(ISEMTEX)
     {
         float4 emissive = EMTEX.Sample(g_sam_0, _in.vUV);
+        float4 color = output.vColor * emissive;
         
-        output.vEmissive = output.vColor * emissive;
+        output.vEmissive = color;
     }
     
     
