@@ -44,6 +44,7 @@ public:
     void SetLifeSpan(float _Time) { GetOwner()->SetLifeSpan(_Time); }
     UINT GetScriptType() { return m_iScriptType; }
     const vector<tScriptParam>& GetScriptParam() { return m_vecParam; }
+    void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
 
 public:   
     virtual void finaltick() final {};
@@ -61,7 +62,6 @@ public:
 
 protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
-    void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
 
 public:
     CScript(UINT _iScriptType);
