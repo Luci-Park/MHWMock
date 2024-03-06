@@ -127,7 +127,7 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
     return 0;
 }
 
-int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData, CScript* _Script, UINT _Idx)
+int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData)
 {
     ImGui::Text(_strDesc.c_str());
     ImGui::SameLine(100);
@@ -147,14 +147,6 @@ int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData, CScript* _Sc
         memcpy(szBuff, strKey.data(), sizeof(char) * strKey.length());
     }
 
-    /*int len1 = strlen("##");
-    int len2 = strlen(_strDesc.c_str());
-
-    char* m_pLabel = new char[len1 + len2 + 1];
-
-    strcpy(m_pLabel, "##");
-    strcat(m_pLabel, _strDesc.c_str());*/
-
     ImGui::InputText(strIntName.c_str(), szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::BeginDragDropTarget())
@@ -166,7 +158,7 @@ int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData, CScript* _Sc
             CGameObject* pObj = (CGameObject*)pNode->GetData();
             if (pObj != nullptr)
             {
-                _Script->SetScriptObjParam(_Idx, pObj);
+                // Obj Change
             }
         }
         ImGui::EndDragDropTarget();
