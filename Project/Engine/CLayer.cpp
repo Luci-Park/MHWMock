@@ -25,6 +25,7 @@ void CLayer::tick()
 {
 	for (size_t i = 0; i < m_vecParentObj.size(); ++i)
 	{
+		m_vecParentObj[i]->SetSiblingIdx(i);
 		m_vecParentObj[i]->tick();
 	}
 }

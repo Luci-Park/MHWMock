@@ -106,6 +106,7 @@ void CGameObject::tick()
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
+		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->tick();
 	}
 }
@@ -225,6 +226,7 @@ void CGameObject::AddChild(CGameObject* _Object)
 		// 부모 자식 연결
 		_Object->m_Parent = this;
 	}
+	_Object->SetSiblingIdx(m_vecChildren.size());
 	m_vecChildren.push_back(_Object);
 }
 
@@ -277,6 +279,10 @@ void CGameObject::SetParent(CGameObject* _Object)
 		_Object->AddChild(this);
 }
 
+void CGameObject::SetSiblingIdx(int _idx)
+{
+	m_iSiblingIdx = _idx;
+}
 
 bool CGameObject::IsAncestor(CGameObject* _Target)
 {
