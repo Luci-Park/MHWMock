@@ -40,7 +40,7 @@ private:
     vector<tScriptParam>    m_vecParam;
 protected:
     vector<list<int>>       m_vecGameObjParams;
-    vector<CGameObject*>    m_vecParamObjs;
+    vector<CGameObject**>    m_vecParamObjs;
     bool                    m_bGameObjectParamSet;
 
 public:

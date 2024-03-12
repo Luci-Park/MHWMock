@@ -61,7 +61,7 @@ int ScriptUI::render_update()
 			ParamUI::Param_Tex(vecScriptParam[i].strDesc, *(Ptr<CTexture>*)vecScriptParam[i].pData);
 			break;
 		case SCRIPT_PARAM::GAMEOBJECT:
-			ParamUI::Param_Obj(vecScriptParam[i].strDesc, (CGameObject*)vecScriptParam[i].pData);
+			ParamUI::Param_Obj(vecScriptParam[i].strDesc, (CGameObject**)vecScriptParam[i].pData);
 			break;
 		default:
 			break;

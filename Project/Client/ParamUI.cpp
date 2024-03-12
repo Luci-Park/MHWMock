@@ -127,12 +127,12 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
     return 0;
 }
 
-int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData)
+int ParamUI::Param_Obj(const string& _strDesc, CGameObject** _pData)
 {
     ImGui::Text(_strDesc.c_str());
     ImGui::SameLine(100);
 
-    string strIntName = _pData == nullptr ? "" : WSTR2STR(_pData->GetName());
+    string strIntName = (*_pData) == nullptr ? "" : WSTR2STR((*_pData)->GetName());
     ImGui::SetNextItemWidth(200);
 
     const int buffsize = 200;
@@ -148,7 +148,7 @@ int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData)
             CGameObject* pObj = (CGameObject*)pNode->GetData();
             if (pObj != nullptr)
             {
-                _pData = pObj;
+                (*_pData) = pObj;
                 //_Script->SetScriptObjParam(_Idx, pObj);
             }
         }
