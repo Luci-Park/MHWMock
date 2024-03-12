@@ -20,7 +20,8 @@ void CScript::AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _D
 {
 	m_vecParam.push_back(tScriptParam{ eParam , _pData , _Desc });
 
-	if (eParam == SCRIPT_PARAM::GAMEOBJECT)	m_vecParamObjs.push_back((CGameObject*)_pData);
+	if (eParam == SCRIPT_PARAM::GAMEOBJECT)	
+		m_vecParamObjs.push_back((CGameObject*)_pData);
 }
 
 void CScript::SetScriptObjParam(UINT _Idx, CGameObject* _Obj)

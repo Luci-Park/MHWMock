@@ -14,7 +14,7 @@ CPlayerScript::CPlayerScript()
 	, m_pPlayerTexture(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Player Speed");
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, m_pTargetObj, "Target Obj");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pTargetObj, "Target Obj");
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, &m_pPlayerTexture, "Script Texture");
 }
 
