@@ -53,23 +53,23 @@ void CScript::SaveGameObjectParam(CGameObject* _Obj, FILE* _File)
 		fwrite(&idx, sizeof(int), 1, _File);
 }
 
-void CScript::LoadGameObjectParam(list<int>& _idxs, FILE* _File)
+void CScript::LoadGameObjectParam(int _vecIdx, FILE* _File)
 {
 	int temp;
 	fread(&temp, sizeof(int), 1, _File);
 	if (!temp) return;
 
 	fread(&temp, sizeof(int), 1, _File);
-	_idxs.push_back(temp);
+	m_vecGameObjParams[_vecIdx].push_back(temp);
 	
 	fread(&temp, sizeof(int), 1, _File);
 	while (temp--)
 	{
 		int t;
 		fread(&t, sizeof(int), 1, _File);
-		_idxs.push_back(t);
+		m_vecGameObjParams[_vecIdx].push_back(t);
 	}
-	_idxs.push_front(0);
+	m_vecGameObjParams[_vecIdx].push_front(0);
 	m_bGameObjectParamSet = false;
 }
 
