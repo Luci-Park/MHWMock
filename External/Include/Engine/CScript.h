@@ -20,7 +20,7 @@ enum class SCRIPT_PARAM
     VEC2,
     VEC4,
     TEXTURE,
-    OBJ,
+    GAMEOBJECT,
 };
 
 struct tScriptParam
@@ -36,8 +36,12 @@ class CScript :
     public CComponent
 {
 private:  
-    UINT                          m_iScriptType;
+    UINT                    m_iScriptType;
     vector<tScriptParam>    m_vecParam;
+protected:
+    vector<list<int>>       m_vecGameObjParams;
+    vector<CGameObject*>    m_vecParamObjs;
+    bool                    m_bGameObjectParamSet;
 
 public:
     void Destroy() { DestroyObject(GetOwner()); }
@@ -45,8 +49,8 @@ public:
     UINT GetScriptType() { return m_iScriptType; }
     const vector<tScriptParam>& GetScriptParam() { return m_vecParam; }
 
-public:   
-    virtual void finaltick() final {};
+public:
+    virtual void finaltick() final;
     virtual void OnCollisionEnter(CCollider3D* _Other) {}
     virtual void OnCollisionStay(CCollider3D* _Other) {}
     virtual void OnCollisionExit(CCollider3D* _Other) {}
@@ -62,6 +66,11 @@ public:
 protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
     void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
+    void SaveGameObjectParam(CGameObject* _Obj, FILE* _File);
+    void LoadGameObjectParam(list<int>& _idxs, FILE* _File);
+
+private:
+    void FindGameObject();
 
 public:
     CScript(UINT _iScriptType);

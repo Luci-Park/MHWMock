@@ -40,7 +40,7 @@ void CLayer::finaltick()
 		}
 		else
 		{
-			(*iter)->SetSiblingIdx(iter - m_vecObject.begin());
+			(*iter)->SetSiblingIdx(iter - m_vecParentObj.begin());
 			(*iter)->finaltick();
 			++iter;
 		}

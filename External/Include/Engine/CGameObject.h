@@ -64,6 +64,7 @@ public:
     int DeleteComponent(COMPONENT_TYPE _type);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
+    CGameObject* GetChild(int _idx);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CGameObject*>& GetAllChildren();
     void PushChildObj(CGameObject* _Obj);

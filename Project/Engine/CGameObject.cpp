@@ -230,6 +230,12 @@ void CGameObject::AddChild(CGameObject* _Object)
 	m_vecChildren.push_back(_Object);
 }
 
+CGameObject* CGameObject::GetChild(int _idx)
+{
+	if (0 <= _idx && _idx < m_vecChildren.size()) return m_vecChildren[_idx];
+	return nullptr;
+}
+
 const vector<CGameObject*>& CGameObject::GetAllChildren()
 {
 	m_vecAllChildren.clear();
@@ -275,7 +281,7 @@ CGameObject* CGameObject::FindChildByName(wstring _strName)
 
 void CGameObject::SetParent(CGameObject* _Object)
 {
-	if(_Object != nullptr)
+	if(_Object != nullptr && _Object != this)
 		_Object->AddChild(this);
 }
 
