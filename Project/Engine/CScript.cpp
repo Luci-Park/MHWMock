@@ -19,6 +19,8 @@ CScript::~CScript()
 void CScript::AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc)
 {
 	m_vecParam.push_back(tScriptParam{ eParam , _pData , _Desc });
+
+	if (eParam == SCRIPT_PARAM::GAMEOBJECT)	m_vecParamObjs.push_back((CGameObject*)_pData);
 }
 
 void CScript::SetScriptObjParam(UINT _Idx, CGameObject* _Obj)
@@ -73,6 +75,7 @@ void CScript::LoadGameObjectParam(list<int>& _idxs, FILE* _File)
 		_idxs.push_back(t);
 	}
 	_idxs.push_front(0);
+	m_bGameObjectParamSet = false;
 }
 
 void CScript::FindGameObject()

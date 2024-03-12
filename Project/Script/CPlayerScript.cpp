@@ -112,9 +112,13 @@ void CPlayerScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_fSpeed, sizeof(float), 1, _File);
 	SaveResRef(m_pPlayerTexture.Get(), _File);
+	SaveGameObjectParam(m_pTargetObj, _File);
 }
 
 void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_fSpeed, sizeof(float), 1, _File);
+	LoadResRef(m_pPlayerTexture, _File);
+	//m_vecParamObjs.resize(1);
+	//LoadGameObjectParam(&m_vecParamObjs[0], _File);
 }
