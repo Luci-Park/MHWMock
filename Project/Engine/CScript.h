@@ -38,11 +38,9 @@ class CScript :
 private:  
     UINT                    m_iScriptType;
     vector<tScriptParam>    m_vecParam;
-protected:
-    vector<list<int>>       m_vecGameObjParams;
     vector<CGameObject**>    m_vecParamObjs;
     bool                    m_bGameObjectParamSet;
-
+    vector<list<int>>       m_vecGameObjParams;
 public:
     void Destroy() { DestroyObject(GetOwner()); }
     void SetLifeSpan(float _Time) { GetOwner()->SetLifeSpan(_Time); }
