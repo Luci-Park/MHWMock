@@ -149,7 +149,6 @@ int ParamUI::Param_Obj(const string& _strDesc, CGameObject** _pData)
             if (pObj != nullptr)
             {
                 (*_pData) = pObj;
-                //_Script->SetScriptObjParam(_Idx, pObj);
             }
         }
         ImGui::EndDragDropTarget();

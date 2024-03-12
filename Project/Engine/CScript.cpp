@@ -24,12 +24,6 @@ void CScript::AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _D
 		m_vecParamObjs.push_back((CGameObject**)_pData);
 }
 
-void CScript::SetScriptObjParam(UINT _Idx, CGameObject* _Obj)
-{
-	if (_Obj != nullptr)
-		m_vecParam[_Idx].pData = _Obj;
-}
-
 void CScript::finaltick()
 {
 	FindGameObject();
