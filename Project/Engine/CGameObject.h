@@ -57,8 +57,6 @@ public:
     void AddComponent(CComponent* _Component);
     void AddChild(CGameObject* _Object);
     void SetParent(CGameObject* _Object);
-
-    void SetSiblingIdx(int _idx);
     int GetSiblingIdx() { return m_iSiblingIdx; }
 
     void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
@@ -120,6 +118,8 @@ private:
     void DisconnectFromParent();
     void ChangeToChildType();
     void AddParentList();
+
+    void SetSiblingIdx(int _idx);
 
 
     CLONE(CGameObject)    

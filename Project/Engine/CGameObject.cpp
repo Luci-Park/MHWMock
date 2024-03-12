@@ -106,7 +106,6 @@ void CGameObject::tick()
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
-		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->tick();
 	}
 }
@@ -131,6 +130,7 @@ void CGameObject::finaltick()
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
+		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->finaltick();
 	}
 		

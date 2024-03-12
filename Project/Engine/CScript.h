@@ -20,7 +20,7 @@ enum class SCRIPT_PARAM
     VEC2,
     VEC4,
     TEXTURE,
-    OBJ,
+    GAMEOBJECT,
 };
 
 struct tScriptParam
@@ -36,7 +36,7 @@ class CScript :
     public CComponent
 {
 private:  
-    UINT                          m_iScriptType;
+    UINT                    m_iScriptType;
     vector<tScriptParam>    m_vecParam;
 
 public:
