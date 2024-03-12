@@ -65,7 +65,6 @@ public:
 
 protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
-    void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
     void SaveGameObjectParam(CGameObject* _Obj, FILE* _File);
     void LoadGameObjectParam(list<int>& _idxs, FILE* _File);
 
