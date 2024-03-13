@@ -106,6 +106,7 @@ void CGameObject::tick()
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
+		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->tick();
 	}
 }
@@ -121,15 +122,20 @@ void CGameObject::finaltick()
 		}
 	}
 
-
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();
 	}
 
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->finaltick();
+	}
+
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
+		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->finaltick();
 	}
 		
@@ -225,7 +231,14 @@ void CGameObject::AddChild(CGameObject* _Object)
 		// 부모 자식 연결
 		_Object->m_Parent = this;
 	}
+	_Object->SetSiblingIdx(m_vecChildren.size());
 	m_vecChildren.push_back(_Object);
+}
+
+CGameObject* CGameObject::GetChild(int _idx)
+{
+	if (0 <= _idx && _idx < m_vecChildren.size()) return m_vecChildren[_idx];
+	return nullptr;
 }
 
 const vector<CGameObject*>& CGameObject::GetAllChildren()
@@ -273,10 +286,14 @@ CGameObject* CGameObject::FindChildByName(wstring _strName)
 
 void CGameObject::SetParent(CGameObject* _Object)
 {
-	if(_Object != nullptr)
+	if(_Object != nullptr && _Object != this)
 		_Object->AddChild(this);
 }
 
+void CGameObject::SetSiblingIdx(int _idx)
+{
+	m_iSiblingIdx = _idx;
+}
 
 bool CGameObject::IsAncestor(CGameObject* _Target)
 {

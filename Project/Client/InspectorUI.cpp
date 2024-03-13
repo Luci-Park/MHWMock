@@ -244,15 +244,15 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 		m_vecScriptUI[i]->SetScript(vecScript[i]);
 		m_vecScriptUI[i]->SetActive(true);
 	}
-	CRenderComponent* rc = _Target->GetRenderComponent();
-	if (rc != nullptr && rc->GetMaterial() != nullptr)
-	{
-		Ptr<CRes> res = rc->GetMaterial().Get();
-		m_arrResUI[(int)RES_TYPE::MATERIAL]->SetTargetRes(res);
-		m_arrResUI[(int)RES_TYPE::MATERIAL]->SetActive(true);
-	}
-	else
-		m_arrResUI[(int)RES_TYPE::MATERIAL]->SetActive(false);
+	//CRenderComponent* rc = _Target->GetRenderComponent();
+	//if (rc != nullptr && rc->GetMaterial() != nullptr)
+	//{
+	//	Ptr<CRes> res = rc->GetMaterial().Get();
+	//	m_arrResUI[(int)RES_TYPE::MATERIAL]->SetTargetRes(res);
+	//	m_arrResUI[(int)RES_TYPE::MATERIAL]->SetActive(true);
+	//}
+	//else
+	//	m_arrResUI[(int)RES_TYPE::MATERIAL]->SetActive(false);
 }
 
 void InspectorUI::SetTargetResource(Ptr<CRes> _Res)

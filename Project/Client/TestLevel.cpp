@@ -163,7 +163,7 @@ void CreateTestLevel()
 	pObject1->SetName(L"Player1");
 	pObject1->AddComponent(new CTransform);
 	pObject1->AddComponent(new CMeshRender);
-	//pObject1->AddComponent(new CPlayerScript);
+	pObject1->AddComponent(new CPlayerScript);
 	pObject1->Transform()->SetRelativeScale(Vector3(100.f, 100.f, 100.f));
 
 	pObject1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
