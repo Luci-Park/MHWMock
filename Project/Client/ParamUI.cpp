@@ -127,27 +127,17 @@ int ParamUI::Param_Vec4(const string& _strDesc, Vec4* _pData, bool _bDrag)
     return 0;
 }
 
-int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData)
+int ParamUI::Param_Obj(const string& _strDesc, CGameObject** _pData)
 {
     ImGui::Text(_strDesc.c_str());
     ImGui::SameLine(100);
 
-    string strIntName = GetNextName("##Param_Obj");
+    string strIntName = (*_pData) == nullptr ? "" : WSTR2STR((*_pData)->GetName());
     ImGui::SetNextItemWidth(200);
 
     const int buffsize = 200;
-    char szBuff[buffsize] = {};
 
-    memset(szBuff, 0, sizeof(char) * buffsize);
-
-    if (_pData != nullptr)
-    {
-        wstring wstrKey = _pData->GetName();
-        string	strKey = string(wstrKey.begin(), wstrKey.end());
-        memcpy(szBuff, strKey.data(), sizeof(char) * strKey.length());
-    }
-
-    ImGui::InputText(strIntName.c_str(), szBuff, buffsize, ImGuiInputTextFlags_ReadOnly);
+    ImGui::InputText("##ObjectParamName", &strIntName, ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::BeginDragDropTarget())
     {
@@ -158,7 +148,7 @@ int ParamUI::Param_Obj(const string& _strDesc, CGameObject* _pData)
             CGameObject* pObj = (CGameObject*)pNode->GetData();
             if (pObj != nullptr)
             {
-                // Obj Change
+                (*_pData) = pObj;
             }
         }
         ImGui::EndDragDropTarget();

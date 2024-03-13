@@ -36,6 +36,7 @@ private:
     vector<CGameObject*>    m_vecChildren;
     vector<CGameObject*>    m_vecAllChildren;
 
+    int                     m_iSiblingIdx;
     int                     m_iLayerIdx;
     bool                    m_bDead;
     float                   m_LifeTime;
@@ -56,12 +57,14 @@ public:
     void AddComponent(CComponent* _Component);
     void AddChild(CGameObject* _Object);
     void SetParent(CGameObject* _Object);
+    int GetSiblingIdx() { return m_iSiblingIdx; }
 
     void AddCollider3D(SHAPE_TYPE _type, ACTOR_TYPE _actorType);
 
     int DeleteComponent(COMPONENT_TYPE _type);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
+    CGameObject* GetChild(int _idx);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CGameObject*>& GetAllChildren();
     void PushChildObj(CGameObject* _Obj);
@@ -116,6 +119,8 @@ private:
     void DisconnectFromParent();
     void ChangeToChildType();
     void AddParentList();
+
+    void SetSiblingIdx(int _idx);
 
 
     CLONE(CGameObject)    

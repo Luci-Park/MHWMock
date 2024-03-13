@@ -10,9 +10,11 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 	, m_fSpeed(10.f)
+	, m_pTargetObj(nullptr)
 	, m_pPlayerTexture(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Player Speed");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pTargetObj, "Target Obj");
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, &m_pPlayerTexture, "Script Texture");
 }
 
@@ -109,9 +111,13 @@ void CPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 void CPlayerScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_fSpeed, sizeof(float), 1, _File);
+	SaveResRef(m_pPlayerTexture.Get(), _File);
+	SaveGameObjectParam(m_pTargetObj, _File);
 }
 
 void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_fSpeed, sizeof(float), 1, _File);
+	LoadResRef(m_pPlayerTexture, _File);
+	LoadGameObjectParam(0, _File);
 }

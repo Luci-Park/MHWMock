@@ -146,7 +146,7 @@ int TreeUI::render_update()
     // Drag Drop 노드 둘다 있는 경우
     if ( (m_DragNode && m_DropNode) || (m_DragNode && ImGui::IsMouseReleased(ImGuiMouseButton_::ImGuiMouseButton_Left)))
     {
-        if (m_DragDropInst && m_DragDropFunc)
+        if (m_DragDropInst && m_DragDropFunc && ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
         {
             (m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_DragNode, (DWORD_PTR)m_DropNode);
         }
