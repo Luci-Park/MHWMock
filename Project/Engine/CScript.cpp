@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "CScript.h"
-#include "CLevelMgr.h"
-#include "CLevel.h"
-#include "CLayer.h"
 
 
 CScript::CScript(UINT _ScriptType)
@@ -45,9 +42,8 @@ void CScript::SaveGameObjectParam(CGameObject* _Obj, FILE* _File)
 		finalParent = trav;
 		trav = trav->GetParent();
 	}
-	int temp = finalParent->GetLayerIndex();
-	fwrite(&temp, sizeof(int), 1, _File);
-	temp = idxs.size();
+	idxs.push_front(finalParent->GetLayerIndex());
+	int temp = idxs.size();
 	fwrite(&temp, sizeof(int), 1, _File);
 	for (int idx : idxs)
 		fwrite(&idx, sizeof(int), 1, _File);
@@ -59,9 +55,6 @@ void CScript::LoadGameObjectParam(int _vecIdx, FILE* _File)
 	fread(&temp, sizeof(int), 1, _File);
 	if (!temp) return;
 
-	fread(&temp, sizeof(int), 1, _File);
-	m_vecGameObjParams[_vecIdx].push_back(temp);
-	
 	fread(&temp, sizeof(int), 1, _File);
 	while (temp--)
 	{

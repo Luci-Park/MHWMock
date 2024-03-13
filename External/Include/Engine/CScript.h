@@ -38,10 +38,9 @@ class CScript :
 private:  
     UINT                    m_iScriptType;
     vector<tScriptParam>    m_vecParam;
-protected:
-    vector<list<int>>       m_vecGameObjParams;
-    vector<CGameObject**>    m_vecParamObjs;
     bool                    m_bGameObjectParamSet;
+    vector<list<int>>       m_vecGameObjParams;
+    vector<CGameObject**>   m_vecParamObjs;
 
 public:
     void Destroy() { DestroyObject(GetOwner()); }
@@ -65,9 +64,9 @@ public:
 
 protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
-    void SetScriptObjParam(UINT _Idx, CGameObject* _Obj);
     void SaveGameObjectParam(CGameObject* _Obj, FILE* _File);
-    void LoadGameObjectParam(list<int>& _idxs, FILE* _File);
+    void LoadGameObjectParam(int _vecIdx, FILE* _File);
+    void AddGameObjectParam(CGameObject** _Object) { m_vecParamObjs.push_back(_Object); }
 
 private:
     void FindGameObject();
