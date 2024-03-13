@@ -66,7 +66,6 @@ protected:
     void AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _Desc);
     void SaveGameObjectParam(CGameObject* _Obj, FILE* _File);
     void LoadGameObjectParam(int _vecIdx, FILE* _File);
-    void AddGameObjectParam(CGameObject** _Object) { m_vecParamObjs.push_back(_Object); }
 
 private:
     void FindGameObject();

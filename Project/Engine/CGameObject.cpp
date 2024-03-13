@@ -106,6 +106,7 @@ void CGameObject::tick()
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
+		m_vecChildren[i]->SetSiblingIdx(i);
 		m_vecChildren[i]->tick();
 	}
 }
@@ -121,11 +122,15 @@ void CGameObject::finaltick()
 		}
 	}
 
-
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();
+	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->finaltick();
 	}
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)

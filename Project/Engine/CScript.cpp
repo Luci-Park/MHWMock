@@ -17,10 +17,12 @@ void CScript::AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _D
 {
 	m_vecParam.push_back(tScriptParam{ eParam , _pData , _Desc });
 
-	if (eParam == SCRIPT_PARAM::GAMEOBJECT)	
+	if (eParam == SCRIPT_PARAM::GAMEOBJECT)
+	{
 		m_vecParamObjs.push_back((CGameObject**)_pData);
+		m_vecGameObjParams.resize(m_vecParamObjs.size());
+	}
 }
-
 void CScript::finaltick()
 {
 	FindGameObject();
@@ -29,7 +31,7 @@ void CScript::finaltick()
 
 void CScript::SaveGameObjectParam(CGameObject* _Obj, FILE* _File)
 {
-	int i = _Obj == nullptr;
+	int i = _Obj != nullptr;
 	fwrite(&i, sizeof(int), 1, _File);
 	if (!i) return;
 
@@ -51,6 +53,8 @@ void CScript::SaveGameObjectParam(CGameObject* _Obj, FILE* _File)
 
 void CScript::LoadGameObjectParam(int _vecIdx, FILE* _File)
 {
+	m_vecGameObjParams[_vecIdx].clear();
+
 	int temp;
 	fread(&temp, sizeof(int), 1, _File);
 	if (!temp) return;
@@ -74,22 +78,25 @@ void CScript::FindGameObject()
 	for (size_t i = 0; i < m_vecGameObjParams.size(); i++)
 	{
 		list<int>& idxs = m_vecGameObjParams[i];
-		if (idxs.front())
+		if (!idxs.empty())
 		{
-			++count;
-			continue;
+			if (idxs.front())
+			{
+				++count;
+				continue;
+			}
+			auto iter = idxs.begin(); iter++;
+			CLayer* layer = curLv->GetLayer(*iter); iter++;
+
+			CGameObject* obj = layer->GetParentObject()[*iter]; iter++;
+
+			for (; iter != m_vecGameObjParams[i].end() && obj != nullptr; iter++)
+				obj = obj->GetChild(*iter);
+
+			if (obj == nullptr) continue;
+			idxs.front() = 1;
+			*m_vecParamObjs[i] = obj;
 		}
-		auto iter = idxs.begin(); iter++;
-		CLayer* layer = curLv->GetLayer(*iter); iter++;
-
-		CGameObject* obj = layer->GetParentObject()[*iter]; iter++;
-
-		for (; iter != m_vecGameObjParams[i].end() && obj != nullptr; iter++)
-			obj = obj->GetChild(*iter);
-
-		if (obj == nullptr) continue;
-		idxs.front() = 1;
-		*m_vecParamObjs[i] = obj;
 		++count;
 	}
 	if (count == m_vecGameObjParams.size()) m_bGameObjectParamSet = true;

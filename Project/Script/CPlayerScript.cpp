@@ -119,6 +119,5 @@ void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_fSpeed, sizeof(float), 1, _File);
 	LoadResRef(m_pPlayerTexture, _File);
-	AddGameObjectParam(&m_pTargetObj);
 	LoadGameObjectParam(0, _File);
 }
