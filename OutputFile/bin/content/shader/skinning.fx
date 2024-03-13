@@ -181,9 +181,27 @@ PS_OUT frag(VS_OUT _in)
     if(ISFMTEX)
     {
         float4 color = FMTEX.Sample(g_sam_0, _in.vUV);
+        float r, g, b;
+        r = color.r;
+        g = color.g;
+        b = color.b;
         
+        //blue determins presence fur
+        
+        //green and red are determines direction
     }
     
+    if(ISCMMTEX)
+    {
+        float4 CMM = CMMTEX.Sample(g_sam_0, _in.vUV);
+        if (CMM.a != 0)
+        {
+            float4 emissive = EMTEX.Sample(g_sam_0, _in.vUV);
+            float4 color = output.vColor * emissive;
+            
+            output.vEmissive = color;
+        }
+    }
     
     
     output.vNormal = float4(vViewNormal, 1.f);
