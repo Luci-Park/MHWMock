@@ -60,7 +60,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		wstring finName = pMesh->GetName();
 		while (nameCheck.find(finName + L".mesh") != nameCheck.end())
 			finName = pMesh->GetName() + L" " + std::to_wstring(num++);
-		nameCheck.insert(finName);
+		nameCheck.insert(finName + L".mesh");
 		pMesh->SetName(finName);
 		pModel->m_vecMeshes[i] = pMesh;
 	}
@@ -76,7 +76,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		wstring wstrFinName = wstrName;
 		while (nameCheck.find(wstrFinName + L".mtrl") != nameCheck.end())
 			wstrFinName = wstrName + L" " + std::to_wstring(num++);
-		nameCheck.insert(wstrFinName);
+		nameCheck.insert(wstrFinName + L".mtrl");
 		pNewMtrl->SetName(wstrFinName);
 		pModel->m_vecMaterials[i] = pNewMtrl;
 	}
@@ -92,7 +92,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		wstring finName = pAnim->GetName();
 		while (nameCheck.find(finName + L".anim") != nameCheck.end())
 			finName = pAnim->GetName() + L" " + std::to_wstring(num++);
-		nameCheck.insert(finName);
+		nameCheck.insert(finName + L".anim");
 		pAnim->SetName(finName);
 		vecClips[i] = pAnim;
 	}
