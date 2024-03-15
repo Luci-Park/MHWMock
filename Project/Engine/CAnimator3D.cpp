@@ -80,6 +80,8 @@ void CAnimator3D::tick()
 		pTransform->SetRelativeRot(frame[i].qRot);
 		pTransform->SetRelativeScale(frame[i].vScale);
 	}
+
+
 }
 
 void CAnimator3D::finaltick()
@@ -96,6 +98,32 @@ void CAnimator3D::finaltick()
 		pTransform->SetRelativeRot(frame[i].qRot);
 		pTransform->SetRelativeScale(frame[i].vScale);
 	}
+
+
+	//매 틱마다 하는게 아닌 매 프레임 마다 움직이는 것
+	//Root Motion
+	//Root Bone을 받아옴
+	auto rootBone = BoneHolder()->GetBone(L"Root");
+	Vec3 c = rootBone->GetWorldPos();
+
+	//중점의 좌표를 받아옴
+	auto MainBone = BoneHolder()->GetBone(L"BoneFunction.000");
+	Vec3 d = MainBone->GetWorldPos();
+	Vec3 owner = GetOwner()->Transform()->GetWorldPos();
+	
+	//오차 계산 오차가 있으면 위치 변경
+	if (curPos == beforPos)
+	{
+		curPos = d - c;
+	}
+	else
+	{
+		beforPos = curPos;
+		curPos = d - c;
+		GetOwner()->Transform()->SetRelativePos(c);
+	}
+	
+	int a = 0;
 #endif
 }
 
