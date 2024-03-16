@@ -92,6 +92,17 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 	return m_vecRsltChannel;
 }
 
+tAnimationKeyFrame CAnimationClip::GetRootTransformAtFirstFrame(string _rootName)
+{
+	auto& frames = GetTransformsAtFrame(0);
+	for (int i = 0; i < m_vecChannels.size(); i++)
+	{
+		if (m_vecRsltChannel[i].strBoneName == _rootName) return m_vecRsltChannel[i];
+	}
+
+	return tAnimationKeyFrame();
+}
+
 Vec3 CAnimationClip::FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
 {
 	int idx = 0;

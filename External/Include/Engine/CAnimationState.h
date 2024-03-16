@@ -20,11 +20,15 @@ private:
 	CAnimationTransition*			m_pCurrentTransition;
 	CAnimationStateMachine*			m_pMachine;
 	tAnimationStateNode				m_tNodeInfo;
+	vector<tAnimationKeyFrame>		m_vecKeyFrames;
+	tAnimationKeyFrame				m_prevRootFrame;
+	tAnimationKeyFrame				m_FirstRootFrame;
+	bool m_bIsFirstTick;
 
 public:
 	void SetName(wstring _name);
 	wstring GetName() { return m_strName; }
-	void SetClip(Ptr<CAnimationClip> _pClip) { m_pClip = _pClip; }
+	void SetClip(Ptr<CAnimationClip> _pClip);
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
@@ -47,6 +51,8 @@ public:
 
 	tAnimationStateNode GetViewNode() { return m_tNodeInfo; }
 	void UpdatePos(tAnimationStateNode _newPose) { m_tNodeInfo = _newPose; }
+private:
+	void Reset(double _percent, bool _isRepeat);
 public:
 	void tick();
 	void SaveToLevelFile(FILE* _FILE);

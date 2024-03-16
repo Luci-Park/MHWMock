@@ -41,6 +41,13 @@ void CAnimationState::SetName(wstring _name)
 		newName = _name + L" " + std::to_wstring(postFix++);
 	m_strName = newName;
 }
+
+void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
+{
+	m_pClip = _pClip;
+	if (m_pClip != nullptr) m_FirstRootFrame = m_pClip->GetRootTransformAtFirstFrame("Root");
+}
+
 double CAnimationState::GetDurationInSeconds()
 {
 	if (m_pClip != nullptr)
@@ -80,16 +87,41 @@ void CAnimationState::OnTransitionEnd()
 
 void CAnimationState::OnTransitionBegin(double _tickPercent)
 {
-	SetTick(_tickPercent);
-	m_iRepeatNum = 0;
+	Reset(_tickPercent, false);
 }
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 {
-	vector<tAnimationKeyFrame> vecEmpty(0);
-	if (m_pClip == nullptr)
-		return vecEmpty;
-	return m_pClip->GetTransformsAtFrame(m_dTick);
+	m_vecKeyFrames.clear();
+	if (m_pClip != nullptr)
+	{
+		m_vecKeyFrames = m_pClip->GetTransformsAtFrame(m_dTick);
+		for (int i = 0; i < m_vecKeyFrames.size(); i++)
+		{
+			if (m_vecKeyFrames[i].strBoneName == "Root")
+			{
+				if (m_bIsFirstTick)
+				{
+					m_prevRootFrame = m_FirstRootFrame;
+					m_bIsFirstTick = false;
+				}
+				m_vecKeyFrames[i].vPos -= m_prevRootFrame.vPos;
+				m_vecKeyFrames[i].qRot -= m_prevRootFrame.qRot;
+
+				m_prevRootFrame = m_vecKeyFrames[i];
+				break;
+			}
+		}
+	}
+	return m_vecKeyFrames;
+}
+
+void CAnimationState::Reset(double _percent, bool _repeat)
+{
+	SetTick(_percent);
+	if (_repeat)m_iRepeatNum += 1;
+	else m_iRepeatNum = 0;
+	m_bIsFirstTick = true;
 }
 
 void CAnimationState::tick()
@@ -98,8 +130,8 @@ void CAnimationState::tick()
 	double offset = m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1;
 
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime() * offset * m_fSpeed;
-	if (m_dTick > m_dDuration) { m_dTick = 0; m_iRepeatNum++; }
-	if (m_dTick < 0) { m_dTick = m_dDuration; m_iRepeatNum++; }
+	if (m_dTick > m_dDuration) Reset(0, true);
+	if (m_dTick < 0) Reset(m_dDuration, true);
 
 	if (m_pCurrentTransition == nullptr)
 	{

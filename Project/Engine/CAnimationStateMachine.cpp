@@ -73,7 +73,7 @@ CAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
 void CAnimationStateMachine::Reset()
 {
 	ChangeState(m_pHead);
-	m_pHead->SetTick(0);
+	m_pHead->OnTransitionBegin(0);
 }
 
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)

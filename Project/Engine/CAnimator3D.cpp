@@ -104,26 +104,10 @@ void CAnimator3D::finaltick()
 	//Root Motion
 	//Root Bone을 받아옴
 	auto rootBone = BoneHolder()->GetBone(L"Root");
-	Vec3 c = rootBone->GetWorldPos();
-
-	//중점의 좌표를 받아옴
-	auto MainBone = BoneHolder()->GetBone(L"BoneFunction.000");
-	Vec3 d = MainBone->GetWorldPos();
-	Vec3 owner = GetOwner()->Transform()->GetWorldPos();
-	
-	//오차 계산 오차가 있으면 위치 변경
-	if (curPos == beforPos)
-	{
-		curPos = d - c;
-	}
-	else
-	{
-		beforPos = curPos;
-		curPos = d - c;
-		GetOwner()->Transform()->SetRelativePos(c);
-	}
-	
-	int a = 0;
+	//Transform()->SetRelativePos(Transform()->GetRelativePos() + rootBone->GetRelativePos());
+	//Transform()->SetRelativeRot(Transform()->GetRelativeRot() + rootBone->GetRelativeRot());
+	//rootBone->SetRelativePos(0, 0, 0);
+	//rootBone->SetRelativeRot(0, 0, 0);
 #endif
 }
 
