@@ -41,4 +41,6 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\anjanath_body_w_Anim.fbx");
 	//CModel::LoadFromFbx(L"model\\Character Running.fbx");
 	//CModel::LoadFromFbx(L"model\\Monster.fbx");
+	CModel::LoadFromFbx(L"model\\Stage_ArenaSample.fbx");
+	
 }
