@@ -97,7 +97,9 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 		vecClips[i] = pAnim;
 	}
 
-	pModel->m_pRootNode = tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel);
+	pModel->m_pRootNode = new tModelNode();
+	pModel->m_pRootNode->strName = pModel->GetName();
+	pModel->m_pRootNode->vecChildren.push_back(tModelNode::CreateFromAssimp(pScene, pScene->mRootNode, pModel));
 
 	for (size_t i = 0; i < pModel->m_vecMeshes.size(); i++)
 	{
@@ -291,16 +293,7 @@ int tModelNode::Load(FILE* _File)
 tModelNode* tModelNode::CreateFromAssimp(const aiScene* _aiScene, aiNode* _aiNode, Ptr<CModel> _pModel)
 {
 	tModelNode* pNewNode = new tModelNode();
-	
-	if (_aiNode == _aiScene->mRootNode)
-	{
-		pNewNode->strName = _pModel->GetName();
-	}
-	else
-	{
-		string strTemp = _aiNode->mName.C_Str();
-		pNewNode->strName = wstring(strTemp.begin(), strTemp.end());
-	}
+	pNewNode->strName = STR2WSTR(_aiNode->mName.C_Str());
 	aiVector3t<float> scale, position;
 	aiQuaterniont<float> rotation;
 	_aiNode->mTransformation.Decompose(scale, rotation, position);

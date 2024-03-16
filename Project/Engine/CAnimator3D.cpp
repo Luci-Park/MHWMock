@@ -104,8 +104,18 @@ void CAnimator3D::finaltick()
 	//Root Motion
 	//Root BoneÀ» ¹Þ¾Æ¿È
 	auto rootBone = BoneHolder()->GetBone(L"Root");
-	Vector3 pos = Transform()->GetRelativePos() + rootBone->GetRelativePos();
-	Vector3 rot = Transform()->GetRelativeEulerRot() + rootBone->GetRelativeEulerRot();
+	Vector3 rPos = rootBone->GetRelativePos();
+	Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rPos.x
+		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rPos.y
+		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
+	pos += Transform()->GetRelativePos();
+
+	Vector3 rRot= rootBone->GetRelativeEulerRot();
+	Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
+		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
+		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;
+	rot += Transform()->GetRelativeEulerRot();
+
 	rootBone->SetRelativePos(0, 0, 0);
 	rootBone->SetRelativeRot(0, 0, 0);
 	Transform()->SetRelativePos(pos);
