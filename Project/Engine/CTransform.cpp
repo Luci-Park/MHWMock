@@ -23,55 +23,7 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
-	m_matWorldScale = XMMatrixIdentity();
-	m_matWorldScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
-	
-	Matrix matRot = Matrix::CreateFromQuaternion(GetRelativeRot());
-
-	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
-
-	
-	m_matWorld = m_matWorldScale * matRot * matTranslation;
-
-	Vec3 vDefaultDir[3] = {
-		  Vec3(1.f, 0.f, 0.f)
-		, Vec3(0.f, 1.f, 0.f)
-		, Vec3(0.f, 0.f, 1.f)
-	};
-
-	for (int i = 0; i < 3; ++i)
-	{
-		m_vWorldDir[i] = m_vRelativeDir[i] = XMVector3TransformNormal(vDefaultDir[i], matRot);
-	}
-
-	// 부모 오브젝트 확인
-	CGameObject* pParent = GetOwner()->GetParent();
-	if (pParent)
-	{
-		if (m_bAbsolute)
-		{
-			Matrix matParentWorld = pParent->Transform()->m_matWorld;
-			Matrix matParentScale = pParent->Transform()->m_matWorldScale;
-			Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
-
-			// 월드 = 로컬월드 * 부모크기 역 * 부모 월드(크기/회전/이동)
-			m_matWorld = m_matWorld * matParentScaleInv * matParentWorld;
-		}
-		else
-		{
-			m_matWorldScale = pParent->Transform()->m_matWorldScale;
-			m_matWorld *= pParent->Transform()->m_matWorld;
-		}
-		
-
-		for (int i = 0; i < 3; ++i)
-		{
-			m_vWorldDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matWorld);
-			m_vWorldDir[i].Normalize();
-		}
-	}
-
-	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
+	BuildWorldMatrix();
 }
 
 void CTransform::UpdateData()
@@ -122,6 +74,59 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 
 	m_vRelativePos = _Pos;
 	m_vRelativeRot = _Rot.ToEuler();
+}
+
+void CTransform::BuildWorldMatrix()
+{
+	m_matWorldScale = XMMatrixIdentity();
+	m_matWorldScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
+
+	Matrix matRot = Matrix::CreateFromQuaternion(GetRelativeRot());
+
+	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
+
+
+	m_matWorld = m_matWorldScale * matRot * matTranslation;
+
+	Vec3 vDefaultDir[3] = {
+		  Vec3(1.f, 0.f, 0.f)
+		, Vec3(0.f, 1.f, 0.f)
+		, Vec3(0.f, 0.f, 1.f)
+	};
+
+	for (int i = 0; i < 3; ++i)
+	{
+		m_vWorldDir[i] = m_vRelativeDir[i] = XMVector3TransformNormal(vDefaultDir[i], matRot);
+	}
+
+	// 부모 오브젝트 확인
+	CGameObject* pParent = GetOwner()->GetParent();
+	if (pParent)
+	{
+		if (m_bAbsolute)
+		{
+			Matrix matParentWorld = pParent->Transform()->m_matWorld;
+			Matrix matParentScale = pParent->Transform()->m_matWorldScale;
+			Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
+
+			// 월드 = 로컬월드 * 부모크기 역 * 부모 월드(크기/회전/이동)
+			m_matWorld = m_matWorld * matParentScaleInv * matParentWorld;
+		}
+		else
+		{
+			m_matWorldScale = pParent->Transform()->m_matWorldScale;
+			m_matWorld *= pParent->Transform()->m_matWorld;
+		}
+
+
+		for (int i = 0; i < 3; ++i)
+		{
+			m_vWorldDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matWorld);
+			m_vWorldDir[i].Normalize();
+		}
+	}
+
+	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 }
 
 void CTransform::SaveToLevelFile(FILE* _File)

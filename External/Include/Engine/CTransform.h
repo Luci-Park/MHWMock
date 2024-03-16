@@ -19,14 +19,20 @@ private:
     Matrix      m_matWorldInv;
 
 public:
-    void SetRelativePos(Vec3 _vPos) { m_vRelativePos = _vPos; }
-    void SetRelativeScale(Vec3 _vScale) { m_vRelativeScale = _vScale; }
-    void SetRelativeRot(Vec3 _vRot) { m_vRelativeRot = _vRot; }
-    void SetRelativeRot(Quaternion _qRot) { m_vRelativeRot = _qRot.ToEuler(); }
+    void SetRelativePos(Vec3 _vPos) { m_vRelativePos = _vPos; BuildWorldMatrix(); }
+    void SetRelativeScale(Vec3 _vScale) { m_vRelativeScale = _vScale; BuildWorldMatrix();
+    }
+    void SetRelativeRot(Vec3 _vRot) { m_vRelativeRot = _vRot; BuildWorldMatrix();
+    }
+    void SetRelativeRot(Quaternion _qRot) { m_vRelativeRot = _qRot.ToEuler(); BuildWorldMatrix();
+    }
 
-    void SetRelativePos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); }
-    void SetRelativeScale(float _x, float _y, float _z) { m_vRelativeScale = Vec3(_x, _y, _z); }
-    void SetRelativeRot(float _x, float _y, float _z) { SetRelativeRot(Vec3(_x, _y, _z));  }
+    void SetRelativePos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); BuildWorldMatrix();
+    }
+    void SetRelativeScale(float _x, float _y, float _z) { m_vRelativeScale = Vec3(_x, _y, _z); BuildWorldMatrix();
+    }
+    void SetRelativeRot(float _x, float _y, float _z) { SetRelativeRot(Vec3(_x, _y, _z));  BuildWorldMatrix();
+    }
 
     // 상대 이동, 크기를 절대값으로 지정  
     void SetAbsolute(bool _Set) { m_bAbsolute = _Set; }    
@@ -71,6 +77,9 @@ public:
             m_vWorldDir[i] = _OtherTransform.m_vWorldDir[i];
         }
     }
+
+private:
+    void BuildWorldMatrix();
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;
