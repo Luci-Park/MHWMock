@@ -237,7 +237,7 @@ struct tAnimationKeyFrame
 	tAnimationKeyFrame& operator+=(const tAnimationKeyFrame& other) {
 		vPos += other.vPos;
 		vScale += other.vScale;
-		qRot += other.qRot;
+		qRot *= other.qRot;
 		return *this;
 	}
 };

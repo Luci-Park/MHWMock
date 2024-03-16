@@ -107,7 +107,10 @@ vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 				}
 				auto tempFrame = m_vecKeyFrames[i];
 				m_vecKeyFrames[i].vPos -= m_prevRootFrame.vPos;
-				m_vecKeyFrames[i].qRot -= m_prevRootFrame.qRot;
+
+				Quaternion prevCon;
+				m_prevRootFrame.qRot.Conjugate(prevCon);
+				m_vecKeyFrames[i].qRot = prevCon * m_vecKeyFrames[i].qRot;
 
 				m_prevRootFrame = tempFrame;
 				break;
