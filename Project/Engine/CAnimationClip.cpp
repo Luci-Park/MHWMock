@@ -81,7 +81,7 @@ CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 	return pAnim;
 }
 
-vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
+vector<tAnimationKeyFrame> CAnimationClip::GetTransformsAtFrame(double _dTick)
 {
 	for (int i = 0; i < m_vecChannels.size(); i++)
 	{
@@ -94,7 +94,7 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 
 tAnimationKeyFrame CAnimationClip::GetRootTransformAtFirstFrame(string _rootName)
 {
-	auto& frames = GetTransformsAtFrame(0);
+	GetTransformsAtFrame(0);
 	for (int i = 0; i < m_vecChannels.size(); i++)
 	{
 		if (m_vecRsltChannel[i].strBoneName == _rootName) return m_vecRsltChannel[i];

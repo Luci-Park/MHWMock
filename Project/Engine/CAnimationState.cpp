@@ -98,17 +98,18 @@ vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 		m_vecKeyFrames = m_pClip->GetTransformsAtFrame(m_dTick);
 		for (int i = 0; i < m_vecKeyFrames.size(); i++)
 		{
-			if (m_vecKeyFrames[i].strBoneName == "Root")
+			if (m_vecKeyFrames[i].strBoneName == L"Root")
 			{
 				if (m_bIsFirstTick)
 				{
 					m_prevRootFrame = m_FirstRootFrame;
 					m_bIsFirstTick = false;
 				}
+				auto tempFrame = m_vecKeyFrames[i];
 				m_vecKeyFrames[i].vPos -= m_prevRootFrame.vPos;
 				m_vecKeyFrames[i].qRot -= m_prevRootFrame.qRot;
 
-				m_prevRootFrame = m_vecKeyFrames[i];
+				m_prevRootFrame = tempFrame;
 				break;
 			}
 		}

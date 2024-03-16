@@ -14,7 +14,7 @@ private:
 public:
     double GetDuration() { return m_dDuration; }
     double GetTicksPerSecond() { return m_dTicksPerSecond; }
-    vector<tAnimationKeyFrame>& GetTransformsAtFrame(double _dTick);
+    vector<tAnimationKeyFrame> GetTransformsAtFrame(double _dTick);
     tAnimationKeyFrame GetRootTransformAtFirstFrame(string _rootName);
 
 private:
