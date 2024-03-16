@@ -94,30 +94,23 @@ void CAnimator3D::finaltick()
 	{
 		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
 		assert(pTransform);
-		if (frame[i].strBoneName == L"Root")
-		{
-			Vec3 pos = Transform()->GetRelativePos() + frame[i].vPos;
-			Quaternion rot = Transform()->GetRelativeRot() + frame[i].qRot;
-			Transform()->SetRelativePos(pos);
-			Transform()->SetRelativeRot(rot);
-		}
-		else
-		{
-			pTransform->SetRelativePos(frame[i].vPos);
-			pTransform->SetRelativeRot(frame[i].qRot);
-			pTransform->SetRelativeScale(frame[i].vScale);
-		}
+		pTransform->SetRelativePos(frame[i].vPos);
+		pTransform->SetRelativeRot(frame[i].qRot);
+		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 
 
 	//매 틱마다 하는게 아닌 매 프레임 마다 움직이는 것
 	//Root Motion
 	//Root Bone을 받아옴
-	//auto rootBone = BoneHolder()->GetBone(L"Root");
-	//Transform()->SetRelativePos(Transform()->GetRelativePos() + rootBone->GetRelativePos());
-	//Transform()->SetRelativeRot(Transform()->GetRelativeRot() + rootBone->GetRelativeRot());
-	//rootBone->SetRelativePos(0, 0, 0);
-	//rootBone->SetRelativeRot(0, 0, 0);
+	auto rootBone = BoneHolder()->GetBone(L"Root");
+	Vector3 pos = Transform()->GetRelativePos() + rootBone->GetRelativePos();
+	Vector3 rot = Transform()->GetRelativeEulerRot() + rootBone->GetRelativeEulerRot();
+	rootBone->SetRelativePos(0, 0, 0);
+	rootBone->SetRelativeRot(0, 0, 0);
+	Transform()->SetRelativePos(pos);
+	Transform()->SetRelativeRot(rot);
+
 #endif
 }
 
