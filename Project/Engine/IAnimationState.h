@@ -23,8 +23,8 @@ public:
 
 	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() = 0;
 
-	virtual void OnTransitionBegin(double _tickPercent) = 0;
-	virtual void OnTransitionEnd() = 0;
+	virtual void OnTransitionBegin(double _tickPercent) {};
+	virtual void OnTransitionEnd();
 
 	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
 	HashTransition& GetAllTransitions() { return m_Transitions; }
@@ -44,7 +44,12 @@ public:
 	~IAnimationState();
 };
 
-void IAnimationState::DeleteTransition(CAnimationTransition* _transit)
+inline void IAnimationState::OnTransitionEnd()
+{
+	m_pCurrentTransition = nullptr;
+}
+
+inline void IAnimationState::DeleteTransition(CAnimationTransition* _transit)
 {
 	auto iter = m_Transitions.find(_transit);
 	if (iter != m_Transitions.end())

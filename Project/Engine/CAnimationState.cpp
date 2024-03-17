@@ -5,41 +5,27 @@
 #include "CTimeMgr.h"
 
 CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
-	: m_Transitions()
+	: IAnimationState(eAnimationNodeType::State)
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
 	, m_pMachine(_pParent)
 	, m_iRepeatNum(0)
-	, m_tNodeInfo({Vec2(0, 0)})
 {
 }
 
 CAnimationState::CAnimationState(const CAnimationState& _other)
-	: m_Transitions()
+	: IAnimationState(eAnimationNodeType::State)
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
 	, m_pMachine(_other.m_pMachine)
 	, m_iRepeatNum(0)
-	, m_tNodeInfo({ Vec2(0, 0) })
 {
 }
 
 CAnimationState::~CAnimationState()
 {
-	for (auto t : m_Transitions)
-	{
-		delete t;
-	}
-}
-void CAnimationState::SetName(wstring _name)
-{
-	int postFix = 0;
-	wstring newName = _name;
-	while (m_pMachine->GetStateByName(newName) != nullptr)
-		newName = _name + L" " + std::to_wstring(postFix++);
-	m_strName = newName;
 }
 
 void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
@@ -71,18 +57,10 @@ double CAnimationState::GetTickPercentWithRepeat()
 	return abs(duration / m_dDuration);
 }
 
-void CAnimationState::DeleteTransition(CAnimationTransition* _transit)
-{
-	auto iter = m_Transitions.find(_transit);
-	if (iter != m_Transitions.end())
-		m_Transitions.erase(iter);
-	delete _transit;
-}
-
 void CAnimationState::OnTransitionEnd()
 {
+	IAnimationState::OnTransitionEnd();
 	m_dTick = 0;
-	m_pCurrentTransition = nullptr;
 }
 
 void CAnimationState::OnTransitionBegin(double _tickPercent)
@@ -137,54 +115,21 @@ void CAnimationState::tick()
 	if (m_dTick > m_dDuration) Reset(0, true);
 	if (m_dTick < 0) Reset(m_dDuration, true);
 
-	if (m_pCurrentTransition == nullptr)
-	{
-		for (auto t : m_Transitions)
-		{
-			if (t->CheckCondition())
-			{
-				m_pCurrentTransition = t;
-				m_pCurrentTransition->StartTransition();
-				break;
-			}
-		}
-	}
-	if (m_pCurrentTransition != nullptr)
-	{
-		m_pCurrentTransition->tick();
-	}
+	IAnimationState::tick();
 }
 
 void CAnimationState::SaveToLevelFile(FILE* _FILE)
 {
 	SaveResRef(m_pClip.Get(), _FILE);
 	fwrite(&m_fSpeed, sizeof(float), 1, _FILE);
-	fwrite(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
-	int count = m_Transitions.size();
-	fwrite(&count, sizeof(int), 1, _FILE);
-	for (auto transit : m_Transitions)
-	{
-		SaveWString(transit->GetNextState()->GetName(), _FILE);
-		transit->SaveToLevelFile(_FILE);
-	}
+	IAnimationState::SaveToLevelFile(_FILE);
 }
 
 void CAnimationState::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadResRef(m_pClip, _FILE);
 	fread(&m_fSpeed, sizeof(float), 1, _FILE);
-	fread(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 
-	int count; 
-	fread(&count, sizeof(int), 1, _FILE);
-	while (count--)
-	{
-		wstring nextStateName;
-		LoadWString(nextStateName, _FILE);
-		auto nextState = m_pMachine->GetStateByName(nextStateName);
-		auto newTransition = new CAnimationTransition(this, nextState, m_pMachine);
-		m_Transitions.insert(newTransition);
-		newTransition->LoadFromLevelFile(_FILE);
-	}
+	IAnimationState::LoadFromLevelFile(_FILE);
 }

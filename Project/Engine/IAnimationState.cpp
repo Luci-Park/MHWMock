@@ -46,6 +46,8 @@ void IAnimationState::SaveToLevelFile(FILE* _FILE)
 		SaveWString(transit->GetNextState()->GetName(), _FILE);
 		transit->SaveToLevelFile(_FILE);
 	}
+	fwrite(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
+
 }
 
 void IAnimationState::LoadFromLevelFile(FILE* _FILE)
@@ -61,4 +63,5 @@ void IAnimationState::LoadFromLevelFile(FILE* _FILE)
 		m_Transitions.insert(newTransition);
 		newTransition->LoadFromLevelFile(_FILE);
 	}
+	fread(&m_tNodeInfo, sizeof(tAnimationStateNode), 1, _FILE);
 }
