@@ -4,7 +4,8 @@
 
 class CAnimationTransition;
 
-class CAnimationState : IAnimationState
+class CAnimationState : 
+	public IAnimationState
 {
 private:
 	Ptr<CAnimationClip>				m_pClip;
@@ -12,7 +13,6 @@ private:
 	double							m_dTick;
 	double							m_dDuration;
 	int								m_iRepeatNum;
-	CAnimationStateMachine*			m_pMachine;
 	int								m_iRootIdx;
 	tAnimationKeyFrame				m_prevRootFrame;
 	tAnimationKeyFrame				m_FirstRootFrame;

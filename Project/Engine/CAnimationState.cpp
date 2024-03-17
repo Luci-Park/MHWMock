@@ -5,21 +5,19 @@
 #include "CTimeMgr.h"
 
 CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
-	: IAnimationState(eAnimationNodeType::State)
+	: IAnimationState(eAnimationNodeType::State, _pParent)
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
-	, m_pMachine(_pParent)
 	, m_iRepeatNum(0)
 {
 }
 
 CAnimationState::CAnimationState(const CAnimationState& _other)
-	: IAnimationState(eAnimationNodeType::State)
+	: IAnimationState(eAnimationNodeType::State, _other.m_pRootMachine)
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
-	, m_pMachine(_other.m_pMachine)
 	, m_iRepeatNum(0)
 {
 }

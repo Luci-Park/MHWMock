@@ -1,17 +1,16 @@
 #pragma once
 #include "CAnimator3D.h"
 #include "IAnimationState.h"
-#include "CAnimationState.h"
 #include "CAnimationTransition.h"
 
 typedef std::unordered_set<IAnimationState*> HashState;
-class CAnimationStateMachine : IAnimationState
+class CAnimationStateMachine :
+	public IAnimationState
 {
 private:
-	CAnimator3D*						m_pOwner;
 	vector<tAnimationKeyFrame>			m_vecFrame;
-	CAnimationState*					m_pCurrentState;
-	CAnimationState*					m_pHead;
+	IAnimationState*					m_pCurrentState;
+	IAnimationState*					m_pHead;
 	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
 public: //for other scripts
@@ -26,12 +25,13 @@ public: //for client & engine scripts
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
 	CAnimationState* CreateState(CAnimationState* _copyState);
+	CAnimationStateMachine* CreateStateMachine();
 	void DeleteState(CAnimationState* _pState);
 
-	CAnimationState* GetHead() { return m_pHead; }
-	CAnimationState* GetCurrentState() { return m_pCurrentState; }
-	CAnimationState* GetStateByName(wstring _name);
-	void ChangeState(CAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
+	IAnimationState* GetHead() { return m_pHead; }
+	IAnimationState* GetCurrentState() { return m_pCurrentState; }
+	IAnimationState* GetStateByName(wstring _name);
+	void ChangeState(IAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
 	void Reset();
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);
@@ -50,7 +50,7 @@ public:
 
 private:
 public:
-	CAnimationStateMachine(CAnimator3D* _pAnimator);
+	CAnimationStateMachine(CAnimationStateMachine* _root);
 	~CAnimationStateMachine();
 };
 

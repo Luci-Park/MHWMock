@@ -1,15 +1,17 @@
 #include "pch.h"
 #include "CAnimationStateMachine.h"
+#include "CAnimationState.h"
 
-CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _pAnimator)
-	: IAnimationState(eAnimationNodeType::StateMachine)
-	, m_pOwner(_pAnimator)
+CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root)
+	: IAnimationState(eAnimationNodeType::StateMachine, _root)
 {
+	if (m_pRootMachine == nullptr) m_pRootMachine = this;
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
 	m_pHead = pHead;
 	Reset();
 }
+
 
 CAnimationStateMachine::~CAnimationStateMachine()
 {
@@ -22,27 +24,24 @@ CAnimationStateMachine::~CAnimationStateMachine()
 vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 {
 	m_vecFrame.clear();
-	if (1)//m_pCurrentState != m_pHead)
+	//ifm_pCurrentState != m_pHead)
+	if (m_pCurrentState->IsTransitioning())
 	{
-		if (m_pCurrentState->IsTransitioning())
-		{
-			map<wstring, tAnimationKeyFrame> mapFrame = m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
-			for (auto frame : mapFrame)
-				m_vecFrame.push_back(frame.second);
-		}
-		else
-		{
-			vector<tAnimationKeyFrame> frame = m_pCurrentState->GetBoneTransforms();
-			for (int i = 0; i < frame.size(); i++)
-				m_vecFrame.push_back(frame[i]);
-		}		
+		map<wstring, tAnimationKeyFrame> mapFrame = m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
+		for (auto frame : mapFrame)
+			m_vecFrame.push_back(frame.second);
+		return m_vecFrame;
+	}
+	else
+	{
+		return m_pCurrentState->GetBoneTransforms();
 	}
 	return m_vecFrame;
 }
 
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState(this);
+	CAnimationState* pNewState = new CAnimationState(m_pRootMachine);
 	pNewState->SetName(L"New State");
 	m_States.insert(pNewState);
 	return pNewState;
@@ -55,6 +54,13 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 	return pNewState;
 }
 
+CAnimationStateMachine* CAnimationStateMachine::CreateStateMachine()
+{
+	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine);
+	m_States.insert(pNewMachine);
+	return pNewMachine;
+}
+
 void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 {
 	auto iter = m_States.find(_pState);
@@ -64,7 +70,7 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 		m_States.erase(iter);
 	}
 }
-CAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
+IAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
 {
 	for (auto s : m_States)
 		if (s->GetName() == _name)

@@ -6,6 +6,7 @@ class CAnimationStateMachine;
 typedef unordered_set<CAnimationTransition*> HashTransition;
 
 enum class eAnimationNodeType{StateMachine, State};
+
 class IAnimationState
 {
 private:
@@ -14,9 +15,13 @@ private:
 	HashTransition			m_Transitions;
 	CAnimationTransition*	m_pCurrentTransition;
 	tAnimationStateNode		m_tNodeInfo;
+protected:
+	CAnimationStateMachine* m_pRootMachine;
 public:
 	void SetName(wstring _name) { m_strName = _name; }
 	wstring GetName() { return m_strName; }
+
+	CAnimationStateMachine* GetRootMachine() { return m_pRootMachine; }
 public:
 	virtual double GetDurationInSeconds() = 0;
 	virtual double GetTickPercentWithRepeat() = 0;
@@ -40,7 +45,7 @@ public:
 	virtual void SaveToLevelFile(FILE* _FILE);
 	virtual void LoadFromLevelFile(FILE* _FILE);
 
-	IAnimationState(eAnimationNodeType _type);
+	IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root);
 	~IAnimationState();
 };
 

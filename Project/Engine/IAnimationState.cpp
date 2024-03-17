@@ -2,11 +2,11 @@
 #include "IAnimationState.h"
 #include "CAnimationTransition.h"
 
-IAnimationState::IAnimationState(eAnimationNodeType _type)
+IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root)
 	: m_eNodeType(_type)
-	, m_tNodeInfo({Vec2(0, 0)})
+	, m_pRootMachine(_root)
+	, m_tNodeInfo({ Vec2(0, 0) })
 {
-
 }
 
 IAnimationState::~IAnimationState()
