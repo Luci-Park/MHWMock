@@ -18,6 +18,9 @@ public:
 	void SetName(wstring _name) { m_strName = _name; }
 	wstring GetName() { return m_strName; }
 public:
+	virtual double GetDurationInSeconds() = 0;
+	virtual double GetTickPercentWithRepeat() = 0;
+
 	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() = 0;
 
 	virtual void OnTransitionBegin(double _tickPercent) = 0;
@@ -30,7 +33,8 @@ public:
 	void DeleteTransition(CAnimationTransition* _transit);
 
 	tAnimationStateNode GetViewNode() { return m_tNodeInfo; }
-	void UpdatePos(tAnimationStateNode _newPose) { m_tNodeInfo = _newPose; }
+	void UpdatePos(tAnimationStateNode _newPos) { m_tNodeInfo = _newPos; }
+
 public:
 	virtual void tick();
 	virtual void SaveToLevelFile(FILE* _FILE);
@@ -47,3 +51,4 @@ void IAnimationState::DeleteTransition(CAnimationTransition* _transit)
 		m_Transitions.erase(iter);
 	delete _transit;
 }
+
