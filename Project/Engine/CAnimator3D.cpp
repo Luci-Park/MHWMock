@@ -94,33 +94,32 @@ void CAnimator3D::finaltick()
 	{
 		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
 		assert(pTransform);
-		/*if (frame[i].strBoneName == L"Root")
-		{
-			Vec3 pos = Transform()->GetRelativePos() + frame[i].vPos;
-			Quaternion rot = Transform()->GetRelativeRot() + frame[i].qRot;
-			Transform()->SetRelativePos(pos);
-			Transform()->SetRelativeRot(rot);
-		}
-		else
-		{*/
-			pTransform->SetRelativePos(frame[i].vPos);
-			pTransform->SetRelativeRot(frame[i].qRot);
-			pTransform->SetRelativeScale(frame[i].vScale);
-		//}
+		pTransform->SetRelativePos(frame[i].vPos);
+		pTransform->SetRelativeRot(frame[i].qRot);
+		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 
-	//¸Å Æ½¸¶´Ù ÇÏ´Â°Ô ¾Æ´Ñ ¸Å ÇÁ·¹ÀÓ ¸¶´Ù ¿òÁ÷ÀÌ´Â °Í
+	//ï¿½ï¿½ Æ½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´Â°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½
 	//Root Motion
-	//Root BoneÀ» ¹Þ¾Æ¿È
+	//Root Boneï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
 	auto rootBone = BoneHolder()->GetBone(L"Root");
-	Vec3 dir =	rootBone->GetRelativePos().x * Transform()->GetRelativeDir(DIR_TYPE::RIGHT) +
-				rootBone->GetRelativePos().y * Transform()->GetRelativeDir(DIR_TYPE::FRONT) +
-				rootBone->GetRelativePos().z * Transform()->GetRelativeDir(DIR_TYPE::UP);
-	Transform()->SetRelativePos(Transform()->GetRelativePos() + dir);
-	auto a = Quaternion::FromEuler(Transform()->GetRelativeRot().ToEuler() + rootBone->GetRelativeRot().ToEuler());
-	Transform()->SetRelativeRot(a);
+	Vector3 rPos = rootBone->GetRelativePos();
+	Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rPos.x
+		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rPos.y
+		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
+	pos += Transform()->GetRelativePos();
+
+	Vector3 rRot= rootBone->GetRelativeEulerRot();
+	Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
+		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
+		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;
+	rot += Transform()->GetRelativeEulerRot();
+
 	rootBone->SetRelativePos(0, 0, 0);
 	rootBone->SetRelativeRot(0, 0, 0);
+	Transform()->SetRelativePos(pos);
+	Transform()->SetRelativeRot(rot);
+
 #endif
 }
 
