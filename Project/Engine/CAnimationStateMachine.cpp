@@ -9,7 +9,7 @@ CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root)
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
 	m_pHead = pHead;
-	Reset();
+	Reset(0);
 }
 
 
@@ -21,7 +21,15 @@ CAnimationStateMachine::~CAnimationStateMachine()
 	for (auto param : m_vecParams)
 		delete param;
 }
-vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
+double CAnimationStateMachine::GetDurationInSeconds()
+{
+	return m_pCurrentState->GetDurationInSeconds();
+}
+double CAnimationStateMachine::GetTickPercentWithRepeat()
+{
+	return m_pCurrentState->GetTickPercentWithRepeat();
+}
+vector<tAnimationKeyFrame>& CAnimationStateMachine::GetBoneTransforms()
 {
 	m_vecFrame.clear();
 	//ifm_pCurrentState != m_pHead)
@@ -37,6 +45,16 @@ vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
 		return m_pCurrentState->GetBoneTransforms();
 	}
 	return m_vecFrame;
+}
+
+void CAnimationStateMachine::OnTransitionBegin(double _tickPercent)
+{
+	Reset(_tickPercent);
+}
+
+void CAnimationStateMachine::OnTransitionEnd()
+{
+	IAnimationState::OnTransitionEnd();
 }
 
 CAnimationState* CAnimationStateMachine::CreateState()
@@ -77,10 +95,10 @@ IAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
 			return s;
 	return nullptr;
 }
-void CAnimationStateMachine::Reset()
+void CAnimationStateMachine::Reset(double _tickPercent)
 {
 	ChangeState(m_pHead);
-	m_pHead->OnTransitionBegin(0);
+	m_pHead->OnTransitionBegin(_tickPercent);
 }
 
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
@@ -267,5 +285,5 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
-	Reset();
+	Reset(0);
 }

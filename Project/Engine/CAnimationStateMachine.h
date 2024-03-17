@@ -14,13 +14,15 @@ private:
 	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
 public: //for other scripts
-	void SetBool(wstring _param, bool _value);
-	void SetFloat(wstring _param, float _value);
-	void SetInt(wstring _param, int _value);
-	void SetTrigger(wstring _param, bool _value = true);
+	virtual double GetDurationInSeconds();
+	virtual double GetTickPercentWithRepeat();
+
+	virtual vector<tAnimationKeyFrame>& GetBoneTransforms();
+	
+	virtual void OnTransitionBegin(double _tickPercent);
+	virtual void OnTransitionEnd();
 
 public: //for client & engine scripts
-	vector<tAnimationKeyFrame>& GetFrame();
 
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
@@ -41,6 +43,11 @@ public: //for client & engine scripts
 	AnimStateParam* GetParamByName(wstring _name);
 	AnimStateParam* GetParamByIndex(int _idx);
 	vector<AnimStateParam*>& GetAllParams() { return m_vecParams; }
+
+	void SetBool(wstring _param, bool _value);
+	void SetFloat(wstring _param, float _value);
+	void SetInt(wstring _param, int _value);
+	void SetTrigger(wstring _param, bool _value = true);
 
 
 public:
