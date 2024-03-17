@@ -10,20 +10,20 @@
     <Filter Include="Script\Default">
       <UniqueIdentifier>{6546fd48-44d9-4960-9249-56cca8c1ccc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\Player">
+      <UniqueIdentifier>{4a64c82e-07d0-4d1e-82de-0b4421c77f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Camera">
+      <UniqueIdentifier>{66c3988b-c771-4d66-9b26-c124f8f9b7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Other">
+      <UniqueIdentifier>{0c9f5221-6ac9-44d6-8472-bd6b25bd4fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Player\StateMachine">
+      <UniqueIdentifier>{5fbaa90f-9c9d-4c43-9864-f5e8e994f1c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Script\Default</Filter>
     </ClInclude>
@@ -33,29 +33,29 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CMainPlayerScript.h">
+      <Filter>Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Script\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="CGravityScript.h">
-      <Filter>Script</Filter>
+      <Filter>Script\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h">
+      <Filter>Script\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterScript.h">
+      <Filter>Script\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Script\Other</Filter>
     </ClInclude>
     <ClInclude Include="CTestScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CMainPlayerScript.h">
-      <Filter>Script</Filter>
+      <Filter>Script\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Script\Default</Filter>
     </ClCompile>
@@ -65,14 +65,35 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CMainPlayerScript.cpp">
+      <Filter>Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Script\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="CGravityScript.cpp">
-      <Filter>Script</Filter>
+      <Filter>Script\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp">
+      <Filter>Script\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterScript.cpp">
+      <Filter>Script\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\Other</Filter>
     </ClCompile>
     <ClCompile Include="CTestScript.cpp">
-      <Filter>Script</Filter>
+      <Filter>Script\Other</Filter>
     </ClCompile>
-    <ClCompile Include="CMainPlayerScript.cpp">
-      <Filter>Script</Filter>
+    <ClCompile Include="State.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateMachine.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="States_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
