@@ -43,7 +43,8 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\st202_C_water_Under.fbx");
 	//CModel::LoadFromFbx(L"model\\st202_C_waterfall.fbx");
 	//CModel::LoadFromFbx(L"model\\st202_Z.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_136_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm740_047_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm740_077_00.fbx");
+	//CModel::LoadFromFbx(L"model\\stm740_005_00.fbx");
+	//CModel::LoadFromFbx(L"model\\stm740_005_01.fbx");
+	//CModel::LoadFromFbx(L"model\\stm740_008_00.fbx");
+	//CModel::LoadFromFbx(L"model\\stm740_009_00.fbx");
 }
