@@ -4,8 +4,8 @@
 #include "CAnimationStateMachine.h"
 #include "CTimeMgr.h"
 
-CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
-	: IAnimationState(eAnimationNodeType::State, _pParent)
+CAnimationState::CAnimationState(CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
+	: IAnimationState(eAnimationNodeType::State, _root, _parent)
 	, m_pClip(nullptr)
 	, m_fSpeed(1)
 	, m_dTick(0)
@@ -14,7 +14,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _pParent)
 }
 
 CAnimationState::CAnimationState(const CAnimationState& _other)
-	: IAnimationState(eAnimationNodeType::State, _other.m_pRootMachine)
+	: IAnimationState(eAnimationNodeType::State, _other.m_pRootMachine, _other.m_pParentMachine)
 	, m_pClip(_other.m_pClip)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)

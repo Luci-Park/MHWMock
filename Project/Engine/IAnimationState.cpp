@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "IAnimationState.h"
 #include "CAnimationTransition.h"
+#include "CAnimationStateMachine.h"
 
-IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root)
+IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
 	: m_eNodeType(_type)
 	, m_pRootMachine(_root)
+	, m_pParentMachine(_parent)
 	, m_tNodeInfo({ Vec2(0, 0) })
 {
 }
@@ -58,8 +60,8 @@ void IAnimationState::LoadFromLevelFile(FILE* _FILE)
 	{
 		wstring nextStateName;
 		LoadWString(nextStateName, _FILE);
-		auto nextState = m_pMachine->GetStateByName(nextStateName);
-		auto newTransition = new CAnimationTransition(this, nextState, m_pMachine);
+		auto nextState = m_pRootMachine->GetStateByName(nextStateName);
+		auto newTransition = new CAnimationTransition(this, nextState, m_pRootMachine);
 		m_Transitions.insert(newTransition);
 		newTransition->LoadFromLevelFile(_FILE);
 	}

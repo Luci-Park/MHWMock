@@ -10,7 +10,7 @@
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
-	m_pAnimationStateMachine = new CAnimationStateMachine(this);
+	m_pAnimationStateMachine = new CAnimationStateMachine(nullptr, nullptr);
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
@@ -18,7 +18,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, m_mapAnims(_origin.m_mapAnims)
 	, m_vecAnimNames(_origin.m_vecAnimNames)
 {
-	m_pAnimationStateMachine = new CAnimationStateMachine(this);
+	m_pAnimationStateMachine = new CAnimationStateMachine(nullptr, nullptr);
 }
 
 CAnimator3D::~CAnimator3D()
@@ -71,25 +71,7 @@ void CAnimator3D::tick()
 {
 	if (!BoneHolder()->IsReady())return;
 	m_pAnimationStateMachine->tick();
-	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
-	for (int i =0; i < frame.size(); i++)
-	{
-		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
-		assert(pTransform);
-		pTransform->SetRelativePos(frame[i].vPos);
-		pTransform->SetRelativeRot(frame[i].qRot);
-		pTransform->SetRelativeScale(frame[i].vScale);
-	}
-
-
-}
-
-void CAnimator3D::finaltick()
-{
-#if DEBUG_ANIMATOR
-	if (!BoneHolder()->IsReady())return;
-	m_pAnimationStateMachine->tick();
-	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetFrame();
+	vector<tAnimationKeyFrame> frame = m_pAnimationStateMachine->GetBoneTransforms();
 	for (int i = 0; i < frame.size(); i++)
 	{
 		auto pTransform = BoneHolder()->GetBone(frame[i].strBoneName);
@@ -110,7 +92,7 @@ void CAnimator3D::finaltick()
 		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
 	pos += Transform()->GetRelativePos();
 
-	Vector3 rRot= rootBone->GetRelativeEulerRot();
+	Vector3 rRot = rootBone->GetRelativeEulerRot();
 	Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
 		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
 		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;
@@ -120,7 +102,12 @@ void CAnimator3D::finaltick()
 	rootBone->SetRelativeRot(0, 0, 0);
 	Transform()->SetRelativePos(pos);
 	Transform()->SetRelativeRot(rot);
+}
 
+void CAnimator3D::finaltick()
+{
+#if DEBUG_ANIMATOR
+	tick();
 #endif
 }
 

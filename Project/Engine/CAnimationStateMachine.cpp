@@ -2,10 +2,14 @@
 #include "CAnimationStateMachine.h"
 #include "CAnimationState.h"
 
-CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root)
-	: IAnimationState(eAnimationNodeType::StateMachine, _root)
+CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
+	: IAnimationState(eAnimationNodeType::StateMachine, _root, _parent)
 {
-	if (m_pRootMachine == nullptr) m_pRootMachine = this;
+	if (m_pRootMachine == nullptr)
+	{
+		m_pRootMachine = this;
+		m_pParentMachine = this;
+	}
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
 	m_pHead = pHead;
@@ -59,7 +63,7 @@ void CAnimationStateMachine::OnTransitionEnd()
 
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState(m_pRootMachine);
+	CAnimationState* pNewState = new CAnimationState(m_pRootMachine, this);
 	pNewState->SetName(L"New State");
 	m_States.insert(pNewState);
 	return pNewState;
@@ -72,9 +76,9 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 	return pNewState;
 }
 
-CAnimationStateMachine* CAnimationStateMachine::CreateStateMachine()
+CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 {
-	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine);
+	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
 	m_States.insert(pNewMachine);
 	return pNewMachine;
 }
@@ -230,7 +234,11 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	count = m_States.size();
 	fwrite(&count, sizeof(int), 1, _FILE);
 	for (auto state : m_States)
+	{
 		SaveWString(state->GetName(), _FILE);
+		int type = (int)state->GetType();
+		fwrite(&type, sizeof(int), 1, _FILE);
+	}
 	for (auto state : m_States)
 	{
 		SaveWString(state->GetName(), _FILE);
@@ -238,6 +246,7 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	}
 
 	SaveWString(m_pHead->GetName(), _FILE);
+	IAnimationState::SaveToLevelFile(_FILE);
 }
 
 void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
@@ -268,9 +277,13 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	fread(&count, sizeof(int), 1, _FILE);
 	for (size_t i = 0; i < count; i++)
 	{
-		auto state = new CAnimationState(this);
 		wstring name;
 		LoadWString(name, _FILE);
+		IAnimationState* state;
+		int type;
+		fread(&type, sizeof(int), 1, _FILE);
+		if (type == (int)eAnimationNodeType::StateMachine) state = new CAnimationStateMachine(m_pRootMachine, this);
+		else state = new CAnimationState(m_pRootMachine, this);
 		state->SetName(name);
 		m_States.insert(state);
 	}
@@ -285,5 +298,8 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
+
+	IAnimationState::LoadFromLevelFile(_FILE);
+
 	Reset(0);
 }

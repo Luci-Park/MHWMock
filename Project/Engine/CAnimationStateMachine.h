@@ -3,6 +3,7 @@
 #include "IAnimationState.h"
 #include "CAnimationTransition.h"
 
+class CAnimationState;
 typedef std::unordered_set<IAnimationState*> HashState;
 class CAnimationStateMachine :
 	public IAnimationState
@@ -27,14 +28,14 @@ public: //for client & engine scripts
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
 	CAnimationState* CreateState(CAnimationState* _copyState);
-	CAnimationStateMachine* CreateStateMachine();
+	CAnimationStateMachine* CreateSubStateMachine();
 	void DeleteState(CAnimationState* _pState);
 
 	IAnimationState* GetHead() { return m_pHead; }
 	IAnimationState* GetCurrentState() { return m_pCurrentState; }
 	IAnimationState* GetStateByName(wstring _name);
 	void ChangeState(IAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
-	void Reset();
+	void Reset(double _tickPercent);
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);
 	void SetParamName(AnimStateParam* param, wstring _name);
@@ -57,7 +58,7 @@ public:
 
 private:
 public:
-	CAnimationStateMachine(CAnimationStateMachine* _root);
+	CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	~CAnimationStateMachine();
 };
 

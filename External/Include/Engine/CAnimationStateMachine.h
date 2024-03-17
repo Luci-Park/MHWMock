@@ -1,31 +1,41 @@
 #pragma once
 #include "CAnimator3D.h"
-#include "CAnimationState.h"
+#include "IAnimationState.h"
 #include "CAnimationTransition.h"
 
-typedef std::unordered_set<CAnimationState*> HashState;
-class CAnimationStateMachine
+class CAnimationState;
+typedef std::unordered_set<IAnimationState*> HashState;
+class CAnimationStateMachine :
+	public IAnimationState
 {
 private:
-	CAnimator3D*						m_pOwner;
 	vector<tAnimationKeyFrame>			m_vecFrame;
-	CAnimationState*					m_pCurrentState;
-	CAnimationState*					m_pHead;
+	IAnimationState*					m_pCurrentState;
+	IAnimationState*					m_pHead;
 	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
-public:
-	vector<tAnimationKeyFrame>& GetFrame();
+public: //for other scripts
+	virtual double GetDurationInSeconds();
+	virtual double GetTickPercentWithRepeat();
+
+	virtual vector<tAnimationKeyFrame>& GetBoneTransforms();
+	
+	virtual void OnTransitionBegin(double _tickPercent);
+	virtual void OnTransitionEnd();
+
+public: //for client & engine scripts
 
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();
 	CAnimationState* CreateState(CAnimationState* _copyState);
+	CAnimationStateMachine* CreateSubStateMachine();
 	void DeleteState(CAnimationState* _pState);
 
-	CAnimationState* GetHead() { return m_pHead; }
-	CAnimationState* GetCurrentState() { return m_pCurrentState; }
-	CAnimationState* GetStateByName(wstring _name);
-	void ChangeState(CAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
-	void Reset();
+	IAnimationState* GetHead() { return m_pHead; }
+	IAnimationState* GetCurrentState() { return m_pCurrentState; }
+	IAnimationState* GetStateByName(wstring _name);
+	void ChangeState(IAnimationState* _pNewState) { m_pCurrentState = _pNewState; }
+	void Reset(double _tickPercent);
 
 	AnimStateParam* CreateNewParam(AnimParamType _type);
 	void SetParamName(AnimStateParam* param, wstring _name);
@@ -40,14 +50,15 @@ public:
 	void SetInt(wstring _param, int _value);
 	void SetTrigger(wstring _param, bool _value = true);
 
+
 public:
-	void tick();
-	void SaveToLevelFile(FILE* _FILE);
-	void LoadFromLevelFile(FILE* _FILE);
+	virtual void tick() override;
+	virtual void SaveToLevelFile(FILE* _FILE) override;
+	virtual void LoadFromLevelFile(FILE* _FILE) override;
 
 private:
 public:
-	CAnimationStateMachine(CAnimator3D* _pAnimator);
+	CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	~CAnimationStateMachine();
 };
 

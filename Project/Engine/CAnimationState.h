@@ -42,7 +42,7 @@ public:
 	virtual void LoadFromLevelFile(FILE* _FILE) override;
 
 public:
-	CAnimationState(CAnimationStateMachine* _pParent);
+	CAnimationState(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	CAnimationState(const CAnimationState& _other);
 	~CAnimationState();
 };
