@@ -14,7 +14,13 @@ private:
 	CAnimationState*					m_pHead;
 	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
-public:
+public: //for other scripts
+	void SetBool(wstring _param, bool _value);
+	void SetFloat(wstring _param, float _value);
+	void SetInt(wstring _param, int _value);
+	void SetTrigger(wstring _param, bool _value = true);
+
+public: //for client & engine scripts
 	vector<tAnimationKeyFrame>& GetFrame();
 
 	HashState& GetAllStates() { return m_States; }
@@ -36,10 +42,6 @@ public:
 	AnimStateParam* GetParamByIndex(int _idx);
 	vector<AnimStateParam*>& GetAllParams() { return m_vecParams; }
 
-	void SetBool(wstring _param, bool _value);
-	void SetFloat(wstring _param, float _value);
-	void SetInt(wstring _param, int _value);
-	void SetTrigger(wstring _param, bool _value = true);
 
 public:
 	virtual void tick() override;

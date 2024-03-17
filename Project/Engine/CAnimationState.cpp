@@ -31,7 +31,12 @@ CAnimationState::~CAnimationState()
 void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 {
 	m_pClip = _pClip;
-	if (m_pClip != nullptr) m_FirstRootFrame = m_pClip->GetRootTransformAtFirstFrame("Root");
+	if (m_pClip != nullptr)
+	{
+		m_iRootIdx = m_pClip->GetRootIdx(L"Root");
+		assert(m_iRootIdx >= 0);
+		m_FirstRootFrame = m_pClip->GetTransformsAtFrame(0)[m_iRootIdx];
+	}
 }
 
 double CAnimationState::GetDurationInSeconds()
@@ -70,32 +75,25 @@ void CAnimationState::OnTransitionBegin(double _tickPercent)
 
 vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
 {
-	m_vecKeyFrames.clear();
-	if (m_pClip != nullptr)
+	static vector<tAnimationKeyFrame> emptyFrames(0);
+	if (m_pClip == nullptr) return emptyFrames;
+
+	vector<tAnimationKeyFrame>& frames = m_pClip->GetTransformsAtFrame(m_dTick);
+	if (m_bIsFirstTick)
 	{
-		m_vecKeyFrames = m_pClip->GetTransformsAtFrame(m_dTick);
-		for (int i = 0; i < m_vecKeyFrames.size(); i++)
-		{
-			if (m_vecKeyFrames[i].strBoneName == L"Root")
-			{
-				if (m_bIsFirstTick)
-				{
-					m_prevRootFrame = m_FirstRootFrame;
-					m_bIsFirstTick = false;
-				}
-				auto tempFrame = m_vecKeyFrames[i];
-				m_vecKeyFrames[i].vPos -= m_prevRootFrame.vPos;
-
-				Quaternion prevCon;
-				m_prevRootFrame.qRot.Conjugate(prevCon);
-				m_vecKeyFrames[i].qRot = prevCon * m_vecKeyFrames[i].qRot;
-
-				m_prevRootFrame = tempFrame;
-				break;
-			}
-		}
+		m_prevRootFrame = m_FirstRootFrame;
+		m_bIsFirstTick = false;
 	}
-	return m_vecKeyFrames;
+	auto tempFrame = frames[m_iRootIdx];
+	frames[m_iRootIdx].vPos -= m_prevRootFrame.vPos;
+
+	Quaternion prevCon;
+	m_prevRootFrame.qRot.Conjugate(prevCon);
+	frames[m_iRootIdx].qRot = prevCon * frames[m_iRootIdx].qRot;
+
+	m_prevRootFrame = tempFrame;
+	return frames;
+	
 }
 
 void CAnimationState::Reset(double _percent, bool _repeat)

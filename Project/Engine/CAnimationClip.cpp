@@ -81,7 +81,7 @@ CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 	return pAnim;
 }
 
-vector<tAnimationKeyFrame> CAnimationClip::GetTransformsAtFrame(double _dTick)
+vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 {
 	for (int i = 0; i < m_vecChannels.size(); i++)
 	{
@@ -92,16 +92,14 @@ vector<tAnimationKeyFrame> CAnimationClip::GetTransformsAtFrame(double _dTick)
 	return m_vecRsltChannel;
 }
 
-tAnimationKeyFrame CAnimationClip::GetRootTransformAtFirstFrame(string _rootName)
+int CAnimationClip::GetRootIdx(wstring _rootName)
 {
-	GetTransformsAtFrame(0);
 	for (int i = 0; i < m_vecChannels.size(); i++)
-	{
-		if (m_vecRsltChannel[i].strBoneName == _rootName) return m_vecRsltChannel[i];
-	}
-
-	return tAnimationKeyFrame();
+		if (m_vecChannels[i].strBoneName == _rootName)
+			return i;
+	return -1;
 }
+
 
 Vec3 CAnimationClip::FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
 {

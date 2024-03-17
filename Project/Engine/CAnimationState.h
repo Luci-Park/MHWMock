@@ -13,7 +13,7 @@ private:
 	double							m_dDuration;
 	int								m_iRepeatNum;
 	CAnimationStateMachine*			m_pMachine;
-	vector<tAnimationKeyFrame>		m_vecKeyFrames;
+	int								m_iRootIdx;
 	tAnimationKeyFrame				m_prevRootFrame;
 	tAnimationKeyFrame				m_FirstRootFrame;
 	bool							m_bIsFirstTick;
@@ -33,7 +33,7 @@ public:
 	
 	virtual void OnTransitionEnd() override;
 	virtual void OnTransitionBegin(double _tickPercent) override;
-	vector<tAnimationKeyFrame>& GetBoneTransforms();
+	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() override;
 private:
 	void Reset(double _percent, bool _isRepeat);
 public:
