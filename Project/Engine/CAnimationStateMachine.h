@@ -1,10 +1,11 @@
 #pragma once
 #include "CAnimator3D.h"
+#include "IAnimationState.h"
 #include "CAnimationState.h"
 #include "CAnimationTransition.h"
 
-typedef std::unordered_set<CAnimationState*> HashState;
-class CAnimationStateMachine
+typedef std::unordered_set<IAnimationState*> HashState;
+class CAnimationStateMachine : IAnimationState
 {
 private:
 	CAnimator3D*						m_pOwner;
@@ -41,9 +42,9 @@ public:
 	void SetTrigger(wstring _param, bool _value = true);
 
 public:
-	void tick();
-	void SaveToLevelFile(FILE* _FILE);
-	void LoadFromLevelFile(FILE* _FILE);
+	virtual void tick() override;
+	virtual void SaveToLevelFile(FILE* _FILE) override;
+	virtual void LoadFromLevelFile(FILE* _FILE) override;
 
 private:
 public:

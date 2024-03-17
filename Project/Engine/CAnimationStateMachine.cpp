@@ -2,7 +2,8 @@
 #include "CAnimationStateMachine.h"
 
 CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _pAnimator)
-	: m_pOwner(_pAnimator)
+	: IAnimationState(eAnimationNodeType::StateMachine)
+	, m_pOwner(_pAnimator)
 {
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
