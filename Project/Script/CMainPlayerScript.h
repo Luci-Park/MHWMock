@@ -1,6 +1,20 @@
 #pragma once
 #include "Engine\CScript.h"
 #include "Engine\CGameObject.h"
+#include "Engine\CKeyMgr.h"
+
+#include <vector>
+
+
+enum class Event
+{
+    IDLE,
+    MOVE,
+    MOVE_FORWARD,
+    ATTACK,
+    HIT,
+    END,
+};
 
 class State;
 class PlayerStateMachine;
@@ -39,22 +53,27 @@ public:
     State();
     virtual ~State();
 public:
-    virtual void Enter(CGameObject* player);
-    virtual void Tick(CGameObject* player);
-    virtual void Exit(CGameObject* player);
+    virtual void Enter(CGameObject* player,PlayerStateMachine* StateMachine);
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine);
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine);
 };
 
 class PlayerStateMachine
 {
 private:
+    std::vector<State*> _States;
     State* _curState;
     CGameObject* _player;
+    
 public:
+
+
     PlayerStateMachine();
     PlayerStateMachine(CGameObject* player);
     ~PlayerStateMachine();
 public:
-    void ChangeState(State* newState);
+    void CreateState();
+    void ChangeState(Event newState);
     void Tick();
 };
 
@@ -65,7 +84,31 @@ public:
     ST_PLAYER_IDLE();
     ~ST_PLAYER_IDLE() override;
 public:
-    virtual void Enter(CGameObject* player) override;
-    virtual void Tick(CGameObject* player) override;
-    virtual void Exit(CGameObject* player) override;
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_MOVE : public State
+{
+private:
+public:
+    ST_PLAYER_MOVE();
+    ~ST_PLAYER_MOVE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_MOVE_FORWARD : public State
+{
+private:
+public:
+    ST_PLAYER_MOVE_FORWARD();
+    ~ST_PLAYER_MOVE_FORWARD() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };

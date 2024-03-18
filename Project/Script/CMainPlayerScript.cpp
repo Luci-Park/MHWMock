@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
-#include "Engine\CKeyMgr.h"
 #include "Engine\CAnimator3D.h"
 #include "Engine\CCollider3D.h"
 
@@ -24,18 +23,6 @@ void CMainPlayerScript::begin()
 void CMainPlayerScript::tick()
 {
 	_stateMachine->Tick();
-	if (KEY_PRESSED(KEY::W))
-	{
-		//walk
-	}
-	if (KEY_RELEASE(KEY::W))
-	{
-		//stop
-	}
-	if (KEY_PRESSED(KEY::LEFT))
-	{
-		//Combo attack
-	}
 }
 
 void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
