@@ -12,6 +12,9 @@ private:
 	vector<wstring>						m_vecAnimNames;
 	CAnimationStateMachine*				m_pAnimationStateMachine;
 
+	Vec3	curPos;
+	Vec3	beforPos;
+
 public:
 	void SetAnimations(vector<wstring>& _vecAnimations);
 	Ptr<CAnimationClip> GetAnimation(wstring _key);

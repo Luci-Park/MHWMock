@@ -15,6 +15,7 @@ public:
     double GetDuration() { return m_dDuration; }
     double GetTicksPerSecond() { return m_dTicksPerSecond; }
     vector<tAnimationKeyFrame>& GetTransformsAtFrame(double _dTick);
+    int GetRootIdx(wstring _rootName);
 
 private:
     Vec3 FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);

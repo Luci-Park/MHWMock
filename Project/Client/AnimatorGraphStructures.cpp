@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "AnimatorGraphStructures.h"
+#include <Engine/CAnimationState.h>
+#include <Engine/CAnimationTransition.h>
 
 int Node::PINID = 0;
 
@@ -15,16 +17,9 @@ void Node::SetName(string _name)
 
 string Node::GetClipName()
 {
-	auto anim = pState->GetClip();
-	if (nullptr == anim)
-		return "";
-	else
-		return WSTR2STR(anim->GetKey());
-}
+	Ptr<CAnimationClip> anim = pAnimState ? pAnimState->GetClip() : nullptr;
 
-void Node::SetAnimation(Ptr<CAnimationClip> _clip)
-{
-	pState->SetClip(_clip);
+	return anim == nullptr ? "" : WSTR2STR(anim->GetKey());
 }
 
 const Pin* Node::PinExists(ed::PinId _pinId)
@@ -39,12 +34,18 @@ const Pin* Node::PinExists(ed::PinId _pinId)
 	return nullptr;
 }
 
-Node::Node(CAnimationState* _state)
+Node::Node(IAnimationState* _state)
 	: pState(_state)
+	, pAnimState(nullptr)
+	, pAnimMachine(nullptr)
 	, id(ed::NodeId(_state))
 	, inputPins{ {PINID++, 0, ed::PinKind::Input, this}, {PINID++, 1, ed::PinKind::Input, this}, {PINID++, 2, ed::PinKind::Input, this},{PINID++, 3, ed::PinKind::Input, this} }
 	, outputPins{ {PINID++, 0, ed::PinKind::Output, this}, {PINID++, 1, ed::PinKind::Output, this}, {PINID++, 2, ed::PinKind::Output, this}, {PINID++, 3, ed::PinKind::Output, this} }
 {
+	if (eAnimationNodeType::State == pState->GetType()) 
+		pAnimState = (CAnimationState*)pState;
+	else 
+		pAnimMachine = (CAnimationStateMachine*)pState;
 }
 
 Link::Link(CAnimationTransition* _transit, const Pin* _startPin, const Pin* _endPin)

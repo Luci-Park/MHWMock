@@ -1,59 +1,48 @@
 #pragma once
 #include "CAnimationClip.h"
-#include "CAnimStructures.h"
+#include "IAnimationState.h"
 
 class CAnimationTransition;
-class CAnimationStateMachine;
 
-typedef unordered_set<CAnimationTransition*> HashTransition;
-
-class CAnimationState
+class CAnimationState : 
+	public IAnimationState
 {
 private:
-	wstring							m_strName;
 	Ptr<CAnimationClip>				m_pClip;
 	float							m_fSpeed;
-	HashTransition					m_Transitions;
 	double							m_dTick;
 	double							m_dDuration;
 	int								m_iRepeatNum;
-	CAnimationTransition*			m_pCurrentTransition;
-	CAnimationStateMachine*			m_pMachine;
-	tAnimationStateNode				m_tNodeInfo;
+	int								m_iRootIdx;
+	tAnimationKeyFrame				m_prevRootFrame;
+	tAnimationKeyFrame				m_FirstRootFrame;
+	bool							m_bIsFirstTick;
 
 public:
-	void SetName(wstring _name);
-	wstring GetName() { return m_strName; }
-	void SetClip(Ptr<CAnimationClip> _pClip) { m_pClip = _pClip; }
+	void SetClip(Ptr<CAnimationClip> _pClip);
 	Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
-	double GetDurationInSeconds();
 	double GetOffset() { return m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1; }
+
+	virtual double GetDurationInSeconds() override;
+	virtual double GetTickPercentWithRepeat() override;
 
 	void SetTick(double _percent = 0);
 	double GetTickPercent();
-	double GetTickPercentWithRepeat();
-	bool IsTransitioning() { return m_pCurrentTransition != nullptr; }
-
-	HashTransition& GetAllTransitions() { return m_Transitions; }
-	CAnimationTransition* GetCurrentTransition() { return m_pCurrentTransition; }
-	void AddTransition(CAnimationTransition* _transit) { m_Transitions.insert(_transit); }
-	void DeleteTransition(CAnimationTransition* _transit);
 	
-	void OnTransitionEnd();
-	void OnTransitionBegin(double _tickPercent);
-	vector<tAnimationKeyFrame>& GetBoneTransforms();
-
-	tAnimationStateNode GetViewNode() { return m_tNodeInfo; }
-	void UpdatePos(tAnimationStateNode _newPose) { m_tNodeInfo = _newPose; }
+	virtual void OnTransitionEnd() override;
+	virtual void OnTransitionBegin(double _tickPercent) override;
+	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() override;
+private:
+	void Reset(double _percent, bool _isRepeat);
 public:
-	void tick();
-	void SaveToLevelFile(FILE* _FILE);
-	void LoadFromLevelFile(FILE* _FILE);
+	virtual void tick() override;
+	virtual void SaveToLevelFile(FILE* _FILE) override;
+	virtual void LoadFromLevelFile(FILE* _FILE) override;
 
 public:
-	CAnimationState(CAnimationStateMachine* _pParent);
+	CAnimationState(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	CAnimationState(const CAnimationState& _other);
 	~CAnimationState();
 };
