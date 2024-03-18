@@ -1,14 +1,14 @@
 #pragma once
 #include "CAnimStructures.h"
+#include "IAnimationState.h"
 
 class CAnimationStateMachine;
-class CAnimationState;
 class CAnimationTransition
 {
 private:
 	CAnimationStateMachine*				m_pStateMachine;
-	CAnimationState*					m_pPrevState;
-	CAnimationState*					m_pNextState;
+	IAnimationState*					m_pPrevState;
+	IAnimationState*					m_pNextState;
 
 	map<wstring, tAnimationKeyFrame>	m_mapKeyFrame;
 	vector<AnimCondition*>				m_vecConditions;
@@ -45,8 +45,8 @@ public:
 	void StartTransition();
 	vector<AnimCondition*>& GetAllConditions() { return m_vecConditions; }
 	void ChangeConditionParam(AnimCondition* _cond, AnimStateParam* _param);
-	CAnimationState* GetPrevState() { return m_pPrevState; }
-	CAnimationState* GetNextState() { return m_pNextState; }
+	IAnimationState* GetPrevState() { return m_pPrevState; }
+	IAnimationState* GetNextState() { return m_pNextState; }
 
 	void Remove();
 
@@ -60,6 +60,6 @@ private:
 	void EndTransition();
 	void BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
 public:
-	CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _pNextState, CAnimationStateMachine* _pMachine);
+	CAnimationTransition(IAnimationState* _pPrevState, IAnimationState* _pNextState, CAnimationStateMachine* _pMachine);
 	~CAnimationTransition();
 };

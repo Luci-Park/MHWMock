@@ -74,6 +74,7 @@ void LoadResRef(Ptr<T>& _Res, FILE* _File)
 		wstring strKey, strRelativePath, strName;
 		LoadWString(strKey, _File);
 		LoadWString(strRelativePath, _File);
+		assert(strKey != L"");
 
 		_Res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
 	}

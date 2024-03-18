@@ -5,7 +5,7 @@
 #include "CTimeMgr.h"
 
 
-CAnimationTransition::CAnimationTransition(CAnimationState* _pPrevState, CAnimationState* _pNextState, CAnimationStateMachine* _pMachine)
+CAnimationTransition::CAnimationTransition(IAnimationState* _pPrevState, IAnimationState* _pNextState, CAnimationStateMachine* _pMachine)
 	: m_pStateMachine(_pMachine)
 	, m_pPrevState(_pPrevState)
 	, m_pNextState(_pNextState)

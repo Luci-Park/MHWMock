@@ -3,20 +3,31 @@
 
 #include "AnimatorGraphEditorWindow.h"
 #include "AnimatorGraphStructures.h"
+#include <Engine/CAnimationState.h>
+#include <Engine/CAnimationStateMachine.h>
+
 #include "ImGui/imgui_internal.h"
 #include "ImGui/imgui_stdlib.h"
 #include "ImGuiFunc.h"
 
 
-AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
+	, CAnimationStateMachine* _targetMachine, ed::EditorContext* _parentContext)
 	: m_iCurrentEditingParam(-1)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
+	, m_pStateMachine(_targetMachine)
 {
-	OnStart();
-	m_pStateMachine = _animator->GetStateMachine();
+	string filename = "Animator.json";
+	ed::Config config;
+	config.SettingsFile = filename.c_str();
+	m_pEditor = ed::CreateEditor(&config);
+	
+	ed::SetCurrentEditor(m_pEditor);
+	ed::NavigateToContent();
+
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
@@ -37,33 +48,51 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 				&(*nextNode).inputPins[linkInfo.endIdx]);
 		}
 	}
-	ed::NavigateToContent();
+	ed::SetCurrentEditor(_parentContext);
+}
+
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
+	:AnimatorGraphEditorWindow(_animator, _animator->GetStateMachine())
+{
 }
 
 AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 {
-	OnEnd();
+	if (m_pEditor)
+	{
+		ed::DestroyEditor(m_pEditor);
+		m_pEditor = nullptr;
+	}
+	for (auto i : m_SubWindows)
+		delete i.second;
 }
 
-Node& AnimatorGraphEditorWindow::CreateNode()
+Node& AnimatorGraphEditorWindow::CreateNode(eAnimationNodeType _type)
 {
-	CAnimationState* pNewState = m_pStateMachine->CreateState();
-	m_pStateMachine->Reset();
+	IAnimationState* pNewState;
+	if (_type == eAnimationNodeType::StateMachine) pNewState = m_pStateMachine->CreateSubStateMachine();
+	else pNewState = m_pStateMachine->CreateState();
+	m_pStateMachine->Reset(0);
 	return CreateNode(pNewState);
 }
 
-Node& AnimatorGraphEditorWindow::CreateNode(CAnimationState* _state)
+Node& AnimatorGraphEditorWindow::CreateNode(IAnimationState* _state)
 {
+	if (eAnimationNodeType::StateMachine == _state->GetType())
+	{
+		auto newWindow = new AnimatorGraphEditorWindow(m_pAnimator, (CAnimationStateMachine*)_state, m_pEditor);
+		m_SubWindows.insert(make_pair((CAnimationStateMachine*)_state, newWindow));
+	}
 	m_Nodes.emplace_back(_state);
 	return m_Nodes.back();
 }
 
 Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pin* _endPin)
 {
-	CAnimationState* prevState = _startPin->node->pState;
-	CAnimationState* nextState = _endPin->node->pState;
+	IAnimationState* prevState = _startPin->node->pState;
+	IAnimationState* nextState = _endPin->node->pState;
 	CAnimationTransition* transition = new CAnimationTransition(prevState, nextState, m_pStateMachine);
-	m_pStateMachine->Reset();
+	m_pStateMachine->Reset(0);
 	m_Links.emplace_back(transition, _startPin, _endPin);
 	return m_Links.back();
 }
@@ -71,9 +100,17 @@ Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pi
 void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 {
 	auto iter = GetNode(_node);	
+	if (iter->pAnimMachine != nullptr)
+	{
+		auto it = m_SubWindows.find(iter->pAnimMachine);
+		if (it != m_SubWindows.end())
+		{
+			delete it->second;
+			m_SubWindows.erase(it);
+		}
+	}
 	m_pStateMachine->DeleteState(iter->pState);
 	m_Nodes.erase(iter);
-
 }
 
 void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
@@ -84,8 +121,11 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 }
 
 
-void AnimatorGraphEditorWindow::OnFrame()
+void AnimatorGraphEditorWindow::OnFrame(ed::EditorContext* _parentContext)
 {
+	string windowName = WSTR2STR(m_pStateMachine->GetName()) + "##Animator" + std::to_string((uintptr_t)(void**)this);
+	ImGui::Begin(windowName.c_str());
+
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
@@ -177,7 +217,9 @@ void AnimatorGraphEditorWindow::OnFrame()
 	DealWithPopup();
 	SavePosition();
 	ed::End();
-	ed::SetCurrentEditor(nullptr);
+
+	ed::SetCurrentEditor(_parentContext);
+	ImGui::End();
 }
 
 void AnimatorGraphEditorWindow::DealWithPopup()
@@ -224,7 +266,12 @@ void AnimatorGraphEditorWindow::DealWithPopup()
 		{
 			if (ImGui::MenuItem("Create State"))
 			{
-				Node newNode = CreateNode();
+				Node newNode = CreateNode(eAnimationNodeType::State);
+				ed::SetNodePosition(newNode.id, clickPos);
+			}
+			if (ImGui::MenuItem("Create Sub State Machine"))
+			{
+				Node newNode = CreateNode(eAnimationNodeType::StateMachine);
 				ed::SetNodePosition(newNode.id, clickPos);
 			}
 			ImGui::EndPopup();
@@ -236,7 +283,7 @@ void AnimatorGraphEditorWindow::DealWithPopup()
 
 void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 {
-	const float rounding = 5.0f;
+	float rounding = _node.pAnimState != nullptr ? 12.0f : 0.f;
 	const float padding = 12.0f;
 	const auto pinBackground = ed::GetStyle().Colors[ed::StyleColor_NodeBg];
 	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
@@ -256,7 +303,7 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	ed::BeginNode(_node.id);
 
 
-	const ImVec2 nodeSize(200, 50);
+	const ImVec2 nodeSize(200, 40);
 	float sizeY = nodeSize.y;
 	{
 		ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
@@ -292,11 +339,11 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 		ImGui::Dummy(ImVec2((nodeSize.x - textSize.x - 20) * 0.5, 0));
 		ImGui::SameLine(0, 0);
 		ImGui::Text(_node.GetName().c_str()); sizeY -= textSize.y;
-		if (_node.pState->GetTickPercent() > 0)
+		if (_node.pAnimState != nullptr && _node.pAnimState->GetTickPercent() > 0)
 		{
 			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Convert255To1(51, 133, 190));
 			ImGui::Dummy(ImVec2(nodeSize.x * 0.02, textSize.y * 1.2)); ImGui::SameLine(0, 0);
-			ImGui::ProgressBar(_node.pState->GetTickPercent(), ImVec2(nodeSize.x - 30, textSize.y * 1.2));
+			ImGui::ProgressBar(_node.pAnimState->GetTickPercent(), ImVec2(nodeSize.x - 30, textSize.y * 1.2));
 			ImGui::PopStyleColor();
 			sizeY -= textSize.y * 1.2;
 		}
@@ -407,55 +454,63 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		_node.SetName(name);
 	}
 	ImGui::Separator();
-
+	if (_node.pAnimState != nullptr)
+	{
 #pragma region Set Clip
-	ImGui::Text("Animation"); 
-	ImGui::SameLine();
-	string clipName = _node.GetClipName();
-	ImGui::PushItemWidth(100);
-	ImGui::InputText("##AnimationName", &clipName, ImGuiInputTextFlags_ReadOnly);
-	ImGui::PopItemWidth();
+		ImGui::Text("Animation");
+		ImGui::SameLine();
+		string clipName = _node.GetClipName();
+		ImGui::PushItemWidth(100);
+		ImGui::InputText("##AnimationName", &clipName, ImGuiInputTextFlags_ReadOnly);
+		ImGui::PopItemWidth();
 
-	ImGui::SameLine();
+		ImGui::SameLine();
 
-	if (ImGui::Button("##AnimSelectBtn", ImVec2(18, 18)))
-	{
-		ImGui::OpenPopup("##AnimationSelector");
-	}
-	if (ImGui::BeginPopup("##AnimationSelector"))
-	{
-		if (ImGui::Selectable("(null)"))
+		if (ImGui::Button("##AnimSelectBtn", ImVec2(18, 18)))
 		{
-			_node.SetAnimation(nullptr);
-			ImGui::CloseCurrentPopup();
+			ImGui::OpenPopup("##AnimationSelector");
 		}
-		else
+		if (ImGui::BeginPopup("##AnimationSelector"))
 		{
-			vector<wstring>& names = m_pAnimator->GetAnimNames();
-			for (int i = 0; i < names.size(); i++)
+			if (ImGui::Selectable("(null)"))
 			{
-				if (ImGui::Selectable(WSTR2STR(names[i]).c_str()))
+				_node.pAnimState->SetClip(nullptr);
+				ImGui::CloseCurrentPopup();
+			}
+			else
+			{
+				vector<wstring>& names = m_pAnimator->GetAnimNames();
+				for (int i = 0; i < names.size(); i++)
 				{
-					_node.SetAnimation(m_pAnimator->GetAnimation(names[i]));
-					ImGui::CloseCurrentPopup();
-					break;
+					if (ImGui::Selectable(WSTR2STR(names[i]).c_str()))
+					{
+						_node.pAnimState->SetClip(m_pAnimator->GetAnimation(names[i]));
+						ImGui::CloseCurrentPopup();
+						break;
+					}
 				}
 			}
+			ImGui::EndPopup();
 		}
-		ImGui::EndPopup();
-	}
 
 #pragma endregion
 #pragma region Clip Settings
-	ImGui::Text("Speed    ");
-	ImGui::SameLine();
-	ImGui::PushItemWidth(120);
-	float speed = _node.GetSpeed();
-	ImGui::DragFloat("##SpeedFloat", &speed, 0.1, 0, 3.0);
-	_node.SetSpeed(speed);
-	ImGui::PopItemWidth();
+		ImGui::Text("Speed    ");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(120);
+		float speed = _node.pAnimState->GetSpeed();
+		ImGui::DragFloat("##SpeedFloat", &speed, 0.1, 0, 3.0);
+		_node.pAnimState->SetSpeed(speed);
+		ImGui::PopItemWidth();
 
 #pragma endregion
+	}
+	else
+	{
+		auto iter = m_SubWindows.find(_node.pAnimMachine);
+		assert(iter != m_SubWindows.end());
+		iter->second->OnFrame(m_pEditor);
+	}
 #pragma region Transitions
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 	ImGui::BeginChild("Transition", ImVec2(width, 0), true);
@@ -723,24 +778,6 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 		ImGui::PopID();
 	}
 	ImGui::EndChild();
-}
-
-void AnimatorGraphEditorWindow::OnStart()
-{
-	string filename = "Animator.json";
-	ed::Config config;
-	config.SettingsFile = filename.c_str();
-	m_pEditor = ed::CreateEditor(&config);
-	ed::SetCurrentEditor(m_pEditor);
-}
-
-void AnimatorGraphEditorWindow::OnEnd()
-{
-	if (m_pEditor)
-	{
-		ed::DestroyEditor(m_pEditor);
-		m_pEditor = nullptr;
-	}
 }
 
 bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size)
