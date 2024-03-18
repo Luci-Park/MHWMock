@@ -19,6 +19,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, m_vecAnimNames(_origin.m_vecAnimNames)
 {
 	m_pAnimationStateMachine = new CAnimationStateMachine(nullptr, nullptr);
+	m_pAnimationStateMachine->SetName(L"Base Machine");
 }
 
 CAnimator3D::~CAnimator3D()
@@ -86,21 +87,22 @@ void CAnimator3D::tick()
 	//Root Motion
 	//Root BoneÀ» ¹Þ¾Æ¿È
 	auto rootBone = BoneHolder()->GetBone(L"Root");
+	//assert(rootBone != nullptr);
 	Vector3 rPos = rootBone->GetRelativePos();
 	Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rPos.x
 		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rPos.y
 		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
 	pos += Transform()->GetRelativePos();
-
+	
 	Vector3 rRot = rootBone->GetRelativeEulerRot();
 	Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
 		+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
 		+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;
 	rot += Transform()->GetRelativeEulerRot();
-
+	
 	rootBone->SetRelativePos(0, 0, 0);
 	rootBone->SetRelativeRot(0, 0, 0);
-	Transform()->SetRelativePos(pos);
+	Transform()->SetRelativePos(pos);                  
 	Transform()->SetRelativeRot(rot);
 }
 
@@ -129,8 +131,11 @@ void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
 	{
 		Ptr<CAnimationClip> pAnim;
 		LoadResRef(pAnim, _FILE);
-		m_mapAnims.insert(make_pair(pAnim->GetKey(), pAnim));
-		m_vecAnimNames.push_back(pAnim->GetKey());
+		if (pAnim != nullptr)
+		{
+			m_mapAnims.insert(make_pair(pAnim->GetKey(), pAnim));
+			m_vecAnimNames.push_back(pAnim->GetKey());
+		}
 	}
 	m_pAnimationStateMachine->LoadFromLevelFile(_FILE);
 }
