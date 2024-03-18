@@ -12,14 +12,19 @@
 
 
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
+	:AnimatorGraphEditorWindow(_animator, _animator->GetStateMachine())
+{
+}
+
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine)
 	: m_iCurrentEditingParam(-1)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 {
+	m_pStateMachine = _targetMachine;
 	OnStart();
-	m_pStateMachine = _animator->GetStateMachine();
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
@@ -36,7 +41,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 			auto linkInfo = t->GetViewLink();
 			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
 			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
-			m_Links.emplace_back(t, &(*prevNode).outputPins[linkInfo.startIdx], 
+			m_Links.emplace_back(t, &(*prevNode).outputPins[linkInfo.startIdx],
 				&(*nextNode).inputPins[linkInfo.endIdx]);
 		}
 	}
@@ -46,13 +51,18 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 {
 	OnEnd();
+	for (auto i : m_SubWindows)
+		delete i.second;
 }
 
 Node& AnimatorGraphEditorWindow::CreateNode(eAnimationNodeType _type)
 {
 	IAnimationState* pNewState;
-	if (_type == eAnimationNodeType::StateMachine) pNewState = m_pStateMachine->CreateSubStateMachine();
-	else pNewState = m_pStateMachine->CreateState();
+	if (_type == eAnimationNodeType::StateMachine)
+		pNewState = m_pStateMachine->CreateSubStateMachine();
+	else
+		pNewState = m_pStateMachine->CreateState();
+
 	m_pStateMachine->Reset(0);
 	return CreateNode(pNewState);
 }
@@ -60,6 +70,11 @@ Node& AnimatorGraphEditorWindow::CreateNode(eAnimationNodeType _type)
 Node& AnimatorGraphEditorWindow::CreateNode(IAnimationState* _state)
 {
 	m_Nodes.emplace_back(_state);
+	if (eAnimationNodeType::StateMachine == _state->GetType())
+	{
+		AnimatorGraphEditorWindow* newWindow = new AnimatorGraphEditorWindow(m_pAnimator, m_Nodes.back().pAnimMachine);
+		m_SubWindows.insert(make_pair(m_Nodes.back().pAnimMachine, newWindow));
+	}
 	return m_Nodes.back();
 }
 
@@ -76,6 +91,13 @@ Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pi
 void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 {
 	auto iter = GetNode(_node);	
+	if (eAnimationNodeType::StateMachine == iter->pState->GetType())
+	{
+		auto it = m_SubWindows.find(iter->pAnimMachine);
+		assert(it != m_SubWindows.end());
+		delete it->second;
+		m_SubWindows.erase(it);
+	}
 	m_pStateMachine->DeleteState(iter->pState);
 	m_Nodes.erase(iter);
 
@@ -91,6 +113,9 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 
 void AnimatorGraphEditorWindow::OnFrame()
 {
+	string name = WSTR2STR(m_pStateMachine->GetName()) + "##Animator";
+	ImGui::Begin(name.c_str());
+	
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
@@ -183,6 +208,8 @@ void AnimatorGraphEditorWindow::OnFrame()
 	SavePosition();
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
+
+	ImGui::End();
 }
 
 void AnimatorGraphEditorWindow::DealWithPopup()
@@ -417,7 +444,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		_node.SetName(name);
 	}
 	ImGui::Separator();
-	if (_node.pAnimState != nullptr)
+	if (eAnimationNodeType::State == _node.pState->GetType())
 	{
 #pragma region Set Clip
 		ImGui::Text("Animation");
@@ -467,6 +494,12 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		ImGui::PopItemWidth();
 
 #pragma endregion
+	}
+	else
+	{
+		auto iter = m_SubWindows.find(_node.pAnimMachine);
+		assert(iter != m_SubWindows.end());
+		iter->second->OnFrame();
 	}
 #pragma region Transitions
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);

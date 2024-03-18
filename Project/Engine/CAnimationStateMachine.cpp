@@ -9,6 +9,7 @@ CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CA
 	{
 		m_pRootMachine = this;
 		m_pParentMachine = this;
+		SetName(L"Root Machine");
 	}
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
@@ -268,6 +269,7 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	}
 
 	SaveWString(m_pHead->GetName(), _FILE);
+
 	IAnimationState::SaveToLevelFile(_FILE);
 }
 
