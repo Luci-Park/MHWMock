@@ -125,7 +125,7 @@ void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
 {
 	UINT count;
 	fread(&count, sizeof(UINT), 1, _FILE);
-	for (int i = 0; i < count; i++)
+	while(count--)
 	{
 		Ptr<CAnimationClip> pAnim;
 		LoadResRef(pAnim, _FILE);

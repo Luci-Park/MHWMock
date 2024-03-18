@@ -80,6 +80,7 @@ CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 {
 	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
 	pNewMachine->SetName(L"New Machine");
+	pNewMachine->Reset(0);
 	m_States.insert(pNewMachine);
 	return pNewMachine;
 }
@@ -108,6 +109,8 @@ void CAnimationStateMachine::Reset(double _tickPercent)
 
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->CreateNewParam(_type);
+
 	if (AnimParamType::NONE == _type)
 		return nullptr;
 
@@ -128,8 +131,10 @@ AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 	return param;
 }
 
-void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
+void CAnimationStateMachine::SetParamName(AnimStateParam* _param, wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetParamName(_param, _name);
+	
 	wstring newName = _name;
 	int postFix = 0;
 	bool noDuplicateFlag = false;
@@ -138,7 +143,7 @@ void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
 		noDuplicateFlag = true;
 		for (int i = 0; i < m_vecParams.size(); i++)
 		{
-			if (m_vecParams[i] != param && m_vecParams[i]->name == newName)
+			if (m_vecParams[i] != _param && m_vecParams[i]->name == newName)
 			{
 				noDuplicateFlag = false;
 				break;
@@ -147,11 +152,13 @@ void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
 		if(!noDuplicateFlag)
 			newName = _name + L" " + std::to_wstring(postFix++);
 	}
-	param->name = newName;
+	_param->name = newName;
 }
 
 void CAnimationStateMachine::DeleteParam(wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->DeleteParam(_name);
+
 	for (int i = 0; i < m_vecParams.size(); i++)
 	{
 		if (m_vecParams[i]->name == _name)
@@ -164,6 +171,8 @@ void CAnimationStateMachine::DeleteParam(wstring _name)
 
 void CAnimationStateMachine::DeleteParam(int _idx)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->DeleteParam(_idx);
+
 	if (0 <= _idx && _idx < m_vecParams.size())
 	{
 		delete m_vecParams[_idx];
@@ -173,6 +182,8 @@ void CAnimationStateMachine::DeleteParam(int _idx)
 
 AnimStateParam* CAnimationStateMachine::GetParamByName(wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->GetParamByName(_name);
+
 	for (int i = 0; i < m_vecParams.size(); i++)
 	{
 		if (m_vecParams[i]->name == _name)
@@ -183,6 +194,8 @@ AnimStateParam* CAnimationStateMachine::GetParamByName(wstring _name)
 
 AnimStateParam* CAnimationStateMachine::GetParamByIndex(int _idx)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->GetParamByIndex(_idx);
+
 	if (0 <= _idx && _idx < m_vecParams.size())
 		return m_vecParams[_idx];
 	return nullptr;
@@ -190,21 +203,29 @@ AnimStateParam* CAnimationStateMachine::GetParamByIndex(int _idx)
 
 void CAnimationStateMachine::SetBool(wstring _param, bool _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetBool(_param, _value);
+
 	GetParamByName(_param)->value.BOOL = _value;
 }
 
 void CAnimationStateMachine::SetFloat(wstring _param, float _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetFloat(_param, _value);
+	
 	GetParamByName(_param)->value.FLOAT = _value;
 }
 
 void CAnimationStateMachine::SetInt(wstring _param, int _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetInt(_param, _value);
+
 	GetParamByName(_param)->value.INT = _value;
 }
 
 void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetTrigger(_param, _value);
+
 	GetParamByName(_param)->value.TRIGGER = _value;
 }
 

@@ -266,7 +266,7 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	ed::BeginNode(_node.id);
 
 
-	const ImVec2 nodeSize(200, 50);
+	const ImVec2 nodeSize(200, 40);
 	float sizeY = nodeSize.y;
 	{
 		ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
