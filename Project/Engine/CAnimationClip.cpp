@@ -85,6 +85,7 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 {
 	for (int i = 0; i < m_vecChannels.size(); i++)
 	{
+		m_vecRsltChannel[i].strBoneName = m_BoneNames[i];
 		m_vecRsltChannel[i].vPos = FindValueAtFrame(_dTick, m_vecChannels[i].vecPositionKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
 		m_vecRsltChannel[i].qRot = FindValueAtFrame(_dTick, m_vecChannels[i].vecRotationKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
 		m_vecRsltChannel[i].vScale = FindValueAtFrame(_dTick, m_vecChannels[i].vecScaleKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
@@ -94,8 +95,8 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 
 int CAnimationClip::GetRootIdx(wstring _rootName)
 {
-	for (int i = 0; i < m_vecChannels.size(); i++)
-		if (m_vecChannels[i].strBoneName == _rootName)
+	for (int i = 0; i < m_BoneNames.size(); i++)
+		if (m_BoneNames[i] == _rootName)
 			return i;
 	return -1;
 }
