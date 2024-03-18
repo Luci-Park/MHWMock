@@ -28,9 +28,8 @@ private:
 	float						m_fLeftPlaneWidth;
 	float						m_fRightPlaneWidth;
 	int							m_iCurrentEditingParam; //idx of currently name editing param
-	bool						m_bFirstFrame;
 public:
-	virtual void OnFrame();
+	virtual void OnFrame(ed::EditorContext* _parentContext = nullptr);
 private:
 	void DrawNode(Node& _node);
 	void DealWithPopup();
@@ -62,6 +61,6 @@ public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();
 private:
-	AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine);
+	AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine, ed::EditorContext* _parentContext = nullptr);
 };
 

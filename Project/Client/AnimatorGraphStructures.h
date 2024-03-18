@@ -30,7 +30,6 @@ public:
 	CAnimationStateMachine* pAnimMachine;
 	const Pin				inputPins[NUMBEROFPINS];
 	const Pin				outputPins[NUMBEROFPINS];
-	Vec2					initialPosition;
 
 	string	GetName();
 	void	SetName(string _name);

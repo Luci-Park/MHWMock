@@ -11,14 +11,14 @@
 #include "ImGuiFunc.h"
 
 
-AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine)
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
+	, CAnimationStateMachine* _targetMachine, ed::EditorContext* _parentContext)
 	: m_iCurrentEditingParam(-1)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 	, m_pStateMachine(_targetMachine)
-	, m_bFirstFrame(false)
 {
 	string filename = "Animator.json";
 	ed::Config config;
@@ -33,7 +33,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAn
 	{
 		Node newNode = CreateNode(s);
 		Vec2 pos = s->GetViewNode().vPos;
-		//ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
+		ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
 	}
 
 	for (auto s : states)
@@ -48,7 +48,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAn
 				&(*nextNode).inputPins[linkInfo.endIdx]);
 		}
 	}
-	ed::SetCurrentEditor(nullptr);
+	ed::SetCurrentEditor(_parentContext);
 }
 
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
@@ -80,9 +80,8 @@ Node& AnimatorGraphEditorWindow::CreateNode(IAnimationState* _state)
 {
 	if (eAnimationNodeType::StateMachine == _state->GetType())
 	{
-		auto newWindow = new AnimatorGraphEditorWindow(m_pAnimator, (CAnimationStateMachine*)_state);
+		auto newWindow = new AnimatorGraphEditorWindow(m_pAnimator, (CAnimationStateMachine*)_state, m_pEditor);
 		m_SubWindows.insert(make_pair((CAnimationStateMachine*)_state, newWindow));
-		ed::SetCurrentEditor(m_pEditor);
 	}
 	m_Nodes.emplace_back(_state);
 	return m_Nodes.back();
@@ -122,19 +121,9 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 }
 
 
-void AnimatorGraphEditorWindow::OnFrame()
+void AnimatorGraphEditorWindow::OnFrame(ed::EditorContext* _parentContext)
 {
 	ed::SetCurrentEditor(m_pEditor);
-	if (m_bFirstFrame)
-	{
-		for(auto newNode : m_Nodes)
-		{
-			Vec2 pos = newNode.initialPosition;
-			ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
-		}
-		m_bFirstFrame = false;
-	}
-
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
 	ImGui::SameLine(0.0f, 12.0f);
@@ -225,7 +214,8 @@ void AnimatorGraphEditorWindow::OnFrame()
 	DealWithPopup();
 	SavePosition();
 	ed::End();
-	ed::SetCurrentEditor(nullptr);
+
+	ed::SetCurrentEditor(_parentContext);
 }
 
 void AnimatorGraphEditorWindow::DealWithPopup()
