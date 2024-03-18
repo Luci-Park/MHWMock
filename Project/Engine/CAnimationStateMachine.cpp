@@ -79,6 +79,7 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 {
 	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
+	pNewMachine->SetName(L"New Machine");
 	m_States.insert(pNewMachine);
 	return pNewMachine;
 }
