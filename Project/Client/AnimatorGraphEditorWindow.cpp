@@ -112,10 +112,7 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 
 
 void AnimatorGraphEditorWindow::OnFrame()
-{
-	string name = WSTR2STR(m_pStateMachine->GetName()) + "##Animator";
-	ImGui::Begin(name.c_str());
-	
+{	
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
@@ -208,8 +205,6 @@ void AnimatorGraphEditorWindow::OnFrame()
 	SavePosition();
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
-
-	ImGui::End();
 }
 
 void AnimatorGraphEditorWindow::DealWithPopup()
@@ -497,9 +492,9 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 	}
 	else
 	{
-		auto iter = m_SubWindows.find(_node.pAnimMachine);
-		assert(iter != m_SubWindows.end());
-		iter->second->OnFrame();
+		///auto iter = m_SubWindows.find(_node.pAnimMachine);
+		///assert(iter != m_SubWindows.end());
+		///iter->second->OnFrame();
 	}
 #pragma region Transitions
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
