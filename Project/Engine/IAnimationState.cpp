@@ -60,7 +60,7 @@ void IAnimationState::LoadFromLevelFile(FILE* _FILE)
 	{
 		wstring nextStateName;
 		LoadWString(nextStateName, _FILE);
-		auto nextState = m_pRootMachine->GetStateByName(nextStateName);
+		auto nextState = m_pParentMachine->GetStateByName(nextStateName);
 		auto newTransition = new CAnimationTransition(this, nextState, m_pRootMachine);
 		m_Transitions.insert(newTransition);
 		newTransition->LoadFromLevelFile(_FILE);
