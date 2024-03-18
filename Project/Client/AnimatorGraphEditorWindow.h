@@ -1,13 +1,12 @@
 #pragma once
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_node_editor.h"
-#include <Engine/CAnimationStateMachine.h>
+#include "AnimatorGraphStructures.h"
 namespace ed = ax::NodeEditor;
 
 class CAnimator3D;
-struct Node;
-struct Link;
-struct Pin;
+class AnimatorGraphEditorWindow;
+typedef std::unordered_map<CAnimationStateMachine*, AnimatorGraphEditorWindow*> SubWindow;
 
 class AnimatorGraphEditorWindow
 {
@@ -15,6 +14,7 @@ private:
 	CAnimationStateMachine*		m_pStateMachine;
 	CAnimator3D*				m_pAnimator;
 	ed::EditorContext*			m_pEditor;
+	SubWindow					m_SubWindows;
 
 	list<Node>					m_Nodes;
 	list<Link>					m_Links;
@@ -29,10 +29,8 @@ private:
 	float						m_fRightPlaneWidth;
 	int							m_iCurrentEditingParam; //idx of currently name editing param
 public:
-	virtual void OnFrame();
+	virtual void OnFrame(ed::EditorContext* _parentContext = nullptr);
 private:
-	void OnStart();
-	void OnEnd();
 	void DrawNode(Node& _node);
 	void DealWithPopup();
 	void ShowLeftPanel(float _width);
@@ -42,8 +40,8 @@ private:
 	void ShowParamConfigPanel(float _width, float _height);	
 	bool Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size = -1.0f);
 private:
-	Node& CreateNode(CAnimationState* _state);
-	Node& CreateNode();
+	Node& CreateNode(IAnimationState* _state);
+	Node& CreateNode(eAnimationNodeType _type);
 	void DeleteNode(ed::NodeId _node);
 
 	Link& CreateTransition(const Pin* _startPin, const Pin* _endPin);
@@ -62,5 +60,7 @@ private:
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();
+private:
+	AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine, ed::EditorContext* _parentContext = nullptr);
 };
 

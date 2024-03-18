@@ -57,6 +57,9 @@ void CCanvas::LoadFromLevelFile(FILE* _FILE)
 {
 	CRenderComponent::LoadFromLevelFile(_FILE);
 	LoadResRef(m_UITex, _FILE);
+
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"CanvasMtrl"));
+	SetUITexture(m_UITex);
 }
 
 void CCanvas::SetUITexture(Ptr<CTexture> _Tex)

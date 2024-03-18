@@ -1,14 +1,21 @@
 #include "pch.h"
 #include "CAnimationStateMachine.h"
+#include "CAnimationState.h"
 
-CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _pAnimator)
-	: m_pOwner(_pAnimator)
+CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
+	: IAnimationState(eAnimationNodeType::StateMachine, _root, _parent)
 {
+	if (m_pRootMachine == nullptr)
+	{
+		m_pRootMachine = this;
+		m_pParentMachine = this;
+	}
 	auto pHead = CreateState();
 	pHead->SetName(L"EntryPoint");
 	m_pHead = pHead;
-	Reset();
+	Reset(0);
 }
+
 
 CAnimationStateMachine::~CAnimationStateMachine()
 {
@@ -18,30 +25,45 @@ CAnimationStateMachine::~CAnimationStateMachine()
 	for (auto param : m_vecParams)
 		delete param;
 }
-vector<tAnimationKeyFrame>& CAnimationStateMachine::GetFrame()
+double CAnimationStateMachine::GetDurationInSeconds()
+{
+	return m_pCurrentState->GetDurationInSeconds();
+}
+double CAnimationStateMachine::GetTickPercentWithRepeat()
+{
+	return m_pCurrentState->GetTickPercentWithRepeat();
+}
+vector<tAnimationKeyFrame>& CAnimationStateMachine::GetBoneTransforms()
 {
 	m_vecFrame.clear();
-	if (1)//m_pCurrentState != m_pHead)
+	//ifm_pCurrentState != m_pHead)
+	if (m_pCurrentState->IsTransitioning())
 	{
-		if (m_pCurrentState->IsTransitioning())
-		{
-			map<wstring, tAnimationKeyFrame> mapFrame = m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
-			for (auto frame : mapFrame)
-				m_vecFrame.push_back(frame.second);
-		}
-		else
-		{
-			vector<tAnimationKeyFrame> frame = m_pCurrentState->GetBoneTransforms();
-			for (int i = 0; i < frame.size(); i++)
-				m_vecFrame.push_back(frame[i]);
-		}		
+		map<wstring, tAnimationKeyFrame> mapFrame = m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
+		for (auto frame : mapFrame)
+			m_vecFrame.push_back(frame.second);
+		return m_vecFrame;
+	}
+	else
+	{
+		return m_pCurrentState->GetBoneTransforms();
 	}
 	return m_vecFrame;
 }
 
+void CAnimationStateMachine::OnTransitionBegin(double _tickPercent)
+{
+	Reset(_tickPercent);
+}
+
+void CAnimationStateMachine::OnTransitionEnd()
+{
+	IAnimationState::OnTransitionEnd();
+}
+
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState(this);
+	CAnimationState* pNewState = new CAnimationState(m_pRootMachine, this);
 	pNewState->SetName(L"New State");
 	m_States.insert(pNewState);
 	return pNewState;
@@ -54,7 +76,16 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 	return pNewState;
 }
 
-void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
+CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
+{
+	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
+	pNewMachine->SetName(L"New Machine");
+	pNewMachine->Reset(0);
+	m_States.insert(pNewMachine);
+	return pNewMachine;
+}
+
+void CAnimationStateMachine::DeleteState(IAnimationState* _pState)
 {
 	auto iter = m_States.find(_pState);
 	if (iter != m_States.end())
@@ -63,21 +94,23 @@ void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
 		m_States.erase(iter);
 	}
 }
-CAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
+IAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
 {
 	for (auto s : m_States)
 		if (s->GetName() == _name)
 			return s;
 	return nullptr;
 }
-void CAnimationStateMachine::Reset()
+void CAnimationStateMachine::Reset(double _tickPercent)
 {
 	ChangeState(m_pHead);
-	m_pHead->SetTick(0);
+	m_pHead->OnTransitionBegin(_tickPercent);
 }
 
 AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->CreateNewParam(_type);
+
 	if (AnimParamType::NONE == _type)
 		return nullptr;
 
@@ -98,8 +131,10 @@ AnimStateParam* CAnimationStateMachine::CreateNewParam(AnimParamType _type)
 	return param;
 }
 
-void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
+void CAnimationStateMachine::SetParamName(AnimStateParam* _param, wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetParamName(_param, _name);
+	
 	wstring newName = _name;
 	int postFix = 0;
 	bool noDuplicateFlag = false;
@@ -108,7 +143,7 @@ void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
 		noDuplicateFlag = true;
 		for (int i = 0; i < m_vecParams.size(); i++)
 		{
-			if (m_vecParams[i] != param && m_vecParams[i]->name == newName)
+			if (m_vecParams[i] != _param && m_vecParams[i]->name == newName)
 			{
 				noDuplicateFlag = false;
 				break;
@@ -117,11 +152,13 @@ void CAnimationStateMachine::SetParamName(AnimStateParam* param, wstring _name)
 		if(!noDuplicateFlag)
 			newName = _name + L" " + std::to_wstring(postFix++);
 	}
-	param->name = newName;
+	_param->name = newName;
 }
 
 void CAnimationStateMachine::DeleteParam(wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->DeleteParam(_name);
+
 	for (int i = 0; i < m_vecParams.size(); i++)
 	{
 		if (m_vecParams[i]->name == _name)
@@ -134,6 +171,8 @@ void CAnimationStateMachine::DeleteParam(wstring _name)
 
 void CAnimationStateMachine::DeleteParam(int _idx)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->DeleteParam(_idx);
+
 	if (0 <= _idx && _idx < m_vecParams.size())
 	{
 		delete m_vecParams[_idx];
@@ -143,6 +182,8 @@ void CAnimationStateMachine::DeleteParam(int _idx)
 
 AnimStateParam* CAnimationStateMachine::GetParamByName(wstring _name)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->GetParamByName(_name);
+
 	for (int i = 0; i < m_vecParams.size(); i++)
 	{
 		if (m_vecParams[i]->name == _name)
@@ -153,34 +194,52 @@ AnimStateParam* CAnimationStateMachine::GetParamByName(wstring _name)
 
 AnimStateParam* CAnimationStateMachine::GetParamByIndex(int _idx)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->GetParamByIndex(_idx);
+
 	if (0 <= _idx && _idx < m_vecParams.size())
 		return m_vecParams[_idx];
 	return nullptr;
 }
 
+vector<AnimStateParam*>& CAnimationStateMachine::GetAllParams()
+{
+	if (m_pRootMachine != this) return m_pRootMachine->GetAllParams();
+	return m_vecParams;
+}
+
 void CAnimationStateMachine::SetBool(wstring _param, bool _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetBool(_param, _value);
+
 	GetParamByName(_param)->value.BOOL = _value;
 }
 
 void CAnimationStateMachine::SetFloat(wstring _param, float _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetFloat(_param, _value);
+	
 	GetParamByName(_param)->value.FLOAT = _value;
 }
 
 void CAnimationStateMachine::SetInt(wstring _param, int _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetInt(_param, _value);
+
 	GetParamByName(_param)->value.INT = _value;
 }
 
 void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 {
+	if (m_pRootMachine != this) return m_pRootMachine->SetTrigger(_param, _value);
+
 	GetParamByName(_param)->value.TRIGGER = _value;
 }
 
 void CAnimationStateMachine::tick()
 {
 	m_pCurrentState->tick();
+
+	IAnimationState::tick();
 }
 
 void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
@@ -205,7 +264,11 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	count = m_States.size();
 	fwrite(&count, sizeof(int), 1, _FILE);
 	for (auto state : m_States)
+	{
 		SaveWString(state->GetName(), _FILE);
+		int type = (int)state->GetType();
+		fwrite(&type, sizeof(int), 1, _FILE);
+	}
 	for (auto state : m_States)
 	{
 		SaveWString(state->GetName(), _FILE);
@@ -213,6 +276,7 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	}
 
 	SaveWString(m_pHead->GetName(), _FILE);
+	IAnimationState::SaveToLevelFile(_FILE);
 }
 
 void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
@@ -243,9 +307,13 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	fread(&count, sizeof(int), 1, _FILE);
 	for (size_t i = 0; i < count; i++)
 	{
-		auto state = new CAnimationState(this);
 		wstring name;
 		LoadWString(name, _FILE);
+		IAnimationState* state;
+		int type;
+		fread(&type, sizeof(int), 1, _FILE);
+		if (type == (int)eAnimationNodeType::StateMachine) state = new CAnimationStateMachine(m_pRootMachine, this);
+		else state = new CAnimationState(m_pRootMachine, this);
 		state->SetName(name);
 		m_States.insert(state);
 	}
@@ -260,5 +328,8 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
-	Reset();
+
+	IAnimationState::LoadFromLevelFile(_FILE);
+
+	Reset(0);
 }

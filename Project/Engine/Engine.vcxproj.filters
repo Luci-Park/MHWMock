@@ -215,6 +215,9 @@
     <ClInclude Include="CAnimStructures.h">
       <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClInclude>
+    <ClInclude Include="IAnimationState.h">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -418,6 +421,9 @@
       <Filter>Source\06. Component\2. Collider\BoxCollider</Filter>
     </ClCompile>
     <ClCompile Include="CAnimStructures.cpp">
+      <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClCompile>
+    <ClCompile Include="IAnimationState.cpp">
       <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClCompile>
   </ItemGroup>
