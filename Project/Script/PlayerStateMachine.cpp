@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CMainPlayerScript.h"
 
 PlayerStateMachine::PlayerStateMachine()
@@ -40,4 +41,9 @@ void PlayerStateMachine::CreateState()
 void PlayerStateMachine::Tick()
 {
 	_curState->Tick(_player,this);
+}
+
+void PlayerStateMachine::setPlayer(CGameObject* player)
+{
+	_player = player;
 }

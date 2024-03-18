@@ -95,5 +95,11 @@
     <ClCompile Include="States_Init.cpp">
       <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
+    <ClCompile Include="State_Move_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="State_Attack_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

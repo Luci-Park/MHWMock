@@ -1,22 +1,11 @@
 #pragma once
+#include <string>
+#include <map>
+
 #include "Engine\CScript.h"
 #include "Engine\CGameObject.h"
 #include "Engine\CKeyMgr.h"
-#include <string>
-
-#include <vector>
-#include <map>
-
-
-enum class Event
-{
-    IDLE,
-    MOVE,
-    MOVE_FORWARD,
-    ATTACK,
-    HIT,
-    END,
-};
+#include "Engine\CTransform.h"
 
 class State;
 class PlayerStateMachine;
@@ -68,8 +57,6 @@ private:
     CGameObject* _player;
     
 public:
-
-
     PlayerStateMachine();
     PlayerStateMachine(CGameObject* player);
     ~PlayerStateMachine();
@@ -77,6 +64,8 @@ public:
     void CreateState();
     void ChangeState(std::wstring newState);
     void Tick();
+public:
+    void setPlayer(CGameObject* player);
 };
 
 class ST_PLAYER_IDLE : public State

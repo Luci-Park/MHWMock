@@ -18,6 +18,7 @@ CMainPlayerScript::~CMainPlayerScript()
 
 void CMainPlayerScript::begin()
 {
+	_stateMachine->setPlayer(GetOwner());
 }
 
 void CMainPlayerScript::tick()

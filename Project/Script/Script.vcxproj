@@ -242,6 +242,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="State.cpp" />
     <ClCompile Include="PlayerStateMachine.cpp" />
     <ClCompile Include="States_Init.cpp" />
+    <ClCompile Include="State_Attack_Init.cpp" />
+    <ClCompile Include="State_Move_Init.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
