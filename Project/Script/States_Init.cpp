@@ -25,7 +25,7 @@ void ST_PLAYER_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 		KEY_PRESSED(KEY::S)||
 		KEY_PRESSED(KEY::D))
 	{
-		StateMachine->ChangeState(Event::MOVE);
+		StateMachine->ChangeState(L"Move");
 	}
 }
 void ST_PLAYER_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -57,7 +57,7 @@ void ST_PLAYER_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 	if (KEY_PRESSED(KEY::W))
 	{
 		//Move Forward
-		StateMachine->ChangeState(Event::MOVE_FORWARD);
+		StateMachine->ChangeState(L"Move_Forward");
 	}
 	if (KEY_PRESSED(KEY::A))
 	{

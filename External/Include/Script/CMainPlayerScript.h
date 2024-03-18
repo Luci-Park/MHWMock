@@ -2,8 +2,10 @@
 #include "Engine\CScript.h"
 #include "Engine\CGameObject.h"
 #include "Engine\CKeyMgr.h"
+#include <string>
 
 #include <vector>
+#include <map>
 
 
 enum class Event
@@ -61,7 +63,7 @@ public:
 class PlayerStateMachine
 {
 private:
-    std::vector<State*> _States;
+    std::map<std::wstring,State*> _States;
     State* _curState;
     CGameObject* _player;
     
@@ -73,7 +75,7 @@ public:
     ~PlayerStateMachine();
 public:
     void CreateState();
-    void ChangeState(Event newState);
+    void ChangeState(std::wstring newState);
     void Tick();
 };
 

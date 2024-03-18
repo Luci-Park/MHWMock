@@ -12,7 +12,7 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	, _player(player)
 {
 	CreateState();
-	_curState = _States[0];
+	_curState = _States.begin()->second;
 }
 
 PlayerStateMachine::~PlayerStateMachine()
@@ -20,20 +20,22 @@ PlayerStateMachine::~PlayerStateMachine()
 	delete _curState;
 }
 
-void PlayerStateMachine::ChangeState(Event newState)
+void PlayerStateMachine::ChangeState(std::wstring newState)
 {
 	if (_curState)
 		_curState->Exit(_player,this);
-	_curState = _States[(UINT)newState];
+	_curState = _States.find(newState)->second;
 	if (_curState)
 		_curState->Enter(_player, this);
+	
 }
+
+
 void PlayerStateMachine::CreateState()
 {
-	//_States.assign((UINT)Event::END, nullptr);
-	_States.push_back(new ST_PLAYER_IDLE);
-	_States.push_back(new ST_PLAYER_MOVE);
-	_States.push_back(new ST_PLAYER_MOVE_FORWARD);
+	_States.insert(std::make_pair(L"Idle", new ST_PLAYER_IDLE));
+	_States.insert(std::make_pair(L"Move", new ST_PLAYER_MOVE));
+	_States.insert(std::make_pair(L"Move_Forward",new ST_PLAYER_MOVE_FORWARD));
 }
 void PlayerStateMachine::Tick()
 {
