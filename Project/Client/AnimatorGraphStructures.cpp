@@ -47,6 +47,7 @@ Node::Node(IAnimationState* _state)
 	else 
 		pAnimMachine = (CAnimationStateMachine*)pState;
 
+	initialPosition = pState->GetViewNode().vPos;
 }
 
 Link::Link(CAnimationTransition* _transit, const Pin* _startPin, const Pin* _endPin)

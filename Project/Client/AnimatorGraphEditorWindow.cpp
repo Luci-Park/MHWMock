@@ -18,14 +18,22 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAn
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
 	, m_pStateMachine(_targetMachine)
+	, m_bFirstFrame(false)
 {
-	OnStart();
+	string filename = "Animator.json";
+	ed::Config config;
+	config.SettingsFile = filename.c_str();
+	m_pEditor = ed::CreateEditor(&config);
+	
+	ed::SetCurrentEditor(m_pEditor);
+	ed::NavigateToContent();
+
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
 		Node newNode = CreateNode(s);
 		Vec2 pos = s->GetViewNode().vPos;
-		ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
+		//ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
 	}
 
 	for (auto s : states)
@@ -40,7 +48,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAn
 				&(*nextNode).inputPins[linkInfo.endIdx]);
 		}
 	}
-	ed::NavigateToContent();
+	ed::SetCurrentEditor(nullptr);
 }
 
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
@@ -50,7 +58,11 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 
 AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 {
-	OnEnd();
+	if (m_pEditor)
+	{
+		ed::DestroyEditor(m_pEditor);
+		m_pEditor = nullptr;
+	}
 	for (auto i : m_SubWindows)
 		delete i.second;
 }
@@ -66,6 +78,12 @@ Node& AnimatorGraphEditorWindow::CreateNode(eAnimationNodeType _type)
 
 Node& AnimatorGraphEditorWindow::CreateNode(IAnimationState* _state)
 {
+	if (eAnimationNodeType::StateMachine == _state->GetType())
+	{
+		auto newWindow = new AnimatorGraphEditorWindow(m_pAnimator, (CAnimationStateMachine*)_state);
+		m_SubWindows.insert(make_pair((CAnimationStateMachine*)_state, newWindow));
+		ed::SetCurrentEditor(m_pEditor);
+	}
 	m_Nodes.emplace_back(_state);
 	return m_Nodes.back();
 }
@@ -83,9 +101,17 @@ Link& AnimatorGraphEditorWindow::CreateTransition(const Pin* _startPin, const Pi
 void AnimatorGraphEditorWindow::DeleteNode(ed::NodeId _node)
 {
 	auto iter = GetNode(_node);	
+	if (iter->pAnimMachine != nullptr)
+	{
+		auto it = m_SubWindows.find(iter->pAnimMachine);
+		if (it != m_SubWindows.end())
+		{
+			delete it->second;
+			m_SubWindows.erase(it);
+		}
+	}
 	m_pStateMachine->DeleteState(iter->pState);
 	m_Nodes.erase(iter);
-
 }
 
 void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
@@ -99,6 +125,16 @@ void AnimatorGraphEditorWindow::DeleteLink(ed::LinkId _link)
 void AnimatorGraphEditorWindow::OnFrame()
 {
 	ed::SetCurrentEditor(m_pEditor);
+	if (m_bFirstFrame)
+	{
+		for(auto newNode : m_Nodes)
+		{
+			Vec2 pos = newNode.initialPosition;
+			ed::SetNodePosition(newNode.id, ImVec2(pos.x, pos.y));
+		}
+		m_bFirstFrame = false;
+	}
+
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
 	ShowLeftPanel(m_fLeftPlaneWidth - 4.0f);
 	ImGui::SameLine(0.0f, 12.0f);
@@ -742,24 +778,6 @@ void AnimatorGraphEditorWindow::ShowParamConfigPanel(float _width, float _height
 		ImGui::PopID();
 	}
 	ImGui::EndChild();
-}
-
-void AnimatorGraphEditorWindow::OnStart()
-{
-	string filename = "Animator.json";
-	ed::Config config;
-	config.SettingsFile = filename.c_str();
-	m_pEditor = ed::CreateEditor(&config);
-	ed::SetCurrentEditor(m_pEditor);
-}
-
-void AnimatorGraphEditorWindow::OnEnd()
-{
-	if (m_pEditor)
-	{
-		ed::DestroyEditor(m_pEditor);
-		m_pEditor = nullptr;
-	}
 }
 
 bool AnimatorGraphEditorWindow::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, int _id, float splitter_long_axis_size)

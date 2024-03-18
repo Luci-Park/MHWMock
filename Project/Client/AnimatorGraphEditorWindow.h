@@ -28,11 +28,10 @@ private:
 	float						m_fLeftPlaneWidth;
 	float						m_fRightPlaneWidth;
 	int							m_iCurrentEditingParam; //idx of currently name editing param
+	bool						m_bFirstFrame;
 public:
 	virtual void OnFrame();
 private:
-	void OnStart();
-	void OnEnd();
 	void DrawNode(Node& _node);
 	void DealWithPopup();
 	void ShowLeftPanel(float _width);
