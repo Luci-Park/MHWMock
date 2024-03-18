@@ -11,15 +11,15 @@
 #include "ImGuiFunc.h"
 
 
-AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine)
 	: m_iCurrentEditingParam(-1)
 	, m_fLeftPlaneWidth(200.f)
 	, m_fRightPlaneWidth(800.f)
 	, m_pAnimator(_animator)
 	, m_iCurrSelectedAnimationIdx(-1)
+	, m_pStateMachine(_targetMachine)
 {
 	OnStart();
-	m_pStateMachine = _animator->GetStateMachine();
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
 	{
@@ -43,9 +43,16 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
 	ed::NavigateToContent();
 }
 
+AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator)
+	:AnimatorGraphEditorWindow(_animator, _animator->GetStateMachine())
+{
+}
+
 AnimatorGraphEditorWindow::~AnimatorGraphEditorWindow()
 {
 	OnEnd();
+	for (auto i : m_SubWindows)
+		delete i.second;
 }
 
 Node& AnimatorGraphEditorWindow::CreateNode(eAnimationNodeType _type)

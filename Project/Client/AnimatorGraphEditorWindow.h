@@ -5,6 +5,8 @@
 namespace ed = ax::NodeEditor;
 
 class CAnimator3D;
+class AnimatorGraphEditorWindow;
+typedef std::unordered_map<CAnimationStateMachine*, AnimatorGraphEditorWindow*> SubWindow;
 
 class AnimatorGraphEditorWindow
 {
@@ -12,6 +14,7 @@ private:
 	CAnimationStateMachine*		m_pStateMachine;
 	CAnimator3D*				m_pAnimator;
 	ed::EditorContext*			m_pEditor;
+	SubWindow					m_SubWindows;
 
 	list<Node>					m_Nodes;
 	list<Link>					m_Links;
@@ -59,5 +62,7 @@ private:
 public:
 	AnimatorGraphEditorWindow(CAnimator3D* _animator);
 	~AnimatorGraphEditorWindow();
+private:
+	AnimatorGraphEditorWindow(CAnimator3D* _animator, CAnimationStateMachine* _targetMachine);
 };
 
