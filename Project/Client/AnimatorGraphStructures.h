@@ -1,9 +1,11 @@
 #pragma once
 #include "ImGui/imgui_node_editor.h"
-#include <Engine/CAnimationStateMachine.h>
+#include <Engine/IAnimationState.h>
 #define NUMBEROFPINS 4
 namespace ed = ax::NodeEditor;
 
+class CAnimationState;
+class CAnimationStateMachine;
 struct Node;
 struct Pin
 {
@@ -22,22 +24,20 @@ struct Node
 private:
 	static int PINID;
 public:
-	ed::NodeId			id;
-	CAnimationState*	pState;
-	const Pin			inputPins[NUMBEROFPINS];
-	const Pin			outputPins[NUMBEROFPINS];
+	ed::NodeId				id;
+	IAnimationState*		pState;
+	CAnimationState*		pAnimState;
+	CAnimationStateMachine* pAnimMachine;
+	const Pin				inputPins[NUMBEROFPINS];
+	const Pin				outputPins[NUMBEROFPINS];
 
 	string	GetName();
 	void	SetName(string _name);
 	string	GetClipName();
-	void	SetAnimation(Ptr<CAnimationClip> _clip);
-
-	float	GetSpeed() { return pState->GetSpeed(); }
-	void	SetSpeed(float _fSpeed) { pState->SetSpeed(_fSpeed); }
 
 	const Pin* PinExists(ed::PinId _pinId);
 
-	Node(CAnimationState* _state);
+	Node(IAnimationState* _state);
 };
 
 struct Link

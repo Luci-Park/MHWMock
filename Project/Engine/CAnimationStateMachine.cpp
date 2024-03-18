@@ -83,7 +83,7 @@ CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 	return pNewMachine;
 }
 
-void CAnimationStateMachine::DeleteState(CAnimationState* _pState)
+void CAnimationStateMachine::DeleteState(IAnimationState* _pState)
 {
 	auto iter = m_States.find(_pState);
 	if (iter != m_States.end())

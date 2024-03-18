@@ -29,7 +29,7 @@ public: //for client & engine scripts
 	CAnimationState* CreateState();
 	CAnimationState* CreateState(CAnimationState* _copyState);
 	CAnimationStateMachine* CreateSubStateMachine();
-	void DeleteState(CAnimationState* _pState);
+	void DeleteState(IAnimationState* _pState);
 
 	IAnimationState* GetHead() { return m_pHead; }
 	IAnimationState* GetCurrentState() { return m_pCurrentState; }
