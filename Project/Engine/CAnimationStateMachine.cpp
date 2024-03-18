@@ -201,6 +201,12 @@ AnimStateParam* CAnimationStateMachine::GetParamByIndex(int _idx)
 	return nullptr;
 }
 
+vector<AnimStateParam*>& CAnimationStateMachine::GetAllParams()
+{
+	if (m_pRootMachine != this) return m_pRootMachine->GetAllParams();
+	return m_vecParams;
+}
+
 void CAnimationStateMachine::SetBool(wstring _param, bool _value)
 {
 	if (m_pRootMachine != this) return m_pRootMachine->SetBool(_param, _value);

@@ -43,7 +43,7 @@ public: //for client & engine scripts
 	void DeleteParam(int _idx);
 	AnimStateParam* GetParamByName(wstring _name);
 	AnimStateParam* GetParamByIndex(int _idx);
-	vector<AnimStateParam*>& GetAllParams() { return m_vecParams; }
+	vector<AnimStateParam*>& GetAllParams();
 
 	void SetBool(wstring _param, bool _value);
 	void SetFloat(wstring _param, float _value);
