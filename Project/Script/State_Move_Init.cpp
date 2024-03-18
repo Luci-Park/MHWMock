@@ -19,13 +19,14 @@ ST_PLAYER_MOVE_FORWARD::~ST_PLAYER_MOVE_FORWARD()
 
 void ST_PLAYER_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	int a = 0;
+
 }
 void ST_PLAYER_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_PRESSED(KEY::W))
+	if (KEY_RELEASE(KEY::W))
 	{
 		//Move Forward
+		StateMachine->ChangeState(L"Idle");
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
