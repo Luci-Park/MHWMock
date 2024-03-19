@@ -94,8 +94,8 @@ vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
 
 int CAnimationClip::GetRootIdx(wstring _rootName)
 {
-	for (int i = 0; i < m_vecChannels.size(); i++)
-		if (m_vecChannels[i].strBoneName == _rootName)
+	for (int i = 0; i < m_BoneNames.size(); i++)
+		if (m_BoneNames[i] == _rootName)
 			return i;
 	return -1;
 }

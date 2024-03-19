@@ -19,6 +19,7 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 PlayerStateMachine::~PlayerStateMachine()
 {
 	delete _curState;
+	_States.erase(_States.begin(), _States.end());
 }
 
 void PlayerStateMachine::ChangeState(std::wstring newState)
