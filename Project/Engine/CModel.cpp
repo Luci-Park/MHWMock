@@ -213,9 +213,13 @@ int CModel::Load(const wstring& _strFilePath)
 		LoadResRef(m_vecMaterials[i], pFile);
 
 	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_vecAnimNames.resize(iSize);
 	for (size_t i = 0; i < iSize; i++)
-		LoadWString(m_vecAnimNames[i], pFile);
+	{
+		wstring str;
+		LoadWString(str, pFile);
+		if (CResMgr::GetInst()->Load<CAnimationClip>(str, str) != nullptr)
+			m_vecAnimNames.push_back(str);
+	}
 
 	fread(&iSize, sizeof(UINT), 1, pFile);
 	for (size_t i = 0; i < iSize; i++)
