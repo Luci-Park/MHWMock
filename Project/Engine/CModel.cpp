@@ -217,7 +217,7 @@ int CModel::Load(const wstring& _strFilePath)
 	{
 		wstring str;
 		LoadWString(str, pFile);
-		if (CResMgr::GetInst()->Load<CAnimationClip>(str, str) != nullptr)
+		if (CResMgr::GetInst()->FindRes<CAnimationClip>(str) != nullptr)
 			m_vecAnimNames.push_back(str);
 	}
 
