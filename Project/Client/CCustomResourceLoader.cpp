@@ -47,9 +47,9 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\stm740_005_01.fbx");
 	//CModel::LoadFromFbx(L"model\\stm730_000_01.fbx");
 	//CModel::LoadFromFbx(L"model\\stm730_001_01.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_014_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_042_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_189_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_182_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm740_090_00.fbx");
+	//CModel::LoadFromFbx(L"model\\stm730_198_00.fbx");
+	//CModel::LoadFromFbx(L"model\\stm730_198_04.fbx");
+	//CModel::LoadFromFbx(L"model\\stm730_198_06.fbx");
+	//CModel::LoadFromFbx(L"model\\stm730_198_08.fbx");
+	//CModel::LoadFromFbx(L"model\\stm730_136_03.fbx");
 }
