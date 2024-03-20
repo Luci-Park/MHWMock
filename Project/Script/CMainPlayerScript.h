@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
 #include <map>
-
+#include "pch.h"
 #include "Engine\CScript.h"
 #include "Engine\CGameObject.h"
 #include "Engine\CKeyMgr.h"
 #include "Engine\CTransform.h"
+#include "Engine\CAnimationStateMachine.h"
 
 class State;
 class PlayerStateMachine;
@@ -39,45 +40,24 @@ public:
 class PlayerStateMachine
 {
 private:
-    std::map<std::wstring,State*> _States;
-    State* _curState;
+    State*_curState;
     CGameObject* _player;
+    CAnimationStateMachine* _ASTM;
+    std::map<std::wstring,State*> _States;
     
 public:
     PlayerStateMachine();
     PlayerStateMachine(CGameObject* player);
     ~PlayerStateMachine();
 public:
+    void Begin();
     void CreateState();
     void CreateStateParam();
     void ChangeState(std::wstring newState);
     void Tick();
 public:
     void setPlayer(CGameObject* player);
-    template <typename T>
-    void SetASTMParam(std::wstring paramId, AnimParamType type, T param)
-    {
-        switch (type)
-        {
-        case AnimParamType::FLOAT:
-
-            break;
-        case AnimParamType::INT:
-            
-            break;
-        case AnimParamType::BOOL:
-            
-            break;
-        case AnimParamType::TRIGGER:
-            
-            break;
-        case AnimParamType::NONE:
-            
-            break;
-        default:
-            break;
-        }
-    }
+    void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
 };
 
 class State
@@ -98,6 +78,7 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine);
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine);
 public:
+    void AddParam(std::wstring paramId, AnimParamUnion Stateparamunion, AnimParamType Stateparamtype);
     StateParam SetParam(std::wstring paramId,AnimParamUnion param);
     void ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param)
     {

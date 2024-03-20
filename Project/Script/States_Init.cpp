@@ -31,7 +31,7 @@ void ST_PLAYER_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 }
 void ST_PLAYER_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	
+	ChangeASTMParam(StateMachine, L"test", (AnimParamUnion)0);
 }
 
 //-------------------------------------------------------------------------------------

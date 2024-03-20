@@ -12,8 +12,6 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	: _curState(nullptr)
 	, _player(player)
 {
-	CreateState();
-	_curState = _States.begin()->second;
 }
 
 PlayerStateMachine::~PlayerStateMachine()
@@ -33,6 +31,14 @@ void PlayerStateMachine::ChangeState(std::wstring newState)
 }
 
 
+void PlayerStateMachine::Begin()
+{
+	CreateState();
+	_curState = _States.begin()->second;
+	_ASTM = _player->Animator3D()->GetStateMachine();
+	CreateStateParam();
+}
+
 void PlayerStateMachine::CreateState()
 {
 	//Add State
@@ -44,9 +50,14 @@ void PlayerStateMachine::CreateState()
 
 void PlayerStateMachine::CreateStateParam()
 {
-	State* st = _States.find(L"Idle")->second;
-
 	//Add state Param
+	CAnimationStateMachine* st = _player->Animator3D()->GetStateMachine();
+	State* s = _States.find(L"Idle")->second;
+
+	for(auto t : st->GetAllParams())
+	{
+		s->AddParam(t->name, t->value, t->type);
+	}
 }
 
 void PlayerStateMachine::Tick()
@@ -57,4 +68,28 @@ void PlayerStateMachine::Tick()
 void PlayerStateMachine::setPlayer(CGameObject* player)
 {
 	_player = player;
+}
+
+void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param)
+{
+	switch (type)
+	{
+	case AnimParamType::FLOAT:
+		_ASTM->SetFloat(paramId, param.FLOAT);
+		break;
+	case AnimParamType::INT:
+		_ASTM->SetFloat(paramId, param.INT);
+		break;
+	case AnimParamType::BOOL:
+		_ASTM->SetFloat(paramId, param.BOOL);
+		break;
+	case AnimParamType::TRIGGER:
+		_ASTM->SetFloat(paramId, param.TRIGGER);
+		break;
+	case AnimParamType::NONE:
+		assert(1, "tpye None");
+		break;
+	default:
+		break;
+	}
 }

@@ -19,6 +19,7 @@ CMainPlayerScript::~CMainPlayerScript()
 void CMainPlayerScript::begin()
 {
 	_stateMachine->setPlayer(GetOwner());
+	_stateMachine->Begin();
 }
 
 void CMainPlayerScript::tick()
@@ -42,4 +43,5 @@ void CMainPlayerScript::SaveToLevelFile(FILE* _File)
 
 void CMainPlayerScript::LoadFromLevelFile(FILE* _FILE)
 {
+	begin();
 }
