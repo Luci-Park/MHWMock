@@ -36,19 +36,6 @@ public:
     ~CMainPlayerScript();
 };
 
-class State
-{
-private:
-
-public:
-    State();
-    virtual ~State();
-public:
-    virtual void Enter(CGameObject* player,PlayerStateMachine* StateMachine);
-    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine);
-    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine);
-};
-
 class PlayerStateMachine
 {
 private:
@@ -62,10 +49,61 @@ public:
     ~PlayerStateMachine();
 public:
     void CreateState();
+    void CreateStateParam();
     void ChangeState(std::wstring newState);
     void Tick();
 public:
     void setPlayer(CGameObject* player);
+    template <typename T>
+    void SetASTMParam(std::wstring paramId, AnimParamType type, T param)
+    {
+        switch (type)
+        {
+        case AnimParamType::FLOAT:
+
+            break;
+        case AnimParamType::INT:
+            
+            break;
+        case AnimParamType::BOOL:
+            
+            break;
+        case AnimParamType::TRIGGER:
+            
+            break;
+        case AnimParamType::NONE:
+            
+            break;
+        default:
+            break;
+        }
+    }
+};
+
+class State
+{
+private:
+    struct StateParam
+    {
+        AnimParamUnion _uStateparam;
+        AnimParamType _eStateparam;
+    };
+protected:
+    static std::map<std::wstring, StateParam> _StateParam;
+public:
+    State();
+    virtual ~State();
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine);
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine);
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine);
+public:
+    StateParam SetParam(std::wstring paramId,AnimParamUnion param);
+    void ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param)
+    {
+        StateParam sp = SetParam(paramId, param);
+        PSM->SetASTMParam(paramId, sp._eStateparam, sp._uStateparam);
+    }
 };
 
 class ST_PLAYER_IDLE : public State

@@ -1,3 +1,4 @@
+
 #include "pch.h"
 #include "CMainPlayerScript.h"
 
@@ -19,7 +20,6 @@ ST_PLAYER_MOVE_FORWARD::~ST_PLAYER_MOVE_FORWARD()
 
 void ST_PLAYER_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
 }
 void ST_PLAYER_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {

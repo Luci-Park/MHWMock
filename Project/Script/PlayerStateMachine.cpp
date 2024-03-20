@@ -35,10 +35,20 @@ void PlayerStateMachine::ChangeState(std::wstring newState)
 
 void PlayerStateMachine::CreateState()
 {
+	//Add State
 	_States.insert(std::make_pair(L"Idle", new ST_PLAYER_IDLE));
 	_States.insert(std::make_pair(L"Move", new ST_PLAYER_MOVE));
 	_States.insert(std::make_pair(L"Move_Forward",new ST_PLAYER_MOVE_FORWARD));
+
 }
+
+void PlayerStateMachine::CreateStateParam()
+{
+	State* st = _States.find(L"Idle")->second;
+
+	//Add state Param
+}
+
 void PlayerStateMachine::Tick()
 {
 	_curState->Tick(_player,this);
