@@ -282,11 +282,19 @@ void MenuUI::SaveObject()
     if (!pSelectedObject)
         return;
     FILE* saveFile;
+
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
+    wstring filename = L"CustomObj\\" + pSelectedObject->GetName() + L".cgobj";
+    //wstring filename = L"obj\\" + pSelectedObject->GetName() + L".cgobj";
     strPath += filename;
+
+    path parentFolder(strPath);
+    filesystem::create_directories(parentFolder.parent_path());
+
     _wfopen_s(&saveFile, strPath.c_str(), L"ab");
     
+
+
     if (saveFile == nullptr) return;
 
     assert(CLevelSaveLoad::SaveGameObject(pSelectedObject, saveFile) == S_OK);

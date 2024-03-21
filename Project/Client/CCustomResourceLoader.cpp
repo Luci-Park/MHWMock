@@ -41,4 +41,5 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\anjanath.fbx");
 	//CModel::LoadFromFbx(L"model\\Character Running.fbx");
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation.fbx");
+	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation_Final.fbx");
 }

@@ -1,0 +1,40 @@
+#include "CMainPlayerScript.h"
+#include "pch.h"
+
+std::map<std::wstring, State::StateParam> State::_StateParam;
+
+State::State()
+{
+
+}
+State::~State()
+{
+
+}
+
+void State::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void State::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+}
+void State::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+void State::AddParam(std::wstring paramId, AnimParamUnion Stateparamunion, AnimParamType Stateparamtype)
+{
+	StateParam temp;
+	temp._eStateparam = Stateparamtype;
+	temp._uStateparam = Stateparamunion;
+	_StateParam.insert(make_pair(paramId, temp));
+}
+
+State::StateParam State::SetParam(std::wstring paramId, AnimParamUnion param)
+{
+	auto st = _StateParam.find(paramId)->second;
+	st._uStateparam = param;
+	return st;
+}

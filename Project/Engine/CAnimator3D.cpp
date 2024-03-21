@@ -88,10 +88,9 @@ void CAnimator3D::tick()
 		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 
-
-	//¸Å Æ½¸¶´Ù ÇÏ´Â°Ô ¾Æ´Ñ ¸Å ÇÁ·¹ÀÓ ¸¶´Ù ¿òÁ÷ÀÌ´Â °Í
+	//ï¿½ï¿½ Æ½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´Â°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½
 	//Root Motion
-	//Root BoneÀ» ¹Þ¾Æ¿È
+	//Root Boneï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
 	auto rootBone = BoneHolder()->GetBone(L"Root");
 	//assert(rootBone != nullptr);
 	Vector3 rPos = rootBone->GetRelativePos();
