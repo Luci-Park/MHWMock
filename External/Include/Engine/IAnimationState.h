@@ -49,7 +49,7 @@ public:
 	virtual void LoadFromLevelFile(FILE* _FILE);
 
 	IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
-	~IAnimationState();
+	virtual ~IAnimationState();
 };
 
 inline void IAnimationState::OnTransitionEnd()
