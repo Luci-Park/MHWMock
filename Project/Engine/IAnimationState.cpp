@@ -39,6 +39,15 @@ void IAnimationState::tick()
 	}
 }
 
+void IAnimationState::DeleteTransition(CAnimationTransition* _transit)
+{
+	m_pRootMachine->Reset(0);
+	auto iter = m_Transitions.find(_transit);
+	if (iter != m_Transitions.end())
+		m_Transitions.erase(iter);
+	delete _transit;
+}
+
 void IAnimationState::SaveToLevelFile(FILE* _FILE)
 {
 	int count = m_Transitions.size();

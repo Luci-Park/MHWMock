@@ -60,11 +60,3 @@ inline void IAnimationState::OnTransitionEnd()
 	m_pCurrentTransition = nullptr;
 }
 
-inline void IAnimationState::DeleteTransition(CAnimationTransition* _transit)
-{
-	auto iter = m_Transitions.find(_transit);
-	if (iter != m_Transitions.end())
-		m_Transitions.erase(iter);
-	delete _transit;
-}
-

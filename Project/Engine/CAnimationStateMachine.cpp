@@ -97,6 +97,7 @@ CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 
 void CAnimationStateMachine::DeleteState(IAnimationState* _pState)
 {
+	Reset(0);
 	auto iter = m_States.find(_pState);
 	if (iter != m_States.end())
 	{
