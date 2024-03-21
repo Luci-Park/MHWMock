@@ -44,5 +44,5 @@ public:
 public:
 	CAnimationState(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	CAnimationState(const CAnimationState& _other);
-	~CAnimationState();
+	virtual ~CAnimationState();
 };
