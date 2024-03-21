@@ -291,7 +291,7 @@ void MenuUI::SaveObject()
     path parentFolder(strPath);
     filesystem::create_directories(parentFolder.parent_path());
 
-    _wfopen_s(&saveFile, strPath.c_str(), L"ab");
+    _wfopen_s(&saveFile, strPath.c_str(), L"wb");
     
 
 
