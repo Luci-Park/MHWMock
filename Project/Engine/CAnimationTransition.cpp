@@ -10,9 +10,9 @@ CAnimationTransition::CAnimationTransition(IAnimationState* _pPrevState, IAnimat
 	, m_pPrevState(_pPrevState)
 	, m_pNextState(_pNextState)
 	, m_bHasExitTime(false)
-	, m_dExitTime(0.75)
+	, m_dExitTime(1)
 	, m_bFixedDuration(false)
-	, m_dTransitionDuration(0.25)
+	, m_dTransitionDuration(0)
 	, m_dTransitionOffset(0)
 {
 	m_pPrevState->AddTransition(this);
