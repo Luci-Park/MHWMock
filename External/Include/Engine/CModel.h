@@ -23,7 +23,7 @@ public:
     Ptr<CMesh> GetMesh(UINT _idx) { return _idx < m_vecMeshes.size() ? m_vecMeshes[_idx] : nullptr; }
     Ptr<CMaterial> GetMaterial(int _idx){ return _idx < m_vecMaterials.size() ? m_vecMaterials[_idx] : nullptr; }
     tModelNode* GetRootNode() { return m_pRootNode; }
-    void CreateGameObjectFromModel();
+    CGameObject* CreateGameObjectFromModel();
     void AddBoneName(wstring _strName) { m_setBoneNames.insert(_strName); }
 
     virtual int Save(const wstring& _strRelativePath) override;

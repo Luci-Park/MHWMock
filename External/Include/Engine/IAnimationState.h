@@ -3,6 +3,7 @@
 
 class CAnimationTransition;
 class CAnimationStateMachine;
+class CAnimationClip;
 typedef unordered_set<CAnimationTransition*> HashTransition;
 
 enum class eAnimationNodeType{StateMachine, State};
@@ -21,6 +22,7 @@ protected:
 public:
 	void SetName(wstring _name) { m_strName = _name; }
 	wstring GetName() { return m_strName; }
+	virtual Ptr<CAnimationClip> GetClip() = 0;
 
 	eAnimationNodeType GetType() { return m_eNodeType; }
 
@@ -28,6 +30,7 @@ public:
 public:
 	virtual double GetDurationInSeconds() = 0;
 	virtual double GetTickPercentWithRepeat() = 0;
+	virtual double GetTickPercent() = 0;
 
 	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() = 0;
 

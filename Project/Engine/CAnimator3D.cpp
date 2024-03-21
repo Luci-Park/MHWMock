@@ -48,6 +48,12 @@ Ptr<CAnimationClip> CAnimator3D::GetAnimation(wstring _key)
 	return nullptr;
 }
 
+Ptr<CAnimationClip> CAnimator3D::GetCurrentAnimation(double& _percentage)
+{
+	_percentage = m_pAnimationStateMachine->GetTickPercent();
+	return m_pAnimationStateMachine->GetClip();
+}
+
 void CAnimator3D::SetBool(wstring _param, bool _value)
 {
 	m_pAnimationStateMachine->SetBool(_param, _value);

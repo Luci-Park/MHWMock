@@ -159,6 +159,14 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
+	Ptr<CModel> model = CResMgr::GetInst()->FindRes<CModel>(L"model\\playerMerge_W_Animation\\playerMerge_W_Animation.model");
+	auto gc = model->CreateGameObjectFromModel();
+	Ptr<CAnimationClip> clip = CResMgr::GetInst()->FindRes<CAnimationClip>(L"model\\playerMerge_W_Animation\\anim\\Animation 118.anim");
+	double percent = 100;
+	clip = gc->Animator3D()->GetCurrentAnimation(percent);
+
+
+
 	CGameObject* pObject1 = new CGameObject;
 	pObject1->SetName(L"Player1");
 	pObject1->AddComponent(new CTransform);

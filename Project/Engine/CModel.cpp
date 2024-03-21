@@ -124,7 +124,7 @@ Ptr<CModel> CModel::LoadFromFbx(const wstring& _strRelativePath)
 	return pModel;
 }
 
-void CModel::CreateGameObjectFromModel()
+CGameObject* CModel::CreateGameObjectFromModel()
 {
 	CGameObject* pNewObject = m_pRootNode->SpawnGameObjectFromNode();
 	if (m_setBoneNames.size() > 0)
@@ -137,6 +137,7 @@ void CModel::CreateGameObjectFromModel()
 		pNewObject->Animator3D()->SetAnimations(m_vecAnimNames);
 	}
 	SpawnGameObject(pNewObject);
+	return pNewObject;
 }
 
 int CModel::Save(const wstring& _strRelativePath)

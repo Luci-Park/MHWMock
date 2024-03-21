@@ -61,6 +61,16 @@ void CAnimationStateMachine::OnTransitionEnd()
 	IAnimationState::OnTransitionEnd();
 }
 
+Ptr<CAnimationClip> CAnimationStateMachine::GetClip()
+{
+	return m_pCurrentState->GetClip();
+}
+
+double CAnimationStateMachine::GetTickPercent()
+{
+	return m_pCurrentState->GetTickPercent();
+}
+
 CAnimationState* CAnimationStateMachine::CreateState()
 {
 	CAnimationState* pNewState = new CAnimationState(m_pRootMachine, this);

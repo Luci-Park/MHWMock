@@ -23,7 +23,9 @@ public: //for other scripts
 	virtual void OnTransitionBegin(double _tickPercent);
 	virtual void OnTransitionEnd();
 
-public: //for client & engine scripts
+public:
+	virtual Ptr<CAnimationClip> GetClip();
+	virtual double GetTickPercent();
 
 	HashState& GetAllStates() { return m_States; }
 	CAnimationState* CreateState();

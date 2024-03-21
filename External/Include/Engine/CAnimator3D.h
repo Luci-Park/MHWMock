@@ -21,6 +21,8 @@ public:
 	vector<wstring>& GetAnimNames() { return m_vecAnimNames; }
 	CAnimationStateMachine* GetStateMachine() { return m_pAnimationStateMachine; }
 
+	Ptr<CAnimationClip> GetCurrentAnimation(double& _percentage);
+
 	void SetBool(wstring _param, bool _value);
 	void SetFloat(wstring _param, float _value);
 	void SetInt(wstring _param, int _value);

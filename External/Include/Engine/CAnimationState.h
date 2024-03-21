@@ -20,7 +20,7 @@ private:
 
 public:
 	void SetClip(Ptr<CAnimationClip> _pClip);
-	Ptr<CAnimationClip> GetClip() { return m_pClip; }
+	virtual Ptr<CAnimationClip> GetClip() { return m_pClip; }
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 	float GetSpeed() { return m_fSpeed; }
 	double GetOffset() { return m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1; }
@@ -29,7 +29,7 @@ public:
 	virtual double GetTickPercentWithRepeat() override;
 
 	void SetTick(double _percent = 0);
-	double GetTickPercent();
+	virtual double GetTickPercent();
 	
 	virtual void OnTransitionEnd() override;
 	virtual void OnTransitionBegin(double _tickPercent) override;
