@@ -44,8 +44,8 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 			auto linkInfo = t->GetViewLink();
 			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
 			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
-			m_Links.emplace_back(t, &(*prevNode).outputPins[linkInfo.startIdx], 
-				&(*nextNode).inputPins[linkInfo.endIdx]);
+			m_Links.emplace_back(t, &(*prevNode).outputPins[0], 
+				&(*nextNode).inputPins[0]);
 		}
 	}
 	ed::SetCurrentEditor(_parentContext);
