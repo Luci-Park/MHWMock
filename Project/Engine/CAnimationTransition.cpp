@@ -9,7 +9,7 @@ CAnimationTransition::CAnimationTransition(IAnimationState* _pPrevState, IAnimat
 	: m_pStateMachine(_pMachine)
 	, m_pPrevState(_pPrevState)
 	, m_pNextState(_pNextState)
-	, m_bHasExitTime(false)
+	, m_bHasExitTime(true)
 	, m_dExitTime(1)
 	, m_bFixedDuration(false)
 	, m_dTransitionDuration(0)

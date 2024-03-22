@@ -20,7 +20,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 	, m_iCurrSelectedAnimationIdx(-1)
 	, m_pStateMachine(_targetMachine)
 {
-	string filename = "Animator.json";
+	string filename = WSTR2STR(_targetMachine->GetName()) + ".json";
 	ed::Config config;
 	config.SettingsFile = filename.c_str();
 	m_pEditor = ed::CreateEditor(&config);

@@ -417,4 +417,5 @@ anjanath/anjanath_body_w_Anim.fbx
 # PhysX Library
 OutputFile/bin_d/PhysXGpu_64.dll
 
+*.fbx
 
