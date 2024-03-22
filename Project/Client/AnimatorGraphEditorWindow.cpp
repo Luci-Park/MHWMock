@@ -125,8 +125,6 @@ void AnimatorGraphEditorWindow::OnFrame(ed::EditorContext* _parentContext)
 {
 	string windowName = WSTR2STR(m_pStateMachine->GetName()) + "##Animator" + std::to_string((uintptr_t)(void**)this);
 	ImGui::Begin(windowName.c_str());
-	if (ImGui::GetKeyIndex(ImGuiKey_5))
-		ed::NavigateToContent();
 
 	ed::SetCurrentEditor(m_pEditor);
 	Splitter(true, 4.0f, &m_fLeftPlaneWidth, &m_fRightPlaneWidth, 50.0f, 50.0f, 0);
