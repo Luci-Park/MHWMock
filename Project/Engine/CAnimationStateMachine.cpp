@@ -248,9 +248,9 @@ void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 
 void CAnimationStateMachine::tick()
 {
+	IAnimationState::tick();
 	m_pCurrentState->tick();
 
-	IAnimationState::tick();
 }
 
 void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
