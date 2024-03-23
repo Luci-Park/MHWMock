@@ -43,4 +43,5 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation.fbx");
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation_Final.fbx");
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation_real_Final.fbx");
+	//CModel::LoadFromFbx(L"model\\Player_.fbx");
 }
