@@ -37,19 +37,8 @@ void LoadCustomResources()
 {
 	LoadCustomShader();
 
-	//CModel::LoadFromFbx(L"model\\st202_A.fbx");
-	//CModel::LoadFromFbx(L"model\\st202_C.fbx");
-	//CModel::LoadFromFbx(L"model\\st202_C_water.fbx");
-	//CModel::LoadFromFbx(L"model\\st202_C_water_Under.fbx");
-	//CModel::LoadFromFbx(L"model\\st202_C_waterfall.fbx");
-	//CModel::LoadFromFbx(L"model\\st202_Z.fbx");
-	//CModel::LoadFromFbx(L"model\\stm740_005_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm740_005_01.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_000_01.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_001_01.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_198_00.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_198_04.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_198_06.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_198_08.fbx");
-	//CModel::LoadFromFbx(L"model\\stm730_136_03.fbx");
+	//CModel::LoadFromFbx(L"model\\630_002.fbx");
+	//CModel::LoadFromFbx(L"model\\630_001.fbx");
+	//CModel::LoadFromFbx(L"model\\770_168.fbx");
+
 }
