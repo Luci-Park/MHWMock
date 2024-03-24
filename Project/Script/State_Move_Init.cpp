@@ -21,6 +21,17 @@ ST_PLAYER_N_MOVE::~ST_PLAYER_N_MOVE()
 
 void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	//플레이어의 현재 바라보고 있는 방향
+	//그 방향을 기준으로 현재 눌린 방향이 맞는지
+	// 근데 카메라를 기준으로 또 봐야 할수도?
+	//같은 방향이라면 그냥 전진
+	//아니면 그에 맞는 행동
+
+
+
+	player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+	player->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+
 	if (KEY_PRESSED(KEY::W))			//Move Forward
 		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
 	else if (KEY_PRESSED(KEY::A))		//Move Left
@@ -90,8 +101,6 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 	if (KEY_PRESSED(KEY::A))
 	{
 		//rotate Left
-		Quaternion rot = player->Transform()->GetRelativeRot();
-		player->Transform()->GetRelativeEulerRot();
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
