@@ -33,6 +33,7 @@ public:
 
 	string	GetName();
 	void	SetName(string _name);
+	void	SetName(wstring _name);
 	string	GetClipName();
 
 	const Pin* PinExists(ed::PinId _pinId);

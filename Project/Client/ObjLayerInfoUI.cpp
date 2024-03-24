@@ -59,7 +59,7 @@ int ObjLayerInfoUI::render_update()
 	// Layer ComboBox.
 	{
 		item_current_idx = GetTarget()->GetLayerIndex(); 
-
+		if (item_current_idx == -1) item_current_idx = 0;
 		combo_preview_value = items[item_current_idx];  
 		if (ImGui::BeginCombo("Layer", combo_preview_value, ImGuiComboFlags_NoArrowButton))
 		{

@@ -74,7 +74,13 @@ double CAnimationStateMachine::GetTickPercent()
 CAnimationState* CAnimationStateMachine::CreateState()
 {
 	CAnimationState* pNewState = new CAnimationState(m_pRootMachine, this);
-	pNewState->SetName(L"New State");
+	wstring name = L"New State";
+	int i = 0;
+	while (GetStateByName(name) != nullptr)
+	{
+		name = L"New State" + std::to_wstring(i++);
+	}
+	pNewState->SetName(name);
 	m_States.insert(pNewState);
 	return pNewState;
 }
@@ -89,7 +95,13 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 {
 	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
-	pNewMachine->SetName(L"New Machine");
+	wstring name = L"New Machine";
+	int i = 0;
+	while (GetStateByName(name) != nullptr)
+	{
+		name = L"New Machine" + std::to_wstring(i++);
+	}
+	pNewMachine->SetName(name);
 	pNewMachine->Reset(0);
 	m_States.insert(pNewMachine);
 	return pNewMachine;

@@ -10,7 +10,33 @@
 #include "ImGui/imgui_stdlib.h"
 #include "ImGuiFunc.h"
 
+int DirCalcFunc(ImVec2 prev, ImVec2 next)
+{
+	float deltaX = next.x - prev.x;
+	float deltaY = next.y - prev.y;
 
+	if (std::abs(deltaX) > std::abs(deltaY)) {
+		return (deltaX > 0) ? 2 : 1; // Right or Left
+	}
+	else {
+		return (deltaY > 0) ? 3 : 0; // Bottom or Top
+	}
+}
+void GetOutputInputPin(ImVec2 prev, ImVec2 next, int& output, int& input)
+{
+	int dir = DirCalcFunc(prev, next);
+	switch (dir)
+	{
+	case 0:
+		output = 0; input = 3; break;
+	case 1:		
+		output = 1; input = 2; break;
+	case 2:
+		output = 2; input = 1; break;
+	case 3:
+		output = 3; input = 0; break;
+	}
+}
 AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 	, CAnimationStateMachine* _targetMachine, ed::EditorContext* _parentContext)
 	: m_iCurrentEditingParam(-1)
@@ -44,8 +70,12 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 			auto linkInfo = t->GetViewLink();
 			auto prevNode = GetNode(ed::NodeId(t->GetPrevState()));
 			auto nextNode = GetNode(ed::NodeId(t->GetNextState()));
-			m_Links.emplace_back(t, &(*prevNode).outputPins[0], 
-				&(*nextNode).inputPins[0]);
+			ImVec2 prevPos = ed::GetNodePosition(prevNode->id);
+			ImVec2 nextPos = ed::GetNodePosition(nextNode->id);
+			int output, input;
+			GetOutputInputPin(prevPos, nextPos, output, input);
+			m_Links.emplace_back(t, &(*prevNode).outputPins[output], 
+				&(*nextNode).inputPins[input]);
 		}
 	}
 	ed::SetCurrentEditor(_parentContext);
@@ -451,7 +481,15 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 	ImGui::InputText("##StateName", &name, ImGuiInputTextFlags_EnterReturnsTrue);
 	if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 	{
-		_node.SetName(name);
+		int i = 0;
+		wstring s = STR2WSTR(name);
+		while (true)
+		{
+			IAnimationState* p = m_pStateMachine->GetStateByName(s);
+			if (p == nullptr || p == _node.pState) break;
+			s = s + std::to_wstring(i++);
+		}
+		_node.SetName(s);
 	}
 	ImGui::Separator();
 	if (_node.pAnimState != nullptr)
@@ -465,7 +503,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		ImGui::PopItemWidth();
 
 		ImGui::SameLine();
-
+		
 		if (ImGui::Button("##AnimSelectBtn", ImVec2(18, 18)))
 		{
 			ImGui::OpenPopup("##AnimationSelector");
