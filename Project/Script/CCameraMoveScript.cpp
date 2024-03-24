@@ -121,7 +121,6 @@ void CCameraMoveScript::Camera3DMove()
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
 		vRot.y += DT * vMouseDir.x * 180.f;
 		vRot.x -= DT * vMouseDir.y * 180.f;
-
 	}
 
 	Transform()->SetRelativePos(vPos);

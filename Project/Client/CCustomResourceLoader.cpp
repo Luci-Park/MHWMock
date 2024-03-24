@@ -40,5 +40,4 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\630_002.fbx");
 	//CModel::LoadFromFbx(L"model\\630_001.fbx");
 	//CModel::LoadFromFbx(L"model\\770_168.fbx");
-
 }

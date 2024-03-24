@@ -5,6 +5,7 @@
 #include "CGravityScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
+#include "CPlayerCameraScript.h"
 #include "CPlayerScript.h"
 #include "CTestScript.h"
 
@@ -14,6 +15,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
+	_vec.push_back(L"CPlayerCameraScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CTestScript");
 }
@@ -28,6 +30,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
 		return new CMonsterScript;
+	if (L"CPlayerCameraScript" == _strScriptName)
+		return new CPlayerCameraScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CTestScript" == _strScriptName)
@@ -50,6 +54,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERSCRIPT:
 		return new CMonsterScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERCAMERASCRIPT:
+		return new CPlayerCameraScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -79,6 +86,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERSCRIPT:
 		return L"CMonsterScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERCAMERASCRIPT:
+		return L"CPlayerCameraScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
