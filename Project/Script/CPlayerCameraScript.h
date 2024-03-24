@@ -7,6 +7,7 @@ class CPlayerCameraScript :
 private:
     CGameObject*        m_pTargetObj;
     float                     m_fRadius;
+    float                     m_fRotationSpeed;
 
 public:
     virtual void begin() override;
