@@ -88,9 +88,6 @@ void CAnimator3D::tick()
 		pTransform->SetRelativeScale(frame[i].vScale);
 	}
 
-	//�� ƽ���� �ϴ°� �ƴ� �� ������ ���� �����̴� ��
-	//Root Motion
-	//Root Bone�� �޾ƿ�
 	auto rootBone = BoneHolder()->GetBone(L"Root");
 	//assert(rootBone != nullptr);
 	Vector3 rPos = rootBone->GetRelativePos();
