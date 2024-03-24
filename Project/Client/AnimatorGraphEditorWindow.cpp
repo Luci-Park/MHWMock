@@ -380,32 +380,31 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	}
 	NextColumn();
 
+	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();
+
 	ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
 	ed::PushStyleVar(ed::StyleVar_PinArrowWidth, 10.0f);
 	ed::BeginPin(_node.inputPins[2].id, ed::PinKind::Input);
 	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
 	ed::EndPin();
 	ed::PopStyleVar(2);
-	
-	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
-	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
-	ed::EndPin();
 	EndColumn();
 
+	ImGui::Dummy(ImVec2(0, sizeY - 10));
+	ed::BeginPin(_node.outputPins[3].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+	ed::EndPin();
+
+	ImGui::SameLine(0, 0);
 
 	ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
 	ed::PushStyleVar(ed::StyleVar_PinArrowWidth, 10.0f);
-	ImGui::Dummy(ImVec2(0, sizeY - 10));
 	ed::BeginPin(_node.inputPins[3].id, ed::PinKind::Input);
 	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
 	ed::EndPin();
 	ed::PopStyleVar(2);
-
-	ImGui::SameLine(0, 0);
-	
-	ed::BeginPin(_node.outputPins[3].id, ed::PinKind::Output);
-	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
-	ed::EndPin();
 
 	ed::EndNode();
 
