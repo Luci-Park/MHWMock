@@ -460,7 +460,7 @@ void AnimatorGraphEditorWindow::DrawSelection(Node& _node)
 		ImGui::Text("Animation");
 		ImGui::SameLine();
 		string clipName = _node.GetClipName();
-		ImGui::PushItemWidth(100);
+		ImGui::PushItemWidth(width - 100);
 		ImGui::InputText("##AnimationName", &clipName, ImGuiInputTextFlags_ReadOnly);
 		ImGui::PopItemWidth();
 

@@ -140,4 +140,5 @@ void CAnimator3D::LoadFromLevelFile(FILE* _FILE)
 		}
 	}
 	m_pAnimationStateMachine->LoadFromLevelFile(_FILE);
+	m_pAnimationStateMachine->SetName(L"Base Machine");
 }
