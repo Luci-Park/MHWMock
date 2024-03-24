@@ -132,3 +132,39 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
+
+class ST_PLAYER_N_MOVE_LEFT : public State
+{
+private:
+public:
+    ST_PLAYER_N_MOVE_LEFT();
+    ~ST_PLAYER_N_MOVE_LEFT() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_N_MOVE_Backward : public State
+{
+private:
+public:
+    ST_PLAYER_N_MOVE_Backward();
+    ~ST_PLAYER_N_MOVE_Backward() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_N_MOVE_Right : public State
+{
+private:
+public:
+    ST_PLAYER_N_MOVE_Right();
+    ~ST_PLAYER_N_MOVE_Right() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};

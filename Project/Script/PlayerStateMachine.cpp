@@ -45,6 +45,9 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"N_Idle", new ST_PLAYER_N_IDLE));
 	_States.insert(std::make_pair(L"N_Move", new ST_PLAYER_N_MOVE));
 	_States.insert(std::make_pair(L"N_Move_Forward",new ST_PLAYER_N_MOVE_FORWARD));
+	_States.insert(std::make_pair(L"N_Move_Left",new ST_PLAYER_N_MOVE_LEFT));
+	_States.insert(std::make_pair(L"N_Move_Backward",new ST_PLAYER_N_MOVE_Backward));
+	_States.insert(std::make_pair(L"N_Move_Right",new ST_PLAYER_N_MOVE_Right));
 
 }
 
