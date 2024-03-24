@@ -38,3 +38,9 @@ State::StateParam State::SetParam(std::wstring paramId, AnimParamUnion param)
 	st._uStateparam = param;
 	return st;
 }
+
+AnimParamUnion State::GetParam(std::wstring paramId)
+{
+	auto st = _StateParam.find(paramId)->second;
+	return st._uStateparam;
+}

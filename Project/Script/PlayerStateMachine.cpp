@@ -52,7 +52,7 @@ void PlayerStateMachine::CreateStateParam()
 {
 	//Add state Param
 	CAnimationStateMachine* st = _player->Animator3D()->GetStateMachine();
-	State* s = _States.find(L"Idle")->second;
+	State* s = _States.find(L"N_Idle")->second;
 
 	for(auto t : st->GetAllParams())
 	{

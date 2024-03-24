@@ -33,8 +33,6 @@ public:
     virtual void LoadFromLevelFile(FILE* _FILE) override;
     CLONE(CMainPlayerScript);
 public:
-    void UpdateTransform(PxTransform tr);
-public:
     CMainPlayerScript();
     ~CMainPlayerScript();
 };
@@ -87,38 +85,39 @@ public:
         StateParam sp = SetParam(paramId, param);
         PSM->SetASTMParam(paramId, sp._eStateparam, sp._uStateparam);
     }
+    AnimParamUnion GetParam(std::wstring paramId);
 };
 
-class ST_PLAYER_IDLE : public State
+class ST_PLAYER_N_IDLE : public State
 {
 private:
 public:
-    ST_PLAYER_IDLE();
-    ~ST_PLAYER_IDLE() override;
+    ST_PLAYER_N_IDLE();
+    ~ST_PLAYER_N_IDLE() override;
 public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
-class ST_PLAYER_MOVE : public State
+class ST_PLAYER_N_MOVE : public State
 {
 private:
 public:
-    ST_PLAYER_MOVE();
-    ~ST_PLAYER_MOVE() override;
+    ST_PLAYER_N_MOVE();
+    ~ST_PLAYER_N_MOVE() override;
 public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
-class ST_PLAYER_MOVE_FORWARD : public State
+class ST_PLAYER_N_MOVE_FORWARD : public State
 {
 private:
 public:
-    ST_PLAYER_MOVE_FORWARD();
-    ~ST_PLAYER_MOVE_FORWARD() override;
+    ST_PLAYER_N_MOVE_FORWARD();
+    ~ST_PLAYER_N_MOVE_FORWARD() override;
 public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
