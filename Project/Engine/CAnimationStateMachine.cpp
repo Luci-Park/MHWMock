@@ -354,10 +354,10 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
-	//LoadWString(name, _FILE);
-	//m_pTail = GetStateByName(name);
-	m_pTail = CreateState();
-	m_pTail->SetName(L"ExitPoint");
+	LoadWString(name, _FILE);
+	m_pTail = GetStateByName(name);
+	//m_pTail = CreateState();
+	//m_pTail->SetName(L"ExitPoint");
 
 	IAnimationState::LoadFromLevelFile(_FILE);
 
