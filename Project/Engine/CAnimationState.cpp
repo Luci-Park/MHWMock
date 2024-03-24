@@ -10,6 +10,7 @@ CAnimationState::CAnimationState(CAnimationStateMachine* _root, CAnimationStateM
 	, m_fSpeed(1)
 	, m_dTick(0)
 	, m_iRepeatNum(0)
+	, m_iRootIdx(-1)
 {
 }
 
@@ -19,6 +20,7 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
 	, m_iRepeatNum(0)
+	, m_iRootIdx(-1)
 {
 }
 
@@ -34,6 +36,12 @@ void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 		m_iRootIdx = m_pClip->GetRootIdx(L"Root");
 		assert(m_iRootIdx >= 0);
 		m_FirstRootFrame = m_pClip->GetTransformsAtFrame(0)[m_iRootIdx];
+	}
+	else
+	{
+		m_iRootIdx = -1;
+		m_FirstRootFrame.vPos = Vector3::Zero;
+		m_FirstRootFrame.qRot = Quaternion::Identity;
 	}
 }
 
@@ -125,6 +133,7 @@ void CAnimationState::SaveToLevelFile(FILE* _FILE)
 void CAnimationState::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadResRef(m_pClip, _FILE);
+	SetClip(m_pClip);
 	fread(&m_fSpeed, sizeof(float), 1, _FILE);
 
 	IAnimationState::LoadFromLevelFile(_FILE);

@@ -15,6 +15,11 @@ void Node::SetName(string _name)
 	pState->SetName(STR2WSTR(_name));
 }
 
+void Node::SetName(wstring _name)
+{
+	pState->SetName(_name);
+}
+
 string Node::GetClipName()
 {
 	Ptr<CAnimationClip> anim = pAnimState ? pAnimState->GetClip() : nullptr;
