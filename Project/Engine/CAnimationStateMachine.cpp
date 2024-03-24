@@ -10,9 +10,10 @@ CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CA
 		m_pRootMachine = this;
 		m_pParentMachine = this;
 	}
-	auto pHead = CreateState();
-	pHead->SetName(L"EntryPoint");
-	m_pHead = pHead;
+	m_pHead = CreateState();
+	m_pHead->SetName(L"EntryPoint");
+	m_pTail = CreateState();
+	m_pTail->SetName(L"ExitPoint");
 	Reset(0);
 }
 
@@ -299,12 +300,14 @@ void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)
 	}
 
 	SaveWString(m_pHead->GetName(), _FILE);
+	SaveWString(m_pTail->GetName(), _FILE);
 	IAnimationState::SaveToLevelFile(_FILE);
 }
 
 void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 {
 	delete m_pHead;
+	delete m_pTail;
 	m_States.clear();
 
 	int count; fread(&count, sizeof(int), 1, _FILE);
@@ -351,6 +354,10 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 	wstring name;
 	LoadWString(name, _FILE);
 	m_pHead = GetStateByName(name);
+	//LoadWString(name, _FILE);
+	//m_pTail = GetStateByName(name);
+	m_pTail = CreateState();
+	m_pTail->SetName(L"ExitPoint");
 
 	IAnimationState::LoadFromLevelFile(_FILE);
 

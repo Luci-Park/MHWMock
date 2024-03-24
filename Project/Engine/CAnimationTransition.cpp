@@ -64,8 +64,18 @@ void CAnimationTransition::DeleteCondition(AnimCondition* _condition)
 
 bool CAnimationTransition::CheckCondition()
 {
-	if (m_bHasExitTime && m_pPrevState->GetTickPercentWithRepeat() < m_dExitTime)
-		return false;
+	if (m_bHasExitTime)
+	{
+		if(eAnimationNodeType::State == m_pPrevState->GetType() 
+			&& m_pPrevState->GetTickPercentWithRepeat() < m_dExitTime)
+			return false;
+		else if (eAnimationNodeType::StateMachine == m_pPrevState->GetType())
+		{
+			auto sm = (CAnimationStateMachine*)m_pPrevState;
+			if (sm->GetCurrentState() != sm->GetTail())
+				return false;
+		}
+	}
 	for (int i = 0; i < m_vecConditions.size(); i++)
 	{
 		AnimCondition* c = m_vecConditions[i];

@@ -316,8 +316,11 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	float rounding = _node.pAnimState != nullptr ? 12.0f : 0.f;
 	const float padding = 12.0f;
 	const auto pinBackground = ed::GetStyle().Colors[ed::StyleColor_NodeBg];
-	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
-		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
+	ImColor color = ImColor(72, 74, 77, 200);
+	if (_node.pState == m_pStateMachine->GetHead())
+		color = ImColor(191, 108, 26, 200);
+	else if (_node.pState == m_pStateMachine->GetTail())
+		color = ImColor(245, 66, 84, 200);
 
 	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
 	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32, 200));
@@ -380,32 +383,31 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	}
 	NextColumn();
 
+	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
+	ed::EndPin();
+
 	ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
 	ed::PushStyleVar(ed::StyleVar_PinArrowWidth, 10.0f);
 	ed::BeginPin(_node.inputPins[2].id, ed::PinKind::Input);
 	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
 	ed::EndPin();
 	ed::PopStyleVar(2);
-	
-	ed::BeginPin(_node.outputPins[2].id, ed::PinKind::Output);
-	ImGui::Dummy(ImVec2(10, pinSizeY * 0.5));
-	ed::EndPin();
 	EndColumn();
 
+	ImGui::Dummy(ImVec2(0, sizeY - 10));
+	ed::BeginPin(_node.outputPins[3].id, ed::PinKind::Output);
+	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
+	ed::EndPin();
+
+	ImGui::SameLine(0, 0);
 
 	ed::PushStyleVar(ed::StyleVar_PinArrowSize, 10.0f);
 	ed::PushStyleVar(ed::StyleVar_PinArrowWidth, 10.0f);
-	ImGui::Dummy(ImVec2(0, sizeY - 10));
 	ed::BeginPin(_node.inputPins[3].id, ed::PinKind::Input);
 	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
 	ed::EndPin();
 	ed::PopStyleVar(2);
-
-	ImGui::SameLine(0, 0);
-	
-	ed::BeginPin(_node.outputPins[3].id, ed::PinKind::Output);
-	ImGui::Dummy(ImVec2(nodeSize.x * 0.5, 10));
-	ed::EndPin();
 
 	ed::EndNode();
 
