@@ -10,9 +10,10 @@ CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CA
 		m_pRootMachine = this;
 		m_pParentMachine = this;
 	}
-	auto pHead = CreateState();
-	pHead->SetName(L"EntryPoint");
-	m_pHead = pHead;
+	m_pHead = CreateState();
+	m_pHead->SetName(L"EntryPoint");
+	m_pTail = CreateState();
+	m_pTail->SetName(L"ExitPoint");
 	Reset(0);
 }
 

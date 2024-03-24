@@ -12,6 +12,7 @@ private:
 	vector<tAnimationKeyFrame>			m_vecFrame;
 	IAnimationState*					m_pCurrentState;
 	IAnimationState*					m_pHead;
+	IAnimationState*					m_pTail;
 	HashState							m_States;
 	vector<AnimStateParam*>				m_vecParams;
 public: //for other scripts
@@ -34,6 +35,7 @@ public:
 	void DeleteState(IAnimationState* _pState);
 
 	IAnimationState* GetHead() { return m_pHead; }
+	IAnimationState* GetTail() { return m_pTail; }
 	IAnimationState* GetCurrentState() { return m_pCurrentState; }
 	IAnimationState* GetStateByName(wstring _name);
 	void ChangeState(IAnimationState* _pNewState) { m_pCurrentState = _pNewState; }

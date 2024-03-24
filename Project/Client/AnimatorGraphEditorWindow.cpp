@@ -316,8 +316,11 @@ void AnimatorGraphEditorWindow::DrawNode(Node& _node)
 	float rounding = _node.pAnimState != nullptr ? 12.0f : 0.f;
 	const float padding = 12.0f;
 	const auto pinBackground = ed::GetStyle().Colors[ed::StyleColor_NodeBg];
-	ImColor color = _node.pState == m_pStateMachine->GetHead() ?
-		ImColor(191, 108, 26, 200) : ImColor(72, 74, 77, 200);
+	ImColor color = ImColor(72, 74, 77, 200);
+	if (_node.pState == m_pStateMachine->GetHead())
+		color = ImColor(191, 108, 26, 200);
+	else if (_node.pState == m_pStateMachine->GetTail())
+		color = ImColor(245, 66, 84, 200);
 
 	ed::PushStyleColor(ed::StyleColor_NodeBg, color);
 	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(32, 32, 32, 200));
