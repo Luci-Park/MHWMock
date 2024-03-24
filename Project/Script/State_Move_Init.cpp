@@ -1,4 +1,3 @@
-
 #include "pch.h"
 #include "CMainPlayerScript.h"
 
@@ -20,16 +19,16 @@ ST_PLAYER_N_MOVE::~ST_PLAYER_N_MOVE()
 void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	if (KEY_PRESSED(KEY::W))
-		ChangeASTMParam(StateMachine, L"Dir", (AnimParamUnion)0);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
 		//Move Left
 	else if (KEY_PRESSED(KEY::A))
-		ChangeASTMParam(StateMachine, L"Dir", (AnimParamUnion)1);
+		ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
 		//Move Backward
 	else if (KEY_PRESSED(KEY::S))
-		ChangeASTMParam(StateMachine, L"Dir", (AnimParamUnion)2);
+		ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
 		//Move Right
 	else if (KEY_PRESSED(KEY::D))
-		ChangeASTMParam(StateMachine, L"Dir", (AnimParamUnion)3);
+		ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
 }
 void ST_PLAYER_N_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -38,6 +37,7 @@ void ST_PLAYER_N_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 	switch (Dir)
 	{
 	case 0:
+		//MoveForward
 		StateMachine->ChangeState(L"N_Move_Forward");
 		break;
 	case 1:

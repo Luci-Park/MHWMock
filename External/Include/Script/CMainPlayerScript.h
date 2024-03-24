@@ -8,6 +8,15 @@
 #include "Engine\CTransform.h"
 #include "Engine\CAnimationStateMachine.h"
 
+
+#define A_TRUE (AnimParamUnion)true
+#define A_FALSE (AnimParamUnion)false
+
+#define A_FORWARD (AnimParamUnion)0
+#define A_LEFT (AnimParamUnion)1
+#define A_BACKWARD (AnimParamUnion)2
+#define A_RIGHT (AnimParamUnion)3
+
 class State;
 class PlayerStateMachine;
 class ST_PLAYER_IDLE;

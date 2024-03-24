@@ -26,7 +26,7 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 		KEY_PRESSED(KEY::S)||
 		KEY_PRESSED(KEY::D))
 	{
-		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)true);
+		ChangeASTMParam(StateMachine, L"IsMove", A_TRUE);
 		StateMachine->ChangeState(L"N_Move");
 	}
 }
