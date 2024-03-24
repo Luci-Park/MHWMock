@@ -42,9 +42,9 @@ void PlayerStateMachine::Begin()
 void PlayerStateMachine::CreateState()
 {
 	//Add State
-	_States.insert(std::make_pair(L"Idle", new ST_PLAYER_IDLE));
-	_States.insert(std::make_pair(L"Move", new ST_PLAYER_MOVE));
-	_States.insert(std::make_pair(L"Move_Forward",new ST_PLAYER_MOVE_FORWARD));
+	_States.insert(std::make_pair(L"N_Idle", new ST_PLAYER_N_IDLE));
+	_States.insert(std::make_pair(L"N_Move", new ST_PLAYER_N_MOVE));
+	_States.insert(std::make_pair(L"N_Move_Forward",new ST_PLAYER_N_MOVE_FORWARD));
 
 }
 
@@ -78,13 +78,13 @@ void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, 
 		_ASTM->SetFloat(paramId, param.FLOAT);
 		break;
 	case AnimParamType::INT:
-		_ASTM->SetFloat(paramId, param.INT);
+		_ASTM->SetInt(paramId, param.INT);
 		break;
 	case AnimParamType::BOOL:
-		_ASTM->SetFloat(paramId, param.BOOL);
+		_ASTM->SetBool(paramId, param.BOOL);
 		break;
 	case AnimParamType::TRIGGER:
-		_ASTM->SetFloat(paramId, param.TRIGGER);
+		_ASTM->SetTrigger(paramId, param.TRIGGER);
 		break;
 	case AnimParamType::NONE:
 		assert(1, "tpye None");
