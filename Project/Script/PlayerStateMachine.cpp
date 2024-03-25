@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
 
+class State;
 PlayerStateMachine::PlayerStateMachine()
 	: _curState(nullptr)
 	, _player(nullptr)
@@ -107,3 +108,14 @@ void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, 
 		break;
 	}
 }
+
+void PlayerStateMachine::ChangeASTMParam(std::wstring paramId, AnimParamUnion param)
+{
+	_curState->ChangeASTMParam(this, paramId, param);
+}
+
+AnimParamUnion PlayerStateMachine::GetParam(std::wstring paramId)
+{
+	return _curState->GetParam(paramId);
+}
+

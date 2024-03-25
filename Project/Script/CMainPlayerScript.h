@@ -58,16 +58,22 @@ public:
     PlayerStateMachine();
     PlayerStateMachine(CGameObject* player);
     ~PlayerStateMachine();
+
 public:
     void Begin();
     void CreateState();
     void CreateStateParam();
     void ChangeState(std::wstring newState);
     void Tick();
+
 public:
     void setPlayer(CGameObject* player);
     void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
+    void ChangeASTMParam(std::wstring paramId, AnimParamUnion param);
+    
+public:
     double GetStateDuration();
+    AnimParamUnion GetParam(std::wstring paramId);
 };
 
 class State

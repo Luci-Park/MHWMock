@@ -25,6 +25,11 @@ void CMainPlayerScript::begin()
 void CMainPlayerScript::tick()
 {
 	_stateMachine->Tick();
+
+	if (_stateMachine->GetParam(L"IsHit").BOOL)
+	{
+		// ChangeState
+	}
 }
 
 void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
@@ -38,7 +43,7 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER_TYPE::Monster)
 	{
-		_stateMachine->SetASTMParam(L"IsHit", AnimParamType::BOOL, A_TRUE);
+		_stateMachine->ChangeASTMParam(L"IsHit", A_TRUE);
 	}
 }
 

@@ -55,7 +55,7 @@
       <Filter>Script\Other</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerCameraScript.h">
-      <Filter>Script</Filter>
+      <Filter>Script\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +108,7 @@
       <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerCameraScript.cpp">
-      <Filter>Script</Filter>
+      <Filter>Script\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
