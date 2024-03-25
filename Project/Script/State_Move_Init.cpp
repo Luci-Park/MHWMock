@@ -73,7 +73,7 @@ void ST_PLAYER_N_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMachin
 #pragma region N_MOVE_FORWARD
 //-------------------------------------------------------------------------------------
 //
-//										MOVE FORWARD
+//									N	MOVE FORWARD
 //
 //-------------------------------------------------------------------------------------
 

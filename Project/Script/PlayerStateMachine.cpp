@@ -48,7 +48,17 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"N_Move_Left",new ST_PLAYER_N_MOVE_LEFT));
 	_States.insert(std::make_pair(L"N_Move_Backward",new ST_PLAYER_N_MOVE_Backward));
 	_States.insert(std::make_pair(L"N_Move_Right",new ST_PLAYER_N_MOVE_Right));
+	_States.insert(std::make_pair(L"N_HIT",new ST_PLAYER_N_HIT));
+	_States.insert(std::make_pair(L"N_HIT_F",new ST_PLAYER_N_HIT_F));
+	_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
+	_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
+	_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
+	_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
+}
 
+double PlayerStateMachine::GetStateDuration()
+{
+	return _ASTM->GetTickPercent();
 }
 
 void PlayerStateMachine::CreateStateParam()
@@ -56,7 +66,6 @@ void PlayerStateMachine::CreateStateParam()
 	//Add state Param
 	CAnimationStateMachine* st = _player->Animator3D()->GetStateMachine();
 	State* s = _States.find(L"N_Idle")->second;
-
 	for(auto t : st->GetAllParams())
 	{
 		s->AddParam(t->name, t->value, t->type);
