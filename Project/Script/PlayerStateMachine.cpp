@@ -36,7 +36,7 @@ void PlayerStateMachine::ChangeState(std::wstring newState)
 void PlayerStateMachine::Begin()
 {
 	CreateState();
-	_curState = _States.begin()->second;
+	_curState = _States.find(L"N_Idle")->second;
 	_ASTM = _player->Animator3D()->GetStateMachine();
 	CreateStateParam();
 }
