@@ -151,19 +151,14 @@ PS_OUT frag(VS_OUT _in)
     if (ISNMTEX)
     {
         //2-channel tangent space normal map
-        float2 normalColor = NMTEX.Sample(g_sam_0, _in.vUV);
+        float3 normalColor = NMTEX.Sample(g_sam_0, _in.vUV);
 
-        //normalColor.y *= -1;
+        float3 vnormal;
+        vnormal.xy = normalColor.xy * 2 - 1;
+        vnormal.z = sqrt(1 - vnormal.x * vnormal.x - vnormal.y * vnormal.y);
+        vnormal.z *= -1;
         
-        float2 normal = normalColor * 2.0f - 1.0f;
-        
-        float Z = sqrt(1 - pow(normal.x, 2) - pow(normal.y, 2));
-        Z *= -1;
-        
-        float3 vNormal = float3(normal.x, normal.y, Z);
-        
-        vViewNormal = normalize(vNormal);
-
+        vViewNormal = normalize(mul(float4(vnormal,0.f), g_matView));
     }
     
     //If have emissive texture
