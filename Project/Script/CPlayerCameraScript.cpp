@@ -4,7 +4,7 @@
 CPlayerCameraScript::CPlayerCameraScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
 	, m_pTargetObj(nullptr)
-	, m_fRadius(500.f)
+	, m_fRadius(10000.f)
 	, m_fRotationSpeed(60.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRadius, "Radius");
@@ -20,7 +20,7 @@ void CPlayerCameraScript::begin()
 {
 	if (m_pTargetObj != nullptr)
 	{
-		Vector3 vObjPos = m_pTargetObj->Transform()->GetRelativePos();
+		Vector3 vObjPos = m_pTargetObj->Transform()->GetWorldPos();
 		Vec3 vObjFront = m_pTargetObj->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
 
 		Vec3 vPos = Transform()->GetRelativePos();
@@ -45,8 +45,8 @@ void CPlayerCameraScript::tick()
 
 		if (m_pTargetObj != nullptr)
 		{
-			Vector3 vObjPos;
-			vObjPos = m_pTargetObj->Transform()->GetRelativePos();
+			Vector3 vObjPos = m_pTargetObj->Transform()->GetWorldPos();
+
 
 			Vec3 vPos = Transform()->GetRelativePos();
 			Quaternion qRot = Transform()->GetRelativeRot();
