@@ -39,8 +39,19 @@ State::StateParam State::SetParam(std::wstring paramId, AnimParamUnion param)
 	return st;
 }
 
+void State::ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param)
+{
+	StateParam sp = SetParam(paramId, param);
+	PSM->SetASTMParam(paramId, sp._eStateparam, sp._uStateparam);
+}
+
 AnimParamUnion State::GetParam(std::wstring paramId)
 {
 	auto st = _StateParam.find(paramId)->second;
 	return st._uStateparam;
+}
+
+double State::GetStateDuration(PlayerStateMachine* PSM)
+{
+	PSM->GetStateDuration();
 }

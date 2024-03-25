@@ -35,6 +35,11 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 		coll->SetGravity(false);
 		_Gravity = false;
 	}
+
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER_TYPE::Monster)
+	{
+		_stateMachine->SetASTMParam(L"IsHit", AnimParamType::BOOL, A_TRUE);
+	}
 }
 
 void CMainPlayerScript::SaveToLevelFile(FILE* _File)
