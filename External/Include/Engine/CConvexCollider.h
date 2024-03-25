@@ -6,6 +6,7 @@ class CConvexCollider : public CCollider3D
 private:
     PxTriangleMesh* m_pTriangleMesh;
     Vec3 _ConvexScale;
+    bool                   IsUsed;
 
 public:
     void CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* _pIndices, UINT _IdxCount);

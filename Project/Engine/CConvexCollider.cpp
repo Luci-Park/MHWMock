@@ -16,6 +16,7 @@
 CConvexCollider::CConvexCollider()
 {
 	m_ShapeType = SHAPE_TYPE::CONVEX;
+	IsUsed = false;
 }
 
 CConvexCollider::~CConvexCollider()
@@ -29,6 +30,12 @@ void CConvexCollider::begin()
 
 void CConvexCollider::finaltick()
 {
+	if (!IsUsed)
+	{
+		IsUsed = true;
+		CreateColliderShape();
+	}
+
 	assert(0 <= m_iCollisionCount);
 
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
