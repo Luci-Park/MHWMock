@@ -4,6 +4,7 @@
 PlayerStateMachine::PlayerStateMachine()
 	: _curState(nullptr)
 	, _player(nullptr)
+	, _ASTM(nullptr)
 {
 
 }
@@ -11,6 +12,7 @@ PlayerStateMachine::PlayerStateMachine()
 PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	: _curState(nullptr)
 	, _player(player)
+	, _ASTM(nullptr)
 {
 }
 
@@ -49,11 +51,12 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"N_Move_Backward",new ST_PLAYER_N_MOVE_Backward));
 	_States.insert(std::make_pair(L"N_Move_Right",new ST_PLAYER_N_MOVE_Right));
 	_States.insert(std::make_pair(L"N_HIT",new ST_PLAYER_N_HIT));
+
 	_States.insert(std::make_pair(L"N_HIT_F",new ST_PLAYER_N_HIT_F));
-	_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
-	_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
-	_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
-	_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
+	//_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
+	//_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
+	//_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
+	//_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
 }
 
 double PlayerStateMachine::GetStateDuration()
@@ -99,7 +102,6 @@ void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, 
 		_ASTM->SetTrigger(paramId, param.TRIGGER);
 		break;
 	case AnimParamType::NONE:
-		assert(1, "tpye None");
 		break;
 	default:
 		break;

@@ -53,5 +53,5 @@ AnimParamUnion State::GetParam(std::wstring paramId)
 
 double State::GetStateDuration(PlayerStateMachine* PSM)
 {
-	PSM->GetStateDuration();
+	return PSM->GetStateDuration();
 }

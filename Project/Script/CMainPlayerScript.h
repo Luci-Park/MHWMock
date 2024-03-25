@@ -107,7 +107,6 @@ public:
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
-#pragma region N_MOVE class
 class ST_PLAYER_N_MOVE : public State
 {
 private:
@@ -168,9 +167,6 @@ public:
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
-#pragma endregion
-
-#pragma region N_HIT class
 class ST_PLAYER_N_HIT : public State
 {
 public:
