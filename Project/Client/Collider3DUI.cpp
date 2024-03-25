@@ -7,14 +7,15 @@
 using namespace physx;
 
 Collider3DUI::Collider3DUI()
-	: ComponentUI("##Coillider3D",COMPONENT_TYPE::COLLIDER3D)
+	: ComponentUI("##Coillider3D", COMPONENT_TYPE::COLLIDER3D)
 	, _GravityFlag(true)
 	, _EditSize(false)
 	, _Gravity(false)
 	, _Radius(1.f)
 	, _HalfHeight(1.f)
-	, _ScaleVec( Vec3(1.f,1.f,1.f))
-	, _HalfExtents( Vec3(1.f,1.f,1.f))
+	, _ScaleVec(Vec3(1.f, 1.f, 1.f))
+	, _HalfExtents(Vec3(1.f, 1.f, 1.f))
+	, _OffSetPos(Vec3::Zero)
 {
 	SetName("Coillider3D");
 }
@@ -35,6 +36,12 @@ int Collider3DUI::render_update()
 
 	if (_EditSize)
 	{
+		_OffSetPos = GetTarget()->Collider3D()->GetOffsetPos();
+		ImGui::Text("OffsetPos");
+		ImGui::SameLine();
+		ImGui::DragFloat3("##OffsetPos", _OffSetPos);
+		GetTarget()->Collider3D()->SetOffsetPos(_OffSetPos);
+
 		SHAPE_TYPE shapeType = GetTarget()->Collider3D()->GetShapeType();
 		if (shapeType == SHAPE_TYPE::CUBE)
 		{

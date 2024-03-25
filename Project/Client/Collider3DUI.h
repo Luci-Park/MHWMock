@@ -6,6 +6,7 @@ class Collider3DUI :
 private:
     Vec3    _ScaleVec;
     Vec3    _HalfExtents;
+    Vec3    _OffSetPos;
 
     bool    _Gravity;
     bool    _EditSize;

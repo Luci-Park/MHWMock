@@ -126,3 +126,14 @@ void CConvexCollider::CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* 
 
 	m_pTriangleMesh = CPhysXMgr::GetInst()->GetPxPhysics()->createTriangleMesh(readBuffer);
 }
+
+void CConvexCollider::SaveToLevelFile(FILE* _File)
+{
+	CCollider3D::SaveToLevelFile(_File);
+}
+
+void CConvexCollider::LoadFromLevelFile(FILE* _File)
+{
+	CCollider3D::LoadFromLevelFile(_File);
+}
+

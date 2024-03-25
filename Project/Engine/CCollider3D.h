@@ -39,6 +39,7 @@ public:
     Vec3 GetBoxExtents();
     float GetCapsuleRadius();
     float GetCapsuleHalfHeight();
+    Vector3 GetOffsetPos() { return m_vOffsetPos; }
 
     void DeleteRigidActor();
 public:

@@ -75,12 +75,14 @@ void CCapsuleCollider::CreateColliderShape()
 
 void CCapsuleCollider::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&_CapsuleRadius, sizeof(Vec3), 1, _File);
+	fwrite(&_CapsuleHeight, sizeof(Vec3), 1, _File);
 	CCollider3D::SaveToLevelFile(_File);
 }
 
 void CCapsuleCollider::LoadFromLevelFile(FILE* _File)
 {
+	fread(&_CapsuleRadius, sizeof(Vec3), 1, _File);
+	fread(&_CapsuleHeight, sizeof(Vec3), 1, _File);
 	CCollider3D::LoadFromLevelFile(_File);
-
-	CreateColliderShape();
 }

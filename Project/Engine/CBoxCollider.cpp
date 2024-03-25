@@ -46,6 +46,8 @@ void CBoxCollider::finaltick()
 	DrawDebugCube(m_matCollider3D, vColor, 0.f,false,_HalfExtents);
 }
 
+
+
 void CBoxCollider::CreateColliderShape()
 {
 	Vec3 vPos;
@@ -65,4 +67,16 @@ void CBoxCollider::CreateColliderShape()
 	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(physx::PxBoxGeometry(vHalfExtent), *m_pMaterial, true);
 
 	AddRigidActor();
+}
+
+void CBoxCollider::SaveToLevelFile(FILE* _File)
+{
+	fwrite(&_HalfExtents, sizeof(Vec3), 1, _File);
+	CCollider3D::SaveToLevelFile(_File);
+}
+
+void CBoxCollider::LoadFromLevelFile(FILE* _File)
+{
+	fread(&_HalfExtents, sizeof(Vec3), 1, _File);
+	CCollider3D::LoadFromLevelFile(_File);
 }

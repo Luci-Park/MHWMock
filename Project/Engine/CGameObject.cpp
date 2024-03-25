@@ -196,11 +196,11 @@ void CGameObject::AddComponent(CComponent* _Component)
 		m_arrCom[(UINT)_Component->GetType()] = _Component;
 
 		// Collider3D 확인
-		//CCollider3D* pCollider3D = dynamic_cast<CCollider3D*>(_Component);
-		//if (pCollider3D)
-		//{
-		//	pCollider3D->begin();
-		//}
+		CCollider3D* pCollider3D = dynamic_cast<CCollider3D*>(_Component);
+		if (pCollider3D)
+		{
+			pCollider3D->begin();
+		}
 
 		// RenderComponent 확인
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Component);
