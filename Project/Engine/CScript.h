@@ -31,6 +31,7 @@ struct tScriptParam
 };
 
 class CCollider3D;
+class IAnimationState;
 
 class CScript :
     public CComponent
@@ -54,9 +55,12 @@ public:
     virtual void OnCollisionStay(CCollider3D* _Other) {}
     virtual void OnCollisionExit(CCollider3D* _Other) {}
 
-
     virtual void OnTriggerEnter(CCollider3D* _Other) {}
     virtual void OnTriggerExit(CCollider3D* _Other) {}
+
+    virtual void OnAnimationBegin(IAnimationState* _pState){}
+    virtual void OnAnimationEndStart(IAnimationState* _pState){}
+    virtual void OnAnimationEndFinished(IAnimationState* _pState){}
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override {}
