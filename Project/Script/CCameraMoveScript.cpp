@@ -6,7 +6,7 @@
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
-	, m_fCamSpeed(1000.f)
+	, m_fCamSpeed(100.f)
 {
 }
 
@@ -121,6 +121,7 @@ void CCameraMoveScript::Camera3DMove()
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
 		vRot.y += DT * vMouseDir.x * 180.f;
 		vRot.x -= DT * vMouseDir.y * 180.f;
+
 	}
 
 	Transform()->SetRelativePos(vPos);

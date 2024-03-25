@@ -3,7 +3,6 @@ CGravityScript
 CMainPlayerScript
 CMissileScript
 CMonsterScript
-CPlayerCameraScript
 CPlayerScript
 CTestScript
 PlayerState

@@ -48,6 +48,13 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 	if (pParent)
 	{
 		Matrix mParentWorldInv = pParent->Transform()->m_matWorldInv;
+
+		//Matrix mWorldMatrix = XMMatrixIdentity();
+		//Matrix matRot = Matrix::CreateFromQuaternion(_Rot);
+		//Matrix matTranslation = XMMatrixTranslation(_Pos.x, _Pos.y, _Pos.z);
+
+		//mWorldMatrix = m_matWorldScale * matRot * matTranslation;
+
 		Matrix mWorldMatrix = m_matWorld;
 		mWorldMatrix.CreateTranslation(_Pos);
 		mWorldMatrix.CreateFromQuaternion(_Rot);
