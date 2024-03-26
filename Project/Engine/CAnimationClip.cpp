@@ -187,9 +187,9 @@ int CAnimationClip::Save(const wstring& _strRelativePath)
 		fwrite(&iSize, sizeof(UINT), 1, pFile);
 		for (size_t i = 0; i < iSize; i++)
 		{
-			m_vecChannels[i].strBoneName = m_BoneNames[i];
 			if (m_vecChannels[i].Save(pFile) == E_FAIL)
 				return E_FAIL;
+			m_BoneNames[i] = m_vecChannels[i].strBoneName;
 		}
 
 		fclose(pFile);
@@ -224,24 +224,9 @@ int CAnimationClip::Load(const wstring& _strFilePath)
 	for (size_t i = 0; i < iSize; i++)
 		m_vecChannels[i].Load(pFile);
 
-	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_BoneNames.resize(iSize);
-	for (size_t i = 0; i < iSize; i++)
-		LoadWString(m_BoneNames[i], pFile);
-
-	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_vecRsltChannel.resize(iSize);
-	for (size_t i = 0; i < iSize; i++)
-	{
-		LoadWString(m_vecRsltChannel[i].strBoneName, pFile);
-		fread(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
-		fread(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
-		fread(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
-	}
-
 	fclose(pFile);
 
-	//Save(_strFilePath);
+	//Save(key);
 
 	return S_OK;
 }

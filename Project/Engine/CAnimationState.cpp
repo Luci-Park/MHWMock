@@ -33,9 +33,9 @@ void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 	m_pClip = _pClip;
 	if (m_pClip != nullptr)
 	{
-		m_iRootIdx = m_pClip->GetRootIdx(L"Root");
-		assert(m_iRootIdx >= 0);
-		m_FirstRootFrame = m_pClip->GetTransformsAtFrame(0)[m_iRootIdx];
+		//m_iRootIdx = m_pClip->GetRootIdx(L"Root");
+		//assert(m_iRootIdx >= 0);
+		//m_FirstRootFrame = m_pClip->GetTransformsAtFrame(0)[m_iRootIdx];
 	}
 	else
 	{
