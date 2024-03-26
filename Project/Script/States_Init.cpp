@@ -74,6 +74,13 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		StateMachine->ChangeState(L"Wp_Move");
 	}
 
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+
+
 	if (KEY_PRESSED(KEY::LBTN))
 	{
 		if (KEY_PRESSED(KEY::RBTN))
