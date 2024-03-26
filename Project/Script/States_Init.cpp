@@ -32,7 +32,7 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 
 	if (KEY_PRESSED(KEY::LBTN))
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
@@ -70,13 +70,37 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		KEY_PRESSED(KEY::D))
 	{
 		ChangeASTMParam(StateMachine, L"IsMove", A_TRUE);
-		StateMachine->ChangeState(L"N_Move");
+		//Move
+		StateMachine->ChangeState(L"Wp_Move");
 	}
 
 	if (KEY_PRESSED(KEY::LBTN))
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		StateMachine->ChangeState(L"");
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+		}
+		else
+		{
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		}
+		//Attack State
+	}
+	else if(KEY_PRESSED(KEY::RBTN))
+	{
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+		}
+		if (KEY_PRESSED(KEY::TAB))
+		{
+			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+		}
+		else
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		}
+		//Attack State
 	}
 
 	//Rolling

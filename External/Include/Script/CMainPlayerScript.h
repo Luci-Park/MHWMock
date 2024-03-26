@@ -102,6 +102,9 @@ public:
     double GetStateDuration(PlayerStateMachine* PSM);
 };
 
+
+#pragma region Idle State
+
 class ST_PLAYER_N_IDLE : public State
 {
 private:
@@ -125,6 +128,12 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
+
+#pragma endregion
+
+#pragma region Move State
+
+#pragma region N State
 
 class ST_PLAYER_N_MOVE : public State
 {
@@ -185,6 +194,75 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
+#pragma endregion
+
+#pragma region Wp State
+class ST_PLAYER_WP_MOVE : public State
+{
+private:
+public:
+    ST_PLAYER_WP_MOVE();
+    ~ST_PLAYER_WP_MOVE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_MOVE_Forward : public State
+{
+private:
+public:
+    ST_PLAYER_WP_MOVE_Forward();
+    ~ST_PLAYER_WP_MOVE_Forward() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_MOVE_Right : public State
+{
+private:
+public:
+    ST_PLAYER_WP_MOVE_Right();
+    ~ST_PLAYER_WP_MOVE_Right() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_MOVE_Left : public State
+{
+private:
+public:
+    ST_PLAYER_WP_MOVE_Left();
+    ~ST_PLAYER_WP_MOVE_Left() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_MOVE_Backward : public State
+{
+private:
+public:
+    ST_PLAYER_WP_MOVE_Backward();
+    ~ST_PLAYER_WP_MOVE_Backward() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+
+#pragma endregion
+
+#pragma region Hit State
 
 class ST_PLAYER_N_HIT : public State
 {
@@ -240,7 +318,10 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
+
 #pragma endregion
+
+#pragma region Rolling
 
 class ST_PLAYER_N_ROLLING : public State
 {
@@ -253,3 +334,4 @@ public:
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
+#pragma endregion

@@ -61,6 +61,11 @@ void PlayerStateMachine::CreateState()
 	//_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
 
 	_States.insert(std::make_pair(L"Wp_Idle",new ST_PLAYER_WP_IDLE));	
+	_States.insert(std::make_pair(L"Wp_Move",new ST_PLAYER_WP_MOVE));	
+	_States.insert(std::make_pair(L"Wp_Move_Left",new ST_PLAYER_WP_MOVE_Left));	
+	_States.insert(std::make_pair(L"Wp_Move_Right",new ST_PLAYER_WP_MOVE_Right));	
+	_States.insert(std::make_pair(L"Wp_Move_Backward",new ST_PLAYER_WP_MOVE_Backward));	
+	_States.insert(std::make_pair(L"Wp_Move_Forward",new ST_PLAYER_WP_MOVE_Forward));	
 }
 
 double PlayerStateMachine::GetStateDuration()
