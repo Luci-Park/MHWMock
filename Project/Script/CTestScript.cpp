@@ -20,6 +20,21 @@ void CTestScript::tick()
 {
 }
 
+void CTestScript::OnAnimationBegin(IAnimationState* _pState)
+{
+	int i = 0;
+}
+
+void CTestScript::OnAnimationEndStart(IAnimationState* _pState)
+{
+	int j = 0;
+}
+
+void CTestScript::OnAnimationEndFinished(IAnimationState* _pState)
+{
+	int p = 0;
+}
+
 void CTestScript::SaveToLevelFile(FILE* _File)
 {
 }

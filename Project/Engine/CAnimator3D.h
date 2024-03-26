@@ -4,6 +4,7 @@
 class CBoneHolder;
 class CAnimationClip;
 class CAnimationStateMachine;
+class IAnimationState;
 class CAnimator3D :
 	public CComponent
 {

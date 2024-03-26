@@ -240,6 +240,9 @@ int CAnimationClip::Load(const wstring& _strFilePath)
 	}
 
 	fclose(pFile);
+
+	//Save(_strFilePath);
+
 	return S_OK;
 }
 
