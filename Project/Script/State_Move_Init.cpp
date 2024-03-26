@@ -28,7 +28,6 @@ void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 	//아니면 그에 맞는 행동
 
 
-
 	player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
 	player->Transform()->GetWorldDir(DIR_TYPE::FRONT);
 
@@ -40,6 +39,8 @@ void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 		ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
 	else if (KEY_PRESSED(KEY::D))		//Move Right	
 		ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+
+	ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 }
 void ST_PLAYER_N_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -95,7 +96,8 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 	if (KEY_RELEASE(KEY::W))
 	{
 		//Move Forward
-		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+
 		StateMachine->ChangeState(L"N_Idle");
 	}
 	else if (KEY_PRESSED(KEY::A))
@@ -110,10 +112,25 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 	{
 		//Move Right
 	}
+
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+	}
+
+	if (KEY_RELEASE(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+	}
 }
 void ST_PLAYER_N_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
 }
 
 #pragma endregion
@@ -147,6 +164,7 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 	{
 		//Stop Move
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
 
@@ -159,6 +177,11 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 	if (KEY_RELEASE(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 	}
 }
 
@@ -195,6 +218,7 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 	{
 		//Stop Move
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
 
@@ -207,6 +231,11 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 	if (KEY_RELEASE(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 	}
 }
 
@@ -244,6 +273,7 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 	{
 		//Stop Move
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
 
@@ -256,6 +286,11 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 	if (KEY_RELEASE(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 	}
 }
 
@@ -352,19 +387,7 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 	{
 		//Stop
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
-	}
-
-	if (KEY_PRESSED(KEY::LSHIFT))
-	{
-		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
-		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
-	}
-
-	if (KEY_RELEASE(KEY::LSHIFT))
-	{
-		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 	}
 }
 

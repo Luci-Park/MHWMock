@@ -70,6 +70,7 @@ void PlayerStateMachine::CreateState()
 
 double PlayerStateMachine::GetStateDuration()
 {
+	_ASTM->GetHead()->OnTransitionEnd();
 	return _ASTM->GetTickPercent();
 }
 

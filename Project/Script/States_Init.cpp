@@ -17,6 +17,7 @@ ST_PLAYER_N_IDLE::~ST_PLAYER_N_IDLE()
 
 void ST_PLAYER_N_IDLE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 }
 void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -30,14 +31,14 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 		StateMachine->ChangeState(L"N_Move");
 	}
 
-	if (KEY_PRESSED(KEY::LBTN))
+	if (KEY_TAP(KEY::LBTN))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
 	//Rolling
-	if (KEY_PRESSED(KEY::SPACE))
+	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 	}
