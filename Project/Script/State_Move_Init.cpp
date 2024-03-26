@@ -43,7 +43,7 @@ void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 }
 void ST_PLAYER_N_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	auto Param = GetParam(L"Dir");
+	auto Param = StateMachine->GetASTMParam(L"Dir");
 	int Dir = Param.INT;
 	switch (Dir)
 	{
@@ -146,7 +146,7 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 	if (KEY_RELEASE(KEY::A))
 	{
 		//Stop Move
-		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
 }
@@ -180,7 +180,12 @@ void ST_PLAYER_N_MOVE_Backward::Enter(CGameObject* player, PlayerStateMachine* S
 
 void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (KEY_RELEASE(KEY::S))
+	{
+		//Stop Move
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_N_MOVE_Backward::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -193,7 +198,7 @@ void ST_PLAYER_N_MOVE_Backward::Exit(CGameObject* player, PlayerStateMachine* St
 #pragma region N_MOVE_RIGHT
 //-------------------------------------------------------------------------------------
 //
-//										MOVE BACKWARD
+//										MOVE RIGHT
 //
 //-------------------------------------------------------------------------------------
 
@@ -213,7 +218,12 @@ void ST_PLAYER_N_MOVE_Right::Enter(CGameObject* player, PlayerStateMachine* Stat
 
 void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (KEY_RELEASE(KEY::D))
+	{
+		//Stop Move
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_N_MOVE_Right::Exit(CGameObject* player, PlayerStateMachine* StateMachine)

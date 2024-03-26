@@ -40,6 +40,7 @@ void PlayerStateMachine::Begin()
 	_curState = _States.find(L"N_Idle")->second;
 	_ASTM = _player->Animator3D()->GetStateMachine();
 	CreateStateParam();
+
 }
 
 void PlayerStateMachine::CreateState()
@@ -51,13 +52,15 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"N_Move_Left",new ST_PLAYER_N_MOVE_LEFT));
 	_States.insert(std::make_pair(L"N_Move_Backward",new ST_PLAYER_N_MOVE_Backward));
 	_States.insert(std::make_pair(L"N_Move_Right",new ST_PLAYER_N_MOVE_Right));
-	_States.insert(std::make_pair(L"N_HIT",new ST_PLAYER_N_HIT));
 
+	_States.insert(std::make_pair(L"N_HIT",new ST_PLAYER_N_HIT));
 	_States.insert(std::make_pair(L"N_HIT_F",new ST_PLAYER_N_HIT_F));
 	//_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
 	//_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
 	//_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
 	//_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
+
+	_States.insert(std::make_pair(L"Wp_Idle",new ST_PLAYER_WP_IDLE));	
 }
 
 double PlayerStateMachine::GetStateDuration()
@@ -116,6 +119,12 @@ void PlayerStateMachine::ChangeASTMParam(std::wstring paramId, AnimParamUnion pa
 
 AnimParamUnion PlayerStateMachine::GetParam(std::wstring paramId)
 {
-	return _curState->GetParam(paramId);
+	//return _curState->GetParam(paramId);
+	return A_TRUE;
+}
+
+AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)
+{
+	return _ASTM->GetParamByName(paramId)->value;
 }
 

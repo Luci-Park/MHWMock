@@ -74,6 +74,7 @@ public:
 public:
     double GetStateDuration();
     AnimParamUnion GetParam(std::wstring paramId);
+    AnimParamUnion GetASTMParam(std::wstring paramId);
 };
 
 class State
@@ -97,7 +98,7 @@ public:
     void AddParam(std::wstring paramId, AnimParamUnion Stateparamunion, AnimParamType Stateparamtype);
     StateParam SetParam(std::wstring paramId,AnimParamUnion param);
     void ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param);
-    AnimParamUnion GetParam(std::wstring paramId);
+    AnimParamUnion GetParam(std::wstring paramId , PlayerStateMachine* PSM);
     double GetStateDuration(PlayerStateMachine* PSM);
 };
 
@@ -107,6 +108,18 @@ private:
 public:
     ST_PLAYER_N_IDLE();
     ~ST_PLAYER_N_IDLE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_IDLE : public State
+{
+private:
+public:
+    ST_PLAYER_WP_IDLE();
+    ~ST_PLAYER_WP_IDLE() override;
 public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
