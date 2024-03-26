@@ -10,7 +10,6 @@ CAnimationState::CAnimationState(CAnimator3D* _animator3D, CAnimationStateMachin
 	, m_fSpeed(1)
 	, m_dTick(0)
 	, m_iRepeatNum(0)
-	, m_iRootIdx(-1)
 {
 }
 
@@ -20,7 +19,6 @@ CAnimationState::CAnimationState(const CAnimationState& _other)
 	, m_fSpeed(_other.m_fSpeed)
 	, m_dTick(0)
 	, m_iRepeatNum(0)
-	, m_iRootIdx(-1)
 {
 }
 
@@ -31,18 +29,6 @@ CAnimationState::~CAnimationState()
 void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 {
 	m_pClip = _pClip;
-	if (m_pClip != nullptr)
-	{
-		//m_iRootIdx = m_pClip->GetRootIdx(L"Root");
-		//assert(m_iRootIdx >= 0);
-		//m_FirstRootFrame = m_pClip->GetTransformsAtFrame(0)[m_iRootIdx];
-	}
-	else
-	{
-		m_iRootIdx = -1;
-		m_FirstRootFrame.vPos = Vector3::Zero;
-		m_FirstRootFrame.qRot = Quaternion::Identity;
-	}
 }
 
 double CAnimationState::GetDurationInSeconds()
@@ -79,25 +65,29 @@ void CAnimationState::OnTransitionBegin(double _tickPercent)
 	Reset(_tickPercent, false);
 }
 
-vector<tAnimationKeyFrame>& CAnimationState::GetBoneTransforms()
+KeyFrames& CAnimationState::GetBoneTransforms()
 {
-	static vector<tAnimationKeyFrame> emptyFrames(0);
+	static KeyFrames emptyFrames(0);
 	if (m_pClip == nullptr) return emptyFrames;
 
-	vector<tAnimationKeyFrame>& frames = m_pClip->GetTransformsAtFrame(m_dTick);
+	KeyFrames& frames = m_pClip->GetTransformsAtFrame(m_dTick);
 	if (m_bIsFirstTick)
 	{
 		m_prevRootFrame = m_FirstRootFrame;
 		m_bIsFirstTick = false;
 	}
-	auto tempFrame = frames[m_iRootIdx];
-	frames[m_iRootIdx].vPos -= m_prevRootFrame.vPos;
+	auto rootKey = frames.find(L"Root");
+	if (rootKey != frames.end())
+	{
+		auto tempFrame = rootKey->second;
+		rootKey->second.vPos -= m_prevRootFrame.vPos;
 
-	Quaternion prevCon;
-	m_prevRootFrame.qRot.Conjugate(prevCon);
-	frames[m_iRootIdx].qRot = prevCon * frames[m_iRootIdx].qRot;
+		Quaternion prevCon;
+		m_prevRootFrame.qRot.Conjugate(prevCon);
+		rootKey->second.qRot = prevCon * rootKey->second.qRot;
 
-	m_prevRootFrame = tempFrame;
+		m_prevRootFrame = tempFrame;
+	}
 	return frames;
 	
 }

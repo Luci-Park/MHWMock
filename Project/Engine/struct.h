@@ -231,7 +231,13 @@ struct tAnimationKeyFrame
 		vScale += other.vScale;
 		qRot *= other.qRot;
 		return *this;
-	}
+	} 
+	tAnimationKeyFrame(){}
+	tAnimationKeyFrame(wstring _boneName)
+		:strBoneName(_boneName)	{}
+
+	tAnimationKeyFrame(const tAnimationKeyFrame& other)
+		: strBoneName(other.strBoneName), vPos(other.vPos), qRot(other.qRot), vScale(other.vScale) {}
 };
 
 typedef unordered_map<wstring, tAnimationChannel> Channels;

@@ -35,7 +35,7 @@ public:
 	virtual double GetTickPercentWithRepeat() = 0;
 	virtual double GetTickPercent() = 0;
 
-	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() = 0;
+	virtual KeyFrames& GetBoneTransforms() = 0;
 
 	virtual void OnTransitionBegin(double _tickPercent) {};
 	virtual void OnTransitionEnd();

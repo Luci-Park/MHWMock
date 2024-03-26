@@ -6,15 +6,14 @@ class CAnimationClip :
 	public CRes
 {
 private:
-    double                      m_dDuration; //by ticks
-    double                      m_dTicksPerSecond;
-    vector<tAnimationChannel>   m_vecChannels;
-    vector<tAnimationKeyFrame>  m_vecRsltChannel;
+    double      m_dDuration; //by ticks
+    double      m_dTicksPerSecond;
+    Channels    m_Channels;
+    KeyFrames   m_RsltKeyFrame;
 public:
     double GetDuration() { return m_dDuration; }
     double GetTicksPerSecond() { return m_dTicksPerSecond; }
-    vector<tAnimationKeyFrame>& GetTransformsAtFrame(double _dTick);
-    int GetRootIdx(wstring _rootName);
+    KeyFrames& GetTransformsAtFrame(double _dTick);
 
 private:
     Vec3 FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState);

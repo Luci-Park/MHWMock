@@ -13,7 +13,6 @@ private:
 	double							m_dTick;
 	double							m_dDuration;
 	int								m_iRepeatNum;
-	int								m_iRootIdx;
 	tAnimationKeyFrame				m_prevRootFrame;
 	tAnimationKeyFrame				m_FirstRootFrame;
 	bool							m_bIsFirstTick;
@@ -33,7 +32,7 @@ public:
 	
 	virtual void OnTransitionEnd() override;
 	virtual void OnTransitionBegin(double _tickPercent) override;
-	virtual vector<tAnimationKeyFrame>& GetBoneTransforms() override;
+	virtual KeyFrames& GetBoneTransforms() override;
 private:
 	void Reset(double _percent, bool _isRepeat);
 public:
