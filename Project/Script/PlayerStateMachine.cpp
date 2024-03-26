@@ -87,6 +87,8 @@ void PlayerStateMachine::CreateStateParam()
 void PlayerStateMachine::Tick()
 {
 	_curState->Tick(_player,this);
+
+	
 }
 
 void PlayerStateMachine::setPlayer(CGameObject* player)
@@ -124,8 +126,7 @@ void PlayerStateMachine::ChangeASTMParam(std::wstring paramId, AnimParamUnion pa
 
 AnimParamUnion PlayerStateMachine::GetParam(std::wstring paramId)
 {
-	//return _curState->GetParam(paramId);
-	return A_TRUE;
+	return _curState->GetParam(paramId, this);
 }
 
 AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)

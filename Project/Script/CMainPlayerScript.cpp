@@ -25,11 +25,6 @@ void CMainPlayerScript::begin()
 void CMainPlayerScript::tick()
 {
 	_stateMachine->Tick();
-
-	if (_stateMachine->GetParam(L"IsHit").BOOL)
-	{
-		// ChangeState
-	}
 }
 
 void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
@@ -44,6 +39,17 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER_TYPE::Monster)
 	{
 		_stateMachine->ChangeASTMParam(L"IsHit", A_TRUE);
+		// 피격당했을 경우 몬스터가 플레이어가 공격한 방향을 넘겨줘야한다.
+		//_stateMachine->ChangeASTMParam(L"Hit_Dir", A_FORWARD);
+
+		if (_stateMachine->GetParam(L"Wp_on").BOOL)
+		{
+			_stateMachine->ChangeState(L"ST_PLAYER_WP_HIT");
+		}
+		else
+		{
+			_stateMachine->ChangeState(L"ST_PLAYER_N_HIT");
+		}
 	}
 }
 
