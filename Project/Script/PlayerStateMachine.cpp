@@ -134,3 +134,15 @@ AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)
 	return _ASTM->GetParamByName(paramId)->value;
 }
 
+void PlayerStateMachine::OnAnimationBegin(IAnimationState* _pState)
+{
+	_curState->OnAnimationBegin(_pState);
+}
+void PlayerStateMachine::OnAnimationEndStart(IAnimationState* _pState)
+{
+	_curState->OnAnimationEndStart(_pState);
+}
+void PlayerStateMachine::OnAnimationEndFinished(IAnimationState* _pState)
+{
+	_curState->OnAnimationEndFinished(_pState);
+}

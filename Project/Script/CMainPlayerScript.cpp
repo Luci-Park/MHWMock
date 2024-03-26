@@ -47,6 +47,19 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 	}
 }
 
+void CMainPlayerScript::OnAnimationBegin(IAnimationState* _pState)
+{
+	_stateMachine->OnAnimationBegin(_pState);
+}
+void CMainPlayerScript::OnAnimationEndStart(IAnimationState* _pState)
+{
+	_stateMachine->OnAnimationEndStart(_pState);
+}
+void CMainPlayerScript::OnAnimationEndFinished(IAnimationState* _pState)
+{
+	_stateMachine->OnAnimationEndFinished(_pState);
+}
+
 void CMainPlayerScript::SaveToLevelFile(FILE* _File)
 {
 }
