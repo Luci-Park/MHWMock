@@ -38,6 +38,9 @@ public:
 
     virtual void OnCollisionEnter(CCollider3D* _Other) override;
 
+    virtual void OnAnimationBegin(IAnimationState* _pState) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+    virtual void OnAnimationEndFinished(IAnimationState* _pState) override;
 public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _FILE) override;
@@ -71,6 +74,10 @@ public:
     void setPlayer(CGameObject* player);
     void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
     void ChangeASTMParam(std::wstring paramId, AnimParamUnion param);
+public:
+    void OnAnimationBegin(IAnimationState* _pState);
+    void OnAnimationEndStart(IAnimationState* _pState);
+    void OnAnimationEndFinished(IAnimationState* _pState);
     
 public:
     double GetStateDuration();
@@ -101,6 +108,10 @@ public:
     void ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param);
     AnimParamUnion GetParam(std::wstring paramId , PlayerStateMachine* PSM);
     double GetStateDuration(PlayerStateMachine* PSM);
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState) {}
+    virtual void OnAnimationEndStart(IAnimationState* _pState) {}
+    virtual void OnAnimationEndFinished(IAnimationState* _pState) {}
 };
 
 
