@@ -20,14 +20,6 @@ struct tVertex
 
 typedef tVertex Vtx;
 
-struct tBone
-{
-	wstring wstrName;
-};
-
-
-
-
 // Event
 struct tEvent
 {
@@ -241,6 +233,9 @@ struct tAnimationKeyFrame
 		return *this;
 	}
 };
+
+typedef unordered_map<wstring, tAnimationChannel> Channels;
+typedef unordered_map<wstring, tAnimationKeyFrame> KeyFrames;
 
 // ===================
 // 상수버퍼 대응 구조체

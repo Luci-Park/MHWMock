@@ -9,7 +9,6 @@ private:
     double                      m_dDuration; //by ticks
     double                      m_dTicksPerSecond;
     vector<tAnimationChannel>   m_vecChannels;
-    vector<wstring>             m_BoneNames;
     vector<tAnimationKeyFrame>  m_vecRsltChannel;
 public:
     double GetDuration() { return m_dDuration; }
