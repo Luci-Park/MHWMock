@@ -2,8 +2,8 @@
 #include "CAnimationStateMachine.h"
 #include "CAnimationState.h"
 
-CAnimationStateMachine::CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
-	: IAnimationState(eAnimationNodeType::StateMachine, _root, _parent)
+CAnimationStateMachine::CAnimationStateMachine(CAnimator3D* _animator3D, CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
+	: IAnimationState(eAnimationNodeType::StateMachine, _animator3D, _root, _parent)
 {
 	if (m_pRootMachine == nullptr)
 	{
@@ -74,7 +74,7 @@ double CAnimationStateMachine::GetTickPercent()
 
 CAnimationState* CAnimationStateMachine::CreateState()
 {
-	CAnimationState* pNewState = new CAnimationState(m_pRootMachine, this);
+	CAnimationState* pNewState = new CAnimationState(m_pAnimator, m_pRootMachine, this);
 	wstring name = L"New State";
 	int i = 0;
 	while (GetStateByName(name) != nullptr)
@@ -95,7 +95,7 @@ CAnimationState* CAnimationStateMachine::CreateState(CAnimationState* _copyState
 
 CAnimationStateMachine* CAnimationStateMachine::CreateSubStateMachine()
 {
-	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pRootMachine, this);
+	CAnimationStateMachine* pNewMachine = new CAnimationStateMachine(m_pAnimator, m_pRootMachine, this);
 	wstring name = L"New Machine";
 	int i = 0;
 	while (GetStateByName(name) != nullptr)
@@ -338,8 +338,8 @@ void CAnimationStateMachine::LoadFromLevelFile(FILE* _FILE)
 		IAnimationState* state;
 		int type;
 		fread(&type, sizeof(int), 1, _FILE);
-		if (type == (int)eAnimationNodeType::StateMachine) state = new CAnimationStateMachine(m_pRootMachine, this);
-		else state = new CAnimationState(m_pRootMachine, this);
+		if (type == (int)eAnimationNodeType::StateMachine) state = new CAnimationStateMachine(m_pAnimator, m_pRootMachine, this);
+		else state = new CAnimationState(m_pAnimator, m_pRootMachine, this);
 		state->SetName(name);
 		m_States.insert(state);
 	}

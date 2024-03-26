@@ -4,6 +4,7 @@
 class CAnimationTransition;
 class CAnimationStateMachine;
 class CAnimationClip;
+class CAnimator3D;
 typedef unordered_set<CAnimationTransition*> HashTransition;
 
 enum class eAnimationNodeType{StateMachine, State};
@@ -14,9 +15,10 @@ private:
 	wstring					m_strName;
 	eAnimationNodeType		m_eNodeType;
 	HashTransition			m_Transitions;
-	CAnimationTransition*	m_pCurrentTransition;
+	CAnimationTransition* m_pCurrentTransition;
 	tAnimationStateNode		m_tNodeInfo;
 protected:
+	CAnimator3D*			m_pAnimator;
 	CAnimationStateMachine* m_pRootMachine;
 	CAnimationStateMachine* m_pParentMachine;
 public:
@@ -25,6 +27,7 @@ public:
 	virtual Ptr<CAnimationClip> GetClip() = 0;
 
 	eAnimationNodeType GetType() { return m_eNodeType; }
+	CAnimator3D* GetAnimator() { return m_pAnimator; }
 
 	CAnimationStateMachine* GetRootMachine() { return m_pRootMachine; }
 public:
@@ -51,7 +54,7 @@ public:
 	virtual void SaveToLevelFile(FILE* _FILE);
 	virtual void LoadFromLevelFile(FILE* _FILE);
 
-	IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
+	IAnimationState(eAnimationNodeType _type, CAnimator3D* _animator3D, CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	virtual ~IAnimationState();
 };
 

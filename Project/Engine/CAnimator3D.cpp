@@ -6,11 +6,12 @@
 #include "CTransform.h"
 #include "CBoneHolder.h"
 #include "CAnimationStateMachine.h"
+#include "CScript.h"
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
-	m_pAnimationStateMachine = new CAnimationStateMachine(nullptr, nullptr);
+	m_pAnimationStateMachine = new CAnimationStateMachine(this, nullptr, nullptr);
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
@@ -18,7 +19,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, m_mapAnims(_origin.m_mapAnims)
 	, m_vecAnimNames(_origin.m_vecAnimNames)
 {
-	m_pAnimationStateMachine = new CAnimationStateMachine(nullptr, nullptr);
+	m_pAnimationStateMachine = new CAnimationStateMachine(this, nullptr, nullptr);
 	m_pAnimationStateMachine->SetName(L"Base Machine");
 }
 
@@ -113,6 +114,33 @@ void CAnimator3D::finaltick()
 #if DEBUG_ANIMATOR
 	tick();
 #endif
+}
+
+void CAnimator3D::OnAnimationBegin(IAnimationState* _pState)
+{
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnAnimationBegin(_pState);
+	}
+}
+
+void CAnimator3D::OnAnimationEndStart(IAnimationState* _pState)
+{
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnAnimationEndStart(_pState);
+	}
+}
+
+void CAnimator3D::OnAnimationEndFinished(IAnimationState* _pState)
+{
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnAnimationEndFinished(_pState);
+	}
 }
 
 

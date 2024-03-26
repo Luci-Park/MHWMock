@@ -62,7 +62,7 @@ public:
 
 private:
 public:
-	CAnimationStateMachine(CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
+	CAnimationStateMachine(CAnimator3D* _animator3D, CAnimationStateMachine* _root, CAnimationStateMachine* _parent);
 	virtual ~CAnimationStateMachine();
 };
 

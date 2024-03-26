@@ -30,6 +30,11 @@ public:
 public:
 	virtual void tick() override;
 	virtual void finaltick() override;
+
+	void OnAnimationBegin(IAnimationState* _pState);
+	void OnAnimationEndStart(IAnimationState* _pState);
+	void OnAnimationEndFinished(IAnimationState* _pState);
+
 	CLONE(CAnimator3D);
 
 public:

@@ -3,8 +3,9 @@
 #include "CAnimationTransition.h"
 #include "CAnimationStateMachine.h"
 
-IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
+IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimator3D* _animator3D, CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
 	: m_eNodeType(_type)
+	, m_pAnimator(_animator3D)
 	, m_pRootMachine(_root)
 	, m_pParentMachine(_parent)
 	, m_tNodeInfo({ Vec2(0, 0) })

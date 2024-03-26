@@ -3,7 +3,7 @@
 #include "CAnimationStateMachine.h"
 #include "CAnimationState.h"
 #include "CTimeMgr.h"
-
+#include "CAnimator3D.h"
 
 CAnimationTransition::CAnimationTransition(IAnimationState* _pPrevState, IAnimationState* _pNextState, CAnimationStateMachine* _pMachine)
 	: m_pStateMachine(_pMachine)
@@ -121,6 +121,9 @@ void CAnimationTransition::StartTransition()
 {
 	m_dTick = 0;
 	m_pNextState->OnTransitionBegin(m_dTransitionOffset);
+	auto animator = m_pPrevState->GetAnimator();
+	animator->OnAnimationEndStart(m_pPrevState);
+	animator->OnAnimationBegin(m_pNextState);
 }
 
 void CAnimationTransition::ChangeConditionParam(AnimCondition* _cond, AnimStateParam* _param)
@@ -157,6 +160,7 @@ void CAnimationTransition::EndTransition()
 {
 	m_pStateMachine->ChangeState(m_pNextState);
 	m_pPrevState->OnTransitionEnd();
+	m_pPrevState->GetAnimator()->OnAnimationEndFinished(m_pPrevState);
 }
 
 void CAnimationTransition::BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus)
