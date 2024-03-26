@@ -40,9 +40,6 @@ void ST_PLAYER_N_HIT::Tick(CGameObject* player, PlayerStateMachine* StateMachine
 	case 3:
 		StateMachine->ChangeState(L"ST_PLAYER_N_HIT_F");
 		break;
-	case 4:
-		StateMachine->ChangeState(L"ST_PLAYER_N_HIT_F");
-		break;
 	default:
 		break;
 	}
@@ -72,11 +69,11 @@ void ST_PLAYER_N_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_N_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	// Hit애니메이션이 끝났을 경우 피격 방향에 따라서 Idle로 ChangeState
 }
 void ST_PLAYER_N_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 //-------------------------------------------------------------------------------------
 //
@@ -105,7 +102,7 @@ void ST_PLAYER_N_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 
 void ST_PLAYER_N_HIT_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -131,7 +128,7 @@ void ST_PLAYER_N_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 }
 void ST_PLAYER_N_HIT_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 //-------------------------------------------------------------------------------------
 //
@@ -160,7 +157,7 @@ void ST_PLAYER_N_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 
 void ST_PLAYER_N_HIT_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -182,11 +179,28 @@ void ST_PLAYER_WP_HIT::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 }
 void ST_PLAYER_WP_HIT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	int iHitDir = GetParam(L"Hit_Dir", StateMachine).INT;
+	switch (iHitDir)
+	{
+	case 0:
+		StateMachine->ChangeState(L"ST_PLAYER_WP_HIT_F");
+		break;
+	case 1:
+		StateMachine->ChangeState(L"ST_PLAYER_WP_HIT_F");
+		break;
+	case 2:
+		StateMachine->ChangeState(L"ST_PLAYER_WP_HIT_F");
+		break;
+	case 3:
+		StateMachine->ChangeState(L"ST_PLAYER_WP_HIT_F");
+		break;
+	default:
+		break;
+	}
 }
 void ST_PLAYER_WP_HIT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
 }
 //-------------------------------------------------------------------------------------
 //
@@ -215,7 +229,7 @@ void ST_PLAYER_WP_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMach
 
 void ST_PLAYER_WP_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -241,7 +255,7 @@ void ST_PLAYER_WP_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 //-------------------------------------------------------------------------------------
 //
@@ -270,7 +284,7 @@ void ST_PLAYER_WP_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMach
 
 void ST_PLAYER_WP_HIT_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -296,6 +310,6 @@ void ST_PLAYER_WP_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 #pragma endregion
