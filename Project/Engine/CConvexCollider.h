@@ -9,7 +9,7 @@ private:
     bool                   IsUsed;
 
 public:
-    void CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* _pIndices, UINT _IdxCount);
+    void CookingTriangleMesh(void* _pPoints, UINT _VtxCount, void* _ndices, UINT _IdxCount);
     void CreateColliderShape();
 
 public:

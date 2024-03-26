@@ -69,12 +69,21 @@ void ST_PLAYER_N_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_N_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	// Hit애니메이션이 끝났을 경우 피격 방향에 따라서 Idle로 ChangeState
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_N_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
+
+void ST_PLAYER_N_HIT_F::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
+}
+
 //-------------------------------------------------------------------------------------
 //
 //											N_HIT_L
@@ -97,14 +106,20 @@ void ST_PLAYER_N_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMach
 
 void ST_PLAYER_N_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_N_HIT_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
-
+void ST_PLAYER_N_HIT_L::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
+}
 //-------------------------------------------------------------------------------------
 //
 //											N_HIT_B
@@ -124,11 +139,18 @@ void ST_PLAYER_N_HIT_B::Enter(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_N_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_N_HIT_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
+}
+void ST_PLAYER_N_HIT_B::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
 //
@@ -152,14 +174,20 @@ void ST_PLAYER_N_HIT_R::Enter(CGameObject* player, PlayerStateMachine* StateMach
 
 void ST_PLAYER_N_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_N_HIT_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
-
+void ST_PLAYER_N_HIT_R::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
+}
 //-------------------------------------------------------------------------------------
 //
 //											WP_HIT
@@ -224,14 +252,20 @@ void ST_PLAYER_WP_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMac
 
 void ST_PLAYER_WP_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_WP_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
-
+void ST_PLAYER_WP_HIT_F::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
+}
 //-------------------------------------------------------------------------------------
 //
 //											WP_HIT_L
@@ -251,11 +285,18 @@ void ST_PLAYER_WP_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMac
 }
 void ST_PLAYER_WP_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_HIT_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
+}
+void ST_PLAYER_WP_HIT_L::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
 //
@@ -279,14 +320,20 @@ void ST_PLAYER_WP_HIT_B::Enter(CGameObject* player, PlayerStateMachine* StateMac
 
 void ST_PLAYER_WP_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 
 void ST_PLAYER_WP_HIT_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
-
+void ST_PLAYER_WP_HIT_B::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
+}
 //-------------------------------------------------------------------------------------
 //
 //											WP_HIT_R
@@ -306,10 +353,17 @@ void ST_PLAYER_WP_HIT_R::Enter(CGameObject* player, PlayerStateMachine* StateMac
 }
 void ST_PLAYER_WP_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_HIT_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
+}
+void ST_PLAYER_WP_HIT_R::OnAnimationEndStart(IAnimationState* _pState)
+{
+	m_IsAnimationEnd = true;
 }
 #pragma endregion

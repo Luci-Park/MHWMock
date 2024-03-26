@@ -93,8 +93,11 @@ private:
         AnimParamUnion _uStateparam;
         AnimParamType _eStateparam;
     };
+
 protected:
     static std::map<std::wstring, StateParam> _StateParam;
+    bool    m_IsAnimationEnd;
+
 public:
     State();
     virtual ~State();
@@ -296,6 +299,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_N_HIT_L : public State
@@ -307,6 +312,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_N_HIT_B : public State
@@ -318,6 +325,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_N_HIT_R : public State
@@ -329,6 +338,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_WP_HIT : public State
@@ -351,6 +362,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_WP_HIT_L : public State
@@ -362,6 +375,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_WP_HIT_B : public State
@@ -373,6 +388,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 
 class ST_PLAYER_WP_HIT_R : public State
@@ -384,6 +401,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
 #pragma endregion
 
