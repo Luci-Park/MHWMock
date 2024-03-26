@@ -98,15 +98,15 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 		StateMachine->ChangeState(L"N_Idle");
 	}
-	if (KEY_PRESSED(KEY::A))
+	else if (KEY_PRESSED(KEY::A))
 	{
 		//rotate Left
 	}
-	if (KEY_PRESSED(KEY::S))
+	else if (KEY_PRESSED(KEY::S))
 	{
 		//Change State Move Backward
 	}
-	if (KEY_PRESSED(KEY::D))
+	else if (KEY_PRESSED(KEY::D))
 	{
 		//Move Right
 	}
@@ -149,6 +149,17 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
+
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+	}
+
+	if (KEY_RELEASE(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+	}
 }
 
 void ST_PLAYER_N_MOVE_LEFT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -185,6 +196,17 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 		//Stop Move
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+	}
+
+	if (KEY_RELEASE(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 	}
 }
 
@@ -223,6 +245,17 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 		//Stop Move
 		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+	}
+
+	if (KEY_RELEASE(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 	}
 }
 
@@ -318,8 +351,20 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 	if (KEY_RELEASE(KEY::W))
 	{
 		//Stop
-		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	if (KEY_PRESSED(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_TRUE);
+		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+	}
+
+	if (KEY_RELEASE(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 	}
 }
 
