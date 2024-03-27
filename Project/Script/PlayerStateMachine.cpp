@@ -32,7 +32,7 @@ void PlayerStateMachine::ChangeState(std::wstring newState)
 	_curState = _States.find(newState)->second;
 	if (_curState)
 		_curState->Enter(_player, this);
-	
+	_curState->ReSet();
 }
 
 
@@ -139,9 +139,6 @@ void PlayerStateMachine::CreateStateParam()
 void PlayerStateMachine::Tick()
 {
 	_curState->Tick(_player,this);
-
-
-
 }
 
 void PlayerStateMachine::setPlayer(CGameObject* player)

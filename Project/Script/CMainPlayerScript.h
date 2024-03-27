@@ -112,7 +112,6 @@ private:
 protected:
     static std::map<std::wstring, StateParam> _StateParam;
     bool    m_IsAnimationEnd;
-
 public:
     State();
     virtual ~State();
@@ -127,6 +126,7 @@ public:
     AnimParamUnion GetParam(std::wstring paramId , PlayerStateMachine* PSM);
     double GetStateDuration(PlayerStateMachine* PSM);
     int CalculateDir(float dot, float cross);
+    void ReSet() { m_IsAnimationEnd = false; }
 public:
     virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}

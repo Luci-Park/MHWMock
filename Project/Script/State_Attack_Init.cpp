@@ -224,6 +224,75 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 				}
 			}
 		}
+
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		//내적으로 회전값 구함
+		//1 ~ -1
+		//0~180도까지의 값이 나옴
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+
+		
+		int dir = CalculateDir(dot, cross.y);
+		if (KEY_TAP(KEY::W) && KEY_TAP(KEY::RBTN))
+		{
+			//Sliding Attack F
+			//dir
+			//R_Bnt
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			switch (dir)
+			{
+			case A_F:
+				ChangeASTMParam(StateMachine, L"Dir", A_2);
+				StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+				break;
+			case A_L:
+				ChangeASTMParam(StateMachine, L"Dir", A_3);
+				StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+				break;
+			case A_B:
+				ChangeASTMParam(StateMachine, L"Dir", A_0);
+				StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+				break;
+			case A_R:
+				ChangeASTMParam(StateMachine, L"Dir", A_1);
+				StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+				break;
+			default:
+				break;
+			}
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		}
+		if (KEY_TAP(KEY::D) && KEY_TAP(KEY::RBTN))
+		{
+			//Sliding Attack R
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		}
+		if (KEY_TAP(KEY::A) && KEY_TAP(KEY::RBTN))
+		{
+			//Sliding Attack L
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		}
+		if (KEY_TAP(KEY::S) && KEY_TAP(KEY::RBTN))
+		{
+			//Sliding Attack B
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		}
+
+	}
+
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
 }
@@ -233,8 +302,10 @@ void ST_PLAYER_WP_SHELD_ATTACK::Exit(CGameObject* player, PlayerStateMachine* St
 }
 void ST_PLAYER_WP_SHELD_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-	StateMachine->ChangeState(L"Wp_Idle");
+	if (_pState->GetName() == L"Wp_Sheld_Attck")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 
 
@@ -255,7 +326,7 @@ void ST_PLAYER_WP_DASH_ATTACK::Enter(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	double duration = StateMachine->GetStateDuration();
-	if (duration > 0.45)
+	if (duration > 0.5)
 	{
 		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::LBTN))
 		{
@@ -268,6 +339,76 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Bottle_Charge");
 		}
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		//내적으로 회전값 구함
+		//1 ~ -1
+		//0~180도까지의 값이 나옴
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+
+
+		int dir = CalculateDir(dot, cross.y);
+		if (KEY_PRESSED(KEY::W))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack F
+				//dir
+				//R_Bnt
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			}
+			if (KEY_TAP(KEY::D) && KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack R
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			}
+			if (KEY_TAP(KEY::A) && KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack L
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			}
+			if (KEY_TAP(KEY::S) && KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack B
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			}
+		}
+	}
+
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
 void ST_PLAYER_WP_DASH_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -275,8 +416,10 @@ void ST_PLAYER_WP_DASH_ATTACK::Exit(CGameObject* player, PlayerStateMachine* Sta
 }
 void ST_PLAYER_WP_DASH_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-	StateMachine->ChangeState(L"Wp_Idle");
+	if (_pState->GetName() == L"Wp_Dash_Attack")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 #pragma endregion
 
