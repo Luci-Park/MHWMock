@@ -13,6 +13,7 @@
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
+#include <Script/CPlayerCameraScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -43,7 +44,7 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
-	//pMainCam->AddComponent(new CCameraMoveScript);
+	pMainCam->AddComponent(new CPlayerCameraScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		

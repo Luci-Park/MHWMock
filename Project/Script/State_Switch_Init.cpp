@@ -57,7 +57,7 @@ void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Tick(CGameObject* player, PlayerStateMach
 {
 	if (m_IsAnimationEnd)
 	{
-		StateMachine->ChangeState(L"Wp_Idle");
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }
 void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -90,7 +90,7 @@ void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Tick(CGameObject* player, PlayerStateMach
 {
 	if (m_IsAnimationEnd)
 	{
-		StateMachine->ChangeState(L"Wp_AXE_Idle");
+		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
 void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)

@@ -4,8 +4,8 @@
 CPlayerCameraScript::CPlayerCameraScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
 	, m_pTargetObj(nullptr)
-	, m_fRadius(10000.f)
-	, m_fRotationSpeed(60.f)
+	, m_fRadius(15000.f)
+	, m_fRotationSpeed(20.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRadius, "Radius");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRotationSpeed, "RotationSpeed");
@@ -42,7 +42,6 @@ void CPlayerCameraScript::tick()
 	}
 	else
 	{
-
 		if (m_pTargetObj != nullptr)
 		{
 			Vector3 vObjPos = m_pTargetObj->Transform()->GetWorldPos();
@@ -60,11 +59,6 @@ void CPlayerCameraScript::tick()
 
 			vRot.y += DT * vMouseDir.x * m_fRotationSpeed;
 			vRot.x -= DT * vMouseDir.y * m_fRotationSpeed;
-
-			//if (vMouseDir.x == 0 && vMouseDir.y == 0)
-			//{
-			//	vRot = Vec3(0.0f, vRot.y, 0.0f);
-			//}
 
 			vPos = vObjPos - vFront * m_fRadius;
 
