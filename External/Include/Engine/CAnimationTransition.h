@@ -10,7 +10,7 @@ private:
 	IAnimationState*					m_pPrevState;
 	IAnimationState*					m_pNextState;
 
-	map<wstring, tAnimationKeyFrame>	m_mapKeyFrame;
+	KeyFrames							m_rsltKeyFrames;
 	vector<AnimCondition*>				m_vecConditions;
 
 	bool								m_bHasExitTime;
@@ -36,7 +36,7 @@ public:
 	void SetTransitionDuration(double _duration) {m_dTransitionDuration = _duration;}
 	void SetTransitionOffset(double _offset) { m_dTransitionOffset = _offset; }
 
-	map<wstring, tAnimationKeyFrame>& GetTransitionKeyFrame();
+	KeyFrames& GetTransitionKeyFrame();
 
 	AnimCondition* CreateCondition();
 	void DeleteCondition(int _idx);
@@ -58,7 +58,7 @@ public:
 	void LoadFromLevelFile(FILE* _FILE);
 private:
 	void EndTransition();
-	void BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus);
+	void BlendKeyFrames(KeyFrames& _prevFrames, KeyFrames& _nextFrames, float _ratio);
 public:
 	CAnimationTransition(IAnimationState* _pPrevState, IAnimationState* _pNextState, CAnimationStateMachine* _pMachine);
 	~CAnimationTransition();

@@ -9,7 +9,6 @@ class CAnimationStateMachine :
 	public IAnimationState
 {
 private:
-	vector<tAnimationKeyFrame>			m_vecFrame;
 	IAnimationState*					m_pCurrentState;
 	IAnimationState*					m_pHead;
 	IAnimationState*					m_pTail;
@@ -19,7 +18,7 @@ public: //for other scripts
 	virtual double GetDurationInSeconds();
 	virtual double GetTickPercentWithRepeat();
 
-	virtual vector<tAnimationKeyFrame>& GetBoneTransforms();
+	virtual KeyFrames& GetBoneTransforms();
 	
 	virtual void OnTransitionBegin(double _tickPercent);
 	virtual void OnTransitionEnd();

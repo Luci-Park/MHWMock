@@ -28,79 +28,61 @@ CAnimationClip* CAnimationClip::CreateFromAssimp(aiAnimation* _aiAnimation)
 
 	pAnim->m_dDuration = _aiAnimation->mDuration;
 	pAnim->m_dTicksPerSecond = _aiAnimation->mTicksPerSecond;
-	pAnim->m_BoneNames.resize(_aiAnimation->mNumChannels);
-	pAnim->m_vecChannels.resize(_aiAnimation->mNumChannels);
-	pAnim->m_vecRsltChannel.resize(_aiAnimation->mNumChannels);
 
 	for (size_t i = 0; i < _aiAnimation->mNumChannels; i++)
 	{
 		aiNodeAnim* pChannel = _aiAnimation->mChannels[i];
-		string strBName = pChannel->mNodeName.C_Str();
-		pAnim->m_BoneNames[i] = wstring(strBName.begin(), strBName.end());
-		pAnim->m_vecRsltChannel[i].strBoneName = pAnim->m_BoneNames[i];
-		pAnim->m_vecChannels[i].vecPositionKeys.resize(pChannel->mNumPositionKeys);
-		pAnim->m_vecChannels[i].vecRotationKeys.resize(pChannel->mNumRotationKeys);
-		pAnim->m_vecChannels[i].vecScaleKeys.resize(pChannel->mNumScalingKeys);
+		wstring strBName = STR2WSTR(pChannel->mNodeName.C_Str());
+		pAnim->m_RsltKeyFrame.emplace(strBName, tAnimationKeyFrame(strBName));
 
-		pAnim->m_vecChannels[i].ePreState = (AnimBehaviour)pChannel->mPreState;
-		pAnim->m_vecChannels[i].ePostState = (AnimBehaviour)pChannel->mPostState;
+		auto channel = pAnim->m_Channels.emplace(strBName, tAnimationChannel()).first;
+		channel->second.strBoneName = strBName;
+		
+		channel->second.vecPositionKeys.resize(pChannel->mNumPositionKeys);
+		channel->second.vecRotationKeys.resize(pChannel->mNumRotationKeys);
+		channel->second.vecScaleKeys.resize(pChannel->mNumScalingKeys);
+		channel->second.ePreState = (AnimBehaviour)pChannel->mPreState;
+		channel->second.ePostState = (AnimBehaviour)pChannel->mPostState;
 
 		for (size_t j = 0; j < pChannel->mNumPositionKeys; j++)
 		{
 			auto v3 = pChannel->mPositionKeys[j].mValue;
-			pAnim->m_vecChannels[i].vecPositionKeys[j].value =
-				Vec3(v3.x, v3.y, v3.z);
-			
-			pAnim->m_vecChannels[i].vecPositionKeys[j].time = 
-				pChannel->mPositionKeys[j].mTime;
+			channel->second.vecPositionKeys[j].value = Vec3(v3.x, v3.y, v3.z);			
+			channel->second.vecPositionKeys[j].time = pChannel->mPositionKeys[j].mTime;
 		}
 		
 		for (size_t j = 0; j < pChannel->mNumRotationKeys; j++)
 		{
 
 			auto qQuat = pChannel->mRotationKeys[j].mValue;
-
-			pAnim->m_vecChannels[i].vecRotationKeys[j].value =
-				Quaternion(qQuat.x, qQuat.y, qQuat.z, qQuat.w);
-
-			pAnim->m_vecChannels[i].vecRotationKeys[j].time =
-				pChannel->mRotationKeys[j].mTime;
+			channel->second.vecRotationKeys[j].value = Quaternion(qQuat.x, qQuat.y, qQuat.z, qQuat.w);
+			channel->second.vecRotationKeys[j].time = pChannel->mRotationKeys[j].mTime;
 		}
 
 		for (size_t j = 0; j < pChannel->mNumScalingKeys; j++)
 		{
 			auto v3 = pChannel->mScalingKeys[j].mValue;
-			pAnim->m_vecChannels[i].vecScaleKeys[j].value =
-				Vec3(v3.x, v3.y, v3.z);
-
-			pAnim->m_vecChannels[i].vecScaleKeys[j].time =
-				pChannel->mScalingKeys[j].mTime;
+			channel->second.vecScaleKeys[j].value =	Vec3(v3.x, v3.y, v3.z);
+			channel->second.vecScaleKeys[j].time = pChannel->mScalingKeys[j].mTime;
 		}
 	}
 
 	return pAnim;
 }
 
-vector<tAnimationKeyFrame>& CAnimationClip::GetTransformsAtFrame(double _dTick)
+KeyFrames& CAnimationClip::GetTransformsAtFrame(double _dTick)
 {
-	for (int i = 0; i < m_vecChannels.size(); i++)
+	for (auto& iter : m_RsltKeyFrame)
 	{
-		m_vecRsltChannel[i].strBoneName = m_BoneNames[i];
-		m_vecRsltChannel[i].vPos = FindValueAtFrame(_dTick, m_vecChannels[i].vecPositionKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
-		m_vecRsltChannel[i].qRot = FindValueAtFrame(_dTick, m_vecChannels[i].vecRotationKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
-		m_vecRsltChannel[i].vScale = FindValueAtFrame(_dTick, m_vecChannels[i].vecScaleKeys, m_vecChannels[i].ePreState, m_vecChannels[i].ePostState);
+		iter.second.strBoneName = iter.first;
+		auto channel = m_Channels.find(iter.first);
+		assert(channel != m_Channels.end());
+		iter.second.vPos = FindValueAtFrame(_dTick, channel->second.vecPositionKeys, channel->second.ePreState, channel->second.ePostState);
+		iter.second.qRot = FindValueAtFrame(_dTick, channel->second.vecRotationKeys, channel->second.ePreState, channel->second.ePostState);
+		iter.second.vScale = FindValueAtFrame(_dTick, channel->second.vecScaleKeys, channel->second.ePreState, channel->second.ePostState);
 	}
-	return m_vecRsltChannel;
+	return m_RsltKeyFrame;
 }
-
-int CAnimationClip::GetRootIdx(wstring _rootName)
-{
-	for (int i = 0; i < m_BoneNames.size(); i++)
-		if (m_BoneNames[i] == _rootName)
-			return i;
-	return -1;
-}
-
 
 Vec3 CAnimationClip::FindValueAtFrame(double _dTick, vector<tVecAnimationKey>& _vecKeys, AnimBehaviour _PreState, AnimBehaviour _PostState)
 {
@@ -183,12 +165,12 @@ int CAnimationClip::Save(const wstring& _strRelativePath)
 		fwrite(&m_dDuration, sizeof(double), 1, pFile);
 		fwrite(&m_dTicksPerSecond, sizeof(double), 1, pFile);
 
-		UINT iSize = m_vecChannels.size();
+		UINT iSize = m_Channels.size();
 		fwrite(&iSize, sizeof(UINT), 1, pFile);
-		for (size_t i = 0; i < iSize; i++)
+		for (auto channel : m_Channels)
 		{
-			m_vecChannels[i].strBoneName = m_BoneNames[i];
-			if (m_vecChannels[i].Save(pFile) == E_FAIL)
+			SaveWString(channel.second.strBoneName, pFile);
+			if (channel.second.Save(pFile) == E_FAIL)
 				return E_FAIL;
 		}
 
@@ -220,28 +202,19 @@ int CAnimationClip::Load(const wstring& _strFilePath)
 
 	UINT iSize;
 	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_vecChannels.resize(iSize);
-	for (size_t i = 0; i < iSize; i++)
-		m_vecChannels[i].Load(pFile);
-
-	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_BoneNames.resize(iSize);
-	for (size_t i = 0; i < iSize; i++)
-		LoadWString(m_BoneNames[i], pFile);
-
-	fread(&iSize, sizeof(UINT), 1, pFile);
-	m_vecRsltChannel.resize(iSize);
 	for (size_t i = 0; i < iSize; i++)
 	{
-		LoadWString(m_vecRsltChannel[i].strBoneName, pFile);
-		fread(&m_vecRsltChannel[i].vPos, sizeof(Vec3), 1, pFile);
-		fread(&m_vecRsltChannel[i].qRot, sizeof(Quaternion), 1, pFile);
-		fread(&m_vecRsltChannel[i].vScale, sizeof(Vec3), 1, pFile);
+		wstring boneName;
+		LoadWString(boneName, pFile);
+		m_RsltKeyFrame.emplace(boneName, tAnimationKeyFrame(boneName));
+		auto reslt = m_Channels.emplace(boneName, tAnimationChannel());
+		reslt.first->second.strBoneName = boneName;
+		reslt.first->second.Load(pFile);
 	}
 
 	fclose(pFile);
 
-	//Save(_strFilePath);
+	//Save(key);
 
 	return S_OK;
 }

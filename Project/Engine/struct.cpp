@@ -4,7 +4,6 @@ int tAnimationChannel::Save(FILE* _FILE)
 {
     try
     {
-        SaveWString(strBoneName, _FILE);
         int preState = (int)ePreState;
         int postState = (int)ePostState;
         fwrite(&preState, sizeof(int), 1, _FILE);
@@ -44,7 +43,6 @@ int tAnimationChannel::Save(FILE* _FILE)
 
 int tAnimationChannel::Load(FILE* _FILE)
 {
-    LoadWString(strBoneName, _FILE);
     int preState, postState;
     fread(& preState, sizeof(int), 1, _FILE);
     fread(&postState, sizeof(int), 1, _FILE);

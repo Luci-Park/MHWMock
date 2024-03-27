@@ -26,13 +26,12 @@ CAnimationTransition::~CAnimationTransition()
 	}
 }
 
-map<wstring, tAnimationKeyFrame>& CAnimationTransition::GetTransitionKeyFrame()
+KeyFrames& CAnimationTransition::GetTransitionKeyFrame()
 {
-	m_mapKeyFrame.clear();
-	BlendKeyFrame(m_pPrevState->GetBoneTransforms(), true);
-	BlendKeyFrame(m_pNextState->GetBoneTransforms(), false);
+	m_rsltKeyFrames.clear();
+	BlendKeyFrames(m_pPrevState->GetBoneTransforms(), m_pNextState->GetBoneTransforms(), m_dTickPercent);
 
-	return m_mapKeyFrame;
+	return m_rsltKeyFrames;
 }
 
 AnimCondition* CAnimationTransition::CreateCondition()
@@ -163,20 +162,24 @@ void CAnimationTransition::EndTransition()
 	m_pPrevState->GetAnimator()->OnAnimationEndFinished(m_pPrevState);
 }
 
-void CAnimationTransition::BlendKeyFrame(vector<tAnimationKeyFrame>& frames, bool minus)
+void CAnimationTransition::BlendKeyFrames(KeyFrames& _prevFrames, KeyFrames& _nextFrames, float _ratio)
 {
-	double percent = minus ? 1 - m_dTickPercent : m_dTickPercent;
-	for (int i = 0; i < frames.size(); i++)
+	m_rsltKeyFrames.clear();
+	for (auto frames : _prevFrames)
+		m_rsltKeyFrames.emplace(frames.first, frames.second);
+
+	for (auto frames : _nextFrames)
 	{
-		tAnimationKeyFrame newFrame = frames[i] * percent;
-		auto iter = m_mapKeyFrame.find(frames[i].strBoneName);
-		if (iter == m_mapKeyFrame.end())
+		auto prev = m_rsltKeyFrames.find(frames.first);
+		if (prev == m_rsltKeyFrames.end())
 		{
-			m_mapKeyFrame.insert(make_pair(frames[i].strBoneName, newFrame));
+			m_rsltKeyFrames.emplace(frames.first, frames.second);
 		}
 		else
 		{
-			iter->second += newFrame;
+			prev->second.vPos = Vec3::Lerp(prev->second.vPos, frames.second.vPos, _ratio);
+			prev->second.qRot = Quaternion::Lerp(prev->second.qRot, frames.second.qRot, _ratio);
+			prev->second.vScale = Vec3::Lerp(prev->second.vScale, frames.second.vScale, _ratio);
 		}
 	}
 }

@@ -34,22 +34,12 @@ double CAnimationStateMachine::GetTickPercentWithRepeat()
 {
 	return m_pCurrentState->GetTickPercentWithRepeat();
 }
-vector<tAnimationKeyFrame>& CAnimationStateMachine::GetBoneTransforms()
+
+KeyFrames& CAnimationStateMachine::GetBoneTransforms()
 {
-	m_vecFrame.clear();
-	//ifm_pCurrentState != m_pHead)
 	if (m_pCurrentState->IsTransitioning())
-	{
-		map<wstring, tAnimationKeyFrame> mapFrame = m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
-		for (auto frame : mapFrame)
-			m_vecFrame.push_back(frame.second);
-		return m_vecFrame;
-	}
-	else
-	{
-		return m_pCurrentState->GetBoneTransforms();
-	}
-	return m_vecFrame;
+		return m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
+	return m_pCurrentState->GetBoneTransforms();
 }
 
 void CAnimationStateMachine::OnTransitionBegin(double _tickPercent)
