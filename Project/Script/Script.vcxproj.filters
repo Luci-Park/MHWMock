@@ -110,5 +110,8 @@
     <ClCompile Include="CPlayerCameraScript.cpp">
       <Filter>Script\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="State_Switch_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

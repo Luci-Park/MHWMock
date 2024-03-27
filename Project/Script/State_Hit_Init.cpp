@@ -65,7 +65,7 @@ ST_PLAYER_N_HIT_F::~ST_PLAYER_N_HIT_F()
 }
 void ST_PLAYER_N_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_N_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -101,7 +101,7 @@ ST_PLAYER_N_HIT_L::~ST_PLAYER_N_HIT_L()
 
 void ST_PLAYER_N_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_N_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -135,7 +135,7 @@ ST_PLAYER_N_HIT_B::~ST_PLAYER_N_HIT_B()
 }
 void ST_PLAYER_N_HIT_B::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_N_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -169,7 +169,7 @@ ST_PLAYER_N_HIT_R::~ST_PLAYER_N_HIT_R()
 
 void ST_PLAYER_N_HIT_R::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_N_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -247,7 +247,7 @@ ST_PLAYER_WP_HIT_F::~ST_PLAYER_WP_HIT_F()
 
 void ST_PLAYER_WP_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_WP_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -281,7 +281,7 @@ ST_PLAYER_WP_HIT_L::~ST_PLAYER_WP_HIT_L()
 }
 void ST_PLAYER_WP_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -315,7 +315,7 @@ ST_PLAYER_WP_HIT_B::~ST_PLAYER_WP_HIT_B()
 
 void ST_PLAYER_WP_HIT_B::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_WP_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -349,7 +349,7 @@ ST_PLAYER_WP_HIT_R::~ST_PLAYER_WP_HIT_R()
 }
 void ST_PLAYER_WP_HIT_R::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -425,7 +425,7 @@ ST_PLAYER_WP_AXE_HIT_F::~ST_PLAYER_WP_AXE_HIT_F()
 
 void ST_PLAYER_WP_AXE_HIT_F::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_WP_AXE_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -459,7 +459,7 @@ ST_PLAYER_WP_AXE_HIT_L::~ST_PLAYER_WP_AXE_HIT_L()
 }
 void ST_PLAYER_WP_AXE_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_AXE_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -493,7 +493,7 @@ ST_PLAYER_WP_AXE_HIT_B::~ST_PLAYER_WP_AXE_HIT_B()
 
 void ST_PLAYER_WP_AXE_HIT_B::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 
 void ST_PLAYER_WP_AXE_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -527,7 +527,7 @@ ST_PLAYER_WP_AXE_HIT_R::~ST_PLAYER_WP_AXE_HIT_R()
 }
 void ST_PLAYER_WP_AXE_HIT_R::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_AXE_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
