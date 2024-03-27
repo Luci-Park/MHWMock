@@ -18,6 +18,11 @@
 #define A_RIGHT (AnimParamUnion)3
 #define A_NONE (AnimParamUnion)4
 
+#define A_F 0
+#define A_L 1
+#define A_B 2
+#define A_R 3
+
 class State;
 class PlayerStateMachine;
 class ST_PLAYER_IDLE;
@@ -32,6 +37,8 @@ public:
 private:
     bool _Gravity;
     PlayerStateMachine* _stateMachine;
+    CGameObject* _Camera;
+    bool _bCamera;
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -55,6 +62,7 @@ class PlayerStateMachine
 private:
     State*_curState;
     CGameObject* _player;
+    CGameObject* _Camera;
     CAnimationStateMachine* _ASTM;
     std::map<std::wstring,State*> _States;
     
@@ -72,6 +80,7 @@ public:
 
 public:
     void setPlayer(CGameObject* player);
+    void setCamera(CGameObject* camera);
     void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
     void ChangeASTMParam(std::wstring paramId, AnimParamUnion param);
 public:
@@ -83,6 +92,7 @@ public:
     double GetStateDuration();
     AnimParamUnion GetParam(std::wstring paramId);
     AnimParamUnion GetASTMParam(std::wstring paramId);
+    CGameObject* GetCamera();
 };
 
 class State
@@ -160,6 +170,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    int CalculateDir(float dot, float cross);
 };
 
 class ST_PLAYER_N_MOVE_FORWARD : public State
@@ -222,6 +234,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    int CalculateDir(float dot, float cross);
 };
 
 class ST_PLAYER_WP_MOVE_Forward : public State
@@ -413,6 +427,21 @@ class ST_PLAYER_N_ROLLING : public State
 public:
     ST_PLAYER_N_ROLLING();
     ~ST_PLAYER_N_ROLLING() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+#pragma region Wp_Attack
+
+class ST_PLAYER_WP_ATTACK : public State
+{
+public:
+    ST_PLAYER_WP_ATTACK();
+    ~ST_PLAYER_WP_ATTACK() override;
 public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;

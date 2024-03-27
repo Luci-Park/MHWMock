@@ -8,8 +8,11 @@
 CMainPlayerScript::CMainPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::MAINPLAYERSCRIPT)
 	, _Gravity(true)
+	, _Camera(nullptr)
 	, _stateMachine(new PlayerStateMachine(GetOwner()))
+	, _bCamera(false)
 {
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Camera, "Main Camera");
 }
 
 CMainPlayerScript::~CMainPlayerScript()
@@ -20,12 +23,23 @@ CMainPlayerScript::~CMainPlayerScript()
 void CMainPlayerScript::begin()
 {
 	_stateMachine->setPlayer(GetOwner());
+	_stateMachine->setCamera(_Camera);
 	_stateMachine->Begin();
 }
 
 void CMainPlayerScript::tick()
 {
 	_stateMachine->Tick();
+
+	if (_stateMachine->GetParam(L"IsHit").BOOL)
+	{
+		// ChangeState
+	}
+	if (_Camera != nullptr && _bCamera == false)
+	{
+		_stateMachine->setCamera(_Camera);
+		_bCamera = true;
+	}
 }
 
 void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
@@ -58,22 +72,22 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 
 		if (fFinalHitAngle >= -45.f && fFinalHitAngle < 45.f)
 		{
-			// µÚÂÊÀ¸·Î ÇÇ°Ý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_BACKWARD);
 		}
 		else if (fHitAngle >= 45.f && fHitAngle < 135.f)
 		{
-			// ¿À¸¥ÂÊÀ¸·Î ÇÇ°Ý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_RIGHT);
 		}
 		else if (fHitAngle >= 135.f || fHitAngle < -135.f)
 		{
-			// ¾ÕÂÊÀ¸·Î ÇÇ°Ý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_FORWARD);
 		}
 		else if (fHitAngle >= -135.f && fHitAngle < -45.f)
 		{
-			// ¿ÞÂÊÀ¸·Î ÇÇ°Ý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_LEFT);
 		}
 
