@@ -116,7 +116,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
-void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::OnAnimationEndStart(IAnimationState* _pState)
+void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = true;
 }
@@ -143,7 +143,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
-void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::OnAnimationEndStart(IAnimationState* _pState)
+void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 
 }
@@ -169,7 +169,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
-void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::OnAnimationEndStart(IAnimationState* _pState)
+void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 }
 
@@ -197,18 +197,8 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::TAB))
 		{
 			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
-			int bottle = StateMachine->GetASTMParam(L"Bottle").INT;
-			if (bottle > 0)
-			{
-				//bottle Charge S
-			}
-			else
-			{
-				//bottle Charge F
-			}
-
+			StateMachine->ChangeState(L"Wp_Bottle_Charge");
 		}
-
 		if (KEY_TAP(KEY::RBTN))
 		{
 			if (KEY_TAP(KEY::LBTN))
@@ -233,6 +223,12 @@ void ST_PLAYER_WP_SHELD_ATTACK::Exit(CGameObject* player, PlayerStateMachine* St
 {
 
 }
+void ST_PLAYER_WP_SHELD_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+	StateMachine->ChangeState(L"Wp_Idle");
+}
+
 
 #pragma endregion
 
@@ -253,18 +249,58 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.45)
 	{
-		if (KEY_PRESSED(KEY::RBTN) && KEY_PRESSED(KEY::LBTN))
+		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Sheld_Attack");
+		}
+
+		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::TAB))
+		{
+			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Bottle_Charge");
 		}
 	}
 }
 void ST_PLAYER_WP_DASH_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
+void ST_PLAYER_WP_DASH_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+	StateMachine->ChangeState(L"Wp_Idle");
+}
+#pragma endregion
+
+#pragma region BottleCharge
+
+ST_PLAYER_WP_BOTTLE_CHARGE::ST_PLAYER_WP_BOTTLE_CHARGE()
+{
+
+}
+ST_PLAYER_WP_BOTTLE_CHARGE::~ST_PLAYER_WP_BOTTLE_CHARGE()
+{
+
+}
+void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_BOTTLE_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_BOTTLE_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
 
 #pragma endregion
+
 
 
 #pragma region Wp_Axe_Attack

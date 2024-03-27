@@ -79,6 +79,9 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Sheld_Attack", new ST_PLAYER_WP_SHELD_ATTACK));
 	_States.insert(std::make_pair(L"Wp_Dash_Attack", new ST_PLAYER_WP_DASH_ATTACK));
 
+	_States.insert(std::make_pair(L"Wp_Bottle_Charge", new ST_PLAYER_WP_BOTTLE_CHARGE));
+
+
 
 
 	_States.insert(std::make_pair(L"Wp_HIT", new ST_PLAYER_WP_HIT));
@@ -175,15 +178,15 @@ AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)
 
 void PlayerStateMachine::OnAnimationBegin(IAnimationState* _pState)
 {
-	_curState->OnAnimationBegin(_pState);
+	_curState->OnAnimationBegin(_pState,this);
 }
 void PlayerStateMachine::OnAnimationEndStart(IAnimationState* _pState)
 {
-	_curState->OnAnimationEndStart(_pState);
+	_curState->OnAnimationEndStart(_pState,this);
 }
 void PlayerStateMachine::OnAnimationEndFinished(IAnimationState* _pState)
 {
-	_curState->OnAnimationEndFinished(_pState);
+	_curState->OnAnimationEndFinished(_pState,this);
 }
 
 CGameObject* PlayerStateMachine::GetCamera()

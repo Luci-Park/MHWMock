@@ -64,7 +64,7 @@ void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Exit(CGameObject* player, PlayerStateMach
 {
 	StateMachine->ChangeASTMParam(L"IsAttack", A_FALSE);
 }
-void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::OnAnimationEndStart(IAnimationState* _pState)
+void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = true;
 }
@@ -97,7 +97,7 @@ void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Exit(CGameObject* player, PlayerStateMach
 {
 	StateMachine->ChangeASTMParam(L"IsAttack", A_FALSE);
 }
-void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::OnAnimationEndStart(IAnimationState* _pState)
+void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = true;
 }
