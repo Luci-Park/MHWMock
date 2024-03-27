@@ -70,6 +70,10 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Move_Forward",new ST_PLAYER_WP_MOVE_Forward));	
 
 	_States.insert(std::make_pair(L"Wp_Attack", new ST_PLAYER_WP_ATTACK));
+	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_01", new ST_PLAYER_WP_ATTACK_COMBOSLASH_01));
+	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_02", new ST_PLAYER_WP_ATTACK_COMBOSLASH_02));
+	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_03", new ST_PLAYER_WP_ATTACK_COMBOSLASH_03));
+
 	_States.insert(std::make_pair(L"Wp_AXE_Attack", new ST_PLAYER_WP_AXE_ATTACK));
 
 	_States.insert(std::make_pair(L"Wp_Sheld_Attack", new ST_PLAYER_WP_SHELD_ATTACK));

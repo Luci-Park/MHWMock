@@ -23,6 +23,12 @@
 #define A_B 2
 #define A_R 3
 
+#define A_0 (AnimParamUnion)0
+#define A_1 (AnimParamUnion)1
+#define A_2 (AnimParamUnion)2
+#define A_3 (AnimParamUnion)3
+#define A_4 (AnimParamUnion)4
+
 class State;
 class PlayerStateMachine;
 class ST_PLAYER_IDLE;
@@ -612,6 +618,60 @@ public:
 #pragma endregion
 
 
+
+
+#pragma endregion
+
+#pragma region Wp_Axe_Attack
+
+class ST_PLAYER_WP_AXE_ATTACK : public State
+{
+public:
+    ST_PLAYER_WP_AXE_ATTACK();
+    ~ST_PLAYER_WP_AXE_ATTACK() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_ATTACK_COMBOSLASH_01 : public State
+{
+public:
+    ST_PLAYER_WP_ATTACK_COMBOSLASH_01();
+    ~ST_PLAYER_WP_ATTACK_COMBOSLASH_01() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+
+};
+
+class ST_PLAYER_WP_ATTACK_COMBOSLASH_02 : public State
+{
+public:
+    ST_PLAYER_WP_ATTACK_COMBOSLASH_02();
+    ~ST_PLAYER_WP_ATTACK_COMBOSLASH_02() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
+
+
+class ST_PLAYER_WP_ATTACK_COMBOSLASH_03 : public State
+{
+public:
+    ST_PLAYER_WP_ATTACK_COMBOSLASH_03();
+    ~ST_PLAYER_WP_ATTACK_COMBOSLASH_03() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
 
 
 #pragma endregion
