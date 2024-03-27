@@ -55,10 +55,10 @@ void PlayerStateMachine::CreateState()
 
 	_States.insert(std::make_pair(L"N_HIT",new ST_PLAYER_N_HIT));
 	_States.insert(std::make_pair(L"N_HIT_F",new ST_PLAYER_N_HIT_F));
-	//_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
-	//_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
-	//_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
-	//_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
+	_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
+	_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
+	_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
+	_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
 
 	_States.insert(std::make_pair(L"Wp_Idle",new ST_PLAYER_WP_IDLE));	
 	_States.insert(std::make_pair(L"Wp_Move",new ST_PLAYER_WP_MOVE));	
@@ -66,6 +66,25 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Move_Right",new ST_PLAYER_WP_MOVE_Right));	
 	_States.insert(std::make_pair(L"Wp_Move_Backward",new ST_PLAYER_WP_MOVE_Backward));	
 	_States.insert(std::make_pair(L"Wp_Move_Forward",new ST_PLAYER_WP_MOVE_Forward));	
+
+	_States.insert(std::make_pair(L"Wp_HIT", new ST_PLAYER_N_HIT));
+	_States.insert(std::make_pair(L"Wp_HIT_F", new ST_PLAYER_N_HIT_F));
+	_States.insert(std::make_pair(L"Wp_HIT_L", new ST_PLAYER_N_HIT_L));
+	_States.insert(std::make_pair(L"Wp_HIT_B", new ST_PLAYER_N_HIT_B));
+	_States.insert(std::make_pair(L"Wp_HIT_R", new ST_PLAYER_N_HIT_R));
+
+	_States.insert(std::make_pair(L"Wp_AXE_Idle", new ST_PLAYER_WP_IDLE));
+	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_WP_MOVE));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_WP_MOVE_Left));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Right", new ST_PLAYER_WP_MOVE_Right));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Backward", new ST_PLAYER_WP_MOVE_Backward));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Forward", new ST_PLAYER_WP_MOVE_Forward));
+
+	_States.insert(std::make_pair(L"Wp_AXE_HIT", new ST_PLAYER_N_HIT));
+	_States.insert(std::make_pair(L"Wp_AXE_HIT_F", new ST_PLAYER_N_HIT_F));
+	_States.insert(std::make_pair(L"Wp_AXE_HIT_L", new ST_PLAYER_N_HIT_L));
+	_States.insert(std::make_pair(L"Wp_AXE_HIT_B", new ST_PLAYER_N_HIT_B));
+	_States.insert(std::make_pair(L"Wp_AXE_HIT_R", new ST_PLAYER_N_HIT_R));
 }
 
 double PlayerStateMachine::GetStateDuration()
