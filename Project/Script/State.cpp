@@ -57,3 +57,31 @@ double State::GetStateDuration(PlayerStateMachine* PSM)
 {
 	return PSM->GetStateDuration();
 }
+
+int State::CalculateDir(float dot, float cross)
+{
+	if (cross <= 0)
+	{
+		if (dot > -1 && dot <= -0.5)
+			//뒤
+			return A_B;
+		else if (dot > -0.5 && dot <= 0.5)
+			//왼쪽
+			return A_L;
+		else if (dot > 0.5 && dot <= 1)
+			//앞
+			return A_F;
+	}
+	else
+	{
+		if (dot > -1 && dot <= -0.5)
+			//뒤
+			return A_B;
+		else if (dot > -0.5 && dot <= 0.5)
+			//오른쪽
+			return A_R;
+		else if (dot > 0.5 && dot <= 1)
+			//앞
+			return A_F;
+	}
+}

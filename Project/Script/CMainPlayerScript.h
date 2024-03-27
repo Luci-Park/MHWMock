@@ -120,6 +120,7 @@ public:
     void ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimParamUnion param);
     AnimParamUnion GetParam(std::wstring paramId , PlayerStateMachine* PSM);
     double GetStateDuration(PlayerStateMachine* PSM);
+    int CalculateDir(float dot, float cross);
 public:
     virtual void OnAnimationBegin(IAnimationState* _pState) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState) {}
@@ -180,8 +181,6 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-public:
-    int CalculateDir(float dot, float cross);
 };
 
 class ST_PLAYER_N_MOVE_FORWARD : public State
@@ -244,8 +243,6 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-public:
-    int CalculateDir(float dot, float cross);
 };
 
 class ST_PLAYER_WP_MOVE_Forward : public State
@@ -309,8 +306,6 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-public:
-    int CalculateDir(float dot, float cross);
 };
 
 class ST_PLAYER_AXE_MOVE_FORWARD : public State
@@ -362,7 +357,6 @@ public:
 };
 
 #pragma endregion
-
 
 #pragma endregion
 
