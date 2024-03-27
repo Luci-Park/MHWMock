@@ -69,6 +69,9 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Move_Backward",new ST_PLAYER_WP_MOVE_Backward));	
 	_States.insert(std::make_pair(L"Wp_Move_Forward",new ST_PLAYER_WP_MOVE_Forward));	
 
+	_States.insert(std::make_pair(L"Wp_Attack", new ST_PLAYER_WP_ATTACK));
+	_States.insert(std::make_pair(L"Wp_AXE_Attack", new ST_PLAYER_WP_AXE_ATTACK));
+
 	_States.insert(std::make_pair(L"Wp_HIT", new ST_PLAYER_WP_HIT));
 	_States.insert(std::make_pair(L"Wp_HIT_F", new ST_PLAYER_WP_HIT_F));
 	_States.insert(std::make_pair(L"Wp_HIT_L", new ST_PLAYER_WP_HIT_L));
