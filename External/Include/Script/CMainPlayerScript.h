@@ -418,6 +418,69 @@ public:
 
     virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 };
+class ST_PLAYER_WP_AXE_HIT : public State
+{
+public:
+    ST_PLAYER_WP_AXE_HIT();
+    ~ST_PLAYER_WP_AXE_HIT() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_AXE_HIT_F : public State
+{
+public:
+    ST_PLAYER_WP_AXE_HIT_F();
+    ~ST_PLAYER_WP_AXE_HIT_F() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
+
+class ST_PLAYER_WP_AXE_HIT_L : public State
+{
+public:
+    ST_PLAYER_WP_AXE_HIT_L();
+    ~ST_PLAYER_WP_AXE_HIT_L() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
+
+class ST_PLAYER_WP_AXE_HIT_B : public State
+{
+public:
+    ST_PLAYER_WP_AXE_HIT_B();
+    ~ST_PLAYER_WP_AXE_HIT_B() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
+
+class ST_PLAYER_WP_AXE_HIT_R : public State
+{
+public:
+    ST_PLAYER_WP_AXE_HIT_R();
+    ~ST_PLAYER_WP_AXE_HIT_R() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+};
+
 #pragma endregion
 
 #pragma region Rolling
