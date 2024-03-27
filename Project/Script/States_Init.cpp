@@ -108,7 +108,6 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		else
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Attack");
 			return;
 		}
@@ -190,7 +189,6 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 		else
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			StateMachine->ChangeState(L"Wp_AXE_Attack");
 			return;
 		}

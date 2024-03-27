@@ -22,7 +22,7 @@ void ST_PLAYER_WP_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMa
 	{
 		StateMachine->ChangeState(L"Wp_Dash_Attack");
 	}
-}
+
 	if (StateMachine->GetASTMParam(L"Left_Btn").TRIGGER)
 	{
 		StateMachine->ChangeState(L"Wp_Attack_ComboSlash_01");

@@ -620,21 +620,6 @@ public:
 
 
 
-#pragma endregion
-
-#pragma region Wp_Axe_Attack
-
-class ST_PLAYER_WP_AXE_ATTACK : public State
-{
-public:
-    ST_PLAYER_WP_AXE_ATTACK();
-    ~ST_PLAYER_WP_AXE_ATTACK() override;
-public:
-    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-};
-
 class ST_PLAYER_WP_ATTACK_COMBOSLASH_01 : public State
 {
 public:
