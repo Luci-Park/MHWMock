@@ -72,22 +72,18 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 
 		if (fFinalHitAngle >= -45.f && fFinalHitAngle < 45.f)
 		{
-			// �������� �ǰ�
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_BACKWARD);
 		}
 		else if (fHitAngle >= 45.f && fHitAngle < 135.f)
 		{
-			// ���������� �ǰ�
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_RIGHT);
 		}
 		else if (fHitAngle >= 135.f || fHitAngle < -135.f)
 		{
-			// �������� �ǰ�
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_FORWARD);
 		}
 		else if (fHitAngle >= -135.f && fHitAngle < -45.f)
 		{
-			// �������� �ǰ�
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_LEFT);
 		}
 
