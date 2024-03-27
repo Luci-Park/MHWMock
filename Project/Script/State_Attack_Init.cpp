@@ -35,6 +35,9 @@ void ST_PLAYER_WP_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMac
 void ST_PLAYER_WP_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
+
+#pragma region COMBO SLASH
+
 //-------------------------------------------------------------------------------------
 //
 //											WP_ATTACK_COMBOSLASH_01
@@ -120,6 +123,11 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::OnAnimationEndStart(IAnimationState* _pS
 {
 	m_IsAnimationEnd = true;
 }
+
+
+
+
+
 
 //-------------------------------------------------------------------------------------
 //
@@ -301,7 +309,275 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::OnAnimationEndStart(IAnimationState* _pState, P
 
 #pragma endregion
 
+#pragma region Wp_Enchent Knife
 
+ST_PLAYER_WP_CHARGE_K_ENCHENT::ST_PLAYER_WP_CHARGE_K_ENCHENT()
+{
+
+}
+ST_PLAYER_WP_CHARGE_K_ENCHENT::~ST_PLAYER_WP_CHARGE_K_ENCHENT()
+{
+
+}
+
+void ST_PLAYER_WP_CHARGE_K_ENCHENT::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE_K_ENCHENT::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Wp Enchent K Attack
+
+ST_PLAYER_WP_K_ENCHENT_ATTACK::ST_PLAYER_WP_K_ENCHENT_ATTACK()
+{
+
+}
+ST_PLAYER_WP_K_ENCHENT_ATTACK::~ST_PLAYER_WP_K_ENCHENT_ATTACK()
+{
+
+}
+
+void ST_PLAYER_WP_K_ENCHENT_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region WP Charge
+
+ST_PLAYER_WP_CHARGE::ST_PLAYER_WP_CHARGE()
+{
+
+}
+ST_PLAYER_WP_CHARGE::~ST_PLAYER_WP_CHARGE()
+{
+
+}
+
+void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+#pragma endregion
+
+#pragma region Double Slash
+
+ST_PLAYER_WP_DOUBLE_SLASH::ST_PLAYER_WP_DOUBLE_SLASH()
+{
+
+}
+ST_PLAYER_WP_DOUBLE_SLASH::~ST_PLAYER_WP_DOUBLE_SLASH()
+{
+
+}
+
+void ST_PLAYER_WP_DOUBLE_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_DOUBLE_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Upper Slash
+ST_PLAYER_WP_UPPER_SLASH::ST_PLAYER_WP_UPPER_SLASH()
+{
+
+}
+ST_PLAYER_WP_UPPER_SLASH::~ST_PLAYER_WP_UPPER_SLASH()
+{
+
+}
+
+void ST_PLAYER_WP_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Sliding Attack F
+
+ST_PLAYER_WP_SLIDING_ATTACK_F::ST_PLAYER_WP_SLIDING_ATTACK_F()
+{
+
+}
+ST_PLAYER_WP_SLIDING_ATTACK_F::~ST_PLAYER_WP_SLIDING_ATTACK_F()
+{
+
+}
+
+void ST_PLAYER_WP_SLIDING_ATTACK_F::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_F::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Sliding Attack L
+
+ST_PLAYER_WP_SLIDING_ATTACK_L::ST_PLAYER_WP_SLIDING_ATTACK_L()
+{
+
+}
+ST_PLAYER_WP_SLIDING_ATTACK_L::~ST_PLAYER_WP_SLIDING_ATTACK_L()
+{
+
+}
+
+void ST_PLAYER_WP_SLIDING_ATTACK_L::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_L::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Sliding Attack B
+
+ST_PLAYER_WP_SLIDING_ATTACK_B::ST_PLAYER_WP_SLIDING_ATTACK_B()
+{
+
+}
+ST_PLAYER_WP_SLIDING_ATTACK_B::~ST_PLAYER_WP_SLIDING_ATTACK_B()
+{
+
+}
+
+void ST_PLAYER_WP_SLIDING_ATTACK_B::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_B::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Sliding Attack R
+
+ST_PLAYER_WP_SLIDING_ATTACK_R::ST_PLAYER_WP_SLIDING_ATTACK_R()
+{
+
+}
+ST_PLAYER_WP_SLIDING_ATTACK_R::~ST_PLAYER_WP_SLIDING_ATTACK_R()
+{
+
+}
+
+void ST_PLAYER_WP_SLIDING_ATTACK_R::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_R::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma endregion
 
 #pragma region Wp_Axe_Attack
 
@@ -323,3 +599,62 @@ void ST_PLAYER_WP_AXE_ATTACK::Exit(CGameObject* player, PlayerStateMachine* Stat
 }
 
 #pragma endregion
+
+#pragma region SuperBust Attack
+ST_PLAYER_SUPER_BUST_ATTACK::ST_PLAYER_SUPER_BUST_ATTACK()
+{
+
+}
+ST_PLAYER_SUPER_BUST_ATTACK::~ST_PLAYER_SUPER_BUST_ATTACK()
+{
+
+}
+
+void ST_PLAYER_SUPER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_SUPER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+#pragma endregion
+
+#pragma region Bust Attack
+
+ST_PLAYER_BUST_ATTACK::ST_PLAYER_BUST_ATTACK()
+{
+
+}
+ST_PLAYER_BUST_ATTACK::~ST_PLAYER_BUST_ATTACK()
+{
+
+}
+
+void ST_PLAYER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+

@@ -74,15 +74,21 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_02", new ST_PLAYER_WP_ATTACK_COMBOSLASH_02));
 	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_03", new ST_PLAYER_WP_ATTACK_COMBOSLASH_03));
 
-	_States.insert(std::make_pair(L"Wp_AXE_Attack", new ST_PLAYER_WP_AXE_ATTACK));
-
 	_States.insert(std::make_pair(L"Wp_Sheld_Attack", new ST_PLAYER_WP_SHELD_ATTACK));
 	_States.insert(std::make_pair(L"Wp_Dash_Attack", new ST_PLAYER_WP_DASH_ATTACK));
 
 	_States.insert(std::make_pair(L"Wp_Bottle_Charge", new ST_PLAYER_WP_BOTTLE_CHARGE));
+	_States.insert(std::make_pair(L"Wp_Charge_K_Enchent", new ST_PLAYER_WP_CHARGE_K_ENCHENT));
+	_States.insert(std::make_pair(L"Wp_K_Enchent_Attack", new ST_PLAYER_WP_K_ENCHENT_ATTACK));
 
+	_States.insert(std::make_pair(L"Wp_Charge", new ST_PLAYER_WP_CHARGE));
+	_States.insert(std::make_pair(L"Wp_Double_Slash", new ST_PLAYER_WP_DOUBLE_SLASH));
+	_States.insert(std::make_pair(L"Wp_Upper_Slash", new ST_PLAYER_WP_UPPER_SLASH));
 
-
+	_States.insert(std::make_pair(L"Wp_Sliding_Attack_F", new ST_PLAYER_WP_SLIDING_ATTACK_F));
+	_States.insert(std::make_pair(L"Wp_Sliding_Attack_L", new ST_PLAYER_WP_SLIDING_ATTACK_L));
+	_States.insert(std::make_pair(L"Wp_Sliding_Attack_B", new ST_PLAYER_WP_SLIDING_ATTACK_B));
+	_States.insert(std::make_pair(L"Wp_Sliding_Attack_R", new ST_PLAYER_WP_SLIDING_ATTACK_R));
 
 	_States.insert(std::make_pair(L"Wp_HIT", new ST_PLAYER_WP_HIT));
 	_States.insert(std::make_pair(L"Wp_HIT_F", new ST_PLAYER_WP_HIT_F));
@@ -95,6 +101,7 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_SWITCH_AXE_TO_KNIFE", new ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE));
 
 	_States.insert(std::make_pair(L"Wp_AXE_Idle", new ST_PLAYER_AXE_IDLE));
+	_States.insert(std::make_pair(L"Wp_AXE_Attack", new ST_PLAYER_WP_AXE_ATTACK));
 	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_AXE_MOVE));
 	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_AXE_MOVE_LEFT));
 	_States.insert(std::make_pair(L"Wp_AXE_Move_Right", new ST_PLAYER_AXE_MOVE_RIGHT));
@@ -106,6 +113,10 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_AXE_HIT_L", new ST_PLAYER_WP_AXE_HIT_L));
 	_States.insert(std::make_pair(L"Wp_AXE_HIT_B", new ST_PLAYER_WP_AXE_HIT_B));
 	_States.insert(std::make_pair(L"Wp_AXE_HIT_R", new ST_PLAYER_WP_AXE_HIT_R));
+
+	_States.insert(std::make_pair(L"Super_Bust_Attack", new ST_PLAYER_SUPER_BUST_ATTACK));
+	_States.insert(std::make_pair(L"Bust_Attack", new ST_PLAYER_BUST_ATTACK));
+
 }
 
 double PlayerStateMachine::GetStateDuration()
