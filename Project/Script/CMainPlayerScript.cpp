@@ -83,9 +83,9 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 			_stateMachine->ChangeASTMParam(L"Hit_Dir", A_LEFT);
 		}
 
-		if (_stateMachine->GetParam(L"Wp_on").BOOL)
+		if (_stateMachine->GetASTMParam(L"Wp_on").BOOL)
 		{
-			if(_stateMachine->GetParam(L"IsAxe").BOOL)
+			if(_stateMachine->GetASTMParam(L"IsAxe").BOOL)
 				_stateMachine->ChangeState(L"Wp_HIT");
 			else
 				_stateMachine->ChangeState(L"Wp_AXE_HIT");

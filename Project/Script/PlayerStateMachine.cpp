@@ -79,12 +79,12 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_SWITCH_KNIFE_TO_AXE", new ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE));
 	_States.insert(std::make_pair(L"Wp_SWITCH_AXE_TO_KNIFE", new ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE));
 
-	_States.insert(std::make_pair(L"Wp_AXE_Idle", new ST_PLAYER_WP_IDLE));
-	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_WP_MOVE));
-	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_WP_MOVE_Left));
-	_States.insert(std::make_pair(L"Wp_AXE_Move_Right", new ST_PLAYER_WP_MOVE_Right));
-	_States.insert(std::make_pair(L"Wp_AXE_Move_Backward", new ST_PLAYER_WP_MOVE_Backward));
-	_States.insert(std::make_pair(L"Wp_AXE_Move_Forward", new ST_PLAYER_WP_MOVE_Forward));
+	_States.insert(std::make_pair(L"Wp_AXE_Idle", new ST_PLAYER_AXE_IDLE));
+	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_AXE_MOVE));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_AXE_MOVE_LEFT));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Right", new ST_PLAYER_AXE_MOVE_RIGHT));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Backward", new ST_PLAYER_AXE_MOVE_BACKWARD));
+	_States.insert(std::make_pair(L"Wp_AXE_Move_Forward", new ST_PLAYER_AXE_MOVE_FORWARD));
 
 	_States.insert(std::make_pair(L"Wp_AXE_HIT", new ST_PLAYER_WP_AXE_HIT));
 	_States.insert(std::make_pair(L"Wp_AXE_HIT_F", new ST_PLAYER_WP_AXE_HIT_F));
@@ -154,11 +154,6 @@ void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, 
 void PlayerStateMachine::ChangeASTMParam(std::wstring paramId, AnimParamUnion param)
 {
 	_curState->ChangeASTMParam(this, paramId, param);
-}
-
-AnimParamUnion PlayerStateMachine::GetParam(std::wstring paramId)
-{
-	return _curState->GetParam(paramId, this);
 }
 
 AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)

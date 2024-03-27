@@ -2,6 +2,8 @@
 #include "CMainPlayerScript.h"
 
 
+#pragma region N Idle
+
 
 //-------------------------------------------------------------------------------------
 //
@@ -46,6 +48,12 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 void ST_PLAYER_N_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
+
+#pragma endregion
+
+#pragma region Wp Idle
+
+
 
 //-------------------------------------------------------------------------------------
 //
