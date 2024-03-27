@@ -212,6 +212,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Anjanath.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CMainPlayerScript.h" />
@@ -225,6 +226,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Anjanath.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CMainPlayerScript.cpp" />

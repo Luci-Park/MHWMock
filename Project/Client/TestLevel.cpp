@@ -13,6 +13,7 @@
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
+#include <Script/CScriptMgr.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -20,6 +21,7 @@
 #include <Engine/CSetColorShader.h>
 
 #include <Engine\CCanvas.h>
+#include <Script/Anjanath.h>
 
 
 void CreateTestLevel()
@@ -178,6 +180,7 @@ void CreateTestLevel()
 	pObject1->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject1, Vec3(0.f, 0.f, 0.f), 2);
 
+	pObject1->AddComponent(new Anjanath);
 
 	CGameObject* pObject2 = new CGameObject;
 	pObject2->SetName(L"Player2");

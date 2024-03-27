@@ -22,6 +22,9 @@
     <Filter Include="Script\Player\StateMachine">
       <UniqueIdentifier>{5fbaa90f-9c9d-4c43-9864-f5e8e994f1c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\Anjanath">
+      <UniqueIdentifier>{696c9602-fe47-4572-ac53-117851fb4caf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="CPlayerCameraScript.h">
       <Filter>Script\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Anjanath.h">
+      <Filter>Script\Anjanath</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerCameraScript.cpp">
       <Filter>Script\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Anjanath.cpp">
+      <Filter>Script\Anjanath</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
