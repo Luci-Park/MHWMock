@@ -89,13 +89,13 @@ void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
 			break;
 		case A_L:
-			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
 			break;
 		case A_B:
 			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
 			break;
 		case A_R:
-			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT );
 			break;
 		default:
 			break;
@@ -501,13 +501,13 @@ void ST_PLAYER_WP_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMach
 			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
 			break;
 		case A_L:
-			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT );
 			break;
 		case A_B:
 			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
 			break;
 		case A_R:
-			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
 			break;
 		default:
 			break;
