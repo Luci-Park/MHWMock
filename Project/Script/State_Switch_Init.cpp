@@ -21,7 +21,7 @@ void ST_PLAYER_WP_SWITCH::Enter(CGameObject* player, PlayerStateMachine* StateMa
 }
 void ST_PLAYER_WP_SWITCH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	bool bIsAxe = StateMachine->GetParam(L"IsAxe").BOOL;
+	bool bIsAxe = StateMachine->GetASTMParam(L"IsAxe").BOOL;
 	if (bIsAxe)
 	{
 		StateMachine->ChangeASTMParam(L"IsAxe", A_FALSE);

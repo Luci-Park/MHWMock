@@ -90,7 +90,6 @@ public:
     
 public:
     double GetStateDuration();
-    AnimParamUnion GetParam(std::wstring paramId);
     AnimParamUnion GetASTMParam(std::wstring paramId);
     CGameObject* GetCamera();
 };

@@ -48,7 +48,7 @@ void State::ChangeASTMParam(PlayerStateMachine* PSM, std::wstring paramId, AnimP
 
 AnimParamUnion State::GetParam(std::wstring paramId, PlayerStateMachine* PSM)
 {
-	PSM->GetParam(paramId);
+	PSM->GetASTMParam(paramId);
 	auto st = _StateParam.find(paramId)->second;
 	return st._uStateparam;
 }

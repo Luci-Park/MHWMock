@@ -156,11 +156,6 @@ void PlayerStateMachine::ChangeASTMParam(std::wstring paramId, AnimParamUnion pa
 	_curState->ChangeASTMParam(this, paramId, param);
 }
 
-AnimParamUnion PlayerStateMachine::GetParam(std::wstring paramId)
-{
-	return _curState->GetParam(paramId, this);
-}
-
 AnimParamUnion PlayerStateMachine::GetASTMParam(std::wstring paramId)
 {
 	return _ASTM->GetParamByName(paramId)->value;
