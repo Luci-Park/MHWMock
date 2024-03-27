@@ -75,18 +75,24 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		StateMachine->ChangeState(L"Wp_Move");
 	}
 
+	//Wp_off
 	if (KEY_PRESSED(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
 
-
+	//Wp_Attack
 	if (KEY_PRESSED(KEY::LBTN))
 	{
 		if (KEY_PRESSED(KEY::RBTN))
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+		}
+		else if (KEY_PRESSED(KEY::TAB))
+		{
+			ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+			//Switch to axe
 		}
 		else
 		{
@@ -100,7 +106,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 		}
-		if (KEY_PRESSED(KEY::TAB))
+		else if (KEY_PRESSED(KEY::TAB))
 		{
 			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 		}
@@ -112,7 +118,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	}
 
 	//Rolling
-	if (KEY_PRESSED(KEY::SPACE))
+	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 	}

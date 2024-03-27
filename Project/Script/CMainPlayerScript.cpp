@@ -7,8 +7,11 @@
 CMainPlayerScript::CMainPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::MAINPLAYERSCRIPT)
 	, _Gravity(true)
+	, _Camera(nullptr)
 	, _stateMachine(new PlayerStateMachine(GetOwner()))
+	, _bCamera(false)
 {
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Camera, "Main Camera");
 }
 
 CMainPlayerScript::~CMainPlayerScript()
@@ -19,6 +22,7 @@ CMainPlayerScript::~CMainPlayerScript()
 void CMainPlayerScript::begin()
 {
 	_stateMachine->setPlayer(GetOwner());
+	_stateMachine->setCamera(_Camera);
 	_stateMachine->Begin();
 }
 
@@ -29,6 +33,11 @@ void CMainPlayerScript::tick()
 	if (_stateMachine->GetParam(L"IsHit").BOOL)
 	{
 		// ChangeState
+	}
+	if (_Camera != nullptr && _bCamera == false)
+	{
+		_stateMachine->setCamera(_Camera);
+		_bCamera = true;
 	}
 }
 

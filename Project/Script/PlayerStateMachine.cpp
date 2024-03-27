@@ -6,6 +6,7 @@ PlayerStateMachine::PlayerStateMachine()
 	: _curState(nullptr)
 	, _player(nullptr)
 	, _ASTM(nullptr)
+	, _Camera(nullptr)
 {
 
 }
@@ -14,6 +15,7 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	: _curState(nullptr)
 	, _player(player)
 	, _ASTM(nullptr)
+	, _Camera(nullptr)
 {
 }
 
@@ -88,11 +90,19 @@ void PlayerStateMachine::CreateStateParam()
 void PlayerStateMachine::Tick()
 {
 	_curState->Tick(_player,this);
+
+
+
 }
 
 void PlayerStateMachine::setPlayer(CGameObject* player)
 {
 	_player = player;
+}
+
+void PlayerStateMachine::setCamera(CGameObject* camera)
+{
+	_Camera = camera;
 }
 
 void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param)
@@ -145,4 +155,9 @@ void PlayerStateMachine::OnAnimationEndStart(IAnimationState* _pState)
 void PlayerStateMachine::OnAnimationEndFinished(IAnimationState* _pState)
 {
 	_curState->OnAnimationEndFinished(_pState);
+}
+
+CGameObject* PlayerStateMachine::GetCamera()
+{
+	return _Camera;
 }
