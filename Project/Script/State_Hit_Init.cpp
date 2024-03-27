@@ -25,7 +25,7 @@ void ST_PLAYER_N_HIT::Enter(CGameObject* player, PlayerStateMachine* StateMachin
 
 void ST_PLAYER_N_HIT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	int iHitDir = GetParam(L"Hit_Dir", StateMachine).INT;
+	int iHitDir = StateMachine->GetASTMParam(L"Hit_Dir").INT;
 	switch (iHitDir)
 	{
 	case 0:
@@ -207,7 +207,7 @@ void ST_PLAYER_WP_HIT::Enter(CGameObject* player, PlayerStateMachine* StateMachi
 }
 void ST_PLAYER_WP_HIT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	int iHitDir = GetParam(L"Hit_Dir", StateMachine).INT;
+	int iHitDir = StateMachine->GetASTMParam(L"Hit_Dir").INT;
 	switch (iHitDir)
 	{
 	case 0:
@@ -385,7 +385,7 @@ void ST_PLAYER_WP_AXE_HIT::Enter(CGameObject* player, PlayerStateMachine* StateM
 }
 void ST_PLAYER_WP_AXE_HIT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	int iHitDir = GetParam(L"Hit_Dir", StateMachine).INT;
+	int iHitDir = StateMachine->GetASTMParam(L"Hit_Dir").INT;
 	switch (iHitDir)
 	{
 	case 0:

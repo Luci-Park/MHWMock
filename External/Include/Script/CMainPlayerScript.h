@@ -512,3 +512,43 @@ public:
 };
 
 #pragma endregion
+
+#pragma region Wp_Switch
+
+class ST_PLAYER_WP_SWITCH : public State
+{
+public:
+    ST_PLAYER_WP_SWITCH();
+    ~ST_PLAYER_WP_SWITCH() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE : public State
+{
+public:
+    ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE();
+    ~ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+
+};
+
+class ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE: public State
+{
+public:
+    ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE();
+    ~ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+
+};
+#pragma endregion
