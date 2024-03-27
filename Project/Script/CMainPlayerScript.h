@@ -580,6 +580,40 @@ public:
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
+#pragma region Wp_Sheld_Attack
+
+class ST_PLAYER_WP_SHELD_ATTACK : public State
+{
+public:
+    ST_PLAYER_WP_SHELD_ATTACK();
+    ~ST_PLAYER_WP_SHELD_ATTACK() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+
+#pragma endregion
+
+#pragma region Wp_Dash_Attack
+
+class ST_PLAYER_WP_DASH_ATTACK : public State
+{
+public:
+    ST_PLAYER_WP_DASH_ATTACK();
+    ~ST_PLAYER_WP_DASH_ATTACK() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+
+
+
 #pragma endregion
 
 #pragma region Wp_Axe_Attack
