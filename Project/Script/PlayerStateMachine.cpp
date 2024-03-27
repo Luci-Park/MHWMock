@@ -60,7 +60,7 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"N_HIT_L",new ST_PLAYER_N_HIT_L));
 	_States.insert(std::make_pair(L"N_HIT_B",new ST_PLAYER_N_HIT_B));
 	_States.insert(std::make_pair(L"N_HIT_R",new ST_PLAYER_N_HIT_R));
-	_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
+	//_States.insert(std::make_pair(L"N_Rolling",new ST_PLAYER_N_ROLLING));
 
 	_States.insert(std::make_pair(L"Wp_Idle",new ST_PLAYER_WP_IDLE));	
 	_States.insert(std::make_pair(L"Wp_Move",new ST_PLAYER_WP_MOVE));	

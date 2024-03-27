@@ -31,10 +31,6 @@ void CMainPlayerScript::tick()
 {
 	_stateMachine->Tick();
 
-	if (_stateMachine->GetParam(L"IsHit").BOOL)
-	{
-		// ChangeState
-	}
 	if (_Camera != nullptr && _bCamera == false)
 	{
 		_stateMachine->setCamera(_Camera);
