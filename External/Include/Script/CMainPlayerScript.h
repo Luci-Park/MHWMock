@@ -154,6 +154,17 @@ public:
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 };
 
+class ST_PLAYER_AXE_IDLE : public State
+{
+public:
+    ST_PLAYER_AXE_IDLE();
+    ~ST_PLAYER_AXE_IDLE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
 #pragma endregion
 
 #pragma region Move State
@@ -284,6 +295,71 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+#pragma region Wp Axe State
+
+class ST_PLAYER_AXE_MOVE : public State
+{
+public:
+    ST_PLAYER_AXE_MOVE();
+    ~ST_PLAYER_AXE_MOVE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    int CalculateDir(float dot, float cross);
+};
+
+class ST_PLAYER_AXE_MOVE_FORWARD : public State
+{
+public:
+    ST_PLAYER_AXE_MOVE_FORWARD();
+    ~ST_PLAYER_AXE_MOVE_FORWARD() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+};
+
+class ST_PLAYER_AXE_MOVE_LEFT : public State
+{
+public:
+    ST_PLAYER_AXE_MOVE_LEFT();
+    ~ST_PLAYER_AXE_MOVE_LEFT() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+};
+
+class ST_PLAYER_AXE_MOVE_RIGHT : public State
+{
+public:
+    ST_PLAYER_AXE_MOVE_RIGHT();
+    ~ST_PLAYER_AXE_MOVE_RIGHT() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+};
+
+class ST_PLAYER_AXE_MOVE_BACKWARD : public State
+{
+public:
+    ST_PLAYER_AXE_MOVE_BACKWARD();
+    ~ST_PLAYER_AXE_MOVE_BACKWARD() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
 };
 
 #pragma endregion

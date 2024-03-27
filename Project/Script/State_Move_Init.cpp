@@ -724,3 +724,307 @@ void ST_PLAYER_WP_MOVE_Backward::Exit(CGameObject* player, PlayerStateMachine* S
 #pragma endregion
 
 #pragma endregion
+
+#pragma region Wp_Axe_Move
+
+#pragma region AXE Move State
+
+ST_PLAYER_AXE_MOVE::ST_PLAYER_AXE_MOVE()
+{
+
+}
+ST_PLAYER_AXE_MOVE::~ST_PLAYER_AXE_MOVE()
+{
+
+}
+
+void ST_PLAYER_AXE_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (StateMachine->GetCamera() == nullptr)
+		return;
+
+	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+	camFront.y = 0;
+
+	Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+	playerFront.y = 0;
+
+	//내적으로 회전값 구함
+	//1 ~ -1
+	//0~180도까지의 값이 나옴
+	auto dot = camFront.Dot(playerFront);
+
+	//외적으로 방향을 구함
+	auto cross = camFront.Cross(playerFront);
+
+	if (KEY_PRESSED(KEY::W))			//Move Forward
+	{
+		int dir = CalculateDir(dot, cross.y);
+		switch (dir)
+		{
+		case A_F:
+			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
+			break;
+		case A_L:
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			break;
+		case A_B:
+			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+			break;
+		case A_R:
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			break;
+		default:
+			break;
+		}
+	}
+	else if (KEY_PRESSED(KEY::A))		//Move Left
+	{
+		int dir = CalculateDir(dot, cross.y);
+		switch (dir)
+		{
+		case A_F:
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			break;
+		case A_L:
+			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
+			break;
+		case A_B:
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			break;
+		case A_R:
+			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+			break;
+		default:
+			break;
+		}
+	}
+	else if (KEY_PRESSED(KEY::S))		//Move Backward
+	{
+		int dir = CalculateDir(dot, cross.y);
+		switch (dir)
+		{
+		case A_F:
+			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+			break;
+		case A_L:
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			break;
+		case A_B:
+			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
+			break;
+		case A_R:
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			break;
+		default:
+			break;
+		}
+	}
+	else if (KEY_PRESSED(KEY::D))		//Move Right	
+	{
+		int dir = CalculateDir(dot, cross.y);
+		switch (dir)
+		{
+		case A_F:
+			ChangeASTMParam(StateMachine, L"Dir", A_LEFT);
+			break;
+		case A_L:
+			ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
+			break;
+		case A_B:
+			ChangeASTMParam(StateMachine, L"Dir", A_RIGHT);
+			break;
+		case A_R:
+			ChangeASTMParam(StateMachine, L"Dir", A_BACKWARD);
+			break;
+		default:
+			break;
+		}
+	}
+}
+void ST_PLAYER_AXE_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	auto Param = StateMachine->GetASTMParam(L"Dir");
+	int Dir = Param.INT;
+	switch (Dir)
+	{
+	case 0:
+		StateMachine->ChangeState(L"Wp_AXE_Move_Forward");
+		break;
+	case 1:
+		StateMachine->ChangeState(L"Wp_AXE_Move_Left");
+		break;
+	case 2:
+		StateMachine->ChangeState(L"Wp_AXE_Move_Backward");
+		break;
+	case 3:
+		StateMachine->ChangeState(L"Wp_AXE_Move_Right");
+		break;
+	default:
+		break;
+	}
+}
+void ST_PLAYER_AXE_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+int ST_PLAYER_AXE_MOVE::CalculateDir(float dot, float cross)
+{
+	if (cross <= 0)
+	{
+		if (dot > -1 && dot <= -0.5)
+			//뒤
+			return A_B;
+		else if (dot > -0.5 && dot <= 0.5)
+			//왼쪽
+			return A_L;
+		else if (dot > 0.5 && dot <= 1)
+			//앞
+			return A_F;
+	}
+	else
+	{
+		if (dot > -1 && dot <= -0.5)
+			//뒤
+			return A_B;
+		else if (dot > -0.5 && dot <= 0.5)
+			//오른쪽
+			return A_R;
+		else if (dot > 0.5 && dot <= 1)
+			//앞
+			return A_F;
+	}
+}
+
+
+#pragma endregion
+
+#pragma region Wp_Axe_Move_Left
+ST_PLAYER_AXE_MOVE_LEFT::ST_PLAYER_AXE_MOVE_LEFT()
+{
+
+}
+ST_PLAYER_AXE_MOVE_LEFT::~ST_PLAYER_AXE_MOVE_LEFT()
+{
+
+}
+void ST_PLAYER_AXE_MOVE_LEFT::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+void ST_PLAYER_AXE_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+	{
+		//Stop
+		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+
+void ST_PLAYER_AXE_MOVE_LEFT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+#pragma endregion
+
+#pragma region Axe Move Right
+ST_PLAYER_AXE_MOVE_RIGHT::ST_PLAYER_AXE_MOVE_RIGHT()
+{
+
+}
+ST_PLAYER_AXE_MOVE_RIGHT::~ST_PLAYER_AXE_MOVE_RIGHT()
+{
+
+}
+void ST_PLAYER_AXE_MOVE_RIGHT::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+void ST_PLAYER_AXE_MOVE_RIGHT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+	{
+		//Stop
+		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+
+void ST_PLAYER_AXE_MOVE_RIGHT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+#pragma endregion
+
+#pragma region Axe Move Forward
+
+ST_PLAYER_AXE_MOVE_FORWARD::ST_PLAYER_AXE_MOVE_FORWARD()
+{
+
+}
+ST_PLAYER_AXE_MOVE_FORWARD::~ST_PLAYER_AXE_MOVE_FORWARD()
+{
+
+}
+void ST_PLAYER_AXE_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+void ST_PLAYER_AXE_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+	{
+		//Stop
+		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+
+void ST_PLAYER_AXE_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma region Axe Move Backward
+
+ST_PLAYER_AXE_MOVE_BACKWARD::ST_PLAYER_AXE_MOVE_BACKWARD()
+{
+
+}
+ST_PLAYER_AXE_MOVE_BACKWARD::~ST_PLAYER_AXE_MOVE_BACKWARD()
+{
+
+}
+void ST_PLAYER_AXE_MOVE_BACKWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+void ST_PLAYER_AXE_MOVE_BACKWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+	{
+		//Stop
+		ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+
+void ST_PLAYER_AXE_MOVE_BACKWARD::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+
+#pragma endregion
+
+#pragma endregion
