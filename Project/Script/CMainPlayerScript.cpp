@@ -93,12 +93,16 @@ void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)
 
 		if (_stateMachine->GetParam(L"Wp_on").BOOL)
 		{
-			_stateMachine->ChangeState(L"ST_PLAYER_WP_HIT");
+			if(_stateMachine->GetParam(L"IsAxe").BOOL)
+				_stateMachine->ChangeState(L"Wp_HIT");
+			else
+				_stateMachine->ChangeState(L"Wp_AXE_HIT");
 		}
 		else
 		{
-			_stateMachine->ChangeState(L"ST_PLAYER_N_HIT");
+			_stateMachine->ChangeState(L"N_HIT");
 		}
+		
 	}
 }
 
