@@ -100,7 +100,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		else if (KEY_PRESSED(KEY::TAB))
 		{
 			ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
-			//Switch to axe
+			StateMachine->ChangeState(L"Wp_SWITCH");
 		}
 		else
 		{
