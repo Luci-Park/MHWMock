@@ -779,7 +779,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if (_pState->GetName() == L"Wp_Sliding_Attack_Backward")
+	if (_pState->GetName() == L"wp_Sliding_Attack_Backward")
 	{
 		m_IsAnimationEnd = true;
 	}
@@ -816,7 +816,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_R::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_R::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if (_pState->GetName() == L"Wp_Sliding_Attack_Right")
+	if (_pState->GetName() == L"wp_Sliding_Attack_Right")
 	{
 		m_IsAnimationEnd = true;
 	}
