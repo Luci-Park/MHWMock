@@ -520,13 +520,23 @@ void ST_PLAYER_WP_DASH_ATTACK::Enter(CGameObject* player, PlayerStateMachine* St
 }
 void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.5)
 	{
-		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::LBTN))
+		if (KEY_TAP(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
-			StateMachine->ChangeState(L"Wp_Sheld_Attack");
+			if (KEY_TAP(KEY::LBTN))
+			{
+				ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+				StateMachine->ChangeState(L"Wp_Sheld_Attack");
+			}
 		}
 
 		if (KEY_TAP(KEY::RBTN ))
@@ -678,11 +688,6 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 		}
 	}
 
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
 }
 void ST_PLAYER_WP_DASH_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -712,21 +717,21 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* 
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	double duration = StateMachine->GetStateDuration();
-	if (duration > 0.6)
+	if (m_IsAnimationEnd)
 	{
-		if (KEY_TAP(KEY::LBTN))
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	double duration = StateMachine->GetStateDuration();
+	if (duration > 0.5f)
+	{
+		if (KEY_PRESSED(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Charge_K_Enchent");
 		}
-	}
-
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -768,12 +773,17 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine
 	if (KEY_PRESSED(KEY::LBTN))
 	{
 		float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
-		overload += CTimeMgr::GetInst()->GetDeltaTime();
+		overload += 2 * CTimeMgr::GetInst()->GetDeltaTime();
 		ChangeASTMParam(StateMachine,L"OverLoad", (AnimParamUnion)overload);
 	}
 	if (KEY_RELEASE(KEY::LBTN))
 	{
+		float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
 		ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+		if (overload > 2)
+			StateMachine->ChangeState(L"Wp_K_Enchent_Attack");
+		else
+			StateMachine->ChangeState(L"Wp_Upper_Slash");
 	}
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -782,7 +792,7 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	//Wp_Charge_Enchent_Knife
 }
 
 #pragma endregion
@@ -800,7 +810,7 @@ ST_PLAYER_WP_K_ENCHENT_ATTACK::~ST_PLAYER_WP_K_ENCHENT_ATTACK()
 
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	//enchent k
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -808,11 +818,18 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	//wp_Enchent_K_Attack
+	if (_pState->GetName() == L"wp_Enchent_K_Attack")
+		m_IsAnimationEnd = true;
 }
 
 #pragma endregion
@@ -892,7 +909,12 @@ void ST_PLAYER_WP_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* St
 }
 void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -900,7 +922,9 @@ void ST_PLAYER_WP_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* Sta
 }
 void ST_PLAYER_WP_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	//wp_Upper_Slash
+	if (_pState->GetName() == L"wp_Upper_Slash")
+		m_IsAnimationEnd = true;
 }
 
 #pragma endregion
