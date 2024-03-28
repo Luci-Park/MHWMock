@@ -1602,25 +1602,27 @@ void ST_PLAYER_AXE_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* S
 }
 void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 
-	if (KEY_TAP(KEY::LBTN))
+	double duration = StateMachine->GetStateDuration();
+	if (duration > 0.5)
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		StateMachine->ChangeState(L"Wp_AXE_Down_Slash");
-	}
+		if (KEY_TAP(KEY::LBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Down_Slash");
+		}
 
-	else if (KEY_TAP(KEY::RBTN))
-	{
-		ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
-		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+		else if (KEY_TAP(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+		}
 	}
-
 }
 void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1669,19 +1671,22 @@ void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 		return;
 	}
 
-	if (KEY_TAP(KEY::LBTN))
+	double duration = StateMachine->GetStateDuration();
+	if (duration > 0.5)
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		StateMachine->ChangeState(L"Wp_AXE_Down_to_Up_Link");
-		return;
+		if (KEY_TAP(KEY::LBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Down_to_Up_Link");
+			return;
+		}
+		else if (KEY_TAP(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+			return;
+		}
 	}
-	else if (KEY_TAP(KEY::RBTN))
-	{
-		ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
-		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
-		return;
-	}
-
 
 }
 void ST_PLAYER_AXE_DOWN_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
