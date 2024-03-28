@@ -73,7 +73,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
@@ -299,7 +300,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
@@ -524,7 +526,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 		}
 
