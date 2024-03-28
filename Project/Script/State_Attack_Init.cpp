@@ -64,48 +64,178 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		{
 			if (KEY_TAP(KEY::RBTN))
 			{
-				// �������
+				// Wp_Sheld_Attack
+				ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
 				StateMachine->ChangeState(L"Wp_Sheld_Attack");
+				return;
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ��������
-				int a = 0;
+				// SwitchAttack
 			}
-			// �޺� 2
+			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"Combo_Stack", A_1);
 			StateMachine->ChangeState(L"Wp_Attack_ComboSlash_02");
+			return;
+		}
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		auto cross = camFront.Cross(playerFront);
+
+		int dir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack F
+				//dir
+				//R_Bnt
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack R
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack L
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack B
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
 		}
 
 		if (KEY_TAP(KEY::RBTN))
 		{
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ������ S & F
-				int a = 0;
+				// BottleCharge
+				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+				return;
 			}
-			if (KEY_TAP(KEY::W))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::A))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::S))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::D))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			// ����
+			// Charge
 			int a = 0;
 		}
 
@@ -154,48 +284,178 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 		{
 			if (KEY_TAP(KEY::RBTN))
 			{
-				// �������
-				int a = 0;
+				// Wp_Sheld_Attack
+				ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->ChangeState(L"Wp_Sheld_Attack");
+				return;
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ��������
-				int a = 0;
+				// SwitchAttack
 			}
-			// �޺� 3
+			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"Combo_Stack", A_2);
 			StateMachine->ChangeState(L"Wp_Attack_ComboSlash_03");
+			return;
+		}
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		auto cross = camFront.Cross(playerFront);
+
+		int dir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack F
+				//dir
+				//R_Bnt
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack R
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack L
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack B
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
 		}
 
 		if (KEY_TAP(KEY::RBTN))
 		{
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ������ S & F
-				int a = 0;
+				// BottleCharge
+				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+				return;
 			}
-			if (KEY_TAP(KEY::W))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::A))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::S))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::D))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			// ����
+			// Charge
 			int a = 0;
 		}
 
@@ -242,13 +502,159 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 		{
 			if (KEY_TAP(KEY::RBTN))
 			{
-				// �������
-				int a = 0;
+				// Wp_Sheld_Attack
+				ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->ChangeState(L"Wp_Sheld_Attack");
+				return;
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ��������
-				int a = 0;
+				// SwitchAttack
+			}
+		}
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		auto cross = camFront.Cross(playerFront);
+
+		int dir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack F
+				//dir
+				//R_Bnt
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack R
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack L
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
+			}
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			if (KEY_TAP(KEY::RBTN))
+			{
+				//Sliding Attack B
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				return;
 			}
 		}
 
@@ -256,30 +662,13 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 		{
 			if (KEY_TAP(KEY::TAB))
 			{
-				// ������ S & F
-				int a = 0;
+				// BottleCharge
+				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+				return;
 			}
-			if (KEY_TAP(KEY::W))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::A))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::S))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			if (KEY_TAP(KEY::D))
-			{
-				// �����̵� ����
-				int a = 0;
-			}
-			// ����
+			// Charge
 			int a = 0;
 		}
 
