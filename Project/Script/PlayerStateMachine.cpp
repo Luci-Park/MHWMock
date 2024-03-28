@@ -126,7 +126,9 @@ void PlayerStateMachine::CreateState()
 
 	_States.insert(std::make_pair(L"Super_Bust_Attack", new ST_PLAYER_SUPER_BUST_ATTACK));
 	_States.insert(std::make_pair(L"Bust_Attack", new ST_PLAYER_BUST_ATTACK));
+	_States.insert(std::make_pair(L"Bust_Attack_Axe_Link", new ST_PLAYER_BUST_ATTACK_AXE_LINK));
 
+	
 }
 
 double PlayerStateMachine::GetStateDuration()

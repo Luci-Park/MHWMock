@@ -59,7 +59,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 	
-	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -286,7 +286,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
-	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -512,7 +512,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
-	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -1765,6 +1765,19 @@ void ST_PLAYER_AXE_HORIZONTAL_SLASH::Tick(CGameObject* player, PlayerStateMachin
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
+
+	double duration = StateMachine->GetStateDuration();
+
+	if (duration > 0.5)
+	{
+		if (KEY_TAP(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Turnning_Slash");
+			return;
+		}
+	}
+
 }
 void ST_PLAYER_AXE_HORIZONTAL_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1803,6 +1816,19 @@ void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine*
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
+
+	double duration = StateMachine->GetStateDuration();
+
+	if (duration > 0.5)
+	{
+		if (KEY_TAP(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"Bust", A_TRUE);
+			StateMachine->ChangeState(L"Bust_Attack_Axe_Link");
+			return;
+		}
+	}
 }
 void ST_PLAYER_AXE_TURNNING_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1821,6 +1847,50 @@ void ST_PLAYER_AXE_TURNNING_SLASH::OnAnimationEndStart(IAnimationState* _pState,
 
 
 
+#pragma endregion
+
+
+#pragma region BUST_ATTACK_AXE_LINK
+ST_PLAYER_BUST_ATTACK_AXE_LINK::ST_PLAYER_BUST_ATTACK_AXE_LINK()
+{
+
+}
+ST_PLAYER_BUST_ATTACK_AXE_LINK::~ST_PLAYER_BUST_ATTACK_AXE_LINK()
+{
+
+}
+
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	int iBottle = StateMachine->GetASTMParam(L"bottle").INT;
+	if (m_IsAnimationEnd)
+	{
+		if (iBottle == 0)
+		{
+			StateMachine->ChangeState(L"Bust_Attack");
+		}
+		else
+		{
+			StateMachine->ChangeState(L"Super_Bust_Attack");
+		}
+	}
+
+}
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Bust_Attack_Axe_Link")
+	{
+		m_IsAnimationEnd = true;
+	}
+}
 #pragma endregion
 
 #pragma region SuperBust Attack

@@ -811,6 +811,20 @@ public:
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
 };
 
+
+//super bust attack
+class ST_PLAYER_BUST_ATTACK_AXE_LINK : public State
+{
+public:
+    ST_PLAYER_BUST_ATTACK_AXE_LINK();
+    ~ST_PLAYER_BUST_ATTACK_AXE_LINK() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
 //super bust attack
 class ST_PLAYER_SUPER_BUST_ATTACK : public State
 {

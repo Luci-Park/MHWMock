@@ -1837,6 +1837,16 @@ void ST_PLAYER_AXE_MOVE_RIGHT::Enter(CGameObject* player, PlayerStateMachine* St
 
 void ST_PLAYER_AXE_MOVE_RIGHT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		//Upper Attack
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Attack");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -1963,6 +1973,15 @@ void ST_PLAYER_AXE_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* 
 
 void ST_PLAYER_AXE_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		//Upper Attack
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Attack");
+	}
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -2090,6 +2109,16 @@ void ST_PLAYER_AXE_MOVE_BACKWARD::Enter(CGameObject* player, PlayerStateMachine*
 
 void ST_PLAYER_AXE_MOVE_BACKWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		//Upper Attack
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Attack");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
