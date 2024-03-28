@@ -17,6 +17,7 @@ ST_PLAYER_WP_ATTACK::~ST_PLAYER_WP_ATTACK()
 void ST_PLAYER_WP_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+	ChangeASTMParam(StateMachine, L"Dir", A_NONE);
 
 	if (StateMachine->GetASTMParam(L"L+R_Btn").TRIGGER)
 	{
@@ -235,8 +236,14 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
 				return;
 			}
-			// Charge
-			int a = 0;
+		}
+		// Charge
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Charge");
 		}
 
 	}
@@ -455,8 +462,15 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
 				return;
 			}
-			// Charge
-			int a = 0;
+
+		}
+		// Charge
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Charge");
 		}
 
 	}
@@ -668,10 +682,16 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
 				return;
 			}
-			// Charge
-			int a = 0;
 		}
-
+		
+		// Charge
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Charge");
+		}
 	}
 	if (m_IsAnimationEnd)
 	{
@@ -1223,7 +1243,14 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState
 
 #pragma endregion
 
+
+
 #pragma region WP Charge
+//-------------------------------------------------------------------------------------
+//
+//										wp_Charge
+//
+//-------------------------------------------------------------------------------------
 
 ST_PLAYER_WP_CHARGE::ST_PLAYER_WP_CHARGE()
 {
@@ -1240,6 +1267,25 @@ void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMa
 }
 void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_RELEASE(KEY::RBTN))
+	{
+		double dAnimationDuration = StateMachine->GetStateDuration();
+
+		if (dAnimationDuration < 0.5f)
+		{
+			// UPPER SLASH
+			ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)1.f);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+			StateMachine->ChangeState(L"Wp_Upper_Slash");
+		}
+		else
+		{
+			// DOUBLE SLASH
+			ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)3.f);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+			StateMachine->ChangeState(L"Wp_Double_Slash");
+		}
+	}
 
 }
 void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -1254,6 +1300,11 @@ void ST_PLAYER_WP_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerSt
 
 #pragma region Double Slash
 
+//-------------------------------------------------------------------------------------
+//
+//										wp_Double_Slash
+//
+//-------------------------------------------------------------------------------------
 ST_PLAYER_WP_DOUBLE_SLASH::ST_PLAYER_WP_DOUBLE_SLASH()
 {
 
@@ -1269,7 +1320,12 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Enter(CGameObject* player, PlayerStateMachine* S
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1277,12 +1333,20 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* St
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	//wp_Double_Slash
+	if (_pState->GetName() == L"wp_Upper_Slash")
+		m_IsAnimationEnd = true;
 }
 
 #pragma endregion
 
 #pragma region Upper Slash
+
+//-------------------------------------------------------------------------------------
+//
+//										wp_Upper_Slash
+//
+//-------------------------------------------------------------------------------------
 ST_PLAYER_WP_UPPER_SLASH::ST_PLAYER_WP_UPPER_SLASH()
 {
 

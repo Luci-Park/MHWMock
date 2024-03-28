@@ -112,7 +112,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	}
 	else if(KEY_TAP(KEY::RBTN))
 	{
-		if (KEY_TAP(KEY::RBTN))
+		if (KEY_TAP(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 		}
@@ -120,9 +120,14 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		{
 			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 		}
-		else
-		{
-		}
+	}
+
+	if (KEY_PRESSED(KEY::RBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Charge");
 	}
 
 	//Rolling
