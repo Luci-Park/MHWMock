@@ -956,6 +956,14 @@ void ST_PLAYER_WP_MOVE_Forward::Enter(CGameObject* player, PlayerStateMachine* S
 
 void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Attack");
+	}
+
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
@@ -1096,6 +1104,14 @@ void ST_PLAYER_WP_MOVE_Left::Enter(CGameObject* player, PlayerStateMachine* Stat
 
 void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Attack");
+	}
+
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
@@ -1236,6 +1252,14 @@ void ST_PLAYER_WP_MOVE_Right::Enter(CGameObject* player, PlayerStateMachine* Sta
 
 void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Attack");
+	}
+
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
@@ -1378,6 +1402,14 @@ void ST_PLAYER_WP_MOVE_Backward::Enter(CGameObject* player, PlayerStateMachine* 
 
 void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Attack");
+	}
+
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
