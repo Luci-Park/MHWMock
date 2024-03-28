@@ -113,5 +113,8 @@
     <ClCompile Include="State_Switch_Init.cpp">
       <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
+    <ClCompile Include="State_Rolling_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

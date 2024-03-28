@@ -58,7 +58,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 	
-	if (dAnimationDuration > 0.8f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -278,7 +278,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
-	if (dAnimationDuration > 0.8f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -496,7 +496,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 {
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
-	if (dAnimationDuration > 0.8f && dAnimationDuration < 1.f)
+	if (dAnimationDuration > 0.7f && dAnimationDuration < 1.f)
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{

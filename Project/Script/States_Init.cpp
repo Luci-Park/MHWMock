@@ -43,6 +43,7 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"N_Rolling");
 	}
 }
 void ST_PLAYER_N_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -128,6 +129,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Rolling");
 	}
 }
 void ST_PLAYER_WP_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -211,6 +213,7 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Rolling");
 	}
 }
 void ST_PLAYER_AXE_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
