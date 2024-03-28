@@ -1276,14 +1276,14 @@ void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMac
 		if (dAnimationDuration < 0.5f)
 		{
 			// UPPER SLASH
-			ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)1.f);
+			ChangeASTMParam(StateMachine, L"Stack", A_1);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Upper_Slash");
 		}
 		else
 		{
 			// DOUBLE SLASH
-			ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)3.f);
+			ChangeASTMParam(StateMachine, L"Stack", A_2);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Double_Slash");
 		}
