@@ -34,8 +34,8 @@ void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 double CAnimationState::GetDurationInSeconds()
 {
 	if (m_pClip != nullptr)
-		return m_pClip->GetDuration() / m_pClip->GetTicksPerSecond();
-	return m_dDuration;
+		return m_pClip->GetDuration() / m_pClip->GetTicksPerSecond() / m_fSpeed;
+	return m_dDuration / m_fSpeed;
 }
 void CAnimationState::SetTick(double _percent)
 {

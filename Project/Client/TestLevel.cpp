@@ -13,7 +13,7 @@
 #include <Script\CPlayerScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
-#include <Script/CPlayerCameraScript.h>
+#include <Script/CScriptMgr.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -44,7 +44,7 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
-	pMainCam->AddComponent(new CPlayerCameraScript);
+	//pMainCam->AddComponent(new CCameraMoveScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		
@@ -178,7 +178,6 @@ void CreateTestLevel()
 	pObject1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject1->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject1, Vec3(0.f, 0.f, 0.f), 2);
-
 
 	CGameObject* pObject2 = new CGameObject;
 	pObject2->SetName(L"Player2");

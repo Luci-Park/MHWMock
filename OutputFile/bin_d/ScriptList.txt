@@ -1,3 +1,6 @@
+Anjanath
+CAnjanath
+CAnjanathPart
 CCameraMoveScript
 CGravityScript
 CMainPlayerScript
