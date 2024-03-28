@@ -1608,6 +1608,19 @@ void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Down_Slash");
+	}
+
+	else if (KEY_TAP(KEY::RBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+	}
+
 }
 void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1615,10 +1628,13 @@ void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* St
 }
 void ST_PLAYER_AXE_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if (_pState->GetName() == L"Wp_axe_upper_Slash")
+	if ((_pState->GetName() == L"Wp_axe_upper_Slash" && !StateMachine->GetASTMParam(L"Left_Btn").BOOL)
+		|| (_pState->GetName() == L"Wp_axe_upper_Slash" && !StateMachine->GetASTMParam(L"Right_Btn").BOOL))
 	{
 		m_IsAnimationEnd = true;
 	}
+
+
 }
 
 #pragma endregion
@@ -1642,9 +1658,31 @@ void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 {
 	if (m_IsAnimationEnd)
 	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		StateMachine->ChangeState(L"Wp_AXE_Idle");
+		if (!StateMachine->GetASTMParam(L"Left_Btn").BOOL
+			|| !StateMachine->GetASTMParam(L"Right_Btn").BOOL)
+		{
+			ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+			StateMachine->ChangeState(L"Wp_AXE_Idle");
+			return;
+		}
+		
+		return;
 	}
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Down_to_Up_Link");
+		return;
+	}
+	else if (KEY_TAP(KEY::RBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+		return;
+	}
+
+
 }
 void ST_PLAYER_AXE_DOWN_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1653,15 +1691,49 @@ void ST_PLAYER_AXE_DOWN_SLASH::Exit(CGameObject* player, PlayerStateMachine* Sta
 void ST_PLAYER_AXE_DOWN_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//Wp_axe_down_Slash
-	if (_pState->GetName() == L"Wp_axe_down_Slash")
+	if ((_pState->GetName() == L"Wp_axe_down_Slash" && !StateMachine->GetASTMParam(L"Left_Btn").BOOL)
+		|| (_pState->GetName() == L"Wp_axe_down_Slash" && !StateMachine->GetASTMParam(L"Right_Btn").BOOL))
 	{
 		m_IsAnimationEnd = true;
 	}
-
-	//Wp_axe_Down_to_Up
+	
 }
 
 #pragma endregion
+
+#pragma region WP_AXE_DOWN_TO_UP
+
+ST_PLAYER_AXE_DOWN_To_UP::ST_PLAYER_AXE_DOWN_To_UP()
+{
+
+}
+ST_PLAYER_AXE_DOWN_To_UP::~ST_PLAYER_AXE_DOWN_To_UP()
+{
+
+}
+
+void ST_PLAYER_AXE_DOWN_To_UP::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_DOWN_To_UP::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_DOWN_To_UP::Exit(CGameObject* player, PlayerStateMachine* StateMachine) 
+{
+
+}
+void ST_PLAYER_AXE_DOWN_To_UP::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_axe_Down_to_Up")
+	{
+		StateMachine->ChangeState(L"Wp_AXE_Upper_Slash");
+	}
+}
+
+#pragma endregion
+
 
 #pragma region Wp_axe_Horizontal_Slash
 

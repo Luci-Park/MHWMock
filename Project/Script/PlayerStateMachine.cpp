@@ -110,6 +110,7 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_AXE_Down_Slash", new ST_PLAYER_AXE_DOWN_SLASH));
 	_States.insert(std::make_pair(L"Wp_AXE_Horizontal_Slash", new ST_PLAYER_AXE_HORIZONTAL_SLASH));
 	_States.insert(std::make_pair(L"Wp_AXE_Turnning_Slash", new ST_PLAYER_AXE_TURNNING_SLASH));
+	_States.insert(std::make_pair(L"Wp_AXE_Down_to_Up_Link", new ST_PLAYER_AXE_DOWN_To_UP));
 
 	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_AXE_MOVE));
 	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_AXE_MOVE_LEFT));

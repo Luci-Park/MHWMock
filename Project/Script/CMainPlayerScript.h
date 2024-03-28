@@ -957,5 +957,21 @@ public:
 
 #pragma endregion
 
+#pragma region Wp_Axe_Down_To_up
+
+class ST_PLAYER_AXE_DOWN_To_UP : public State
+{
+public:
+    ST_PLAYER_AXE_DOWN_To_UP();
+    ~ST_PLAYER_AXE_DOWN_To_UP() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
 
 #pragma endregion
