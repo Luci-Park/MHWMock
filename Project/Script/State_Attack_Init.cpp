@@ -121,13 +121,10 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Exit(CGameObject* player, PlayerStateMac
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	m_IsAnimationEnd = true;
+	//Wp_Combo_Slash_01
+	if(_pState->GetName() == L"Wp_Combo_Slash_01")
+		m_IsAnimationEnd = true;
 }
-
-
-
-
-
 
 //-------------------------------------------------------------------------------------
 //
@@ -153,7 +150,9 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Exit(CGameObject* player, PlayerStateMac
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	//Wp_Combo_Slash_02
+	if (_pState->GetName() == L"Wp_Combo_Slash_02")
+		m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
 //
@@ -179,6 +178,9 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMac
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
+	//Wp_Combo_Slash_03
+	if (_pState->GetName() == L"Wp_Combo_Slash_03")
+		m_IsAnimationEnd = true;
 }
 
 #pragma endregion
@@ -409,10 +411,13 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 			StateMachine->ChangeState(L"Wp_Sheld_Attack");
 		}
 
-		if (KEY_TAP(KEY::RBTN) && KEY_TAP(KEY::TAB))
+		if (KEY_TAP(KEY::RBTN ))
 		{
-			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
-			StateMachine->ChangeState(L"Wp_Bottle_Charge");
+			if (KEY_PRESSED(KEY::TAB))
+			{
+				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+			}
 		}
 
 		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -589,7 +594,11 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* 
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -597,6 +606,14 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Exit(CGameObject* player, PlayerStateMachine* S
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
+	if (_pState->GetName() == L"wp_Bottle_Charge_S")
+	{
+		m_IsAnimationEnd = true;
+	}
+	if (_pState->GetName() == L"wp_Bottle_Charge_F")
+	{
+		m_IsAnimationEnd = true;
+	}
 
 }
 
