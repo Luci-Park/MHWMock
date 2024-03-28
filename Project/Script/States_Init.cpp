@@ -199,7 +199,7 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	}
 	else if (KEY_TAP(KEY::RBTN))
 	{
-		if (KEY_TAP(KEY::RBTN))
+		if (KEY_TAP(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 		}

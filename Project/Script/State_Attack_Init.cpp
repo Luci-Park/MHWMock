@@ -73,7 +73,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
@@ -299,7 +300,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
@@ -524,7 +526,8 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 			}
 			if (KEY_TAP(KEY::TAB))
 			{
-				// SwitchAttack
+				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 		}
 
@@ -1336,7 +1339,7 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_WP_DOUBLE_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//wp_Double_Slash
-	if (_pState->GetName() == L"wp_Upper_Slash")
+	if (_pState->GetName() == L"wp_Double_Slash")
 		m_IsAnimationEnd = true;
 }
 
