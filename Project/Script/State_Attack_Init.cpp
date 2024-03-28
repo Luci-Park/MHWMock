@@ -228,7 +228,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 
 		if (KEY_TAP(KEY::RBTN))
 		{
-			if (KEY_TAP(KEY::TAB))
+			if (KEY_PRESSED(KEY::TAB))
 			{
 				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
@@ -687,10 +687,20 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 		// Charge
 		if (KEY_PRESSED(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
-			StateMachine->ChangeState(L"Wp_Charge");
+			if (KEY_PRESSED(KEY::W)||
+				KEY_PRESSED(KEY::A)||
+				KEY_PRESSED(KEY::S)||
+				KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+				StateMachine->ChangeState(L"Wp_Charge");
+			}
 		}
 	}
 	if (m_IsAnimationEnd)
@@ -1181,20 +1191,27 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_PRESSED(KEY::LBTN))
-	{
-		float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
-		overload += 2 * CTimeMgr::GetInst()->GetDeltaTime();
-		ChangeASTMParam(StateMachine,L"OverLoad", (AnimParamUnion)overload);
-	}
+	//if (KEY_PRESSED(KEY::LBTN))
+	//{
+	//	float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
+	//	overload += 2 * CTimeMgr::GetInst()->GetDeltaTime();
+	//	ChangeASTMParam(StateMachine,L"OverLoad", (AnimParamUnion)overload);
+	//}
+	double duration = StateMachine->GetStateDuration();
 	if (KEY_RELEASE(KEY::LBTN))
 	{
-		float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
-		ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
-		if (overload > 2)
-			StateMachine->ChangeState(L"Wp_K_Enchent_Attack");
-		else
+		if (duration < 0.5)
+		{
+			ChangeASTMParam(StateMachine, L"Stack", A_0);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Upper_Slash");
+		}
+		else
+		{
+			ChangeASTMParam(StateMachine, L"Stack", A_1);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+			StateMachine->ChangeState(L"Wp_K_Enchent_Attack");
+		}
 	}
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -1204,6 +1221,12 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//Wp_Charge_Enchent_Knife
+	//if (_pState->GetName() == L"Wp_Charge_Enchent_Knife")
+	//{
+	//	ChangeASTMParam(StateMachine, L"Stack", A_1);
+	//	ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+	//	StateMachine->ChangeState(L"Wp_K_Enchent_Attack");
+	//}
 }
 
 #pragma endregion
@@ -1225,16 +1248,16 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
-}
-void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
-{
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
+}
+void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1244,8 +1267,6 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState
 }
 
 #pragma endregion
-
-
 
 #pragma region WP Charge
 //-------------------------------------------------------------------------------------
@@ -1325,7 +1346,7 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		ChangeASTMParam(StateMachine, L"Stack", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -1336,7 +1357,7 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_WP_DOUBLE_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//wp_Double_Slash
-	if (_pState->GetName() == L"wp_Upper_Slash")
+	if (_pState->GetName() == L"wp_Double_Slash")
 		m_IsAnimationEnd = true;
 }
 
@@ -1367,7 +1388,7 @@ void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		ChangeASTMParam(StateMachine, L"Stack", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -1476,15 +1497,15 @@ void ST_PLAYER_WP_SLIDING_ATTACK_B::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
-}
-void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
-{
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
+}
+void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
