@@ -594,6 +594,17 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* 
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	double duration = StateMachine->GetStateDuration();
+	if (duration > 0.6)
+	{
+		if (KEY_TAP(KEY::LBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Charge_K_Enchent");
+		}
+	}
+
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
@@ -636,7 +647,16 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (KEY_PRESSED(KEY::LBTN))
+	{
+		float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
+		overload += CTimeMgr::GetInst()->GetDeltaTime();
+		ChangeASTMParam(StateMachine,L"OverLoad", (AnimParamUnion)overload);
+	}
+	if (KEY_RELEASE(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+	}
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
