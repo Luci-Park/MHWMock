@@ -387,20 +387,95 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 				}
 				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			}
-			if (KEY_TAP(KEY::D) && KEY_TAP(KEY::RBTN))
+			
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			if (KEY_TAP(KEY::RBTN))
 			{
 				//Sliding Attack R
 				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			}
-			if (KEY_TAP(KEY::A) && KEY_TAP(KEY::RBTN))
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			if (KEY_TAP(KEY::RBTN))
 			{
 				//Sliding Attack L
 				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				default:
+					break;
+				}
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			}
-			if (KEY_TAP(KEY::S) && KEY_TAP(KEY::RBTN))
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			if (KEY_TAP(KEY::RBTN))
 			{
 				//Sliding Attack B
 				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				switch (dir)
+				{
+				case A_F:
+					ChangeASTMParam(StateMachine, L"Dir", A_0);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+					break;
+				case A_L:
+					ChangeASTMParam(StateMachine, L"Dir", A_3);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+					break;
+				case A_B:
+					ChangeASTMParam(StateMachine, L"Dir", A_2);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+					break;
+				case A_R:
+					ChangeASTMParam(StateMachine, L"Dir", A_1);
+					StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}
@@ -617,7 +692,11 @@ void ST_PLAYER_WP_SLIDING_ATTACK_F::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -625,7 +704,10 @@ void ST_PLAYER_WP_SLIDING_ATTACK_F::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_F::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Sliding_Attack_Forward")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 
 #pragma endregion
@@ -647,7 +729,11 @@ void ST_PLAYER_WP_SLIDING_ATTACK_L::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -655,7 +741,11 @@ void ST_PLAYER_WP_SLIDING_ATTACK_L::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_L::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	
+	if (_pState->GetName() == L"Wp_Sliding_Attack_Left")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 
 #pragma endregion
@@ -681,11 +771,18 @@ void ST_PLAYER_WP_SLIDING_ATTACK_B::Tick(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Sliding_Attack_Backward")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 
 #pragma endregion
@@ -707,7 +804,11 @@ void ST_PLAYER_WP_SLIDING_ATTACK_R::Enter(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -715,7 +816,10 @@ void ST_PLAYER_WP_SLIDING_ATTACK_R::Exit(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_R::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Sliding_Attack_Right")
+	{
+		m_IsAnimationEnd = true;
+	}
 }
 
 #pragma endregion
