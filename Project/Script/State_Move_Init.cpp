@@ -1698,6 +1698,20 @@ void ST_PLAYER_AXE_MOVE_LEFT::Enter(CGameObject* player, PlayerStateMachine* Sta
 
 void ST_PLAYER_AXE_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		//Upper Attack
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Attack");
+	}
+
+	if (KEY_TAP(KEY::RBTN))
+	{
+		//Down Attack
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{

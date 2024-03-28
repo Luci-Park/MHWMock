@@ -104,7 +104,13 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_SWITCH_AXE_TO_KNIFE", new ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE));
 
 	_States.insert(std::make_pair(L"Wp_AXE_Idle", new ST_PLAYER_AXE_IDLE));
+
 	_States.insert(std::make_pair(L"Wp_AXE_Attack", new ST_PLAYER_WP_AXE_ATTACK));
+	_States.insert(std::make_pair(L"Wp_AXE_Upper_Slash", new ST_PLAYER_AXE_UPPER_SLASH));
+	_States.insert(std::make_pair(L"Wp_AXE_Down_Slash", new ST_PLAYER_AXE_DOWN_SLASH));
+	_States.insert(std::make_pair(L"Wp_AXE_Horizontal_Slash", new ST_PLAYER_AXE_HORIZONTAL_SLASH));
+	_States.insert(std::make_pair(L"Wp_AXE_Turnning_Slash", new ST_PLAYER_AXE_TURNNING_SLASH));
+
 	_States.insert(std::make_pair(L"Wp_AXE_Move", new ST_PLAYER_AXE_MOVE));
 	_States.insert(std::make_pair(L"Wp_AXE_Move_Left", new ST_PLAYER_AXE_MOVE_LEFT));
 	_States.insert(std::make_pair(L"Wp_AXE_Move_Right", new ST_PLAYER_AXE_MOVE_RIGHT));

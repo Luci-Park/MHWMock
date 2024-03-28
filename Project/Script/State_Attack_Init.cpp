@@ -1567,6 +1567,16 @@ ST_PLAYER_WP_AXE_ATTACK::~ST_PLAYER_WP_AXE_ATTACK()
 }
 void ST_PLAYER_WP_AXE_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	ChangeASTMParam(StateMachine,L"IsAttack", A_TRUE);
+
+	if (StateMachine->GetASTMParam(L"Left_Btn").TRIGGER)
+	{
+		StateMachine->ChangeState(L"Wp_AXE_Upper_Slash");
+	}
+	if (StateMachine->GetASTMParam(L"Right_Btn").TRIGGER)
+	{
+		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
+	}
 }
 void ST_PLAYER_WP_AXE_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1574,6 +1584,162 @@ void ST_PLAYER_WP_AXE_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Stat
 void ST_PLAYER_WP_AXE_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
+
+#pragma region Wp_axe_Upper_Slash
+
+ST_PLAYER_AXE_UPPER_SLASH::ST_PLAYER_AXE_UPPER_SLASH()
+{
+
+}
+ST_PLAYER_AXE_UPPER_SLASH::~ST_PLAYER_AXE_UPPER_SLASH()
+{
+
+}
+
+void ST_PLAYER_AXE_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_axe_upper_Slash")
+	{
+		m_IsAnimationEnd = true;
+	}
+}
+
+#pragma endregion
+
+#pragma region Wp_axe_Down_Slash
+
+ST_PLAYER_AXE_DOWN_SLASH::ST_PLAYER_AXE_DOWN_SLASH()
+{
+
+}
+ST_PLAYER_AXE_DOWN_SLASH::~ST_PLAYER_AXE_DOWN_SLASH()
+{
+
+}
+
+void ST_PLAYER_AXE_DOWN_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+void ST_PLAYER_AXE_DOWN_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_DOWN_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	//Wp_axe_down_Slash
+	if (_pState->GetName() == L"Wp_axe_down_Slash")
+	{
+		m_IsAnimationEnd = true;
+	}
+
+	//Wp_axe_Down_to_Up
+}
+
+#pragma endregion
+
+#pragma region Wp_axe_Horizontal_Slash
+
+ST_PLAYER_AXE_HORIZONTAL_SLASH::ST_PLAYER_AXE_HORIZONTAL_SLASH()
+{
+
+}
+ST_PLAYER_AXE_HORIZONTAL_SLASH::~ST_PLAYER_AXE_HORIZONTAL_SLASH()
+{
+
+}
+
+void ST_PLAYER_AXE_HORIZONTAL_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_HORIZONTAL_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+void ST_PLAYER_AXE_HORIZONTAL_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_HORIZONTAL_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	//Wp_axe_Horzontal_Slash
+	if (_pState->GetName() == L"Wp_axe_Horzontal_Slash")
+	{
+		m_IsAnimationEnd = true;
+	}
+}
+
+#pragma endregion
+
+#pragma region Wp_Axe_Turnning_Slash
+
+ST_PLAYER_AXE_TURNNING_SLASH::ST_PLAYER_AXE_TURNNING_SLASH()
+{
+
+}
+ST_PLAYER_AXE_TURNNING_SLASH::~ST_PLAYER_AXE_TURNNING_SLASH()
+{
+
+}
+
+void ST_PLAYER_AXE_TURNNING_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_AXE_Idle");
+	}
+}
+void ST_PLAYER_AXE_TURNNING_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_AXE_TURNNING_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	//Wp_axe_Turning_Slash
+	if (_pState->GetName() == L"Wp_axe_Turning_Slash")
+	{
+		m_IsAnimationEnd = true;
+	}
+}
+
+#pragma endregion
+
+
 
 #pragma endregion
 

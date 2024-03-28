@@ -172,6 +172,7 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	//Wp_off
 	if (KEY_TAP(KEY::LSHIFT))
 	{
+		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 		return;
@@ -182,7 +183,7 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	{
 		if (KEY_TAP(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+			//ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 		}
 		else if (KEY_PRESSED(KEY::TAB))
 		{
@@ -201,15 +202,17 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	{
 		if (KEY_TAP(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+			//ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 		}
 		else if (KEY_TAP(KEY::TAB))
 		{
-			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+			//ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 		}
 		else
 		{
 			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Attack");
+			return;
 		}
 		//Attack State
 	}

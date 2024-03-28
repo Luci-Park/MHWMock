@@ -840,21 +840,6 @@ public:
 
 #pragma endregion
 
-#pragma region Wp_Axe_Attack
-
-class ST_PLAYER_WP_AXE_ATTACK : public State
-{
-public:
-    ST_PLAYER_WP_AXE_ATTACK();
-    ~ST_PLAYER_WP_AXE_ATTACK() override;
-public:
-    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-};
-
-#pragma endregion
-
 #pragma region Wp_Switch
 
 class ST_PLAYER_WP_SWITCH : public State
@@ -893,4 +878,84 @@ public:
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
 
 };
+#pragma endregion
+
+#pragma region Wp_Axe_Attack
+
+class ST_PLAYER_WP_AXE_ATTACK : public State
+{
+public:
+    ST_PLAYER_WP_AXE_ATTACK();
+    ~ST_PLAYER_WP_AXE_ATTACK() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma region Wp_Axe_Upper_Slash
+
+class ST_PLAYER_AXE_UPPER_SLASH : public State
+{
+public:
+    ST_PLAYER_AXE_UPPER_SLASH();
+    ~ST_PLAYER_AXE_UPPER_SLASH() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+#pragma region Wp_Axe_Down_Slash
+
+class ST_PLAYER_AXE_DOWN_SLASH : public State
+{
+public:
+    ST_PLAYER_AXE_DOWN_SLASH();
+    ~ST_PLAYER_AXE_DOWN_SLASH() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+#pragma region Wp_Axe_Horizontal_Slash
+
+class ST_PLAYER_AXE_HORIZONTAL_SLASH : public State
+{
+public:
+    ST_PLAYER_AXE_HORIZONTAL_SLASH();
+    ~ST_PLAYER_AXE_HORIZONTAL_SLASH() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+#pragma region Wp_Axe_Turnning_Slash
+
+class ST_PLAYER_AXE_TURNNING_SLASH : public State
+{
+public:
+    ST_PLAYER_AXE_TURNNING_SLASH();
+    ~ST_PLAYER_AXE_TURNNING_SLASH() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+#pragma endregion
+
+
 #pragma endregion
