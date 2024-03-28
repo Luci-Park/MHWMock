@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
-#include "Anjanath.h"
+#include "CAnjanath.h"
+#include "CAnjanathPart.h"
 #include "CCameraMoveScript.h"
 #include "CGravityScript.h"
 #include "CMainPlayerScript.h"
@@ -13,7 +14,8 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
-	_vec.push_back(L"Anjanath");
+	_vec.push_back(L"CAnjanath");
+	_vec.push_back(L"CAnjanathPart");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CMainPlayerScript");
@@ -28,8 +30,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
-	if (L"Anjanath" == _strScriptName)
-		return new Anjanath;
+	if (L"CAnjanath" == _strScriptName)
+		return new CAnjanath;
+	if (L"CAnjanathPart" == _strScriptName)
+		return new CAnjanathPart;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CGravityScript" == _strScriptName)
@@ -54,7 +58,11 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	switch (_iScriptType)
 	{
 	case (UINT)SCRIPT_TYPE::ANJANATH:
-		return new Anjanath;
+		return new CAnjanath;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHPART:
+		return new CAnjanathPart;
+		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
 		break;
@@ -88,7 +96,11 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
 	case SCRIPT_TYPE::ANJANATH:
-		return L"Anjanath";
+		return L"CAnjanath";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHPART:
+		return L"CAnjanathPart";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:

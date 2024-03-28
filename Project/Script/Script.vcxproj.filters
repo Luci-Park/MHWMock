@@ -60,7 +60,10 @@
     <ClInclude Include="CPlayerCameraScript.h">
       <Filter>Script\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Anjanath.h">
+    <ClInclude Include="CAnjanathPart.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanath.h">
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +119,10 @@
     <ClCompile Include="CPlayerCameraScript.cpp">
       <Filter>Script\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Anjanath.cpp">
+    <ClCompile Include="CAnjanathPart.cpp">
+      <Filter>Script\Anjanath</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanath.cpp">
       <Filter>Script\Anjanath</Filter>
     </ClCompile>
   </ItemGroup>
