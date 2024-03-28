@@ -177,7 +177,15 @@ void ST_PLAYER_N_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
 
+	//Á¤Áö
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -295,6 +303,7 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"N_Idle");
 	}
 }
 void ST_PLAYER_N_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -328,6 +337,14 @@ void ST_PLAYER_N_MOVE_LEFT::Enter(CGameObject* player, PlayerStateMachine* State
 
 void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A)||KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -445,6 +462,7 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"N_Idle");
 	}
 }
 
@@ -477,6 +495,14 @@ void ST_PLAYER_N_MOVE_Backward::Enter(CGameObject* player, PlayerStateMachine* S
 
 void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -594,6 +620,7 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"N_Idle");
 	}
 }
 
@@ -627,6 +654,14 @@ void ST_PLAYER_N_MOVE_Right::Enter(CGameObject* player, PlayerStateMachine* Stat
 
 void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LBTN))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -744,6 +779,7 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 	if (KEY_TAP(KEY::SPACE))
 	{
 		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"N_Idle");
 	}
 }
 
@@ -920,6 +956,19 @@ void ST_PLAYER_WP_MOVE_Forward::Enter(CGameObject* player, PlayerStateMachine* S
 
 void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -1047,6 +1096,19 @@ void ST_PLAYER_WP_MOVE_Left::Enter(CGameObject* player, PlayerStateMachine* Stat
 
 void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -1174,6 +1236,19 @@ void ST_PLAYER_WP_MOVE_Right::Enter(CGameObject* player, PlayerStateMachine* Sta
 
 void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
@@ -1303,6 +1378,19 @@ void ST_PLAYER_WP_MOVE_Backward::Enter(CGameObject* player, PlayerStateMachine* 
 
 void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (KEY_TAP(KEY::LSHIFT))
+	{
+		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
 		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
 	{
