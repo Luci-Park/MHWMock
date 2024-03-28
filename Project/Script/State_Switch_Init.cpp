@@ -51,7 +51,6 @@ ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE:: ~ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE()
 }
 void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -66,7 +65,8 @@ void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Exit(CGameObject* player, PlayerStateMach
 }
 void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	m_IsAnimationEnd = true;
+	if (_pState->GetName() == L"Wp_Knife_to_Axe")
+		m_IsAnimationEnd = true;
 }
 
 //-------------------------------------------------------------------------------------
@@ -99,6 +99,7 @@ void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Exit(CGameObject* player, PlayerStateMach
 }
 void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	m_IsAnimationEnd = true;
+	if (_pState->GetName() == L"Wp_Axe_to_Knife")
+		m_IsAnimationEnd = true;
 }
 #pragma endregion
