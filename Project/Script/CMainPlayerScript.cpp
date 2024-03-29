@@ -10,13 +10,15 @@ CMainPlayerScript::CMainPlayerScript()
 	, _Gravity(true)
 	, _Camera(nullptr)
 	, _stateMachine(new PlayerStateMachine(GetOwner()))
-	, _bCamera(false)
 	, _Sword(nullptr)
-	, _Sheld(nullptr)
+	, _Shield(nullptr)
+	, _bCamera(false)
+	, _bSword(false)
+	, _bShield(false)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Camera, "Main Camera");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Sword, "Sword");
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Sheld, "Sheld");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Shield, "Sheld");
 }
 
 CMainPlayerScript::~CMainPlayerScript()
@@ -40,6 +42,17 @@ void CMainPlayerScript::tick()
 		_stateMachine->setCamera(_Camera);
 		_bCamera = true;
 	}
+
+	if (_Sword != nullptr && _bSword == false)
+	{
+		_stateMachine->setSword(_Sword);
+	}
+
+	if (_Shield != nullptr && _bShield == false)
+	{
+		_stateMachine->setShield(_Shield);
+	}
+
 }
 
 void CMainPlayerScript::OnCollisionEnter(CCollider3D* _Other)

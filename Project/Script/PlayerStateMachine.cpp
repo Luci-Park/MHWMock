@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
+#include "CSwordScript.h"
+#include "CPlayerShieldScript.h"
 
 class State;
 PlayerStateMachine::PlayerStateMachine()
@@ -7,6 +9,8 @@ PlayerStateMachine::PlayerStateMachine()
 	, _player(nullptr)
 	, _ASTM(nullptr)
 	, _Camera(nullptr)
+	, _Shield(nullptr)
+	, _Sword(nullptr)
 {
 
 }
@@ -16,6 +20,8 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	, _player(player)
 	, _ASTM(nullptr)
 	, _Camera(nullptr)
+	, _Shield(nullptr)
+	, _Sword(nullptr)
 {
 }
 
@@ -168,6 +174,15 @@ void PlayerStateMachine::setCamera(CGameObject* camera)
 	_Camera = camera;
 }
 
+void PlayerStateMachine::setSword(CGameObject* sword)
+{
+	_Sword = sword;
+}
+void PlayerStateMachine::setShield(CGameObject* shield)
+{
+	_Shield = shield;
+}
+
 void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param)
 {
 	switch (type)
@@ -217,4 +232,18 @@ void PlayerStateMachine::OnAnimationEndFinished(IAnimationState* _pState)
 CGameObject* PlayerStateMachine::GetCamera()
 {
 	return _Camera;
+}
+
+void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType Atype, AnimParamUnion param, UINT type)
+{
+	//Sword
+	if (type == 1)
+	{
+		_Sword->GetScript<CSwordScript>()->SetASTMParam(paramID, Atype, param);
+	}
+	//Shield
+	else if(type == 2)
+	{
+		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, Atype, param);
+	}
 }

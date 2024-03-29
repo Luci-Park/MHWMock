@@ -45,8 +45,10 @@ private:
     PlayerStateMachine* _stateMachine;
     CGameObject* _Camera;
     CGameObject* _Sword;
-    CGameObject* _Sheld;
+    CGameObject* _Shield;
     bool _bCamera;
+    bool _bSword;
+    bool _bShield;
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -71,6 +73,8 @@ private:
     State*_curState;
     CGameObject* _player;
     CGameObject* _Camera;
+    CGameObject* _Sword;
+    CGameObject* _Shield;
     CAnimationStateMachine* _ASTM;
     std::map<std::wstring,State*> _States;
     
@@ -89,6 +93,8 @@ public:
 public:
     void setPlayer(CGameObject* player);
     void setCamera(CGameObject* camera);
+    void setSword(CGameObject* sword);
+    void setShield(CGameObject* shield);
     void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
     void ChangeASTMParam(std::wstring paramId, AnimParamUnion param);
 public:
@@ -100,6 +106,8 @@ public:
     double GetStateDuration();
     AnimParamUnion GetASTMParam(std::wstring paramId);
     CGameObject* GetCamera();
+public:
+    void ChangeScriptParam(std::wstring paramID, AnimParamType Atype, AnimParamUnion param, UINT type);
 };
 
 class State
