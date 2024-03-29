@@ -5,3 +5,7 @@ CAnjanathHead::CAnjanathHead()
 	:CScript(SCRIPT_TYPE::ANJANATHHEAD)
 {
 }
+
+CAnjanathHead::~CAnjanathHead()
+{
+}

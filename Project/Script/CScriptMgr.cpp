@@ -143,6 +143,7 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
 		break;
+
 	}
 	return nullptr;
 }
