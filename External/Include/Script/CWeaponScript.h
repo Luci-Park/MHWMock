@@ -1,13 +1,21 @@
 #pragma once
 #include "pch.h"
 #include "Engine\CScript.h"
+#include "Engine\CGameObject.h"
+#include "Engine\CAnimationStateMachine.h"
+#include "Engine\CAnimator3D.h"
 
 class CWeaponScript
 	: public CScript
 {
+protected:
+    CAnimationStateMachine* _ASTM;
+    CGameObject* _Player;
+    CGameObject* _MainBone;
+    CGameObject* _SubBone;
 public:
-    virtual void begin() {}
-    virtual void tick() {}
+    virtual void begin();
+    virtual void tick();
 
     virtual void OnCollisionEnter(CCollider3D* _Other) {}
     virtual void OnCollisionStay(CCollider3D* _Other) {}
@@ -22,6 +30,10 @@ public:
 public:
 	CWeaponScript();
 	~CWeaponScript();
-public:
 	CLONE(CWeaponScript);
+public:
+    void SetASTMParam(std::wstring paramID,AnimParamType type, AnimParamUnion param);
+    AnimParamUnion GetASTMParam(std::wstring paramID);
+    void SetMainBone() { GetOwner()->SetParent(_MainBone); }
+    void SetSubBone() { GetOwner()->SetParent(_SubBone); }
 };

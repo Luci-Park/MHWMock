@@ -72,6 +72,7 @@
     <ClInclude Include="CWeaponScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerShieldScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -143,5 +144,6 @@
     <ClCompile Include="CWeaponScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayerShieldScript.cpp" />
   </ItemGroup>
 </Project>
