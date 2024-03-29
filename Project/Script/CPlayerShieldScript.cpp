@@ -39,6 +39,41 @@ void CPlayerShieldScript::tick()
 		GetOwner()->Transform()->SetRelativeScale(Vector3(0.008f, 0.008f, 0.008f));
 		GetOwner()->Transform()->SetRelativeRot(Vector3(0.f, 180.f, 0.f));
 	}
+
+	if (!GetASTMParam(L"Wp_On").BOOL)
+	{
+		if (m_eHandDir == HandDir::Back)
+		{
+		}
+		else
+		{
+			ChangeParent(HandDir::Back);
+		}
+	}
+	else
+	{
+		if (GetASTMParam(L"IsAxe").BOOL || GetASTMParam(L"Bust_Attack").BOOL || GetASTMParam(L"Super_Bust_Attack").BOOL)
+		{
+			if (m_eHandDir == HandDir::Left)
+			{
+			}
+			else
+			{
+				ChangeParent(HandDir::Left);
+			}
+		}
+		else
+		{
+			if (m_eHandDir == HandDir::Right)
+			{
+			}
+			else
+			{
+				ChangeParent(HandDir::Right);
+			}
+		}
+	}
+
 }
 
 void CPlayerShieldScript::OnCollisionEnter(CCollider3D* _Other)
