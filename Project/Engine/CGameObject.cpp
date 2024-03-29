@@ -74,6 +74,7 @@ CGameObject::~CGameObject()
 
 void CGameObject::begin()
 {
+	if (!IsActive()) return;
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -93,6 +94,7 @@ void CGameObject::begin()
 
 void CGameObject::tick()
 {
+	if (!IsActive()) return;
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -113,6 +115,7 @@ void CGameObject::tick()
 
 void CGameObject::finaltick()
 {
+	if (!IsActive()) return;
 	if (m_bLifeSpan)
 	{
 		m_CurLifeTime += DT;
@@ -149,6 +152,7 @@ void CGameObject::finaltick()
 
 void CGameObject::finaltick_module()
 {
+	if (!IsActive()) return;
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -163,12 +167,14 @@ void CGameObject::finaltick_module()
 
 void CGameObject::render()
 {
+	if (!IsActive()) return;
 	if (nullptr != m_RenderCom)
 		m_RenderCom->render();
 }
 
 void CGameObject::render_shadowmap()
 {
+	if (!IsActive()) return;
 	if (nullptr != m_RenderCom)
 		m_RenderCom->render_shadowmap();
 }
