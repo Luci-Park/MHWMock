@@ -115,10 +115,17 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		if (KEY_TAP(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Attack");
 		}
-		else if (KEY_TAP(KEY::TAB))
+	}
+
+	if (KEY_PRESSED(KEY::TAB))
+	{
+		if (KEY_TAP(KEY::RBTN))
 		{
 			ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Bottle_Charge");
+			return;
 		}
 	}
 

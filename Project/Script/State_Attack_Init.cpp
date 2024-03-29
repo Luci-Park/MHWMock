@@ -233,10 +233,10 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 				return;
 			}
 		}
-
-		if (KEY_TAP(KEY::RBTN))
+		
+		if (KEY_PRESSED(KEY::TAB))
 		{
-			if (KEY_PRESSED(KEY::TAB))
+			if (KEY_TAP(KEY::RBTN))
 			{
 				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
@@ -248,10 +248,20 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		// Charge
 		if (KEY_PRESSED(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
-			StateMachine->ChangeState(L"Wp_Charge");
+			if (KEY_PRESSED(KEY::W) ||
+				KEY_PRESSED(KEY::A) ||
+				KEY_PRESSED(KEY::S) ||
+				KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+				StateMachine->ChangeState(L"Wp_Charge");
+			}
 		}
 
 	}
@@ -456,9 +466,9 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 			}
 		}
 
-		if (KEY_TAP(KEY::RBTN))
+		if (KEY_PRESSED(KEY::TAB))
 		{
-			if (KEY_TAP(KEY::TAB))
+			if (KEY_TAP(KEY::RBTN))
 			{
 				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
@@ -466,15 +476,24 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
 				return;
 			}
-
 		}
 		// Charge
 		if (KEY_PRESSED(KEY::RBTN))
 		{
-			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
-			StateMachine->ChangeState(L"Wp_Charge");
+			if (KEY_PRESSED(KEY::W) ||
+				KEY_PRESSED(KEY::A) ||
+				KEY_PRESSED(KEY::S) ||
+				KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+				ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+				StateMachine->ChangeState(L"Wp_Charge");
+			}
 		}
 
 	}
@@ -677,9 +696,9 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 			}
 		}
 
-		if (KEY_TAP(KEY::RBTN))
+		if (KEY_PRESSED(KEY::TAB))
 		{
-			if (KEY_TAP(KEY::TAB))
+			if (KEY_TAP(KEY::RBTN))
 			{
 				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
@@ -746,12 +765,14 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.4)
 	{
-		if (KEY_TAP(KEY::RBTN))
+		if (KEY_PRESSED(KEY::TAB))
 		{
-			if (KEY_PRESSED(KEY::TAB))
+			if (KEY_TAP(KEY::RBTN))
 			{
+				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+				return;
 			}
 		}
 		if (KEY_TAP(KEY::RBTN))
@@ -760,17 +781,10 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 			{
 				ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 				ChangeASTMParam(StateMachine, L"Bust", A_TRUE);
-				int bottle = StateMachine->GetASTMParam(L"bottle").INT;
-				if (bottle > 0)
-				{
-					//super Bust Attack
-					StateMachine->ChangeState(L"Super_Bust_Attack");
-				}
-				else
-				{
-					//bust Attack
-					StateMachine->ChangeState(L"Bust_Attack");
-				}
+				
+				//super Bust Attack
+				StateMachine->ChangeState(L"Bust_Attack_Axe_Link");
+			
 			}
 		}
 
@@ -965,12 +979,14 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 			}
 		}
 
-		if (KEY_TAP(KEY::RBTN ))
+		if (KEY_PRESSED(KEY::TAB))
 		{
-			if (KEY_PRESSED(KEY::TAB))
+			if (KEY_TAP(KEY::RBTN))
 			{
+				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
+				return;
 			}
 		}
 
