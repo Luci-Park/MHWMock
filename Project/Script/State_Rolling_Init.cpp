@@ -50,6 +50,7 @@ void ST_PLAYER_WP_ROLLING::Tick(CGameObject* player, PlayerStateMachine* StateMa
 {
 	if (m_IsAnimationEnd)
 	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -79,6 +80,7 @@ void ST_PLAYER_WP_AXE_ROLLING::Tick(CGameObject* player, PlayerStateMachine* Sta
 {
 	if (m_IsAnimationEnd)
 	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }

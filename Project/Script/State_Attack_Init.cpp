@@ -1644,6 +1644,13 @@ void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
 			StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
 		}
+
+		//Rolling
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Rolling");
+		}
 	}
 }
 void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -1707,6 +1714,13 @@ void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
 			StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
 			return;
+		}
+
+		//Rolling
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Rolling");
 		}
 	}
 
@@ -1795,6 +1809,13 @@ void ST_PLAYER_AXE_HORIZONTAL_SLASH::Tick(CGameObject* player, PlayerStateMachin
 			StateMachine->ChangeState(L"Wp_AXE_Turnning_Slash");
 			return;
 		}
+
+		//Rolling
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Rolling");
+		}
 	}
 
 }
@@ -1846,6 +1867,13 @@ void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine*
 			ChangeASTMParam(StateMachine, L"Bust", A_TRUE);
 			StateMachine->ChangeState(L"Bust_Attack_Axe_Link");
 			return;
+		}
+
+		//Rolling
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_AXE_Rolling");
 		}
 	}
 }
