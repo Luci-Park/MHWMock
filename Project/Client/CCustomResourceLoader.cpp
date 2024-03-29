@@ -42,6 +42,6 @@ void LoadCustomResources()
 	//CModel::LoadFromFbx(L"model\\Character Running.fbx");
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation.fbx");
 	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation_Final.fbx");
-	//CModel::LoadFromFbx(L"model\\playerMerge_W_Animation_real_Final.fbx");
-	//CModel::LoadFromFbx(L"model\\Player_.fbx");
+	CModel::LoadFromFbx(L"model\\Shield.fbx");
+	CModel::LoadFromFbx(L"model\\Sword.fbx");
 }
