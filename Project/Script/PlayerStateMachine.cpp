@@ -234,16 +234,8 @@ CGameObject* PlayerStateMachine::GetCamera()
 	return _Camera;
 }
 
-void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType Atype, AnimParamUnion param, UINT type)
+void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)
 {
-	//Sword
-	if (type == 1)
-	{
-		_Sword->GetScript<CSwordScript>()->SetASTMParam(paramID, Atype, param);
-	}
-	//Shield
-	else if(type == 2)
-	{
-		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, Atype, param);
-	}
+		_Sword->GetScript<CSwordScript>()->SetASTMParam(paramID, type, param);
+		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, type, param);
 }

@@ -107,7 +107,7 @@ public:
     AnimParamUnion GetASTMParam(std::wstring paramId);
     CGameObject* GetCamera();
 public:
-    void ChangeScriptParam(std::wstring paramID, AnimParamType Atype, AnimParamUnion param, UINT type);
+    void ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
 };
 
 class State
