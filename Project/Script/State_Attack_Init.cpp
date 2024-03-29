@@ -2038,11 +2038,12 @@ void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, 
 {
 	//Super_Bust_Attack
 	//Super_Bust_Attack_End
-	if (_pState->GetName() == L"bust_Attack_End")
+	if (_pState->GetName() == L"Super_Bust_Attack_End")
 	{
 		ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
+		StateMachine->ChangeScriptParam(L"Super_Bust_Attack", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -2082,6 +2083,7 @@ void ST_PLAYER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, Player
 		ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
+		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
