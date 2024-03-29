@@ -75,8 +75,8 @@
     <ClInclude Include="CWeaponScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerShieldScript.h" />
-          <Filter>Script\Weapon</Filter>
+    <ClInclude Include="CPlayerShieldScript.h" >
+      <Filter>Script\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="CSwordScript.h">
       <Filter>Script\Weapon</Filter>
@@ -155,8 +155,8 @@
     <ClCompile Include="CSwordScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerShieldScript.cpp" />
-          <Filter>Script\Weapon</Filter>
+    <ClCompile Include="CPlayerShieldScript.cpp" >
+      <Filter>Script\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
