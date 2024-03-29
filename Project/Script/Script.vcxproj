@@ -213,6 +213,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnjanath.h" />
+    <ClInclude Include="CAnjanathHead.h" />
     <ClInclude Include="CAnjanathPart.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CGravityScript.h" />
@@ -228,6 +229,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnjanath.cpp" />
+    <ClCompile Include="CAnjanathHead.cpp" />
     <ClCompile Include="CAnjanathPart.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
