@@ -24,8 +24,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerCameraScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CTestScript");
-	_vec.push_back(L"PlayerState");
-	_vec.push_back(L"PlayerStateMachine");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -133,14 +131,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
-		break;
-
-	case SCRIPT_TYPE::LAYERSTATE:
-		return L"PlayerState";
-		break;
-
-	case SCRIPT_TYPE::LAYERSTATEMACHINE:
-		return L"PlayerStateMachine";
 		break;
 
 	}
