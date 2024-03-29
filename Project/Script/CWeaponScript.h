@@ -15,7 +15,7 @@ protected:
     CGameObject* _SubBone;
 public:
     virtual void begin();
-    virtual void tick();
+    virtual void tick() override {}
 
     virtual void OnCollisionEnter(CCollider3D* _Other) {}
     virtual void OnCollisionStay(CCollider3D* _Other) {}
@@ -27,9 +27,12 @@ public:
     virtual void OnAnimationBegin(IAnimationState* _pState) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState) {}
     virtual void OnAnimationEndFinished(IAnimationState* _pState) {}
+
+    virtual void SaveToLevelFile(FILE* _File) override {}
+    virtual void LoadFromLevelFile(FILE* _FILE) override {}
 public:
 	CWeaponScript();
-	~CWeaponScript();
+	virtual ~CWeaponScript();
 	CLONE(CWeaponScript);
 public:
     void SetASTMParam(std::wstring paramID,AnimParamType type, AnimParamUnion param);

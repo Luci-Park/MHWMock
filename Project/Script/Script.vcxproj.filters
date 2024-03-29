@@ -28,6 +28,9 @@
     <Filter Include="Script\Weapon">
       <UniqueIdentifier>{66125221-9166-486a-b90b-2a5f8daec292}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\Weapon\Sword">
+      <UniqueIdentifier>{f6dad07d-b180-42ae-a45b-14f3485936eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -70,6 +73,9 @@
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
     <ClInclude Include="CWeaponScript.h">
+      <Filter>Script\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CSwordScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
@@ -141,6 +147,9 @@
       <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
     <ClCompile Include="CWeaponScript.cpp">
+      <Filter>Script\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CSwordScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
   </ItemGroup>

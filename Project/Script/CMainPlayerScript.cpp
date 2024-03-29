@@ -11,8 +11,12 @@ CMainPlayerScript::CMainPlayerScript()
 	, _Camera(nullptr)
 	, _stateMachine(new PlayerStateMachine(GetOwner()))
 	, _bCamera(false)
+	, _Sword(nullptr)
+	, _Sheld(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Camera, "Main Camera");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Sword, "Sword");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Sheld, "Sheld");
 }
 
 CMainPlayerScript::~CMainPlayerScript()

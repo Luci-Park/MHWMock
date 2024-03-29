@@ -10,6 +10,7 @@
 #include "CMonsterScript.h"
 #include "CPlayerCameraScript.h"
 #include "CPlayerScript.h"
+#include "CSwordScript.h"
 #include "CTestScript.h"
 #include "CWeaponScript.h"
 
@@ -24,6 +25,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerCameraScript");
 	_vec.push_back(L"CPlayerScript");
+	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CTestScript");
 	_vec.push_back(L"CWeaponScript");
 }
@@ -48,6 +50,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerCameraScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"CSwordScript" == _strScriptName)
+		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
 	if (L"CWeaponScript" == _strScriptName)
@@ -85,6 +89,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SWORDSCRIPT:
+		return new CSwordScript;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
@@ -134,6 +141,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
 		return L"CPlayerScript";
+		break;
+
+	case SCRIPT_TYPE::SWORDSCRIPT:
+		return L"CSwordScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

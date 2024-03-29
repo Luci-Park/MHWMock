@@ -7,5 +7,6 @@ CMissileScript
 CMonsterScript
 CPlayerCameraScript
 CPlayerScript
+CSwordScript
 CTestScript
 CWeaponScript

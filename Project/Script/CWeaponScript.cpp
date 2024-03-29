@@ -23,11 +23,6 @@ void CWeaponScript::begin()
 	_ASTM = GetOwner()->Animator3D()->GetStateMachine();
 }
 
-void CWeaponScript::tick()
-{
-
-}
-
 void CWeaponScript::SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)
 {
 	switch (type)

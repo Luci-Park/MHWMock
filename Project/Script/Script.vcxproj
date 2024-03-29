@@ -222,6 +222,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlayerCameraScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSwordScript.h" />
     <ClInclude Include="CTestScript.h" />
     <ClInclude Include="CWeaponScript.h" />
     <ClInclude Include="framework.h" />
@@ -238,6 +239,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlayerCameraScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSwordScript.cpp" />
     <ClCompile Include="CTestScript.cpp" />
     <ClCompile Include="CWeaponScript.cpp" />
     <ClCompile Include="pch.cpp">

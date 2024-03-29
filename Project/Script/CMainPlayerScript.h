@@ -44,6 +44,8 @@ private:
     bool _Gravity;
     PlayerStateMachine* _stateMachine;
     CGameObject* _Camera;
+    CGameObject* _Sword;
+    CGameObject* _Sheld;
     bool _bCamera;
 public:
     virtual void begin() override;
