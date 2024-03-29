@@ -1211,6 +1211,7 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* S
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeScriptParam(L"Left_Btn", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Charge_K_Enchent");
 		}
 	}
