@@ -14,6 +14,7 @@ CAnimationTransition::CAnimationTransition(IAnimationState* _pPrevState, IAnimat
 	, m_bFixedDuration(false)
 	, m_dTransitionDuration(0.25)
 	, m_dTransitionOffset(0)
+	, m_bTicked(false)
 {
 	m_pPrevState->AddTransition(this);
 }
@@ -28,6 +29,8 @@ CAnimationTransition::~CAnimationTransition()
 
 KeyFrames& CAnimationTransition::GetTransitionKeyFrame()
 {
+	m_bTicked = false;
+
 	m_rsltKeyFrames.clear();
 	BlendKeyFrames(m_pPrevState->GetBoneTransforms(), m_pNextState->GetBoneTransforms(), m_dTickPercent);
 
@@ -118,6 +121,8 @@ bool CAnimationTransition::CheckCondition()
 
 void CAnimationTransition::StartTransition()
 {
+	m_bTicked = false;
+
 	m_dTick = 0;
 	m_pNextState->OnTransitionBegin(m_dTransitionOffset);
 	auto animator = m_pPrevState->GetAnimator();
@@ -146,6 +151,10 @@ void CAnimationTransition::Remove()
 
 void CAnimationTransition::tick()
 {
+	if (m_bTicked) return;
+	m_bTicked = true;
+
+	m_pNextState->tick();
 	double duration = m_bFixedDuration ? m_dTransitionDuration : m_pPrevState->GetDurationInSeconds() * m_dTransitionDuration;
 	m_dTick += CTimeMgr::GetInst()->GetDeltaTime();
 	m_dTickPercent = m_dTick / duration;

@@ -37,6 +37,8 @@ double CAnimationStateMachine::GetTickPercentWithRepeat()
 
 KeyFrames& CAnimationStateMachine::GetBoneTransforms()
 {
+	m_bTicked = false;
+
 	if (m_pCurrentState->IsTransitioning())
 		return m_pCurrentState->GetCurrentTransition()->GetTransitionKeyFrame();
 	return m_pCurrentState->GetBoneTransforms();
@@ -117,6 +119,8 @@ IAnimationState* CAnimationStateMachine::GetStateByName(wstring _name)
 }
 void CAnimationStateMachine::Reset(double _tickPercent)
 {
+	m_bTicked = false;
+
 	ChangeState(m_pHead);
 	m_pHead->OnTransitionBegin(_tickPercent);
 }
@@ -251,9 +255,11 @@ void CAnimationStateMachine::SetTrigger(wstring _param, bool _value)
 
 void CAnimationStateMachine::tick()
 {
+	if (m_bTicked) return;
+	m_bTicked = true;
+
 	IAnimationState::tick();
 	m_pCurrentState->tick();
-
 }
 
 void CAnimationStateMachine::SaveToLevelFile(FILE* _FILE)

@@ -20,6 +20,8 @@ private:
 	double								m_dTransitionOffset;
 	double								m_dTick;
 	double								m_dTickPercent;
+	double								m_bTicked;
+
 	tAnimationTransitionLink			m_tLinkInfo;
 
 
