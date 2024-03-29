@@ -64,6 +64,12 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 	double dAnimationDuration = StateMachine->GetStateDuration();
 	
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
@@ -296,6 +302,19 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Enter(CGameObject* player, PlayerStateMa
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
@@ -497,12 +516,6 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 		}
 
 	}
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -531,6 +544,21 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Enter(CGameObject* player, PlayerStateMa
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
@@ -727,12 +755,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 			}
 		}
 	}
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
+
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -762,6 +785,20 @@ void ST_PLAYER_WP_SHELD_ATTACK::Enter(CGameObject* player, PlayerStateMachine* S
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.4)
 	{
@@ -924,11 +961,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 		}
 	}
 
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
+
 
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -965,6 +998,14 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
 	}
 
 	double duration = StateMachine->GetStateDuration();
@@ -1275,6 +1316,15 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1370,6 +1420,15 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 		ChangeASTMParam(StateMachine, L"Stack", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1412,6 +1471,15 @@ void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 		ChangeASTMParam(StateMachine, L"Stack", (AnimParamUnion)0.f);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
+
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Rolling");
+	}
+
 }
 void ST_PLAYER_WP_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
