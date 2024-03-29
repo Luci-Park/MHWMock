@@ -131,5 +131,8 @@
     <ClCompile Include="CAnjanath.cpp">
       <Filter>Script\Anjanath</Filter>
     </ClCompile>
+    <ClCompile Include="State_Guard_Init.cpp">
+      <Filter>Script\Player\StateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

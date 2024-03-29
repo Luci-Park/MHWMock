@@ -597,6 +597,59 @@ public:
 
 #pragma endregion
 
+#pragma region Wp_Guard
+
+class ST_PLAYER_WP_GUARD : public State
+{
+public:
+    ST_PLAYER_WP_GUARD();
+    ~ST_PLAYER_WP_GUARD() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_GUARD_ON : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_ON();
+    ~ST_PLAYER_WP_GUARD_ON() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_GUARD_IDLE : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_IDLE();
+    ~ST_PLAYER_WP_GUARD_IDLE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+};
+
+class ST_PLAYER_WP_GUARD_OFF : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_OFF();
+    ~ST_PLAYER_WP_GUARD_OFF() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+
+};
+
+#pragma endregion
+
+
 #pragma region Wp_Attack
 
 class ST_PLAYER_WP_ATTACK : public State

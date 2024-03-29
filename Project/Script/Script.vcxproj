@@ -249,6 +249,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="PlayerStateMachine.cpp" />
     <ClCompile Include="States_Init.cpp" />
     <ClCompile Include="State_Attack_Init.cpp" />
+    <ClCompile Include="State_Guard_Init.cpp" />
     <ClCompile Include="State_Hit_Init.cpp" />
     <ClCompile Include="State_Move_Init.cpp" />
     <ClCompile Include="State_Rolling_Init.cpp" />

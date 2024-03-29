@@ -70,6 +70,7 @@ ST_PLAYER_WP_IDLE::~ST_PLAYER_WP_IDLE()
 
 void ST_PLAYER_WP_IDLE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	ChangeASTMParam(StateMachine, L"IsGuard", A_FALSE);
 }
 void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -127,6 +128,10 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 			StateMachine->ChangeState(L"Wp_Bottle_Charge");
 			return;
 		}
+
+		ChangeASTMParam(StateMachine, L"IsGuard", A_TRUE);
+		StateMachine->ChangeState(L"Wp_Guard");
+		return;
 	}
 
 	if (KEY_PRESSED(KEY::RBTN))
