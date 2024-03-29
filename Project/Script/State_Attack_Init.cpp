@@ -1968,14 +1968,22 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Enter(CGameObject* player, PlayerStateMachi
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	int iBottle = StateMachine->GetASTMParam(L"bottle").INT;
+
+	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
+	{
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_TRUE);
+	}
+	
 	if (m_IsAnimationEnd)
 	{
 		if (iBottle == 0)
 		{
+			StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Bust_Attack");
 		}
 		else
 		{
+			StateMachine->ChangeScriptParam(L"Super_Bust_Attack", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Super_Bust_Attack");
 		}
 	}
@@ -1987,9 +1995,19 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Exit(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if (_pState->GetName() == L"Bust_Attack_Axe_Link")
+	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
 	{
-		m_IsAnimationEnd = true;
+		if (_pState->GetName() == L"Bust_Attack_Axe_Link")
+		{
+			m_IsAnimationEnd = true;
+		}
+	}
+	else
+	{
+		if (_pState->GetName() == L"Bust_Attack_Link")
+		{
+			m_IsAnimationEnd = true;
+		}
 	}
 }
 #pragma endregion
