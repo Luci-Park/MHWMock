@@ -73,16 +73,16 @@ void CPlayerShieldScript::ChangeParent(HandDir _HandDir)
 
 		GetOwner()->Transform()->SetRelativePos(Vector3(0.f, 0.f, 0.f));
 		GetOwner()->Transform()->SetRelativeScale(Vector3(0.008f, 0.008f, 0.008f));
-		GetOwner()->Transform()->SetRelativeRot(Vector3(270.f, 90.f, 0.f));
+		GetOwner()->Transform()->SetRelativeRot(Vector3(270.f, 0.f, 0.f));
 	}
 	else if(_HandDir == HandDir::Right)
 	{
 		m_eHandDir = HandDir::Right;
 		GetOwner()->SetParent(m_pRightBone);
 
-		GetOwner()->Transform()->SetRelativePos(Vector3(0.f, -20.f, 20.f));
+		GetOwner()->Transform()->SetRelativePos(Vector3(0.f, 0.f, 0.f));
 		GetOwner()->Transform()->SetRelativeScale(Vector3(0.008f, 0.008f, 0.008f));
-		GetOwner()->Transform()->SetRelativeRot(Vector3(0.f, 180.f, 0.f));
+		GetOwner()->Transform()->SetRelativeRot(Vector3(270.f, 90.f, 0.f));
 	}
 	else if (_HandDir == HandDir::Back)
 	{
