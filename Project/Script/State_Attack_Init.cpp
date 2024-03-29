@@ -57,6 +57,13 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Enter(CGameObject* player, PlayerStateMa
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (m_IsAnimationEnd)
+	{
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+		StateMachine->ChangeState(L"Wp_Idle");
+	}
+
 	double dAnimationDuration = StateMachine->GetStateDuration();
 	
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
@@ -248,12 +255,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		}
 
 	}
-	if (m_IsAnimationEnd)
-	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
+
 
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -1576,6 +1578,7 @@ void ST_PLAYER_WP_AXE_ATTACK::Enter(CGameObject* player, PlayerStateMachine* Sta
 	{
 		StateMachine->ChangeState(L"Wp_AXE_Upper_Slash");
 	}
+
 	if (StateMachine->GetASTMParam(L"Right_Btn").TRIGGER)
 	{
 		StateMachine->ChangeState(L"Wp_AXE_Horizontal_Slash");
