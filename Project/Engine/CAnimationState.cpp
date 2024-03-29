@@ -67,6 +67,8 @@ void CAnimationState::OnTransitionBegin(double _tickPercent)
 
 KeyFrames& CAnimationState::GetBoneTransforms()
 {
+	m_bTicked = false;
+
 	static KeyFrames emptyFrames(0);
 	if (m_pClip == nullptr) return emptyFrames;
 
@@ -92,16 +94,21 @@ KeyFrames& CAnimationState::GetBoneTransforms()
 	
 }
 
-void CAnimationState::Reset(double _percent, bool _repeat)
+void CAnimationState::Reset(double _percent, bool _addToRepeat)
 {
+	m_bTicked = false;
+
 	SetTick(_percent);
-	if (_repeat)m_iRepeatNum += 1;
+	if (_addToRepeat)m_iRepeatNum += 1;
 	else m_iRepeatNum = 0;
 	m_bIsFirstTick = true;
 }
 
 void CAnimationState::tick()
 {
+	if (m_bTicked) return;
+	m_bTicked = true;
+
 	m_dDuration = m_pClip != nullptr ? m_pClip->GetDuration() : 1;
 	double offset = m_pClip != nullptr ? m_pClip->GetTicksPerSecond() : 1;
 

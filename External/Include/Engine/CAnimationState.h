@@ -34,7 +34,7 @@ public:
 	virtual void OnTransitionBegin(double _tickPercent) override;
 	virtual KeyFrames& GetBoneTransforms() override;
 private:
-	void Reset(double _percent, bool _isRepeat);
+	void Reset(double _percent, bool _addToRepeat);
 public:
 	virtual void tick() override;
 	virtual void SaveToLevelFile(FILE* _FILE) override;
