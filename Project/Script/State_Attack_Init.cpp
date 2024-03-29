@@ -779,7 +779,7 @@ ST_PLAYER_WP_SHELD_ATTACK::~ST_PLAYER_WP_SHELD_ATTACK()
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->ChangeScriptParam(L"Shield_Attack", AnimParamType::TRIGGER, A_TRUE);
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
