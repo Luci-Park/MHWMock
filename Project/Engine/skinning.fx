@@ -195,6 +195,12 @@ PS_OUT frag(VS_OUT _in)
         }
     }
     
+    if(ISXMTEX)
+    {
+        //Red metalic
+        //Green panorama effect?
+        //blue flow
+    }
     
     output.vNormal = float4(vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);
