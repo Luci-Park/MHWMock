@@ -24,11 +24,13 @@ void ST_PLAYER_WP_SWITCH::Tick(CGameObject* player, PlayerStateMachine* StateMac
 	bool bIsAxe = StateMachine->GetASTMParam(L"IsAxe").BOOL;
 	if (bIsAxe)
 	{
+		StateMachine->ChangeScriptParam(L"Switch_Wp", AnimParamType::TRIGGER, A_TRUE);
 		StateMachine->ChangeASTMParam(L"IsAxe", A_FALSE);
 		StateMachine->ChangeState(L"Wp_SWITCH_AXE_TO_KNIFE");
 	}
 	else
 	{
+		StateMachine->ChangeScriptParam(L"Switch_Wp", AnimParamType::TRIGGER, A_TRUE);
 		StateMachine->ChangeASTMParam(L"IsAxe", A_TRUE);
 		StateMachine->ChangeState(L"Wp_SWITCH_KNIFE_TO_AXE");
 	}
