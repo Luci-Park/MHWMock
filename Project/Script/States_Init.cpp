@@ -36,6 +36,8 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 	if (KEY_TAP(KEY::LBTN))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
+		StateMachine->ChangeScriptParam(L"Left_Btn", AnimParamType::TRIGGER, A_TRUE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
@@ -186,6 +188,7 @@ void ST_PLAYER_AXE_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMach
 	{
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 		return;
 	}
