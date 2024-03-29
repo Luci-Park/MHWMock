@@ -1190,7 +1190,11 @@ ST_PLAYER_WP_BOTTLE_CHARGE::~ST_PLAYER_WP_BOTTLE_CHARGE()
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
+	StateMachine->ChangeScriptParam(L"Bottle_Charge",AnimParamType::TRIGGER,A_TRUE);
+	AnimParamUnion tmp;
+	tmp.FLOAT = overload;
+	StateMachine->ChangeScriptParam(L"OverLoad", AnimParamType::FLOAT, tmp);
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
