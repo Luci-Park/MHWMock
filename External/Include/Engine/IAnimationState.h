@@ -21,6 +21,7 @@ protected:
 	CAnimator3D*			m_pAnimator;
 	CAnimationStateMachine* m_pRootMachine;
 	CAnimationStateMachine* m_pParentMachine;
+	bool m_bTicked;
 public:
 	void SetName(wstring _name) { m_strName = _name; }
 	wstring GetName() { return m_strName; }

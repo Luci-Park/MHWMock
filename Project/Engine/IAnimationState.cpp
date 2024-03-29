@@ -9,6 +9,7 @@ IAnimationState::IAnimationState(eAnimationNodeType _type, CAnimator3D* _animato
 	, m_pRootMachine(_root)
 	, m_pParentMachine(_parent)
 	, m_tNodeInfo({ Vec2(0, 0) })
+	, m_bTicked(false)
 {
 }
 
