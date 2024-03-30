@@ -74,7 +74,6 @@ CGameObject::~CGameObject()
 
 void CGameObject::begin()
 {
-	if (!IsActive()) return;
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
