@@ -236,6 +236,8 @@ CGameObject* PlayerStateMachine::GetCamera()
 
 void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)
 {
+	if(_Sword != nullptr)
 		_Sword->GetScript<CSwordScript>()->SetASTMParam(paramID, type, param);
+	if(_Shield != nullptr)
 		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, type, param);
 }
