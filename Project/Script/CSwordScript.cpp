@@ -3,6 +3,8 @@
 
 CSwordScript::CSwordScript()
 	: CScript((UINT)SCRIPT_TYPE::SWORDSCRIPT)
+	, _ASTM(nullptr)
+	, IsMain(false)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Player, "Player");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_MainBone, "Main Bone");
@@ -22,6 +24,15 @@ void CSwordScript::begin()
 
 void CSwordScript::tick()
 {
+	bool bWpOn = _ASTM->GetParamByName(L"Wp_On")->value.BOOL;
+	if (bWpOn == true && IsMain == false)
+	{
+		SetMainBone(_ASTM->GetParamByName(L"IsAxe")->value.BOOL);
+	}
+	else if(bWpOn == false && IsSub == false)
+	{
+		SetSubBone();
+	}
 }
 
 void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
@@ -62,7 +73,7 @@ void CSwordScript::SaveToLevelFile(FILE* _File)
 
 void CSwordScript::LoadFromLevelFile(FILE* _FILE)
 {
-	begin();
+
 }
 
 void CSwordScript::SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)
@@ -91,9 +102,26 @@ AnimParamUnion CSwordScript::GetASTMParam(std::wstring paramID)
 	return _ASTM->GetParamByName(paramID)->value;
 }
 
-void CSwordScript::SetMainBone()
+void CSwordScript::SetMainBone(int type)
 {
-	GetOwner()->SetParent(_MainBone);
+	if (!type)
+	{
+		GetOwner()->SetParent(_MainBone);
+		GetOwner()->Transform()->SetRelativePos(Vec3(1.f, 2.f, 0.f));
+		GetOwner()->Transform()->SetRelativeRot(Vec3(-90.f, 0.f, 0.f));
+		GetOwner()->Transform()->SetRelativeScale(Vec3(0.005f, 0.005f, 0.005f));
+		IsMain = true;
+		IsSub = false;
+	}
+	else
+	{
+		GetOwner()->SetParent(_MainBone);
+		GetOwner()->Transform()->SetRelativePos(Vec3(1.f, 2.f, 0.f));
+		GetOwner()->Transform()->SetRelativeRot(Vec3(-90.f, 0.f, 0.f));
+		GetOwner()->Transform()->SetRelativeScale(Vec3(0.01f, 0.01f, 0.01f));
+		IsMain = true;
+		IsSub = false;
+	}
 }
 
 void CSwordScript::SetSubBone()
@@ -102,4 +130,6 @@ void CSwordScript::SetSubBone()
 	GetOwner()->Transform()->SetRelativePos(Vec3(0.f, 20.f, 30.f));
 	GetOwner()->Transform()->SetRelativeRot(Vec3(180.f, 0.f, 0.f));
 	GetOwner()->Transform()->SetRelativeScale(Vec3(0.005f, 0.005f, 0.005f));
+	IsMain = false;
+	IsSub = true;
 }

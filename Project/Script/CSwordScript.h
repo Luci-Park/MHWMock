@@ -7,6 +7,8 @@ class CSwordScript :
     public CScript
 {
 private:
+    bool IsMain;
+    bool IsSub;
     CAnimationStateMachine* _ASTM;
     CGameObject* _Player;
     CGameObject* _MainBone;
@@ -34,7 +36,7 @@ public:
 public:
     void SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
     AnimParamUnion GetASTMParam(std::wstring paramID);
-    void SetMainBone();
+    void SetMainBone(int type);
     void SetSubBone();
 public:
     CLONE(CSwordScript);
