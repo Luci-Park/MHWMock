@@ -4,7 +4,6 @@
 CSwordScript::CSwordScript()
 	: CScript((UINT)SCRIPT_TYPE::SWORDSCRIPT)
 	, _ASTM(nullptr)
-	, IsMain(false)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Player, "Player");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_MainBone, "Main Bone");
@@ -13,6 +12,9 @@ CSwordScript::CSwordScript()
 
 CSwordScript::~CSwordScript()
 {
+	_Player = nullptr;
+	_MainBone = nullptr;
+	_SubBone = nullptr;
 }
 
 void CSwordScript::begin()
@@ -25,13 +27,28 @@ void CSwordScript::begin()
 void CSwordScript::tick()
 {
 	bool bWpOn = _ASTM->GetParamByName(L"Wp_On")->value.BOOL;
-	if (bWpOn == true && IsMain == false)
+	if (bWpOn)
 	{
-		SetMainBone(_ASTM->GetParamByName(L"IsAxe")->value.BOOL);
+		bool isaxe = _ASTM->GetParamByName(L"IsAxe")->value.BOOL;
+		if (mode == Mode::Knife && isaxe)
+		{
+			SetMainBone(isaxe);
+		}
+		if (mode == Mode::Axe && !isaxe)
+		{
+			SetMainBone(isaxe);
+		}
+		if (mode == Mode::None)
+		{
+			SetMainBone(isaxe);
+		}
 	}
-	else if(bWpOn == false && IsSub == false)
+	else
 	{
-		SetSubBone();
+		if (mode == Mode::Knife || mode == Mode::Axe)
+		{
+			SetSubBone();
+		}
 	}
 }
 
@@ -110,8 +127,7 @@ void CSwordScript::SetMainBone(int type)
 		GetOwner()->Transform()->SetRelativePos(Vec3(1.f, 2.f, 0.f));
 		GetOwner()->Transform()->SetRelativeRot(Vec3(-90.f, 0.f, 0.f));
 		GetOwner()->Transform()->SetRelativeScale(Vec3(0.005f, 0.005f, 0.005f));
-		IsMain = true;
-		IsSub = false;
+		mode = Mode::Knife;
 	}
 	else
 	{
@@ -119,8 +135,7 @@ void CSwordScript::SetMainBone(int type)
 		GetOwner()->Transform()->SetRelativePos(Vec3(1.f, 2.f, 0.f));
 		GetOwner()->Transform()->SetRelativeRot(Vec3(-90.f, 0.f, 0.f));
 		GetOwner()->Transform()->SetRelativeScale(Vec3(0.01f, 0.01f, 0.01f));
-		IsMain = true;
-		IsSub = false;
+		mode = Mode::Axe;
 	}
 }
 
@@ -130,6 +145,5 @@ void CSwordScript::SetSubBone()
 	GetOwner()->Transform()->SetRelativePos(Vec3(0.f, 20.f, 30.f));
 	GetOwner()->Transform()->SetRelativeRot(Vec3(180.f, 0.f, 0.f));
 	GetOwner()->Transform()->SetRelativeScale(Vec3(0.005f, 0.005f, 0.005f));
-	IsMain = false;
-	IsSub = true;
+	mode = Mode::None;
 }

@@ -7,8 +7,13 @@ class CSwordScript :
     public CScript
 {
 private:
-    bool IsMain;
-    bool IsSub;
+    enum class Mode
+    {
+        Knife,
+        Axe,
+        None,
+    };
+    Mode mode;
     CAnimationStateMachine* _ASTM;
     CGameObject* _Player;
     CGameObject* _MainBone;
