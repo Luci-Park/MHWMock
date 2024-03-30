@@ -46,11 +46,13 @@ void CMainPlayerScript::tick()
 	if (_Sword != nullptr && _bSword == false)
 	{
 		_stateMachine->setSword(_Sword);
+		_bSword = true;
 	}
 
 	if (_Shield != nullptr && _bShield == false)
 	{
 		_stateMachine->setShield(_Shield);
+		_bShield = true;
 	}
 
 }

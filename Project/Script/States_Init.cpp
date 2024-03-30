@@ -91,7 +91,6 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
-		StateMachine->ChangeState(L"N_Idle");
 	}
 
 	//Wp_Attack
@@ -102,7 +101,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 			ChangeASTMParam(StateMachine, L"L+R_Btn", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Attack");
 		}
-		else if (KEY_PRESSED(KEY::TAB))
+		else if (KEY_TAP(KEY::TAB))
 		{
 			ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
 			StateMachine->ChangeState(L"Wp_SWITCH");
@@ -154,6 +153,24 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 void ST_PLAYER_WP_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 }
+
+void ST_PLAYER_WP_IDLE::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_IDLE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
+}
+void ST_PLAYER_WP_IDLE::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
 
 #pragma endregion
 
