@@ -49,7 +49,10 @@ void ST_PLAYER_WP_GUARD_ON::Tick(CGameObject* player, PlayerStateMachine* StateM
 	}
 
 	if (KEY_RELEASE(KEY::TAB))
+	{
 		ChangeASTMParam(StateMachine, L"IsGuard", A_FALSE);
+		StateMachine->ChangeState(L"Wp_Guard_Off");
+	}
 	
 }
 void ST_PLAYER_WP_GUARD_ON::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
