@@ -105,6 +105,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 		{
 			ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
 			StateMachine->ChangeState(L"Wp_SWITCH");
+			return;
 		}
 		else
 		{
@@ -120,8 +121,16 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 			StateMachine->ChangeState(L"Wp_Attack");
 		}
 	}
-
-	if (KEY_PRESSED(KEY::TAB))
+	if (KEY_TAP(KEY::TAB))
+	{
+		if(KEY_TAP(KEY::LBTN))
+		{
+			ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+			StateMachine->ChangeState(L"Wp_SWITCH");
+			return;
+		}
+	}
+	else if (KEY_PRESSED(KEY::TAB))
 	{
 		if (KEY_TAP(KEY::RBTN))
 		{
