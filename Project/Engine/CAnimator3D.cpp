@@ -7,7 +7,7 @@
 #include "CBoneHolder.h"
 #include "CAnimationStateMachine.h"
 #include "CScript.h"
-#define DEBUG_ANIMATOR 0
+#define DEBUG_ANIMATOR 1
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
@@ -93,14 +93,17 @@ void CAnimator3D::tick()
 	auto rootBone = BoneHolder()->GetBone(L"Root");
 	if (rootBone)
 	{
+		Vector3 rPos, rRot, rScale;
+		rootBone->Decompose(rScale, rRot, rPos);
+
 		//assert(rootBone != nullptr);
-		Vector3 rPos = rootBone->GetRelativePos();
+		//Vector3 rPos = rootBone->GetRelativePos();
 		Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rPos.x
 			+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rPos.y
 			+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
 		pos += Transform()->GetRelativePos();
 
-		Vector3 rRot = rootBone->GetRelativeEulerRot();
+		//Vector3 rRot = rootBone->GetRelativeEulerRot();
 		Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
 			+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
 			+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;

@@ -14,6 +14,22 @@ CAnjanath::~CAnjanath()
 {
 }
 
+void CAnjanath::CheckPlayerPos()
+{
+	if (m_pPlayer == nullptr) return;
+	Vec3 relativePos = m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos();
+	Quaternion lookRotation;
+	Quaternion::LookRotation(relativePos, Vector3::Up, lookRotation);
+	Vec3 angles = lookRotation.ToEuler();
+
+
+}
+
+void CAnjanath::ChooseAttack()
+{
+	Animator3D()->SetInt(L"Attack Type", (int)ANJ_ATTACK::BITE);
+}
+
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(L"Aggroed", false);
@@ -22,6 +38,10 @@ void CAnjanath::begin()
 void CAnjanath::tick()
 {
 	if (!m_bAggroed)return;
+	CheckPlayerPos();
+	// check playerPos
+	// if 
+	
 }
 
 void CAnjanath::OnCollisionEnter(CCollider3D* _Other)

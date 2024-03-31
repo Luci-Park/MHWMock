@@ -10,10 +10,15 @@ class CAnjanath :
 	public CScript
 {
 private:
-	CGameObject* m_pPlayer;
-	bool m_bAggroed;
-	ANJ_ATTACK m_Attack;
-	
+	CGameObject*	m_pPlayer;
+	bool			m_bAggroed;
+	ANJ_ATTACK		m_Attack;
+	Vec3			m_pRelativePos;
+	Quaternion		m_pRelativeRot;
+
+private:
+	void CheckPlayerPos();
+	void ChooseAttack();
 public:
 	virtual void begin() override;
 	virtual void tick() override;
