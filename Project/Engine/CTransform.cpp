@@ -41,6 +41,25 @@ void CTransform::UpdateData()
 	pTransformBuffer->UpdateData();
 }
 
+Quaternion CTransform::GetWorldRot()
+{
+	Vector3 pos, scale; Quaternion rot;
+	Decompose(scale, rot, pos);
+	return rot;
+}
+
+Vec3 CTransform::GetWorldEulerRot()
+{
+	return GetWorldRot().ToEuler();
+}
+
+Vec3 CTransform::GetWorldScale()
+{
+	Vector3 pos, scale; Quaternion rot;
+	Decompose(scale, rot, pos);
+	return scale;
+}
+
 void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 {
 	CGameObject* pParent = GetOwner()->GetParent();

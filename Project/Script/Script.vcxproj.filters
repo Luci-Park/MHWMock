@@ -66,6 +66,7 @@
     <ClInclude Include="CAnjanath.h">
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
+    <ClInclude Include="CAnjanathHead.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -131,5 +132,6 @@
     <ClCompile Include="CAnjanath.cpp">
       <Filter>Script\Anjanath</Filter>
     </ClCompile>
+    <ClCompile Include="CAnjanathHead.cpp" />
   </ItemGroup>
 </Project>
