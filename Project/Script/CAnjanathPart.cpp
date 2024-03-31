@@ -2,7 +2,6 @@
 #include "CAnjanathPart.h"
 
 CAnjanathPart::CAnjanathPart()
-	:CScript(SCRIPT_TYPE::ANJANATHPART)
 {
 }
 

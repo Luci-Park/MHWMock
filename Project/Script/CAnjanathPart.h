@@ -1,10 +1,9 @@
 #pragma once
-#include <Engine/CScript.h>
 class CAnjanathPart
-	:public CScript
 {
 public:
-	CLONE(CAnjanathPart)
+	void Attacked(int _damage);
+public:
 	CAnjanathPart();
 	~CAnjanathPart();
 };
