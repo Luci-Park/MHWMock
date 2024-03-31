@@ -93,17 +93,19 @@ void CAnimator3D::tick()
 	auto rootBone = BoneHolder()->GetBone(L"Root");
 	if (rootBone)
 	{
-		Vector3 rPos, rRot, rScale;
-		rootBone->Decompose(rScale, rRot, rPos);
+		//Vector3 rPos, rRot, rScale;
+		//rootBone->Decompose(rScale, rRot, rPos);
 
 		//assert(rootBone != nullptr);
-		//Vector3 rPos = rootBone->GetRelativePos();
-		Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rPos.x
-			+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rPos.y
-			+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rPos.z;
+		Vector3 rScale = rootBone->GetWorldScale();
+		Vector3 rPos = rootBone->GetRelativePos();
+		Vector3 scaledPos = Vector3(rPos.x * rScale.x, rPos.y * rScale.y, rPos.z * rScale.z);
+		Vector3 pos = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * scaledPos.x
+			+ Transform()->GetRelativeDir(DIR_TYPE::UP) * scaledPos.y
+			+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * scaledPos.z;
 		pos += Transform()->GetRelativePos();
 
-		//Vector3 rRot = rootBone->GetRelativeEulerRot();
+		Vector3 rRot = rootBone->GetRelativeEulerRot();
 		Vector3 rot = Transform()->GetRelativeDir(DIR_TYPE::RIGHT) * rRot.x
 			+ Transform()->GetRelativeDir(DIR_TYPE::UP) * rRot.y
 			+ Transform()->GetRelativeDir(DIR_TYPE::FRONT) * rRot.z;
