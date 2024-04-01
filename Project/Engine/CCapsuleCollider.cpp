@@ -26,6 +26,7 @@ CCapsuleCollider::~CCapsuleCollider()
 void CCapsuleCollider::begin()
 {
 	CreateColliderShape();
+	EditCapsuleShape(_CapsuleRadius, _CapsuleHeight);
 }
 
 void CCapsuleCollider::finaltick()
@@ -85,4 +86,6 @@ void CCapsuleCollider::LoadFromLevelFile(FILE* _File)
 	fread(&_CapsuleRadius, sizeof(Vec3), 1, _File);
 	fread(&_CapsuleHeight, sizeof(Vec3), 1, _File);
 	CCollider3D::LoadFromLevelFile(_File);
+
+	begin();
 }
