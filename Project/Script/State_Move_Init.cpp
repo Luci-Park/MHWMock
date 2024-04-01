@@ -209,9 +209,9 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 
 	float duration;
 	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
-		duration = 0.05f;
+		duration = 0.5f;
 	else
-		duration = 0.1f;
+		duration = 0.7f;
 
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > duration)
