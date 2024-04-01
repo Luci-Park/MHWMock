@@ -5,6 +5,7 @@ std::map<std::wstring, State::StateParam> State::_StateParam;
 
 State::State()
 	: m_IsAnimationEnd(false)
+	, _IsPlayed(false)
 {
 
 }

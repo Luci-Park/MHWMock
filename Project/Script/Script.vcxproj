@@ -222,8 +222,11 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerCameraScript.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPlayerShieldScript.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSwordScript.h" />
     <ClInclude Include="CTestScript.h" />
+    <ClInclude Include="CWeaponScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -238,8 +241,11 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerCameraScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPlayerShieldScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSwordScript.cpp" />
     <ClCompile Include="CTestScript.cpp" />
+    <ClCompile Include="CWeaponScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -251,6 +257,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="PlayerStateMachine.cpp" />
     <ClCompile Include="States_Init.cpp" />
     <ClCompile Include="State_Attack_Init.cpp" />
+    <ClCompile Include="State_Guard_Init.cpp" />
     <ClCompile Include="State_Hit_Init.cpp" />
     <ClCompile Include="State_Move_Init.cpp" />
     <ClCompile Include="State_Rolling_Init.cpp" />

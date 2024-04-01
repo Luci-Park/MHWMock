@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
+#include "CSwordScript.h"
+#include "CPlayerShieldScript.h"
 
 class State;
 PlayerStateMachine::PlayerStateMachine()
@@ -7,6 +9,8 @@ PlayerStateMachine::PlayerStateMachine()
 	, _player(nullptr)
 	, _ASTM(nullptr)
 	, _Camera(nullptr)
+	, _Shield(nullptr)
+	, _Sword(nullptr)
 {
 
 }
@@ -16,6 +20,8 @@ PlayerStateMachine::PlayerStateMachine(CGameObject* player)
 	, _player(player)
 	, _ASTM(nullptr)
 	, _Camera(nullptr)
+	, _Shield(nullptr)
+	, _Sword(nullptr)
 {
 }
 
@@ -71,7 +77,12 @@ void PlayerStateMachine::CreateState()
 	_States.insert(std::make_pair(L"Wp_Move_Right",new ST_PLAYER_WP_MOVE_Right));	
 	_States.insert(std::make_pair(L"Wp_Move_Backward",new ST_PLAYER_WP_MOVE_Backward));	
 	_States.insert(std::make_pair(L"Wp_Move_Forward",new ST_PLAYER_WP_MOVE_Forward));	
-
+	
+	_States.insert(std::make_pair(L"Wp_Guard",new ST_PLAYER_WP_GUARD));
+	_States.insert(std::make_pair(L"Wp_Guard_On",new ST_PLAYER_WP_GUARD_ON));
+	_States.insert(std::make_pair(L"Wp_Guard_Idle",new ST_PLAYER_WP_GUARD_IDLE));
+	_States.insert(std::make_pair(L"Wp_Guard_Off",new ST_PLAYER_WP_GUARD_OFF));
+	
 	_States.insert(std::make_pair(L"Wp_Attack", new ST_PLAYER_WP_ATTACK));
 	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_01", new ST_PLAYER_WP_ATTACK_COMBOSLASH_01));
 	_States.insert(std::make_pair(L"Wp_Attack_ComboSlash_02", new ST_PLAYER_WP_ATTACK_COMBOSLASH_02));
@@ -163,6 +174,15 @@ void PlayerStateMachine::setCamera(CGameObject* camera)
 	_Camera = camera;
 }
 
+void PlayerStateMachine::setSword(CGameObject* sword)
+{
+	_Sword = sword;
+}
+void PlayerStateMachine::setShield(CGameObject* shield)
+{
+	_Shield = shield;
+}
+
 void PlayerStateMachine::SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param)
 {
 	switch (type)
@@ -212,4 +232,12 @@ void PlayerStateMachine::OnAnimationEndFinished(IAnimationState* _pState)
 CGameObject* PlayerStateMachine::GetCamera()
 {
 	return _Camera;
+}
+
+void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)
+{
+	if(_Sword != nullptr)
+		_Sword->GetScript<CSwordScript>()->SetASTMParam(paramID, type, param);
+	if(_Shield != nullptr)
+		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, type, param);
 }

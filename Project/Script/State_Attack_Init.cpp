@@ -21,6 +21,7 @@ void ST_PLAYER_WP_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMa
 
 	if (StateMachine->GetASTMParam(L"L+R_Btn").TRIGGER)
 	{
+		SoundPlay(L"sound\\Player\\04(Big_Attack).mp3",0.2f);
 		StateMachine->ChangeState(L"Wp_Dash_Attack");
 	}
 
@@ -54,6 +55,7 @@ ST_PLAYER_WP_ATTACK_COMBOSLASH_01::~ST_PLAYER_WP_ATTACK_COMBOSLASH_01()
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = false;
+	SoundPlay(L"sound\\Player\\05(Attack).mp3",0.2f);
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -92,6 +94,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"Combo_Stack", A_1);
+			SoundPlay(L"sound\\Player\\10(Attack_2).mp3", 0.2f);
 			StateMachine->ChangeState(L"Wp_Attack_ComboSlash_02");
 			return;
 		}
@@ -559,8 +562,17 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
+	if (dAnimationDuration > 0.2f && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\04(Big_Attack).mp3", 0.2f);
+		_IsPlayed = true;
+	}
+
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
 	{
+
+
+
 		if (KEY_TAP(KEY::LBTN))
 		{
 			if (KEY_TAP(KEY::RBTN))
@@ -757,6 +769,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -779,7 +792,8 @@ ST_PLAYER_WP_SHELD_ATTACK::~ST_PLAYER_WP_SHELD_ATTACK()
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->ChangeScriptParam(L"Shield_Attack", AnimParamType::TRIGGER, A_TRUE);
+	SoundPlay(L"sound\\Player\\32(Sheld_Attack,bottle).mp3");
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1025,6 +1039,9 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 			}
 		}
 
+		if (nullptr == StateMachine->GetCamera())
+			return;
+
 		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
 		camFront.y = 0;
 
@@ -1190,7 +1207,11 @@ ST_PLAYER_WP_BOTTLE_CHARGE::~ST_PLAYER_WP_BOTTLE_CHARGE()
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	float overload = StateMachine->GetASTMParam(L"OverLoad").FLOAT;
+	StateMachine->ChangeScriptParam(L"Bottle_Charge",AnimParamType::TRIGGER,A_TRUE);
+	AnimParamUnion tmp;
+	tmp.FLOAT = overload;
+	StateMachine->ChangeScriptParam(L"OverLoad", AnimParamType::FLOAT, tmp);
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1207,6 +1228,7 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* S
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+			StateMachine->ChangeScriptParam(L"Left_Btn", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Charge_K_Enchent");
 		}
 	}
@@ -1353,9 +1375,10 @@ void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMa
 }
 void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	double dAnimationDuration = StateMachine->GetStateDuration();
+
 	if (KEY_RELEASE(KEY::RBTN))
 	{
-		double dAnimationDuration = StateMachine->GetStateDuration();
 
 		if (dAnimationDuration < 0.5f)
 		{
@@ -1367,16 +1390,23 @@ void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMac
 		else
 		{
 			// DOUBLE SLASH
+
 			ChangeASTMParam(StateMachine, L"Stack", A_2);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Double_Slash");
 		}
 	}
 
+	if (dAnimationDuration > 0.5f && !_IsPlayed)
+	{
+		SoundPlay(L"sound\\Player\\43(Charge_S).mp3",0.5);
+		_IsPlayed = true;
+	}
+
 }
 void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1953,6 +1983,7 @@ void ST_PLAYER_AXE_TURNNING_SLASH::OnAnimationEndStart(IAnimationState* _pState,
 
 #pragma region BUST_ATTACK_AXE_LINK
 ST_PLAYER_BUST_ATTACK_AXE_LINK::ST_PLAYER_BUST_ATTACK_AXE_LINK()
+	: _SubPlayed(false)
 {
 
 }
@@ -1963,19 +1994,44 @@ ST_PLAYER_BUST_ATTACK_AXE_LINK::~ST_PLAYER_BUST_ATTACK_AXE_LINK()
 
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	int iBottle = StateMachine->GetASTMParam(L"bottle").INT;
+
+	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
+	{
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_TRUE);
+	}
+
+	if (iBottle == 0 && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\10(Merge).mp3");
+		_IsPlayed = true;
+	}
+	else if(iBottle > 0 && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\06(Super_Bust_Attack_Charge).mp3");
+		_IsPlayed = true;
+	}
+
+	if (StateMachine->GetStateDuration() > 0.5f && _SubPlayed == false && iBottle > 0)
+	{
+		SoundPlay(L"sound\\Player\\02(Super_Bust_Attack).mp3");
+		_SubPlayed = true;
+	}
+	
 	if (m_IsAnimationEnd)
 	{
 		if (iBottle == 0)
 		{
+			StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Bust_Attack");
 		}
 		else
 		{
+			StateMachine->ChangeScriptParam(L"Super_Bust_Attack", AnimParamType::TRIGGER, A_TRUE);
 			StateMachine->ChangeState(L"Super_Bust_Attack");
 		}
 	}
@@ -1983,13 +2039,24 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
+	_SubPlayed = false;
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if (_pState->GetName() == L"Bust_Attack_Axe_Link")
+	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
 	{
-		m_IsAnimationEnd = true;
+		if (_pState->GetName() == L"Bust_Attack_Axe_Link")
+		{
+			m_IsAnimationEnd = true;
+		}
+	}
+	else
+	{
+		if (_pState->GetName() == L"Bust_Attack_Link")
+		{
+			m_IsAnimationEnd = true;
+		}
 	}
 }
 #pragma endregion
@@ -2006,25 +2073,31 @@ ST_PLAYER_SUPER_BUST_ATTACK::~ST_PLAYER_SUPER_BUST_ATTACK()
 
 void ST_PLAYER_SUPER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	
+	if ((StateMachine->GetStateDuration() > 0.5) && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\27(Wind).mp3");
+		_IsPlayed = true;
+	}
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//Super_Bust_Attack
 	//Super_Bust_Attack_End
-	if (_pState->GetName() == L"bust_Attack_End")
+	if (_pState->GetName() == L"Super_Bust_Attack_End")
 	{
 		ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
+		StateMachine->ChangeScriptParam(L"Super_Bust_Attack", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -2064,6 +2137,7 @@ void ST_PLAYER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, Player
 		ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
+		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }

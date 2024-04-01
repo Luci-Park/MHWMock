@@ -7,6 +7,8 @@
 #include "Engine\CKeyMgr.h"
 #include "Engine\CTransform.h"
 #include "Engine\CAnimationStateMachine.h"
+#include "Engine\CSound.h"
+#include "Engine\CResMgr.h"
 
 
 #define A_TRUE (AnimParamUnion)true
@@ -36,15 +38,21 @@ class CMainPlayerScript :
     public CScript
 {
 public:
-    enum class OBJPARAMNAME
+    struct PlayerState
     {
-        End,
+        int Hp;
+        bool IsHitted;
     };
 private:
-    bool _Gravity;
     PlayerStateMachine* _stateMachine;
     CGameObject* _Camera;
+    CGameObject* _Sword;
+    CGameObject* _Shield;
+    PlayerState _State;
+    bool _Gravity;
     bool _bCamera;
+    bool _bSword;
+    bool _bShield;
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -59,6 +67,10 @@ public:
     virtual void LoadFromLevelFile(FILE* _FILE) override;
     CLONE(CMainPlayerScript);
 public:
+    void Attacked(int Damage, CGameObject* monster);
+    void Hitted(bool ishit, CGameObject* monster);
+    void ResetHitted() { _State.IsHitted = false; }
+public:
     CMainPlayerScript();
     ~CMainPlayerScript();
 };
@@ -69,6 +81,8 @@ private:
     State*_curState;
     CGameObject* _player;
     CGameObject* _Camera;
+    CGameObject* _Sword;
+    CGameObject* _Shield;
     CAnimationStateMachine* _ASTM;
     std::map<std::wstring,State*> _States;
     
@@ -87,6 +101,8 @@ public:
 public:
     void setPlayer(CGameObject* player);
     void setCamera(CGameObject* camera);
+    void setSword(CGameObject* sword);
+    void setShield(CGameObject* shield);
     void SetASTMParam(std::wstring paramId, AnimParamType type, AnimParamUnion param);
     void ChangeASTMParam(std::wstring paramId, AnimParamUnion param);
 public:
@@ -98,6 +114,8 @@ public:
     double GetStateDuration();
     AnimParamUnion GetASTMParam(std::wstring paramId);
     CGameObject* GetCamera();
+public:
+    void ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
 };
 
 class State
@@ -112,6 +130,7 @@ private:
 protected:
     static std::map<std::wstring, StateParam> _StateParam;
     bool    m_IsAnimationEnd;
+    bool    _IsPlayed;
 public:
     State();
     virtual ~State();
@@ -131,7 +150,14 @@ public:
     virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
+public:
+    void SoundPlay(std::wstring path,float vol=1.0f, int loop = 1);
 };
+
+inline void State::SoundPlay(std::wstring path, float vol, int loop)
+{
+    CResMgr::GetInst()->FindRes<CSound>(path)->Play(loop, vol,true);
+}
 
 
 #pragma region Idle State
@@ -158,6 +184,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_AXE_IDLE : public State
@@ -192,6 +222,8 @@ public:
 class ST_PLAYER_N_MOVE_FORWARD : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_FORWARD();
     ~ST_PLAYER_N_MOVE_FORWARD() override;
@@ -199,11 +231,15 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_MOVE_LEFT : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_LEFT();
     ~ST_PLAYER_N_MOVE_LEFT() override;
@@ -216,6 +252,8 @@ public:
 class ST_PLAYER_N_MOVE_Backward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_Backward();
     ~ST_PLAYER_N_MOVE_Backward() override;
@@ -228,6 +266,8 @@ public:
 class ST_PLAYER_N_MOVE_Right : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_Right();
     ~ST_PLAYER_N_MOVE_Right() override;
@@ -254,6 +294,8 @@ public:
 class ST_PLAYER_WP_MOVE_Forward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Forward();
     ~ST_PLAYER_WP_MOVE_Forward() override;
@@ -266,6 +308,8 @@ public:
 class ST_PLAYER_WP_MOVE_Right : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Right();
     ~ST_PLAYER_WP_MOVE_Right() override;
@@ -278,6 +322,8 @@ public:
 class ST_PLAYER_WP_MOVE_Left : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Left();
     ~ST_PLAYER_WP_MOVE_Left() override;
@@ -290,6 +336,8 @@ public:
 class ST_PLAYER_WP_MOVE_Backward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Backward();
     ~ST_PLAYER_WP_MOVE_Backward() override;
@@ -316,6 +364,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_FORWARD : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_FORWARD();
     ~ST_PLAYER_AXE_MOVE_FORWARD() override;
@@ -328,6 +379,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_LEFT : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_LEFT();
     ~ST_PLAYER_AXE_MOVE_LEFT() override;
@@ -340,6 +394,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_RIGHT : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_RIGHT();
     ~ST_PLAYER_AXE_MOVE_RIGHT() override;
@@ -352,6 +409,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_BACKWARD : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_BACKWARD();
     ~ST_PLAYER_AXE_MOVE_BACKWARD() override;
@@ -597,6 +657,59 @@ public:
 
 #pragma endregion
 
+#pragma region Wp_Guard
+
+class ST_PLAYER_WP_GUARD : public State
+{
+public:
+    ST_PLAYER_WP_GUARD();
+    ~ST_PLAYER_WP_GUARD() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_GUARD_ON : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_ON();
+    ~ST_PLAYER_WP_GUARD_ON() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+};
+
+class ST_PLAYER_WP_GUARD_IDLE : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_IDLE();
+    ~ST_PLAYER_WP_GUARD_IDLE() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+};
+
+class ST_PLAYER_WP_GUARD_OFF : public State
+{
+public:
+    ST_PLAYER_WP_GUARD_OFF();
+    ~ST_PLAYER_WP_GUARD_OFF() override;
+public:
+    virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+
+};
+
+#pragma endregion
+
+
 #pragma region Wp_Attack
 
 class ST_PLAYER_WP_ATTACK : public State
@@ -815,6 +928,8 @@ public:
 //super bust attack
 class ST_PLAYER_BUST_ATTACK_AXE_LINK : public State
 {
+private:
+    bool _SubPlayed;
 public:
     ST_PLAYER_BUST_ATTACK_AXE_LINK();
     ~ST_PLAYER_BUST_ATTACK_AXE_LINK() override;

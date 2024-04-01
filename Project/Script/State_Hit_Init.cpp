@@ -71,6 +71,7 @@ void ST_PLAYER_N_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"N_Idle");
 	}
 }
@@ -106,8 +107,10 @@ void ST_PLAYER_N_HIT_L::Enter(CGameObject* player, PlayerStateMachine* StateMach
 
 void ST_PLAYER_N_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"N_Idle");
 	}
 }
@@ -141,6 +144,7 @@ void ST_PLAYER_N_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"N_Idle");
 	}
 }
@@ -176,6 +180,7 @@ void ST_PLAYER_N_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"N_Idle");
 	}
 }
@@ -254,6 +259,7 @@ void ST_PLAYER_WP_HIT_F::Tick(CGameObject* player, PlayerStateMachine* StateMach
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -287,6 +293,7 @@ void ST_PLAYER_WP_HIT_L::Tick(CGameObject* player, PlayerStateMachine* StateMach
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -322,6 +329,7 @@ void ST_PLAYER_WP_HIT_B::Tick(CGameObject* player, PlayerStateMachine* StateMach
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -355,6 +363,7 @@ void ST_PLAYER_WP_HIT_R::Tick(CGameObject* player, PlayerStateMachine* StateMach
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -432,6 +441,7 @@ void ST_PLAYER_WP_AXE_HIT_F::Tick(CGameObject* player, PlayerStateMachine* State
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }
@@ -465,6 +475,7 @@ void ST_PLAYER_WP_AXE_HIT_L::Tick(CGameObject* player, PlayerStateMachine* State
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }
@@ -500,6 +511,7 @@ void ST_PLAYER_WP_AXE_HIT_B::Tick(CGameObject* player, PlayerStateMachine* State
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }
@@ -533,6 +545,7 @@ void ST_PLAYER_WP_AXE_HIT_R::Tick(CGameObject* player, PlayerStateMachine* State
 {
 	if (m_IsAnimationEnd)
 	{
+		player->GetScript<CMainPlayerScript>()->ResetHitted();
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }

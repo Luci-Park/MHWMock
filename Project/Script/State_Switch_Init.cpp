@@ -17,7 +17,17 @@ ST_PLAYER_WP_SWITCH:: ~ST_PLAYER_WP_SWITCH()
 }
 void ST_PLAYER_WP_SWITCH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	bool bIsAxe = StateMachine->GetASTMParam(L"IsAxe").BOOL;
+	if (bIsAxe)
+	{
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeScriptParam(L"Switch_Wp", AnimParamType::TRIGGER, A_TRUE);
+	}
+	else
+	{
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_TRUE);
+		StateMachine->ChangeScriptParam(L"Switch_Wp", AnimParamType::TRIGGER, A_TRUE);
+	}
 }
 void ST_PLAYER_WP_SWITCH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {

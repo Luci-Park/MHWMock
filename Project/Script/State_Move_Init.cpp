@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
 
+
 #pragma region N_MOVE
 
 #pragma region N_Move_STATE
@@ -162,6 +163,8 @@ void ST_PLAYER_N_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMachin
 //-------------------------------------------------------------------------------------
 
 ST_PLAYER_N_MOVE_FORWARD::ST_PLAYER_N_MOVE_FORWARD()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -173,6 +176,7 @@ ST_PLAYER_N_MOVE_FORWARD::~ST_PLAYER_N_MOVE_FORWARD()
 
 void ST_PLAYER_N_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+
 }
 void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -201,6 +205,26 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
+	}
+
+	float duration;
+	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
+		duration = 0.5f;
+	else
+		duration = 0.7f;
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3",0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if(!_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3",0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -310,6 +334,15 @@ void ST_PLAYER_N_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* Sta
 {
 }
 
+void ST_PLAYER_N_MOVE_FORWARD::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"N_Walk_Forward")
+	{
+		_Time = 0;
+		_Beforeduration = 0;
+	}
+}
+
 #pragma endregion
 
 #pragma region N_MVOVE_LEFT
@@ -321,6 +354,8 @@ void ST_PLAYER_N_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* Sta
 
 
 ST_PLAYER_N_MOVE_LEFT::ST_PLAYER_N_MOVE_LEFT()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -360,6 +395,26 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
+	}
+
+	float duration;
+	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
+		duration = 0.5f;
+	else
+		duration = 0.7f;
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -480,6 +535,8 @@ void ST_PLAYER_N_MOVE_LEFT::Exit(CGameObject* player, PlayerStateMachine* StateM
 //-------------------------------------------------------------------------------------
 
 ST_PLAYER_N_MOVE_Backward::ST_PLAYER_N_MOVE_Backward()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -518,6 +575,26 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
+	}
+
+	float duration;
+	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
+		duration = 0.5f;
+	else
+		duration = 0.7f;
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -639,6 +716,8 @@ void ST_PLAYER_N_MOVE_Backward::Exit(CGameObject* player, PlayerStateMachine* St
 //-------------------------------------------------------------------------------------
 
 ST_PLAYER_N_MOVE_Right::ST_PLAYER_N_MOVE_Right()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -677,6 +756,26 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
+	}
+
+	float duration;
+	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
+		duration = 0.5f;
+	else
+		duration = 0.7f;
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -942,6 +1041,8 @@ void ST_PLAYER_WP_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMachi
 #pragma region Wp_Move_Forward
 
 ST_PLAYER_WP_MOVE_Forward::ST_PLAYER_WP_MOVE_Forward()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -991,6 +1092,20 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1090,6 +1205,8 @@ void ST_PLAYER_WP_MOVE_Forward::Exit(CGameObject* player, PlayerStateMachine* St
 #pragma region Wp_Move_Left
 
 ST_PLAYER_WP_MOVE_Left::ST_PLAYER_WP_MOVE_Left()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1139,6 +1256,20 @@ void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* State
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1238,6 +1369,8 @@ void ST_PLAYER_WP_MOVE_Left::Exit(CGameObject* player, PlayerStateMachine* State
 #pragma region Wp_Move_Right
 
 ST_PLAYER_WP_MOVE_Right::ST_PLAYER_WP_MOVE_Right()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1287,6 +1420,20 @@ void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* Stat
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1386,6 +1533,8 @@ void ST_PLAYER_WP_MOVE_Right::Exit(CGameObject* player, PlayerStateMachine* Stat
 #pragma region Wp_Move_Backward
 
 ST_PLAYER_WP_MOVE_Backward::ST_PLAYER_WP_MOVE_Backward()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1437,6 +1586,20 @@ void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* S
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.5f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1684,6 +1847,8 @@ void ST_PLAYER_AXE_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMach
 
 #pragma region Wp_Axe_Move_Left
 ST_PLAYER_AXE_MOVE_LEFT::ST_PLAYER_AXE_MOVE_LEFT()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1726,6 +1891,20 @@ void ST_PLAYER_AXE_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* Stat
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_AXE_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1823,6 +2002,8 @@ void ST_PLAYER_AXE_MOVE_LEFT::Exit(CGameObject* player, PlayerStateMachine* Stat
 
 #pragma region Axe Move Right
 ST_PLAYER_AXE_MOVE_RIGHT::ST_PLAYER_AXE_MOVE_RIGHT()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1861,6 +2042,20 @@ void ST_PLAYER_AXE_MOVE_RIGHT::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_AXE_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -1959,6 +2154,8 @@ void ST_PLAYER_AXE_MOVE_RIGHT::Exit(CGameObject* player, PlayerStateMachine* Sta
 #pragma region Axe Move Forward
 
 ST_PLAYER_AXE_MOVE_FORWARD::ST_PLAYER_AXE_MOVE_FORWARD()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -1996,6 +2193,20 @@ void ST_PLAYER_AXE_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* S
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_AXE_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -2095,6 +2306,8 @@ void ST_PLAYER_AXE_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* S
 #pragma region Axe Move Backward
 
 ST_PLAYER_AXE_MOVE_BACKWARD::ST_PLAYER_AXE_MOVE_BACKWARD()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -2133,6 +2346,20 @@ void ST_PLAYER_AXE_MOVE_BACKWARD::Tick(CGameObject* player, PlayerStateMachine* 
 			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
 			StateMachine->ChangeState(L"Wp_AXE_Idle");
 		}
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3", 0.2f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if (!_IsPlayed && _Time - _Beforeduration > 0.7f)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3", 0.2f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
