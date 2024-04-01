@@ -66,9 +66,6 @@
     <ClInclude Include="CPlayerCameraScript.h">
       <Filter>Script\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="CAnjanathPart.h">
-      <Filter>Script\Anjanath</Filter>
-    </ClInclude>
     <ClInclude Include="CAnjanath.h">
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
@@ -139,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="State_Rolling_Init.cpp">
       <Filter>Script\Player\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathPart.cpp">
-      <Filter>Script\Anjanath</Filter>
     </ClCompile>
     <ClCompile Include="CAnjanath.cpp">
       <Filter>Script\Anjanath</Filter>

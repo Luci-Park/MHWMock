@@ -1,4 +1,5 @@
 targetver.h
 pch.h
 framework.h
-CAnjanathHead.h
+CAnjanathPart.h
+AnjAttack.h

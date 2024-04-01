@@ -1,11 +1,15 @@
 #include "pch.h"
 #include "CAnjanath.h"
 #include <Engine/CAnimator3D.h>
-
+#include "CMainPlayerScript.h"
 
 CAnjanath::CAnjanath()
 	: CScript(SCRIPT_TYPE::ANJANATH)
 	, m_bAggroed(false)
+	, m_bStaggered(false)
+	, m_iMaxHP(3528)
+	, m_iRageGauge(370)
+	, m_iHP(3528)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
 }
@@ -30,6 +34,38 @@ void CAnjanath::ChooseAttack()
 	Animator3D()->SetInt(L"Attack Type", (int)ANJ_ATTACK::BITE);
 }
 
+void CAnjanath::Attacked(int _damage)
+{
+	if (!m_bAggroed)
+	{
+		m_bAggroed = true;
+		Animator3D()->SetBool(L"Aggroed", true);
+	}
+	m_iHP -= _damage;
+	Animator3D()->SetInt(L"HP", m_iHP);
+}
+
+void CAnjanath::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
+{
+	if (!m_pCurrentAttack) return;
+}
+
+void CAnjanath::NoseBreak()
+{
+}
+
+void CAnjanath::FallOver()
+{
+}
+
+void CAnjanath::TailCut()
+{
+}
+
+void CAnjanath::BodyShot()
+{
+}
+
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(L"Aggroed", false);
@@ -38,13 +74,22 @@ void CAnjanath::begin()
 void CAnjanath::tick()
 {
 	if (!m_bAggroed)return;
+	if (m_iHP <= 0) return;
 	CheckPlayerPos();
 	// check playerPos
 	// if 
-	
 }
 
-void CAnjanath::OnCollisionEnter(CCollider3D* _Other)
+void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 {
-	Animator3D()->SetBool(L"Aggroed", true);
+	//if staggered state machine => staggeredZ
+}
+
+void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
+{
+	//if staggered state machine => staggered end
+}
+
+void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
+{
 }

@@ -2,7 +2,10 @@
 #include "CScriptMgr.h"
 
 #include "CAnjanath.h"
-#include "CAnjanathPart.h"
+#include "CAnjanathBody.h"
+#include "CAnjanathHead.h"
+#include "CAnjanathLeg.h"
+#include "CAnjanathTail.h"
 #include "CCameraMoveScript.h"
 #include "CGravityScript.h"
 #include "CMainPlayerScript.h"
@@ -18,6 +21,10 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnjanath");
+	_vec.push_back(L"CAnjanathBody");
+	_vec.push_back(L"CAnjanathHead");
+	_vec.push_back(L"CAnjanathLeg");
+	_vec.push_back(L"CAnjanathTail");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CMainPlayerScript");
@@ -35,6 +42,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnjanath" == _strScriptName)
 		return new CAnjanath;
+	if (L"CAnjanathBody" == _strScriptName)
+		return new CAnjanathBody;
+	if (L"CAnjanathHead" == _strScriptName)
+		return new CAnjanathHead;
+	if (L"CAnjanathLeg" == _strScriptName)
+		return new CAnjanathLeg;
+	if (L"CAnjanathTail" == _strScriptName)
+		return new CAnjanathTail;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CGravityScript" == _strScriptName)
@@ -66,6 +81,18 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	{
 	case (UINT)SCRIPT_TYPE::ANJANATH:
 		return new CAnjanath;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHBODY:
+		return new CAnjanathBody;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHHEAD:
+		return new CAnjanathHead;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHLEG:
+		return new CAnjanathLeg;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHTAIL:
+		return new CAnjanathTail;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -110,6 +137,22 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	{
 	case SCRIPT_TYPE::ANJANATH:
 		return L"CAnjanath";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHBODY:
+		return L"CAnjanathBody";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHHEAD:
+		return L"CAnjanathHead";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHLEG:
+		return L"CAnjanathLeg";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHTAIL:
+		return L"CAnjanathTail";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
