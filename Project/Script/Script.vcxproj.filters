@@ -66,7 +66,18 @@
     <ClInclude Include="CAnjanath.h">
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
-    <ClInclude Include="CAnjanathHead.h" />
+    <ClInclude Include="CAnjanathHead.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathLeg.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathTail.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathBody.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -132,6 +143,17 @@
     <ClCompile Include="CAnjanath.cpp">
       <Filter>Script\Anjanath</Filter>
     </ClCompile>
-    <ClCompile Include="CAnjanathHead.cpp" />
+    <ClCompile Include="CAnjanathHead.cpp">
+      <Filter>Script\Anjanath</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathLeg.cpp">
+      <Filter>Script\Anjanath</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathTail.cpp">
+      <Filter>Script\Anjanath</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathBody.cpp">
+      <Filter>Script\Anjanath</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

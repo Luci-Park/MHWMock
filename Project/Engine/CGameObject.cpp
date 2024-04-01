@@ -96,13 +96,14 @@ void CGameObject::tick()
 	if (!IsActive()) return;
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && m_arrCom[i]->IsActive())
 			m_arrCom[i]->tick();
 	}
 
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		m_vecScript[i]->tick();
+		if(m_vecScript[i]->IsActive())
+			m_vecScript[i]->tick();
 	}
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
@@ -126,13 +127,14 @@ void CGameObject::finaltick()
 
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && m_arrCom[i]->IsActive())
 			m_arrCom[i]->finaltick();
 	}
 
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		m_vecScript[i]->finaltick();
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->finaltick();
 	}
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)

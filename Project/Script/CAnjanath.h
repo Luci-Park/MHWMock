@@ -10,19 +10,31 @@ class CAnjanath :
 	public CScript
 {
 private:
+	int m_iHP;
 	CGameObject*	m_pPlayer;
 	bool			m_bAggroed;
 	ANJ_ATTACK		m_Attack;
-	Vec3			m_pRelativePos;
-	Quaternion		m_pRelativeRot;
+	Vec3			m_vRelativePos;
+	Quaternion		m_qRelativeRot;
 
 private:
 	void CheckPlayerPos();
 	void ChooseAttack();
 public:
+	void Attacked(int _damage);
+	bool InStagger();
+	void NoseBreak();
+	void FallOver();
+	void TailCut();
+	void BodyShot();
+	
+
+
+public:
 	virtual void begin() override;
 	virtual void tick() override;
 	virtual void OnCollisionEnter(CCollider3D* _Other);
+
 
 public:
 	CLONE(CAnjanath);

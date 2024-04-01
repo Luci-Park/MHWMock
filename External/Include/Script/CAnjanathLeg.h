@@ -1,20 +1,20 @@
 #pragma once
 #include "CAnjanathPart.h"
-class CAnjanathHead :
+class CAnjanathLeg :
 	public CAnjanathPart
 {
 private:
-	CGameObject* m_pScar1;
-	CGameObject* m_pScar2;
+	CGameObject* m_pScar;
 protected:
 	virtual int OnAttacked(int _damage) override;
 	virtual void OnHPZero() override;
+
 public:
 	virtual void begin() override;
 public:
-	CLONE(CAnjanathHead)
-	CAnjanathHead();
-	CAnjanathHead(const CAnjanathHead& _other);
-	virtual ~CAnjanathHead();
+	CLONE(CAnjanathLeg)
+	CAnjanathLeg();
+	CAnjanathLeg(const CAnjanathLeg& _other);
+	virtual ~CAnjanathLeg();
 };
 

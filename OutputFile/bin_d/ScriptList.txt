@@ -1,5 +1,8 @@
 CAnjanath
-CAnjanathPart
+CAnjanathBody
+CAnjanathHead
+CAnjanathLeg
+CAnjanathTail
 CCameraMoveScript
 CGravityScript
 CMainPlayerScript

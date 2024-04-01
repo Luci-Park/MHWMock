@@ -30,6 +30,12 @@ void CAnjanath::ChooseAttack()
 	Animator3D()->SetInt(L"Attack Type", (int)ANJ_ATTACK::BITE);
 }
 
+void CAnjanath::Attacked(int _damage)
+{
+	m_iHP -= _damage;
+	Animator3D()->SetInt(L"HP", m_iHP);
+}
+
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(L"Aggroed", false);
@@ -38,6 +44,7 @@ void CAnjanath::begin()
 void CAnjanath::tick()
 {
 	if (!m_bAggroed)return;
+	if (m_iHP <= 0) return;
 	CheckPlayerPos();
 	// check playerPos
 	// if 
