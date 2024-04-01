@@ -34,6 +34,7 @@ void CConvexCollider::finaltick()
 	{
 		IsUsed = true;
 		CreateColliderShape();
+		EditConvexShape(Vector3(1.f, 1.f, 1.f));
 	}
 
 	assert(0 <= m_iCollisionCount);

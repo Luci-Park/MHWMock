@@ -199,7 +199,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 		CCollider3D* pCollider3D = dynamic_cast<CCollider3D*>(_Component);
 		if (pCollider3D)
 		{
-			pCollider3D->begin();
+			//pCollider3D->begin();
 		}
 
 		// RenderComponent »Æ¿Œ
