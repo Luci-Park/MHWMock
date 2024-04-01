@@ -27,6 +27,7 @@ int CAnjanathLeg::OnAttacked(int _damage)
 void CAnjanathLeg::OnHPZero()
 {
 	Parent()->FallOver();
+	Parent()->Attacked(100);
 	m_pScar->SetActive(true);
 }
 

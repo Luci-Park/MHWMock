@@ -28,7 +28,8 @@ int CAnjanathTail::OnAttacked(int _damage)
 void CAnjanathTail::OnHPZero()
 {
 	if (m_pTail)m_pTail->SetActive(false);
-	Collider3D()->SetActive(false);
+	//Collider3D()->SetActive(false);-> size를 정하면 된다.
+	Parent()->Attacked(350);
 }
 
 void CAnjanathTail::begin()
