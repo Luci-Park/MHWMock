@@ -16,7 +16,7 @@ private:
 	vector<tDebugShapeInfo3D>  m_DebugShapeInfo3D;
 	vector<Ptr<CMesh>>			m_DebugShapeMesh3D;
 
-
+	bool									m_bUseDebugObj;
 
 public:
 	void init();

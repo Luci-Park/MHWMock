@@ -15,6 +15,7 @@
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_DebugShape{}
+	, m_bUseDebugObj (true)
 {
 
 }
@@ -91,6 +92,14 @@ void CEditorObjMgr::progress()
 		return;
 
 
+	if (CKeyMgr::GetInst()->GetKeyState(KEY::L) == KEY_STATE::TAP)
+	{
+		if (m_bUseDebugObj)
+			m_bUseDebugObj = false;
+		else
+			m_bUseDebugObj = true;
+	}
+
 	// DebugShape 정보 가져오기
 	vector<tDebugShapeInfo>& vecInfo = CRenderMgr::GetInst()->GetDebugShapeInfo();
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
@@ -131,6 +140,8 @@ void CEditorObjMgr::render()
 		m_vecEditorObj[i]->render();
 	}
 
+	if (!m_bUseDebugObj)
+		return;
 
 	// DebugShape Render
 	CGameObjectEx* pShapeObj = nullptr;
