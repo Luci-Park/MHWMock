@@ -176,7 +176,7 @@ ST_PLAYER_N_MOVE_FORWARD::~ST_PLAYER_N_MOVE_FORWARD()
 
 void ST_PLAYER_N_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	_Beforeduration = 0;
+
 }
 void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -209,24 +209,20 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 
 	float duration;
 	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
-	{
 		duration = 0.05f;
-	}
 	else
-	{
 		duration = 0.1f;
-	}
 
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > duration)
 	{
-		SoundPlay(L"sound\\Player\\020(Walk).mp3",0.5f);
+		SoundPlay(L"sound\\Player\\020(Walk).mp3",0.2f);
 		_IsPlayed = false;
 		_Beforeduration = _Time;
 	}
 	else if(!_IsPlayed && _Time - _Beforeduration > duration)
 	{
-		SoundPlay(L"sound\\Player\\021(Walk).mp3",0.5f);
+		SoundPlay(L"sound\\Player\\021(Walk).mp3",0.2f);
 		_IsPlayed = true;
 		_Beforeduration = _Time;
 	}
