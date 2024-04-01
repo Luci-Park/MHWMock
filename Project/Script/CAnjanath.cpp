@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CAnjanath.h"
 #include <Engine/CAnimator3D.h>
+#include "CMainPlayerScript.h"
 
 CAnjanath::CAnjanath()
 	: CScript(SCRIPT_TYPE::ANJANATH)
@@ -42,8 +43,9 @@ void CAnjanath::Attacked(int _damage)
 	Animator3D()->SetInt(L"HP", m_iHP);
 }
 
-void CAnjanath::AttackSuccess(SCRIPT_TYPE _type)
+void CAnjanath::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
 {
+	if (!m_pCurrentAttack) return;
 }
 
 void CAnjanath::NoseBreak()

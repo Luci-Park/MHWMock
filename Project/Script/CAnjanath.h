@@ -1,10 +1,7 @@
 #pragma once
 #include <Engine/CScript.h>
-
-enum class ANJ_ATTACK
-{
-	WEAK_BITE, BITE, CONTIN_BITE, CLAW, TAIL_SLAM, TAIL_SWEEP, BODY_SLAM, FORWARD, RUSH, FLAME
-};
+#include "CMainPlayerScript.h"
+#include "AnjAttack.h"
 
 class CAnjanath :
 	public CScript
@@ -13,7 +10,8 @@ private:
 	int m_iHP;
 	bool			m_bAggroed;
 	bool			m_bStaggered;
-	ANJ_ATTACK		m_Attack;
+	AnjAttack*		m_pCurrentAttack;
+
 	Vec3			m_vRelativePos;
 	Quaternion		m_qRelativeRot;
 
@@ -24,7 +22,7 @@ private:
 	void ChooseAttack();
 public:
 	void Attacked(int _damage);
-	void AttackSuccess(SCRIPT_TYPE _type);
+	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
 	bool InStagger() { return m_bStaggered; }
 	void NoseBreak();
 	void FallOver();

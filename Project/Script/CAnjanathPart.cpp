@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CAnjanathPart.h"
 #include "CAnjanath.h"
+#include "CMainPlayerScript.h"
 
 CAnjanathPart::CAnjanathPart(SCRIPT_TYPE _type, int _maxHP)
 	:CScript(_type)
@@ -31,7 +32,9 @@ void CAnjanathPart::Attacked(int _damage)
 }
 void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
 {
-	Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType());
+	CMainPlayerScript* script = _Other->GetOwner()->GetScript<CMainPlayerScript>();
+	if(script)
+		Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType());
 }
 bool CAnjanathPart::CheckBody()
 {
