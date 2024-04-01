@@ -35,6 +35,7 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 
 	if (KEY_TAP(KEY::LBTN))
 	{
+		SoundPlay(L"sound\\Player\\01(Move_Start).mp3",0.5f);
 		ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
 		StateMachine->ChangeScriptParam(L"Left_Btn", AnimParamType::TRIGGER, A_TRUE);
@@ -50,6 +51,8 @@ void ST_PLAYER_N_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachin
 }
 void ST_PLAYER_N_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (StateMachine->GetASTMParam(L"Wp_on").BOOL ==  true)
+		SoundPlay(L"sound\\Player\\15(End_Bust).mp3", 0.5f);
 }
 
 #pragma endregion
@@ -90,6 +93,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	//Wp_off
 	if (KEY_TAP(KEY::LSHIFT))
 	{
+		SoundPlay(L"sound\\Player\\16(Wp_off).mp3", 0.5f);
 		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 	}
 
@@ -165,12 +169,16 @@ void ST_PLAYER_WP_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachi
 
 void ST_PLAYER_WP_IDLE::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		
+	}
 }
 void ST_PLAYER_WP_IDLE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	if (_pState->GetName() == L"Wp_Off")
 	{
+		SoundPlay(L"sound\\Player\\08(Wp_off_End).mp3", 0.5f);
 		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"N_Idle");
 	}
