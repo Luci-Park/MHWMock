@@ -21,6 +21,7 @@ void ST_PLAYER_WP_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMa
 
 	if (StateMachine->GetASTMParam(L"L+R_Btn").TRIGGER)
 	{
+		SoundPlay(L"sound\\Player\\04(Big_Attack).mp3",0.2f);
 		StateMachine->ChangeState(L"Wp_Dash_Attack");
 	}
 
@@ -780,6 +781,7 @@ ST_PLAYER_WP_SHELD_ATTACK::~ST_PLAYER_WP_SHELD_ATTACK()
 void ST_PLAYER_WP_SHELD_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	StateMachine->ChangeScriptParam(L"Shield_Attack", AnimParamType::TRIGGER, A_TRUE);
+	SoundPlay(L"sound\\Player\\32(Sheld_Attack,bottle).mp3");
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1024,6 +1026,9 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 				return;
 			}
 		}
+
+		if (nullptr == StateMachine->GetCamera())
+			return;
 
 		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
 		camFront.y = 0;
@@ -1358,9 +1363,10 @@ void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMa
 }
 void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	double dAnimationDuration = StateMachine->GetStateDuration();
+
 	if (KEY_RELEASE(KEY::RBTN))
 	{
-		double dAnimationDuration = StateMachine->GetStateDuration();
 
 		if (dAnimationDuration < 0.5f)
 		{
@@ -1372,16 +1378,23 @@ void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMac
 		else
 		{
 			// DOUBLE SLASH
+
 			ChangeASTMParam(StateMachine, L"Stack", A_2);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Double_Slash");
 		}
 	}
 
+	if (dAnimationDuration > 0.5f && !_IsPlayed)
+	{
+		SoundPlay(L"sound\\Player\\43(Charge_S).mp3",0.5);
+		_IsPlayed = true;
+	}
+
 }
 void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1968,7 +1981,7 @@ ST_PLAYER_BUST_ATTACK_AXE_LINK::~ST_PLAYER_BUST_ATTACK_AXE_LINK()
 
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	SoundPlay(L"sound\\Player\\10(Merge).mp3");
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {

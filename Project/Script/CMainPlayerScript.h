@@ -130,6 +130,7 @@ private:
 protected:
     static std::map<std::wstring, StateParam> _StateParam;
     bool    m_IsAnimationEnd;
+    bool    _IsPlayed;
 public:
     State();
     virtual ~State();
@@ -222,6 +223,8 @@ public:
 class ST_PLAYER_N_MOVE_FORWARD : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_FORWARD();
     ~ST_PLAYER_N_MOVE_FORWARD() override;
@@ -229,6 +232,8 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_MOVE_LEFT : public State

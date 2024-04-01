@@ -22,8 +22,6 @@ ST_PLAYER_N_MOVE::~ST_PLAYER_N_MOVE()
 
 void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	SoundPlay(L"sound\\Player\\09(Move_Start).mp3",0.5f);
-	//CResMgr::GetInst()->FindRes<CSound>(L"sound\\Player\\01(Move_Start).mp3")->Play(1,0.5f);
 	if (StateMachine->GetCamera() == nullptr)
 		return;
 
@@ -165,6 +163,8 @@ void ST_PLAYER_N_MOVE::Exit(CGameObject* player, PlayerStateMachine* StateMachin
 //-------------------------------------------------------------------------------------
 
 ST_PLAYER_N_MOVE_FORWARD::ST_PLAYER_N_MOVE_FORWARD()
+	: _Beforeduration(0)
+	, _Time(0)
 {
 
 }
@@ -176,6 +176,7 @@ ST_PLAYER_N_MOVE_FORWARD::~ST_PLAYER_N_MOVE_FORWARD()
 
 void ST_PLAYER_N_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	_Beforeduration = 0;
 }
 void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -204,6 +205,30 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
+	}
+
+	float duration;
+	if (StateMachine->GetASTMParam(L"IsRun").BOOL == true)
+	{
+		duration = 0.05f;
+	}
+	else
+	{
+		duration = 0.1f;
+	}
+
+	_Time += CTimeMgr::GetInst()->GetDeltaTime();
+	if (_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\020(Walk).mp3",0.5f);
+		_IsPlayed = false;
+		_Beforeduration = _Time;
+	}
+	else if(!_IsPlayed && _Time - _Beforeduration > duration)
+	{
+		SoundPlay(L"sound\\Player\\021(Walk).mp3",0.5f);
+		_IsPlayed = true;
+		_Beforeduration = _Time;
 	}
 
 	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
@@ -311,6 +336,15 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 }
 void ST_PLAYER_N_MOVE_FORWARD::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+}
+
+void ST_PLAYER_N_MOVE_FORWARD::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"N_Walk_Forward")
+	{
+		_Time = 0;
+		_Beforeduration = 0;
+	}
 }
 
 #pragma endregion
