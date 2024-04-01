@@ -156,8 +156,7 @@ public:
 
 inline void State::SoundPlay(std::wstring path, float vol, int loop)
 {
-    CResMgr::GetInst()->FindRes<CSound>(path)->Play(loop, vol);
-
+    CResMgr::GetInst()->FindRes<CSound>(path)->Play(loop, vol,true);
 }
 
 
@@ -903,6 +902,8 @@ public:
 //super bust attack
 class ST_PLAYER_BUST_ATTACK_AXE_LINK : public State
 {
+private:
+    bool _SubPlayed;
 public:
     ST_PLAYER_BUST_ATTACK_AXE_LINK();
     ~ST_PLAYER_BUST_ATTACK_AXE_LINK() override;

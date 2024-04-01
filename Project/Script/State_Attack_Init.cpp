@@ -55,6 +55,7 @@ ST_PLAYER_WP_ATTACK_COMBOSLASH_01::~ST_PLAYER_WP_ATTACK_COMBOSLASH_01()
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = false;
+	SoundPlay(L"sound\\Player\\05(Attack).mp3",0.2f);
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -93,6 +94,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 			// ComboSlash02
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"Combo_Stack", A_1);
+			SoundPlay(L"sound\\Player\\10(Attack_2).mp3", 0.2f);
 			StateMachine->ChangeState(L"Wp_Attack_ComboSlash_02");
 			return;
 		}
@@ -560,8 +562,17 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 
 	double dAnimationDuration = StateMachine->GetStateDuration();
 
+	if (dAnimationDuration > 0.2f && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\04(Big_Attack).mp3", 0.2f);
+		_IsPlayed = true;
+	}
+
 	if (dAnimationDuration > 0.5f && dAnimationDuration < 1.f)
 	{
+
+
+
 		if (KEY_TAP(KEY::LBTN))
 		{
 			if (KEY_TAP(KEY::RBTN))
@@ -758,6 +769,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1971,6 +1983,7 @@ void ST_PLAYER_AXE_TURNNING_SLASH::OnAnimationEndStart(IAnimationState* _pState,
 
 #pragma region BUST_ATTACK_AXE_LINK
 ST_PLAYER_BUST_ATTACK_AXE_LINK::ST_PLAYER_BUST_ATTACK_AXE_LINK()
+	: _SubPlayed(false)
 {
 
 }
@@ -1981,7 +1994,7 @@ ST_PLAYER_BUST_ATTACK_AXE_LINK::~ST_PLAYER_BUST_ATTACK_AXE_LINK()
 
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	SoundPlay(L"sound\\Player\\10(Merge).mp3");
+	
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1990,6 +2003,23 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachin
 	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
 	{
 		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_TRUE);
+	}
+
+	if (iBottle == 0 && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\10(Merge).mp3");
+		_IsPlayed = true;
+	}
+	else if(iBottle > 0 && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\06(Super_Bust_Attack_Charge).mp3");
+		_IsPlayed = true;
+	}
+
+	if (StateMachine->GetStateDuration() > 0.5f && _SubPlayed == false && iBottle > 0)
+	{
+		SoundPlay(L"sound\\Player\\02(Super_Bust_Attack).mp3");
+		_SubPlayed = true;
 	}
 	
 	if (m_IsAnimationEnd)
@@ -2009,7 +2039,8 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachin
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
+	_SubPlayed = false;
 }
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -2042,15 +2073,20 @@ ST_PLAYER_SUPER_BUST_ATTACK::~ST_PLAYER_SUPER_BUST_ATTACK()
 
 void ST_PLAYER_SUPER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	
+	if ((StateMachine->GetStateDuration() > 0.5) && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\27(Wind).mp3");
+		_IsPlayed = true;
+	}
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
