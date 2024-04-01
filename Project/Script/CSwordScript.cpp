@@ -4,6 +4,7 @@
 CSwordScript::CSwordScript()
 	: CScript((UINT)SCRIPT_TYPE::SWORDSCRIPT)
 	, _ASTM(nullptr)
+	, mode(Mode::None)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Player, "Player");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_MainBone, "Main Bone");
