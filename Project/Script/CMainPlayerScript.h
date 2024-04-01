@@ -238,6 +238,8 @@ public:
 class ST_PLAYER_N_MOVE_LEFT : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_LEFT();
     ~ST_PLAYER_N_MOVE_LEFT() override;
@@ -250,6 +252,8 @@ public:
 class ST_PLAYER_N_MOVE_Backward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_Backward();
     ~ST_PLAYER_N_MOVE_Backward() override;
@@ -262,6 +266,8 @@ public:
 class ST_PLAYER_N_MOVE_Right : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_N_MOVE_Right();
     ~ST_PLAYER_N_MOVE_Right() override;
@@ -288,6 +294,8 @@ public:
 class ST_PLAYER_WP_MOVE_Forward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Forward();
     ~ST_PLAYER_WP_MOVE_Forward() override;
@@ -300,6 +308,8 @@ public:
 class ST_PLAYER_WP_MOVE_Right : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Right();
     ~ST_PLAYER_WP_MOVE_Right() override;
@@ -312,6 +322,8 @@ public:
 class ST_PLAYER_WP_MOVE_Left : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Left();
     ~ST_PLAYER_WP_MOVE_Left() override;
@@ -324,6 +336,8 @@ public:
 class ST_PLAYER_WP_MOVE_Backward : public State
 {
 private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_WP_MOVE_Backward();
     ~ST_PLAYER_WP_MOVE_Backward() override;
@@ -350,6 +364,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_FORWARD : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_FORWARD();
     ~ST_PLAYER_AXE_MOVE_FORWARD() override;
@@ -362,6 +379,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_LEFT : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_LEFT();
     ~ST_PLAYER_AXE_MOVE_LEFT() override;
@@ -374,6 +394,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_RIGHT : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_RIGHT();
     ~ST_PLAYER_AXE_MOVE_RIGHT() override;
@@ -386,6 +409,9 @@ public:
 
 class ST_PLAYER_AXE_MOVE_BACKWARD : public State
 {
+private:
+    double _Beforeduration;
+    double _Time;
 public:
     ST_PLAYER_AXE_MOVE_BACKWARD();
     ~ST_PLAYER_AXE_MOVE_BACKWARD() override;
