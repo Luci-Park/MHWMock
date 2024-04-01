@@ -7,9 +7,12 @@ class CAnjanath :
 	public CScript
 {
 private:
+	const int m_iMaxHP;
+	const int m_iRageGauge;
 	int m_iHP;
 	bool			m_bAggroed;
 	bool			m_bStaggered;
+
 	AnjAttack*		m_pCurrentAttack;
 
 	Vec3			m_vRelativePos;

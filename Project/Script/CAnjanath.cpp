@@ -7,6 +7,8 @@ CAnjanath::CAnjanath()
 	: CScript(SCRIPT_TYPE::ANJANATH)
 	, m_bAggroed(false)
 	, m_bStaggered(false)
+	, m_iMaxHP(3528)
+	, m_iRageGauge(370)
 	, m_iHP(3528)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
