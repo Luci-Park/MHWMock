@@ -13,6 +13,7 @@ private:
 	CAnjanath* m_pAnj;
 public:
 	void Attacked(int _damage);
+	virtual void OnCollisionEnter(CCollider3D* _Other) override;
 protected:
 	virtual int OnAttacked(int _damage) = 0;
 	virtual void OnHPZero() = 0;

@@ -212,6 +212,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnjAttack.h" />
     <ClInclude Include="CAnjanath.h" />
     <ClInclude Include="CAnjanathBody.h" />
     <ClInclude Include="CAnjanathHead.h" />
@@ -231,6 +232,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnjAttack.cpp" />
     <ClCompile Include="CAnjanath.cpp" />
     <ClCompile Include="CAnjanathBody.cpp" />
     <ClCompile Include="CAnjanathHead.cpp" />

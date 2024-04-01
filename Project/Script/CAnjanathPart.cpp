@@ -29,7 +29,10 @@ void CAnjanathPart::Attacked(int _damage)
 
 	m_pAnj->Attacked(_damage);
 }
-
+void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
+{
+	Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType());
+}
 bool CAnjanathPart::CheckBody()
 {
 	if (m_pAnj) return true;
