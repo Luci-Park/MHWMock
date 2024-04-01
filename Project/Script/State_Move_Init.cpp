@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainPlayerScript.h"
 
+
 #pragma region N_MOVE
 
 #pragma region N_Move_STATE
@@ -21,6 +22,8 @@ ST_PLAYER_N_MOVE::~ST_PLAYER_N_MOVE()
 
 void ST_PLAYER_N_MOVE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	SoundPlay(L"sound\\Player\\09(Move_Start).mp3",0.5f);
+	//CResMgr::GetInst()->FindRes<CSound>(L"sound\\Player\\01(Move_Start).mp3")->Play(1,0.5f);
 	if (StateMachine->GetCamera() == nullptr)
 		return;
 

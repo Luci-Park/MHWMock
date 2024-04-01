@@ -7,6 +7,8 @@
 #include "Engine\CKeyMgr.h"
 #include "Engine\CTransform.h"
 #include "Engine\CAnimationStateMachine.h"
+#include "Engine\CSound.h"
+#include "Engine\CResMgr.h"
 
 
 #define A_TRUE (AnimParamUnion)true
@@ -147,7 +149,15 @@ public:
     virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
+public:
+    void SoundPlay(std::wstring path,float vol=1.0f, int loop = 1);
 };
+
+inline void State::SoundPlay(std::wstring path, float vol, int loop)
+{
+    CResMgr::GetInst()->FindRes<CSound>(path)->Play(loop, vol);
+
+}
 
 
 #pragma region Idle State
