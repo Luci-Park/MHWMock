@@ -36,16 +36,18 @@ class CMainPlayerScript :
     public CScript
 {
 public:
-    enum class OBJPARAMNAME
+    struct PlayerState
     {
-        End,
+        int Hp;
+        bool IsHitted;
     };
 private:
-    bool _Gravity;
     PlayerStateMachine* _stateMachine;
     CGameObject* _Camera;
     CGameObject* _Sword;
     CGameObject* _Shield;
+    PlayerState _State;
+    bool _Gravity;
     bool _bCamera;
     bool _bSword;
     bool _bShield;
@@ -62,6 +64,10 @@ public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _FILE) override;
     CLONE(CMainPlayerScript);
+public:
+    void Attacked(int Damage, CGameObject* monster);
+    void Hitted(bool ishit, CGameObject* monster);
+    void ResetHitted() { _State.IsHitted = false; }
 public:
     CMainPlayerScript();
     ~CMainPlayerScript();
