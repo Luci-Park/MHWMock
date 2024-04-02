@@ -35,6 +35,7 @@ void CCapsuleCollider::finaltick()
 	
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
+	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
 	m_matCollider3D *= matWorld;
