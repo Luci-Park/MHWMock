@@ -1230,9 +1230,15 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* S
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.5f)
 	{
-		if (_IsPlayed == false)
+		if (_IsPlayed == false && StateMachine->GetASTMParam(L"bottle").INT ==0)
 		{
 			SoundPlay(L"sound\\Player\\13(Bottle_F).mp3");
+			_IsPlayed = true;
+		}
+		else if (_IsPlayed == false && StateMachine->GetASTMParam(L"bottle").INT != 0)
+		{
+			SoundPlay(L"sound\\Player\\32(Sheld_Attack,bottle).mp3");
+			_IsPlayed = true;
 		}
 
 		if (KEY_PRESSED(KEY::LBTN))
@@ -1395,7 +1401,7 @@ ST_PLAYER_WP_CHARGE::~ST_PLAYER_WP_CHARGE()
 
 void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	//_IsPlayed == true;
 }
 void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1421,7 +1427,7 @@ void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMac
 		}
 	}
 
-	if (dAnimationDuration > 0.5f && !_IsPlayed)
+	if (dAnimationDuration < 0.8f && _IsPlayed==false)
 	{
 		SoundPlay(L"sound\\Player\\43(Charge_S).mp3",0.5);
 		_IsPlayed = true;
@@ -1434,7 +1440,10 @@ void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMac
 }
 void ST_PLAYER_WP_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Idle")
+	{
+		_IsInput = true;
+	}
 }
 #pragma endregion
 

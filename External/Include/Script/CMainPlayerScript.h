@@ -139,6 +139,7 @@ protected:
     static std::map<std::wstring, StateParam> _StateParam;
     bool    m_IsAnimationEnd;
     bool    _IsPlayed;
+    bool    _IsInput;
 public:
     State();
     virtual ~State();
@@ -180,6 +181,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_WP_IDLE : public State
@@ -207,6 +212,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 #pragma endregion
@@ -255,6 +264,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_MOVE_Backward : public State
@@ -269,6 +282,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_MOVE_Right : public State
@@ -283,6 +300,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 #pragma endregion
 
