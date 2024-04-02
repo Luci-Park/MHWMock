@@ -18,11 +18,7 @@ AnjAttackPicker::AnjAttackPicker(CAnjanath* _parent)
 
 AnjAttackPicker::~AnjAttackPicker()
 {
-    for (int i = 0; i < (UINT)ANJ_ATTACK::NONE; i++)
-    {
-        delete m_pAttacks[i];
-        m_pAttacks[i] = nullptr;
-    }
+    Safe_Del_Array(m_pAttacks);
 }
 
 AnjAttack* AnjAttackPicker::PickAttack()
