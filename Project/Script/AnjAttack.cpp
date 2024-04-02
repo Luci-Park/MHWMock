@@ -2,9 +2,10 @@
 #include "AnjAttack.h"
 #include "CAnjanath.h"
 
-AnjAttack::AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent)
+AnjAttack::AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent, int _power)
 	: m_type(_type)
 	, m_pParent(_parent)
+	, m_iAttackPower(_power)
 {
 }
 
@@ -27,4 +28,8 @@ void AnjAttack::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
 	_player->Attacked(damage, m_pParent->GetOwner());
 }
 
-
+void AnjAttack::AttackEnd()
+{
+	m_bAttacked = false;
+	OnAttackEnd();
+}

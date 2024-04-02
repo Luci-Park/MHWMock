@@ -194,5 +194,8 @@
     <ClCompile Include="CAnjanathTail.cpp">
       <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
+    <ClCompile Include="WeakBite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

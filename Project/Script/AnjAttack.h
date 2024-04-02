@@ -11,19 +11,25 @@ class AnjAttack
 private:
 	ANJ_ATTACK m_type;
 	CAnjanath* m_pParent;
-
+	int m_iAttackPower;
 	bool m_bAttacked;
 public:
 	ANJ_ATTACK GetType() { return m_type; }
 
 	void AttackStart();
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
+	void AttackEnd();
 protected:
+	int AttackPower() { return m_iAttackPower; }
+	CAnjanath* Parent() { return m_pParent; }
+
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart) = 0;
 	virtual void OnAttackStart() = 0;
+	virtual void OnAttackEnd() = 0;
+
 
 public:
-	AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent);
+	AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent, int _power);
 	virtual ~AnjAttack();
 };
 
