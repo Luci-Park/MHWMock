@@ -242,7 +242,13 @@ void PlayerStateMachine::ChangeScriptParam(std::wstring paramID, AnimParamType t
 		_Shield->GetScript<CPlayerShieldScript>()->SetASTMParam(paramID, type, param);
 }
 
+void PlayerStateMachine::IsInput()
+{
+	_curState->SetInput();
+}
+
 void CMainPlayerScript::BottleCharge()
 {
 	_stateMachine->ChangeASTMParam(L"bottle", (AnimParamUnion)((int)_Stack));
 }
+

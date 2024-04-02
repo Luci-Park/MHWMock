@@ -124,6 +124,7 @@ public:
     CGameObject* GetCamera();
 public:
     void ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
+    void IsInput();
 };
 
 class State
@@ -155,6 +156,7 @@ public:
     double GetStateDuration(PlayerStateMachine* PSM);
     int CalculateDir(float dot, float cross);
     void ReSet() { m_IsAnimationEnd = false; }
+    void SetInput() { _IsInput = true; }
 public:
     virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
     virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) {}
@@ -248,8 +250,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-
+public:
     virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_MOVE_LEFT : public State

@@ -146,7 +146,10 @@ void ST_PLAYER_WP_ROLLING::Tick(CGameObject* player, PlayerStateMachine* StateMa
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+		ChangeASTMParam(StateMachine, L"Dir", A_4);
+		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
+		StateMachine->IsInput();
 	}
 }
 void ST_PLAYER_WP_ROLLING::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
