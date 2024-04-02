@@ -213,6 +213,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnjAttack.h" />
+    <ClInclude Include="AnjAttackPicker.h" />
     <ClInclude Include="CAnjanath.h" />
     <ClInclude Include="CAnjanathBody.h" />
     <ClInclude Include="CAnjanathFire.h" />
@@ -237,6 +238,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnjAttack.cpp" />
+    <ClCompile Include="AnjAttackPicker.cpp" />
     <ClCompile Include="Bite.cpp" />
     <ClCompile Include="BodySlam.cpp" />
     <ClCompile Include="CAnjanath.cpp" />

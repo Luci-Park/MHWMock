@@ -105,6 +105,7 @@
     <ClInclude Include="CAnjanathFire.h">
       <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
+    <ClInclude Include="AnjAttackPicker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -230,5 +231,6 @@
     <ClCompile Include="CAnjanathFire.cpp">
       <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
+    <ClCompile Include="AnjAttackPicker.cpp" />
   </ItemGroup>
 </Project>
