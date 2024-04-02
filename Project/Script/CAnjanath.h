@@ -1,7 +1,7 @@
 #pragma once
 #include <Engine/CScript.h>
 #include "CMainPlayerScript.h"
-#include "AnjAttack.h"
+#include "AnjAttackPicker.h"
 
 class CAnjanath :
 	public CScript
@@ -31,6 +31,7 @@ private:
 	CGameObject* m_pNose;
 	CGameObject* m_pWings;
 
+	AnjAttackPicker* m_pAttackPicker;
 	AnjAttack*		m_pCurrentAttack;
 
 	CGameObject*	m_pPlayer;
@@ -38,8 +39,9 @@ private:
 private:
 	void CheckPlayerPos();
 	void ChooseAttack();
-	void Rage();
+	void EnRage();
 	void Death();
+	bool IsAttacking() { return m_pCurrentAttack != nullptr; }
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);

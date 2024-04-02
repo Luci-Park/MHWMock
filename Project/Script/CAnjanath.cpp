@@ -25,6 +25,7 @@ CAnjanath::CAnjanath()
 	, m_bStaggered(false)
 	, m_bTailCut(false)
 {
+	m_pAttackPicker = new AnjAttackPicker(this);
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
@@ -32,6 +33,7 @@ CAnjanath::CAnjanath()
 
 CAnjanath::~CAnjanath()
 {
+	delete m_pAttackPicker;
 }
 
 void CAnjanath::CheckPlayerPos()
@@ -50,7 +52,7 @@ void CAnjanath::ChooseAttack()
 	Animator3D()->SetInt(attackType, (int)ANJ_ATTACK::BITE);
 }
 
-void CAnjanath::Rage()
+void CAnjanath::EnRage()
 {
 }
 
@@ -141,14 +143,17 @@ void CAnjanath::tick()
 {
 	if (!m_bAggroed)return;
 	if (m_iHP <= 0) return;
+	if (IsAttacking())return;
+
+	m_pCurrentAttack = m_pAttackPicker->PickAttack();
 	CheckPlayerPos();
+
 	// check playerPos
 	// if 
 }
 
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 {
-	//if staggered state machine => staggeredZ
 }
 
 void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
