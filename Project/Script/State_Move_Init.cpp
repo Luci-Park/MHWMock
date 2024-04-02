@@ -313,6 +313,8 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 
 		if (KEY_TAP(KEY::SPACE))
 		{
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
@@ -525,6 +527,8 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 
 		if (KEY_TAP(KEY::SPACE))
 		{
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
@@ -732,6 +736,8 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 
 		if (KEY_TAP(KEY::SPACE))
 		{
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
@@ -943,6 +949,8 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 
 		if (KEY_TAP(KEY::SPACE))
 		{
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
 			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
