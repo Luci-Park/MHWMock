@@ -52,7 +52,6 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 	m_pEditor = ed::CreateEditor(&config);
 	
 	ed::SetCurrentEditor(m_pEditor);
-	ed::NavigateToContent();
 
 	HashState states = m_pStateMachine->GetAllStates();
 	for (auto s : states)
@@ -78,6 +77,7 @@ AnimatorGraphEditorWindow::AnimatorGraphEditorWindow(CAnimator3D* _animator
 				&(*nextNode).inputPins[input]);
 		}
 	}
+	ed::NavigateToContent();
 	ed::SetCurrentEditor(_parentContext);
 }
 
