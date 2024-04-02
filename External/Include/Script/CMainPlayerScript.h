@@ -423,6 +423,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 
 };
 
@@ -438,6 +442,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 
 };
 
@@ -453,6 +461,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 
 };
 
@@ -468,6 +480,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 
 };
 
@@ -498,7 +514,10 @@ public:
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
 
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_N_HIT_L : public State
@@ -783,7 +802,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 
@@ -817,7 +839,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 
 };
 
@@ -843,7 +868,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 class ST_PLAYER_WP_BOTTLE_CHARGE : public State
@@ -893,7 +921,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 //double slash
