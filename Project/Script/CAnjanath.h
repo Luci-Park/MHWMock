@@ -26,6 +26,7 @@ private:
 	int m_iRageNumber;
 	bool			m_bAggroed;
 	bool			m_bStaggered;
+	bool			m_bTailCut;
 
 	CGameObject* m_pNose;
 	CGameObject* m_pWings;
@@ -51,6 +52,7 @@ public:
 	void Nose(bool _show);
 	void Wing(bool _show);
 	bool OnFire() { return m_pWings->IsActive(); }
+	bool HasTail() { return !m_bTailCut; }
 
 public:
 	virtual void begin() override;

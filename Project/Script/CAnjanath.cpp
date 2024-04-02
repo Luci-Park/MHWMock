@@ -23,6 +23,7 @@ CAnjanath::CAnjanath()
 	, m_iRageNumber(0)
 	, m_bAggroed(false)
 	, m_bStaggered(false)
+	, m_bTailCut(false)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
@@ -86,6 +87,7 @@ void CAnjanath::Attacked(int _damage)
 void CAnjanath::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
 {
 	if (!m_pCurrentAttack) return;
+	m_pCurrentAttack->AttackSuccess(_type, _player);
 }
 
 void CAnjanath::NoseBreak()
@@ -105,6 +107,7 @@ void CAnjanath::FallOver()
 
 void CAnjanath::TailCut()
 {
+	m_bTailCut = true;
 	m_bStaggered = true;
 	Animator3D()->SetTrigger(stagger);
 	Animator3D()->SetInt(staggerType, 1);
