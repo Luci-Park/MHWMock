@@ -156,6 +156,12 @@ void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
 	if (_pState->GetName() == L"Stagger") m_bStaggered = false;
 	else if (_pState->GetName() == L"Show Nose") Nose(true);
 	else if (_pState->GetName() == L"Flash Wings") Wing(true);
+	else if (_pState->GetName() == L"Attack")
+	{
+		assert(m_pCurrentAttack != nullptr);
+		m_pCurrentAttack->AttackEnd();
+		m_pCurrentAttack = nullptr;
+	}
 }
 
 void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
