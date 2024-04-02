@@ -206,7 +206,7 @@ PS_OUT frag(VS_OUT _in)
     output.vPosition = float4(_in.vViewPos, 1.f);
     output.vData = float4(0.f, 0.f, 0.f, 1.f);
         
-    //output.vColor.a = saturate(SpecCoeff);
+    output.vColor.a = saturate(SpecCoeff);
     
     return output;
 }
