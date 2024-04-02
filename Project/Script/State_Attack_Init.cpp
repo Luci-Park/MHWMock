@@ -1511,9 +1511,9 @@ void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMac
 			}
 		}
 
-		if (dAnimationDuration > 0.6f && _IsPlayed == false && _IsInput == true)
+		if (dAnimationDuration > 0.4f && _IsPlayed == false && _IsInput == true)
 		{
-			SoundPlay(L"sound\\Player\\43(Charge_S).mp3", 0.5);
+			SoundPlay(L"sound\\Player\\43(Charge_S).mp3", 0.3f);
 			_IsPlayed = true;
 		}
 	}
@@ -2280,7 +2280,7 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Tick(CGameObject* player, PlayerStateMachin
 		_IsPlayed = true;
 	}
 
-	if (StateMachine->GetStateDuration() > 0.5f && _SubPlayed == false && iBottle > 0)
+	if (StateMachine->GetStateDuration() > 0.5f && StateMachine->GetStateDuration() < 0.8f && _SubPlayed == false && iBottle > 0)
 	{
 		SoundPlay(L"sound\\Player\\02(Super_Bust_Attack).mp3");
 		_SubPlayed = true;
@@ -2306,6 +2306,12 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::Exit(CGameObject* player, PlayerStateMachin
 	_IsPlayed = false;
 	_SubPlayed = false;
 }
+
+
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
 void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	if (StateMachine->GetASTMParam(L"IsAxe").BOOL)
@@ -2323,10 +2329,17 @@ void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndStart(IAnimationState* _pStat
 		}
 	}
 }
+void ST_PLAYER_BUST_ATTACK_AXE_LINK::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
 #pragma endregion
 
 #pragma region SuperBust Attack
 ST_PLAYER_SUPER_BUST_ATTACK::ST_PLAYER_SUPER_BUST_ATTACK()
+	: _SubPlayed(false)
+	, _Flag(false)
 {
 
 }
@@ -2337,21 +2350,50 @@ ST_PLAYER_SUPER_BUST_ATTACK::~ST_PLAYER_SUPER_BUST_ATTACK()
 
 void ST_PLAYER_SUPER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	
+	_SubPlayed = false;
+	_Flag = false;
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	
-	if ((StateMachine->GetStateDuration() > 0.5) && _IsPlayed == false)
+	if (_SubPlayed == false && _Flag == false)
 	{
-		SoundPlay(L"sound\\Player\\27(Wind).mp3");
-		_IsPlayed = true;
+		if ((StateMachine->GetStateDuration() > 0.5) && StateMachine->GetStateDuration() < 0.8f && _IsPlayed == false)
+		{
+			SoundPlay(L"sound\\Player\\27(Wind).mp3");
+			_IsPlayed = true;
+		}
+
+		if (StateMachine->GetStateDuration() > 0.8f && _IsPlayed == true)
+		{
+			SoundPlay(L"sound\\Player\\21(Smash_Ground).mp3", 0.3f);
+			_IsPlayed = false;
+		}
+	}
+	else
+	{
+		if (StateMachine->GetStateDuration() > 0.8f && _SubPlayed == true)
+		{
+			SoundPlay(L"sound\\Player\\15(End_Bust).mp3", 0.3f);
+			_SubPlayed = false;
+			_Flag = true;
+		}
 	}
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+
 }
+
+
+void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Super_Bust_Attack_End")
+	{
+		_SubPlayed = true;
+	}
+}
+
 void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//Super_Bust_Attack
@@ -2365,11 +2407,19 @@ void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, 
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
+
+void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
 #pragma endregion
 
 #pragma region Bust Attack
 
 ST_PLAYER_BUST_ATTACK::ST_PLAYER_BUST_ATTACK()
+	: _SubPlayed(false)
+	, _Flag(false)
 {
 
 }
@@ -2380,30 +2430,69 @@ ST_PLAYER_BUST_ATTACK::~ST_PLAYER_BUST_ATTACK()
 
 void ST_PLAYER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_SubPlayed = false;
+	_Flag = false;
 }
 void ST_PLAYER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (_SubPlayed == false && _Flag == false)
+	{
+		if ((StateMachine->GetStateDuration() > 0.5) && StateMachine->GetStateDuration() < 0.8f && _IsPlayed == false)
+		{
+			SoundPlay(L"sound\\Player\\27(Wind).mp3");
+			_IsPlayed = true;
+		}
 
+		if (StateMachine->GetStateDuration() > 0.8f && _IsPlayed == true)
+		{
+			SoundPlay(L"sound\\Player\\21(Smash_Ground).mp3", 0.3f);
+			_IsPlayed = false;
+		}
+	}
+	else
+	{
+		if (StateMachine->GetStateDuration() > 0.8f && _SubPlayed == true)
+		{
+			SoundPlay(L"sound\\Player\\15(End_Bust).mp3", 0.3f);
+			_SubPlayed = false;
+			_Flag = true;
+		}
+	}
 }
 void ST_PLAYER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
+
+
+void ST_PLAYER_BUST_ATTACK::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"bust_Attack_End")
+	{
+		_SubPlayed = true;
+	}
+}
+
 void ST_PLAYER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	//bust_Attack
-	if (_pState->GetName() == L"bust_Attack")
-		m_IsAnimationEnd = true;
 
-	if (_pState->GetName() == L"bust_Attack_End")
-	{
-		ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
-		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
-		StateMachine->ChangeState(L"Wp_Idle");
-	}
+		if (_pState->GetName() == L"bust_Attack")
+			m_IsAnimationEnd = true;
+
+		if (_pState->GetName() == L"bust_Attack_End")
+		{
+			ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
+			StateMachine->ChangeState(L"Wp_Idle");
+		}
+}
+
+void ST_PLAYER_BUST_ATTACK::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
 }
 
 #pragma endregion

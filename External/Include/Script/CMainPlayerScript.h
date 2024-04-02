@@ -1029,12 +1029,18 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 //super bust attack
 class ST_PLAYER_SUPER_BUST_ATTACK : public State
 {
+private:
+    bool _SubPlayed;
+    bool _Flag;
 public:
     ST_PLAYER_SUPER_BUST_ATTACK();
     ~ST_PLAYER_SUPER_BUST_ATTACK() override;
@@ -1042,12 +1048,18 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 //bust attck
 class ST_PLAYER_BUST_ATTACK : public State
 {
+private:
+    bool _SubPlayed;
+    bool _Flag;
 public:
     ST_PLAYER_BUST_ATTACK();
     ~ST_PLAYER_BUST_ATTACK() override;
@@ -1055,7 +1067,10 @@ public:
     virtual void Enter(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Tick(CGameObject* player, PlayerStateMachine* StateMachine) override;
     virtual void Exit(CGameObject* player, PlayerStateMachine* StateMachine) override;
-    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine) override;
+public:
+    virtual void OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine);
+    virtual void OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine);
 };
 
 
