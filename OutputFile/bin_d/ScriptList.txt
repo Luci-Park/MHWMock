@@ -5,6 +5,7 @@ CAnjanathLeg
 CAnjanathTail
 CCameraMoveScript
 CGravityScript
+CIntroObjScript
 CMainPlayerScript
 CMissileScript
 CMonsterScript

@@ -32,13 +32,14 @@ void CCapsuleCollider::begin()
 void CCapsuleCollider::finaltick()
 {
 	assert(0 <= m_iCollisionCount);
-	
+
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
-	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
 	m_matCollider3D *= matWorld;
+	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
+
 
 	// DebugShape ฟไรป
 	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);

@@ -8,6 +8,7 @@
 #include "CAnjanathTail.h"
 #include "CCameraMoveScript.h"
 #include "CGravityScript.h"
+#include "CIntroObjScript.h"
 #include "CMainPlayerScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
@@ -16,7 +17,6 @@
 #include "CPlayerShieldScript.h"
 #include "CSwordScript.h"
 #include "CTestScript.h"
-#include "CWeaponScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -27,15 +27,15 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAnjanathTail");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGravityScript");
+	_vec.push_back(L"CIntroObjScript");
 	_vec.push_back(L"CMainPlayerScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerCameraScript");
 	_vec.push_back(L"CPlayerScript");
-	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CPlayerShieldScript");
+	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CTestScript");
-	_vec.push_back(L"CWeaponScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -54,6 +54,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CGravityScript" == _strScriptName)
 		return new CGravityScript;
+	if (L"CIntroObjScript" == _strScriptName)
+		return new CIntroObjScript;
 	if (L"CMainPlayerScript" == _strScriptName)
 		return new CMainPlayerScript;
 	if (L"CMissileScript" == _strScriptName)
@@ -64,14 +66,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerCameraScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
-	if (L"CSwordScript" == _strScriptName)
-		return new CSwordScript;
 	if (L"CPlayerShieldScript" == _strScriptName)
 		return new CPlayerShieldScript;
+	if (L"CSwordScript" == _strScriptName)
+		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
-	if (L"CWeaponScript" == _strScriptName)
-		return new CWeaponScript;
 	return nullptr;
 }
 
@@ -100,6 +100,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
 		return new CGravityScript;
 		break;
+	case (UINT)SCRIPT_TYPE::INTROOBJSCRIPT:
+		return new CIntroObjScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MAINPLAYERSCRIPT:
 		return new CMainPlayerScript;
 		break;
@@ -115,18 +118,16 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
 		break;
-	case (UINT)SCRIPT_TYPE::SWORDSCRIPT:
-		return new CSwordScript;
-		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSHIELDSCRIPT:
 		return new CPlayerShieldScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SWORDSCRIPT:
+		return new CSwordScript;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
 		break;
-	case (UINT)SCRIPT_TYPE::WEAPONSCRIPT:
-		return new CWeaponScript;
-		break;
+
 	}
 	return nullptr;
 }
@@ -163,6 +164,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CGravityScript";
 		break;
 
+	case SCRIPT_TYPE::INTROOBJSCRIPT:
+		return L"CIntroObjScript";
+		break;
+
 	case SCRIPT_TYPE::MAINPLAYERSCRIPT:
 		return L"CMainPlayerScript";
 		break;
@@ -183,20 +188,16 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CPlayerScript";
 		break;
 
-	case SCRIPT_TYPE::SWORDSCRIPT:
-		return L"CSwordScript";
-		break;
-
 	case SCRIPT_TYPE::PLAYERSHIELDSCRIPT:
 		return L"CPlayerShieldScript";
 		break;
 
-	case SCRIPT_TYPE::TESTSCRIPT:
-		return L"CTestScript";
+	case SCRIPT_TYPE::SWORDSCRIPT:
+		return L"CSwordScript";
 		break;
 
-	case SCRIPT_TYPE::WEAPONSCRIPT:
-		return L"CWeaponScript";
+	case SCRIPT_TYPE::TESTSCRIPT:
+		return L"CTestScript";
 		break;
 
 	}
