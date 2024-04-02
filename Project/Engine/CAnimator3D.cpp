@@ -7,7 +7,7 @@
 #include "CBoneHolder.h"
 #include "CAnimationStateMachine.h"
 #include "CScript.h"
-#define DEBUG_ANIMATOR 0
+#define DEBUG_ANIMATOR 1
 
 CAnimator3D::CAnimator3D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR3D)

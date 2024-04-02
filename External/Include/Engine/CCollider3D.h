@@ -21,6 +21,7 @@ protected:
     Vec3            m_vOffsetScale;
 
     Matrix          m_matCollider3D;    
+    Matrix          m_matCollider3DInv;
     
     int             m_iCollisionCount;
 
@@ -53,6 +54,7 @@ public:
     
 public:
     const Matrix& GetColliderWorldMat() { return m_matCollider3D; }
+    const Matrix& GetColliderWorldMatInv() { return m_matCollider3DInv; }
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
     ACTOR_TYPE GetActorType() { return m_eActorType; }
     SHAPE_TYPE GetShapeType() { return m_ShapeType; }
