@@ -49,6 +49,7 @@ private:
     CGameObject* _Sword;
     CGameObject* _Shield;
     PlayerState _State;
+    float _Stack;
     bool _Gravity;
     bool _bCamera;
     bool _bSword;
@@ -70,10 +71,17 @@ public:
     void Attacked(int Damage, CGameObject* monster);
     void Hitted(bool ishit, CGameObject* monster);
     void ResetHitted() { _State.IsHitted = false; }
+    void AddStack();
+    void BottleCharge();
 public:
     CMainPlayerScript();
     ~CMainPlayerScript();
 };
+
+inline void CMainPlayerScript::AddStack()
+{
+    _Stack += 0.5f;
+}
 
 class PlayerStateMachine
 {

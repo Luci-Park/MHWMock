@@ -70,7 +70,7 @@ void ST_PLAYER_WP_SWITCH_KNIFE_TO_AXE::Tick(CGameObject* player, PlayerStateMach
 {
 	if (StateMachine->GetStateDuration() > 0.5f && _IsPlayed == false)
 	{
-		SoundPlay(L"sound\\Player\\20(Change_to_axe_2).mp3", 0.3f);
+		SoundPlay(L"sound\\Player\\25(Change_to_axe_2).mp3", 0.3f);
 		_IsPlayed = true;
 	}
 

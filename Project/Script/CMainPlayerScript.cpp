@@ -16,6 +16,7 @@ CMainPlayerScript::CMainPlayerScript()
 	, _bSword(false)
 	, _bShield(false)
 	, _State()
+	, _Stack(0.0f)
 {
 	_State.Hp = 100;
 	_State.IsHitted = false;

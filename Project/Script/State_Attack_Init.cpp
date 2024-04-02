@@ -1212,9 +1212,15 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* 
 	AnimParamUnion tmp;
 	tmp.FLOAT = overload;
 	StateMachine->ChangeScriptParam(L"OverLoad", AnimParamType::FLOAT, tmp);
+
+	player->GetScript<CMainPlayerScript>()->BottleCharge();
+
+	SoundPlay(L"sound\\Player\\10(Merge).mp3");
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	
+
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
@@ -1224,6 +1230,11 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* S
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.5f)
 	{
+		if (_IsPlayed == false)
+		{
+			SoundPlay(L"sound\\Player\\13(Bottle_F).mp3");
+		}
+
 		if (KEY_PRESSED(KEY::LBTN))
 		{
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
@@ -1265,7 +1276,7 @@ ST_PLAYER_WP_CHARGE_K_ENCHENT::~ST_PLAYER_WP_CHARGE_K_ENCHENT()
 
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	SoundPlay(L"sound\\Player\\53(Enchent_k_Charge).mp3");
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1276,6 +1287,12 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine
 	//	ChangeASTMParam(StateMachine,L"OverLoad", (AnimParamUnion)overload);
 	//}
 	double duration = StateMachine->GetStateDuration();
+	if (duration > 0.5f && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\52(Enchent_K_Charged).mp3");
+		_IsPlayed = true;
+	}
+
 	if (KEY_RELEASE(KEY::LBTN))
 	{
 		if (duration < 0.5)
@@ -1294,7 +1311,7 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1323,9 +1340,16 @@ ST_PLAYER_WP_K_ENCHENT_ATTACK::~ST_PLAYER_WP_K_ENCHENT_ATTACK()
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	//enchent k
+
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	if (StateMachine->GetStateDuration() > 0.3 && _IsPlayed == false)
+	{
+		SoundPlay(L"sound\\Player\\51(Enchent_k_Smash).mp3");
+		_IsPlayed = true;
+	}
+
 	if (m_IsAnimationEnd)
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
@@ -1342,7 +1366,7 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	_IsPlayed = false;
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {

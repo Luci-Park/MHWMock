@@ -1,39 +1,43 @@
 #pragma once
 #include <Engine/CScript.h>
-
-enum class ANJ_ATTACK
-{
-	WEAK_BITE, BITE, CONTIN_BITE, CLAW, TAIL_SLAM, TAIL_SWEEP, BODY_SLAM, FORWARD, RUSH, FLAME
-};
+#include "CMainPlayerScript.h"
+#include "AnjAttack.h"
 
 class CAnjanath :
 	public CScript
 {
 private:
+	const int m_iMaxHP;
+	const int m_iRageGauge;
 	int m_iHP;
-	CGameObject*	m_pPlayer;
 	bool			m_bAggroed;
-	ANJ_ATTACK		m_Attack;
+	bool			m_bStaggered;
+
+	AnjAttack*		m_pCurrentAttack;
+
 	Vec3			m_vRelativePos;
 	Quaternion		m_qRelativeRot;
+
+	CGameObject*	m_pPlayer;
 
 private:
 	void CheckPlayerPos();
 	void ChooseAttack();
 public:
 	void Attacked(int _damage);
-	bool InStagger();
+	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
+	bool InStagger() { return m_bStaggered; }
 	void NoseBreak();
 	void FallOver();
 	void TailCut();
 	void BodyShot();
-	
-
 
 public:
 	virtual void begin() override;
 	virtual void tick() override;
-	virtual void OnCollisionEnter(CCollider3D* _Other);
+	virtual void OnAnimationBegin(IAnimationState* _pState) override;
+	virtual void OnAnimationEndStart(IAnimationState* _pState) override;
+	virtual void OnAnimationEndFinished(IAnimationState* _pState) override;
 
 
 public:
