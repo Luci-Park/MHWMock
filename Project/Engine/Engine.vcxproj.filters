@@ -247,9 +247,6 @@
     <ClCompile Include="CComponent.cpp">
       <Filter>Source\06. Component</Filter>
     </ClCompile>
-    <ClCompile Include="CEntity.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="CTransform.cpp">
       <Filter>Source\06. Component\1. Transform</Filter>
     </ClCompile>
@@ -425,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="IAnimationState.cpp">
       <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
+    </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Source\09. Module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@
 #include "CGameObject.h"
 
 CConvexCollider::CConvexCollider()
+	: _ConvexScale(Vector3(1.f, 1.f, 1.f))
 {
 	m_ShapeType = SHAPE_TYPE::CONVEX;
 	IsUsed = false;
@@ -26,6 +27,7 @@ CConvexCollider::~CConvexCollider()
 void CConvexCollider::begin()
 {
 	CreateColliderShape();
+	EditConvexShape(_ConvexScale);
 }
 
 void CConvexCollider::finaltick()
@@ -34,13 +36,14 @@ void CConvexCollider::finaltick()
 	{
 		IsUsed = true;
 		CreateColliderShape();
-		EditConvexShape(Vector3(1.f, 1.f, 1.f));
+		EditConvexShape(_ConvexScale);
 	}
 
 	assert(0 <= m_iCollisionCount);
 
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
+	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
 	m_matCollider3D *= matWorld;
@@ -59,6 +62,8 @@ void CConvexCollider::finaltick()
 
 	DrawDebugConvex3D(m_matCollider3D, vColor, 0.f);
 	CRenderMgr::GetInst()->AddDebugShapeMesh3D(pRenderCom->GetMesh());
+	
+
 }
 
 
