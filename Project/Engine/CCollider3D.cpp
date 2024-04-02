@@ -85,10 +85,12 @@ void CCollider3D::CreateRigidActor()
 	memcpy_s(&pxPos, sizeof(Vec3), &vPos, sizeof(Vec3));
 	memcpy_s(&pxQuat, sizeof(Quaternion), &qRot, sizeof(Quaternion));
 
+
 	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
 		m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidDynamic(physx::PxTransform(pxPos, pxQuat));
 	else
 		m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));
+
 
 	m_pUserData.pCollider = this;
 	m_pUserData.bGround = false;

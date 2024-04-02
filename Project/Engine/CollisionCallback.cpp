@@ -94,7 +94,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 				tCollisionPair.pSecond = pCollider[1]->GetOwner();
 				CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
 			}
-
+			
 		}
 		else if (physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS == (UINT)pairs[i].events)
 		{
