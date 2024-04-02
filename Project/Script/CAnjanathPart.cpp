@@ -34,7 +34,7 @@ void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
 {
 	CMainPlayerScript* script = _Other->GetOwner()->GetScript<CMainPlayerScript>();
 	if(script)
-		Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType());
+		Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType(), script);
 }
 bool CAnjanathPart::CheckBody()
 {

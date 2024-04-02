@@ -26,6 +26,7 @@ CBoxCollider::~CBoxCollider()
 void CBoxCollider::begin()
 {
 	CreateColliderShape();
+	EditBoxShape(_HalfExtents);
 }
 
 void CBoxCollider::finaltick()
@@ -79,4 +80,6 @@ void CBoxCollider::LoadFromLevelFile(FILE* _File)
 {
 	fread(&_HalfExtents, sizeof(Vec3), 1, _File);
 	CCollider3D::LoadFromLevelFile(_File);
+
+	begin();
 }

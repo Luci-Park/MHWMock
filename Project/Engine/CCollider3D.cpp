@@ -138,6 +138,15 @@ void CCollider3D::EditCapsuleShape(float _radius, float _halfHeight)
 	PxGeometryHolder geoHolder = m_pShape->getGeometry();
 	physx::PxGeometryType::Enum tpye = geoHolder.getType();
 
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
+		return;
+
+	_radius *= vScale.x / 2.f;
+	_halfHeight	*= vScale.y / 2.f;
+
 	//Edit Geometry
 	if (tpye == physx::PxGeometryType::eCAPSULE)
 	{
@@ -163,6 +172,15 @@ void CCollider3D::EditBoxShape(Vec3 _halfExtents)
 	PxGeometryHolder geoHolder = m_pShape->getGeometry();
 	physx::PxGeometryType::Enum tpye = geoHolder.getType();
 
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
+		return;
+
+	_halfExtents *= vScale;
+	_halfExtents *= 0.5f;
+
 	if (tpye == physx::PxGeometryType::eBOX)
 	{
 		PxBoxGeometry boxGeo = geoHolder.box();
@@ -183,7 +201,15 @@ void CCollider3D::EditConvexShape(Vec3 _scale)
 	PxGeometryHolder geoHolder = m_pShape->getGeometry();
 	physx::PxGeometryType::Enum tpye = geoHolder.getType();
 
-	if (tpye == physx::PxGeometryType::eCONVEXMESH)
+	Vec3 vPos;
+	Quaternion qRot;
+	Vec3 vScale;
+	if (Transform()->Decompose(vScale, qRot, vPos) == false)
+		return;
+
+	_scale *= vScale;
+
+	if (tpye == physx::PxGeometryType::eTRIANGLEMESH)
 	{
 		PxConvexMeshGeometry convexGeo = geoHolder.convexMesh();
 		convexGeo.scale.scale = PxVec3(_scale.x, _scale.y, _scale.z);
@@ -242,8 +268,7 @@ void CCollider3D::UpdateActorInfo()
 	Quaternion qRot;
 	Vec3 vScale;
 
-	if (Transform()->Decompose(vScale, qRot, vPos) == false)
-		return;
+	m_matCollider3D.Decompose(vScale, qRot, vPos);
 
 	PxVec3 pxPos;
 	PxQuat pxQuat;

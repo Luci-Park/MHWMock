@@ -31,6 +31,12 @@
     <Filter Include="Script\Weapon\Sword">
       <UniqueIdentifier>{f6dad07d-b180-42ae-a45b-14f3485936eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\Anjanath\Body">
+      <UniqueIdentifier>{7063d274-2d89-4641-b9c8-f837858720a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Anjanath\Attack">
+      <UniqueIdentifier>{b72515df-182a-445a-a239-a586c9cbfaea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -72,11 +78,29 @@
     <ClInclude Include="CWeaponScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerShieldScript.h" >
+    <ClInclude Include="CPlayerShieldScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="CSwordScript.h">
       <Filter>Script\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjAttack.h">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathBody.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathHead.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathLeg.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathPart.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathTail.h">
+      <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,8 +173,26 @@
     <ClCompile Include="CSwordScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerShieldScript.cpp" >
+    <ClCompile Include="CPlayerShieldScript.cpp">
       <Filter>Script\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="AnjAttack.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathBody.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathHead.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathLeg.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathPart.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathTail.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
