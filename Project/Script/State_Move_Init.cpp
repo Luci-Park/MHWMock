@@ -1123,16 +1123,20 @@ void ST_PLAYER_WP_MOVE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 	{
 	case 0:
 		StateMachine->ChangeState(L"Wp_Move_Forward");
+		StateMachine->IsInput();
 		break;
 	case 1:
 		StateMachine->ChangeState(L"Wp_Move_Left");
+		StateMachine->IsInput();
 		break;
 	case 2:
 		ChangeASTMParam(StateMachine, L"Dir", A_FORWARD);
 		StateMachine->ChangeState(L"Wp_Move_Backward");
+		StateMachine->IsInput();
 		break;
 	case 3:
 		StateMachine->ChangeState(L"Wp_Move_Right");
+		StateMachine->IsInput();
 		break;
 	default:
 		break;
@@ -1164,43 +1168,135 @@ void ST_PLAYER_WP_MOVE_Forward::Enter(CGameObject* player, PlayerStateMachine* S
 
 void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_TAP(KEY::LBTN))
+	if (_IsInput)
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Attack");
-	}
-
-	if (KEY_TAP(KEY::LSHIFT))
-	{
-		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"N_Idle");
-	}
-
-	if (KEY_TAP(KEY::SPACE))
-	{
-		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
-		StateMachine->ChangeState(L"Wp_Rolling");
-	}
-
-	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
-		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
-	{
-		if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
-			|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+		if (KEY_TAP(KEY::LBTN))
 		{
-
-		}
-		else
-		{
-			//Stop
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-			StateMachine->ChangeState(L"Wp_Idle");
+			StateMachine->ChangeState(L"Wp_Attack");
+		}
+
+		if (KEY_TAP(KEY::LSHIFT))
+		{
+			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"N_Idle");
+		}
+
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Rolling");
+		}
+
+		if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+			|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+		{
+			if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
+				|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				//Stop
+				ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+				StateMachine->ChangeState(L"Wp_Idle");
+			}
+		}
+
+
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+		int camdir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			//B 면 아무것도 안하고 
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//rotate Left
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Move Right
 		}
 	}
 
+	//Walk sound
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
 	{
@@ -1214,95 +1310,29 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 		_IsPlayed = true;
 		_Beforeduration = _Time;
 	}
-
-	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	camFront.y = 0;
-
-	Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
-	playerFront.y = 0;
-
-	auto dot = camFront.Dot(playerFront);
-
-	//외적으로 방향을 구함
-	auto cross = camFront.Cross(playerFront);
-	int camdir = CalculateDir(dot, cross.y);
-
-	if (KEY_PRESSED(KEY::W))
-	{
-		//B 면 아무것도 안하고 
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::A))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//rotate Left
-	}
-	if (KEY_PRESSED(KEY::S))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::D))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Move Right
-	}
 }
 
 void ST_PLAYER_WP_MOVE_Forward::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	_IsInput = false;
+}
+
+void ST_PLAYER_WP_MOVE_Forward::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_Walk_Start")
+	{
+		_IsInput = true;
+	}
+	else
+	{
+		_IsInput = false;
+	}
+}
+void ST_PLAYER_WP_MOVE_Forward::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_MOVE_Forward::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 
 }
@@ -1328,43 +1358,135 @@ void ST_PLAYER_WP_MOVE_Left::Enter(CGameObject* player, PlayerStateMachine* Stat
 
 void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_TAP(KEY::LBTN))
+	if (_IsInput)
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Attack");
-	}
-
-	if (KEY_TAP(KEY::LSHIFT))
-	{
-		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"N_Idle");
-	}
-
-	if (KEY_TAP(KEY::SPACE))
-	{
-		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
-		StateMachine->ChangeState(L"Wp_Rolling");
-	}
-
-	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
-		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
-	{
-		if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
-			|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+		if (KEY_TAP(KEY::LBTN))
 		{
-
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"Wp_Attack");
 		}
-		else
+
+		if (KEY_TAP(KEY::LSHIFT))
 		{
-			//Stop
-			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
-			StateMachine->ChangeState(L"Wp_Idle");
+			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"N_Idle");
+		}
+
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Rolling");
+		}
+
+		if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+			|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+		{
+			if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
+				|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				//Stop
+				ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+				StateMachine->ChangeState(L"Wp_Idle");
+			}
+		}
+
+
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+		int camdir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			//B 면 아무것도 안하고 
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//rotate Left
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Move Right
 		}
 	}
 
+	//Walk sound
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
 	{
@@ -1378,95 +1500,29 @@ void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* State
 		_IsPlayed = true;
 		_Beforeduration = _Time;
 	}
-
-	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	camFront.y = 0;
-
-	Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
-	playerFront.y = 0;
-
-	auto dot = camFront.Dot(playerFront);
-
-	//외적으로 방향을 구함
-	auto cross = camFront.Cross(playerFront);
-	int camdir = CalculateDir(dot, cross.y);
-
-	if (KEY_PRESSED(KEY::W))
-	{
-		//B 면 아무것도 안하고 
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::A))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//rotate Left
-	}
-	if (KEY_PRESSED(KEY::S))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::D))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Move Right
-	}
 }
 
 void ST_PLAYER_WP_MOVE_Left::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	_IsInput = false;
+}
+
+void ST_PLAYER_WP_MOVE_Left::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_Walk_Start" || _pState->GetName() == L"Wp_Turn_Left")
+	{
+		_IsInput = true;
+	}
+	else
+	{
+		_IsInput = false;
+	}
+}
+void ST_PLAYER_WP_MOVE_Left::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_MOVE_Left::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 
 }
@@ -1492,43 +1548,137 @@ void ST_PLAYER_WP_MOVE_Right::Enter(CGameObject* player, PlayerStateMachine* Sta
 
 void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_TAP(KEY::LBTN))
-	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Attack");
-	}
 
-	if (KEY_TAP(KEY::LSHIFT))
+	if (_IsInput)
 	{
-		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"N_Idle");
-	}
-
-	if (KEY_TAP(KEY::SPACE))
-	{
-		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
-		StateMachine->ChangeState(L"Wp_Rolling");
-	}
-
-	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
-		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
-	{
-		if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
-			|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+		if (KEY_TAP(KEY::LBTN))
 		{
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"Wp_Attack");
+		}
 
-		}
-		else
+		if (KEY_TAP(KEY::LSHIFT))
 		{
-			//Stop
-			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
-			StateMachine->ChangeState(L"Wp_Idle");
+			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"N_Idle");
 		}
+
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Rolling");
+		}
+
+		if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+			|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+		{
+			if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
+				|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				//Stop
+				ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+				StateMachine->ChangeState(L"Wp_Idle");
+			}
+		}
+
+
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+		int camdir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			//B 면 아무것도 안하고 
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//rotate Left
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Move Right
+		}
+
 	}
 
+	//sound
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
 	{
@@ -1542,95 +1692,29 @@ void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* Stat
 		_IsPlayed = true;
 		_Beforeduration = _Time;
 	}
-
-	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	camFront.y = 0;
-
-	Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
-	playerFront.y = 0;
-
-	auto dot = camFront.Dot(playerFront);
-
-	//외적으로 방향을 구함
-	auto cross = camFront.Cross(playerFront);
-	int camdir = CalculateDir(dot, cross.y);
-
-	if (KEY_PRESSED(KEY::W))
-	{
-		//B 면 아무것도 안하고 
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::A))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//rotate Left
-	}
-	if (KEY_PRESSED(KEY::S))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::D))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Move Right
-	}
 }
 
 void ST_PLAYER_WP_MOVE_Right::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	_IsInput = false;
+}
+
+void ST_PLAYER_WP_MOVE_Right::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_Walk_Start" || _pState->GetName() == L"wp_Turn_Right")
+	{
+		_IsInput = true;
+	}
+	else
+	{
+		_IsInput = false;
+	}
+}
+void ST_PLAYER_WP_MOVE_Right::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_MOVE_Right::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 
 }
@@ -1658,42 +1742,132 @@ void ST_PLAYER_WP_MOVE_Backward::Enter(CGameObject* player, PlayerStateMachine* 
 
 void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (KEY_TAP(KEY::LBTN))
+	if (_IsInput)
 	{
-		ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"Wp_Attack");
-	}
-
-	if (KEY_TAP(KEY::LSHIFT))
-	{
-		ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
-		ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-		StateMachine->ChangeState(L"N_Idle");
-	}
-
-	if (KEY_TAP(KEY::SPACE))
-	{
-		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
-		StateMachine->ChangeState(L"Wp_Rolling");
-	}
-
-	if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
-		|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
-	{
-		if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
-			|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+		if (KEY_TAP(KEY::LBTN))
 		{
-
+			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"Wp_Attack");
 		}
-		else
+
+		if (KEY_TAP(KEY::LSHIFT))
 		{
-			//Stop
-			ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
-			StateMachine->ChangeState(L"Wp_Idle");
+			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeState(L"N_Idle");
+		}
+
+		if (KEY_TAP(KEY::SPACE))
+		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			StateMachine->ChangeState(L"Wp_Rolling");
+		}
+
+		if (KEY_RELEASE(KEY::A) || KEY_RELEASE(KEY::W)
+			|| KEY_RELEASE(KEY::S) || KEY_RELEASE(KEY::D))
+		{
+			if (KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::W)
+				|| KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+			{
+
+			}
+			else
+			{
+				//Stop
+				ChangeASTMParam(StateMachine, L"IsMove", (AnimParamUnion)false);
+				StateMachine->ChangeState(L"Wp_Idle");
+			}
+		}
+
+		Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+		camFront.y = 0;
+
+		Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
+		playerFront.y = 0;
+
+		auto dot = camFront.Dot(playerFront);
+
+		//외적으로 방향을 구함
+		auto cross = camFront.Cross(playerFront);
+		int camdir = CalculateDir(dot, cross.y);
+
+		if (KEY_PRESSED(KEY::W))
+		{
+			//B 면 아무것도 안하고 
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//rotate Left
+		}
+		if (KEY_PRESSED(KEY::S))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_R:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_L:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Change State Move Backward
+		}
+		if (KEY_PRESSED(KEY::D))
+		{
+			Vec3 rot = player->Transform()->GetRelativeEulerRot();
+			switch (camdir)
+			{
+			case A_F:
+				rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			case A_B:
+				rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
+				player->Transform()->SetRelativeRot(rot);
+				break;
+			default:
+				break;
+			}
+			//Move Right
 		}
 	}
+
 
 	_Time += CTimeMgr::GetInst()->GetDeltaTime();
 	if (_IsPlayed && _Time - _Beforeduration > 0.5f)
@@ -1708,95 +1882,29 @@ void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* S
 		_IsPlayed = true;
 		_Beforeduration = _Time;
 	}
-
-	Vec3 camFront = StateMachine->GetCamera()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	camFront.y = 0;
-
-	Vec3 playerFront = player->Transform()->GetRelativeDir(DIR_TYPE::FRONT);
-	playerFront.y = 0;
-
-	auto dot = camFront.Dot(playerFront);
-
-	//외적으로 방향을 구함
-	auto cross = camFront.Cross(playerFront);
-	int camdir = CalculateDir(dot, cross.y);
-
-	if (KEY_PRESSED(KEY::W))
-	{
-		//B 면 아무것도 안하고 
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::A))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//rotate Left
-	}
-	if (KEY_PRESSED(KEY::S))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_R:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_L:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Change State Move Backward
-	}
-	if (KEY_PRESSED(KEY::D))
-	{
-		Vec3 rot = player->Transform()->GetRelativeEulerRot();
-		switch (camdir)
-		{
-		case A_F:
-			rot.y -= 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		case A_B:
-			rot.y += 45 * CTimeMgr::GetInst()->GetDeltaTime();
-			player->Transform()->SetRelativeRot(rot);
-			break;
-		default:
-			break;
-		}
-		//Move Right
-	}
 }
 
 void ST_PLAYER_WP_MOVE_Backward::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
+{
+	_IsInput = false;
+}
+
+void ST_PLAYER_WP_MOVE_Backward::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+	if (_pState->GetName() == L"Wp_Walk_Start")
+	{
+		_IsInput = true;
+	}
+	else
+	{
+		_IsInput = false;
+	}
+}
+void ST_PLAYER_WP_MOVE_Backward::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+void ST_PLAYER_WP_MOVE_Backward::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 
 }
@@ -1970,6 +2078,13 @@ void ST_PLAYER_AXE_MOVE_LEFT::Enter(CGameObject* player, PlayerStateMachine* Sta
 
 void ST_PLAYER_AXE_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Rolling");
+	}
+
 	if (KEY_TAP(KEY::LBTN))
 	{
 		//Upper Attack
@@ -2125,6 +2240,12 @@ void ST_PLAYER_AXE_MOVE_RIGHT::Enter(CGameObject* player, PlayerStateMachine* St
 
 void ST_PLAYER_AXE_MOVE_RIGHT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Rolling");
+	}
 
 	if (KEY_TAP(KEY::LBTN))
 	{
@@ -2277,6 +2398,12 @@ void ST_PLAYER_AXE_MOVE_FORWARD::Enter(CGameObject* player, PlayerStateMachine* 
 
 void ST_PLAYER_AXE_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Rolling");
+	}
 
 	if (KEY_TAP(KEY::LBTN))
 	{
@@ -2429,6 +2556,12 @@ void ST_PLAYER_AXE_MOVE_BACKWARD::Enter(CGameObject* player, PlayerStateMachine*
 
 void ST_PLAYER_AXE_MOVE_BACKWARD::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	//Rolling
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		StateMachine->ChangeState(L"Wp_AXE_Rolling");
+	}
 
 	if (KEY_TAP(KEY::LBTN))
 	{
