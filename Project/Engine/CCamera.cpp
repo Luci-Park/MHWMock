@@ -330,8 +330,8 @@ void CCamera::render()
 	// UI
 	// Canvas Component로 렌더링 예정
 	//CRenderMgr::GetInst()->GetMRT(MRT_TYPE::CANVAS)->OMSet();
-	//render_ui();
-	//CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
+	render_ui();
+	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 }
 
 void CCamera::render_shadowmap()

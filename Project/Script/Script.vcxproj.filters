@@ -37,6 +37,9 @@
     <Filter Include="Script\Anjanath\Attack">
       <UniqueIdentifier>{b72515df-182a-445a-a239-a586c9cbfaea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\Intro">
+      <UniqueIdentifier>{2de26b30-a555-482a-a7d2-9db18b0bfd40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -75,9 +78,6 @@
     <ClInclude Include="CAnjanath.h">
       <Filter>Script\Anjanath</Filter>
     </ClInclude>
-    <ClInclude Include="CWeaponScript.h">
-      <Filter>Script\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerShieldScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
@@ -101,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="CAnjanathTail.h">
       <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CIntroObjScript.h">
+      <Filter>Script\Intro</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +170,6 @@
     <ClCompile Include="State_Guard_Init.cpp">
       <Filter>Script\Player\StateMachine</Filter>
     </ClCompile>
-    <ClCompile Include="CWeaponScript.cpp">
-      <Filter>Script\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="CSwordScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
@@ -193,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="CAnjanathTail.cpp">
       <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CIntroObjScript.cpp">
+      <Filter>Script\Intro</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
