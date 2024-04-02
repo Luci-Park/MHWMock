@@ -20,3 +20,7 @@ void BodySlam::OnAttackStart()
 
 }
 
+void BodySlam::OnAttackEnd()
+{
+}
+

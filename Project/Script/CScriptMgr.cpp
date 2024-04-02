@@ -3,6 +3,7 @@
 
 #include "CAnjanath.h"
 #include "CAnjanathBody.h"
+#include "CAnjanathFire.h"
 #include "CAnjanathHead.h"
 #include "CAnjanathLeg.h"
 #include "CAnjanathTail.h"
@@ -22,6 +23,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnjanath");
 	_vec.push_back(L"CAnjanathBody");
+	_vec.push_back(L"CAnjanathFire");
 	_vec.push_back(L"CAnjanathHead");
 	_vec.push_back(L"CAnjanathLeg");
 	_vec.push_back(L"CAnjanathTail");
@@ -32,8 +34,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerCameraScript");
 	_vec.push_back(L"CPlayerScript");
-	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CPlayerShieldScript");
+	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CTestScript");
 	_vec.push_back(L"CWeaponScript");
 }
@@ -44,6 +46,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnjanath;
 	if (L"CAnjanathBody" == _strScriptName)
 		return new CAnjanathBody;
+	if (L"CAnjanathFire" == _strScriptName)
+		return new CAnjanathFire;
 	if (L"CAnjanathHead" == _strScriptName)
 		return new CAnjanathHead;
 	if (L"CAnjanathLeg" == _strScriptName)
@@ -64,10 +68,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerCameraScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
-	if (L"CSwordScript" == _strScriptName)
-		return new CSwordScript;
 	if (L"CPlayerShieldScript" == _strScriptName)
 		return new CPlayerShieldScript;
+	if (L"CSwordScript" == _strScriptName)
+		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
 	if (L"CWeaponScript" == _strScriptName)
@@ -84,6 +88,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHBODY:
 		return new CAnjanathBody;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHFIRE:
+		return new CAnjanathFire;
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHHEAD:
 		return new CAnjanathHead;
@@ -115,11 +122,11 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
 		break;
-	case (UINT)SCRIPT_TYPE::SWORDSCRIPT:
-		return new CSwordScript;
-		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSHIELDSCRIPT:
 		return new CPlayerShieldScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SWORDSCRIPT:
+		return new CSwordScript;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
@@ -141,6 +148,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ANJANATHBODY:
 		return L"CAnjanathBody";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHFIRE:
+		return L"CAnjanathFire";
 		break;
 
 	case SCRIPT_TYPE::ANJANATHHEAD:
@@ -183,12 +194,12 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CPlayerScript";
 		break;
 
-	case SCRIPT_TYPE::SWORDSCRIPT:
-		return L"CSwordScript";
-		break;
-
 	case SCRIPT_TYPE::PLAYERSHIELDSCRIPT:
 		return L"CPlayerShieldScript";
+		break;
+
+	case SCRIPT_TYPE::SWORDSCRIPT:
+		return L"CSwordScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

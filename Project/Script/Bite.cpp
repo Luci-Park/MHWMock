@@ -19,3 +19,7 @@ void Bite::OnAttackStart()
 
 }
 
+void Bite::OnAttackEnd()
+{
+}
+

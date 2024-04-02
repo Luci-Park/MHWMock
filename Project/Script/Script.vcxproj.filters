@@ -102,6 +102,9 @@
     <ClInclude Include="CAnjanathTail.h">
       <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
+    <ClInclude Include="CAnjanathFire.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -196,6 +199,36 @@
     </ClCompile>
     <ClCompile Include="WeakBite.cpp">
       <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Bite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinBite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Claw.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="TailSlam.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="TailSweep.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="BodySlam.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardAtk.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Rush.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Flame.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathFire.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

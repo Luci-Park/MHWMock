@@ -19,3 +19,7 @@ void WeakBite::OnAttackStart()
 
 }
 
+void WeakBite::OnAttackEnd()
+{
+}
+

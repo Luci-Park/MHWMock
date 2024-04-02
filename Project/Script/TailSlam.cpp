@@ -21,3 +21,7 @@ void TailSlam::OnAttackStart()
 
 }
 
+void TailSlam::OnAttackEnd()
+{
+}
+

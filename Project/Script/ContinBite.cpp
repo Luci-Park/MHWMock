@@ -19,3 +19,7 @@ void ContinBite::OnAttackStart()
 
 }
 
+void ContinBite::OnAttackEnd()
+{
+}
+

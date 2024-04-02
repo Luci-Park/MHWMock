@@ -19,3 +19,7 @@ void Rush::OnAttackStart()
 
 }
 
+void Rush::OnAttackEnd()
+{
+}
+

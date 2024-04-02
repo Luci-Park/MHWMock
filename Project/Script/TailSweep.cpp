@@ -21,3 +21,7 @@ void TailSweep::OnAttackStart()
 
 }
 
+void TailSweep::OnAttackEnd()
+{
+}
+

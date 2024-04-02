@@ -19,3 +19,7 @@ void Claw::OnAttackStart()
 
 }
 
+void Claw::OnAttackEnd()
+{
+}
+

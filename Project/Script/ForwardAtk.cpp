@@ -19,3 +19,7 @@ void ForwardAtk::OnAttackStart()
 
 }
 
+void ForwardAtk::OnAttackEnd()
+{
+}
+

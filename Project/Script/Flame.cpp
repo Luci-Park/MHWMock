@@ -12,11 +12,16 @@ Flame::~Flame()
 
 int Flame::DamageContribution(SCRIPT_TYPE _attackPart)
 {
-	return AttackPower();
+	return AttackPower() * (SCRIPT_TYPE::ANJANATHFIRE == _attackPart);
 }
 
 void Flame::OnAttackStart()
 {
 	Parent()->Wing(true);
+}
+
+void Flame::OnAttackEnd()
+{
+	Parent()->Wing(false);
 }
 

@@ -6,13 +6,27 @@
 class CAnjanath :
 	public CScript
 {
+#pragma region Keys
 private:
 	const int m_iMaxHP;
-	const int m_iRageGauge;
+	const int m_iMaxRage;
+	const wstring aggroed;//bool
+	const wstring turnDir;//int
+	const wstring stopMove;//trigger
+	const wstring attackType;//int
+	const wstring hp;// int
+	const wstring stagger; //trigger
+	const wstring staggerType; // int
+	const wstring rage;//triggger
+	const wstring rageNum;// int
+#pragma endregion
+private:
 	int m_iHP;
-	int m_iRage;
+	int m_iRageGauge;
+	int m_iRageNumber;
 	bool			m_bAggroed;
 	bool			m_bStaggered;
+	bool			m_bTailCut;
 
 	CGameObject* m_pNose;
 	CGameObject* m_pWings;
@@ -24,6 +38,8 @@ private:
 private:
 	void CheckPlayerPos();
 	void ChooseAttack();
+	void Rage();
+	void Death();
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
@@ -32,6 +48,11 @@ public:
 	void FallOver();
 	void TailCut();
 	void BodyShot();
+
+	void Nose(bool _show);
+	void Wing(bool _show);
+	bool OnFire() { return m_pWings->IsActive(); }
+	bool HasTail() { return !m_bTailCut; }
 
 public:
 	virtual void begin() override;
