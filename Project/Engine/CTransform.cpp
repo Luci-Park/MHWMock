@@ -3,6 +3,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
+#include "CCollider3D.h"
 
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
@@ -67,11 +68,14 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 	if (pParent)
 	{
 		Matrix mParentWorldInv = pParent->Transform()->m_matWorldInv;
-		Matrix mWorldMatrix = m_matWorld;
-		mWorldMatrix.CreateTranslation(_Pos);
-		mWorldMatrix.CreateFromQuaternion(_Rot);
+		//Matrix mWorldMatrix = m_matWorld;
+		Matrix mColliderMat = GetOwner()->Collider3D()->GetColliderWorldMat();
+		Matrix mColliderMatInv = GetOwner()->Collider3D()->GetColliderWorldMatInv();
 
-		Matrix mRelativeWorld = mWorldMatrix * mParentWorldInv;
+		mColliderMat.CreateTranslation(_Pos);
+		mColliderMat.CreateFromQuaternion(_Rot);
+
+		Matrix mRelativeWorld = mColliderMat * mParentWorldInv * mColliderMatInv;
 		
 		Vector3 vRelativePos;
 		Vector3 vRelativeScale;
@@ -83,9 +87,21 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 
 		return;
 	}
+	Matrix mColliderMat = GetOwner()->Collider3D()->GetColliderWorldMat();
+	Matrix mColliderMatInv = GetOwner()->Collider3D()->GetColliderWorldMatInv();
 
-	m_vRelativePos = _Pos;
-	m_vRelativeRot = _Rot.ToEuler();
+	mColliderMat.CreateTranslation(_Pos);
+	mColliderMat.CreateFromQuaternion(_Rot);
+
+	Matrix mRelativeWorld = mColliderMat * mColliderMatInv;
+
+	Vector3 vRelativePos;
+	Vector3 vRelativeScale;
+	Quaternion qRelativeRot;
+	mRelativeWorld.Decompose(vRelativeScale, qRelativeRot, vRelativePos);
+
+	m_vRelativePos = vRelativePos;
+	m_vRelativeRot = qRelativeRot.ToEuler();
 }
 
 void CTransform::BuildWorldMatrix()
