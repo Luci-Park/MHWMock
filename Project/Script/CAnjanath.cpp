@@ -38,7 +38,11 @@ CAnjanath::~CAnjanath()
 void CAnjanath::Aggroed()
 {
 	Animator3D()->SetBool(aggroed, true);
-	
+	Vec3 relativePos = m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos();
+	Quaternion lookRotation;
+	Quaternion::LookRotation(relativePos, Vector3::Up, lookRotation);
+	Vec3 angles = lookRotation.ToEuler();
+
 }
 
 void CAnjanath::CheckPlayerPos()
@@ -154,9 +158,9 @@ void CAnjanath::begin()
 
 void CAnjanath::tick()
 {
+	CheckPlayerPos();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
-
 
 }
 

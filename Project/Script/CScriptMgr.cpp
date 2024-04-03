@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CScriptMgr.h"
-
 #include "CAnjanath.h"
 #include "CAnjanathBody.h"
 #include "CAnjanathFire.h"

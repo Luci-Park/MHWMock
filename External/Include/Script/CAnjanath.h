@@ -1,8 +1,9 @@
 #pragma once
 #include <Engine/CScript.h>
 #include "CMainPlayerScript.h"
-#include "AnjAttack.h"
-
+#include "AnjAttackPicker.h"
+#include "AnjStruct.h"
+enum class ANJ_STATE{ATTACK, STAGGER, RAGE, PEACE, NONE};
 class CAnjanath :
 	public CScript
 {
@@ -24,26 +25,28 @@ private:
 	int m_iHP;
 	int m_iRageGauge;
 	int m_iRageNumber;
-	bool			m_bAggroed;
-	bool			m_bStaggered;
+	ANJ_STATE m_State;
 	bool			m_bTailCut;
 
 	CGameObject* m_pNose;
 	CGameObject* m_pWings;
 
+	AnjAttackPicker* m_pAttackPicker;
 	AnjAttack*		m_pCurrentAttack;
 
 	CGameObject*	m_pPlayer;
 
 private:
+	void Aggroed();
 	void CheckPlayerPos();
 	void ChooseAttack();
-	void Rage();
+	void EnRage();
 	void Death();
+	void StopAttack();
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
-	bool InStagger() { return m_bStaggered; }
+	bool InStagger() { return m_State == ANJ_STATE::STAGGER; }
 	void NoseBreak();
 	void FallOver();
 	void TailCut();
@@ -61,7 +64,8 @@ public:
 	virtual void OnAnimationEndStart(IAnimationState* _pState) override;
 	virtual void OnAnimationEndFinished(IAnimationState* _pState) override;
 
-
+	virtual void SaveToLevelFile(FILE* _File) override;
+	virtual void LoadFromLevelFile(FILE* _File) override;
 public:
 	CLONE(CAnjanath);
 	CAnjanath();
