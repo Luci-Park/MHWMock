@@ -1,10 +1,6 @@
 #pragma once
 #include "CMainPlayerScript.h"
-enum class ANJ_ATTACK
-{
-	WEAK_BITE, BITE, CONTIN_BITE, CLAW, TAIL_SLAM, TAIL_SWEEP, BODY_SLAM, FORWARD, RUSH, FLAME, NONE
-};
-
+#include "AnjStruct.h"
 class CAnjanath;
 class AnjAttack
 {
@@ -13,12 +9,17 @@ private:
 	CAnjanath* m_pParent;
 	int m_iAttackPower;
 	bool m_bAttacked;
+	bool m_bDidStartDir;
 public:
 	ANJ_ATTACK GetType() { return m_type; }
 
 	void AttackStart();
-	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
+	virtual ANJ_MOVE_DIR GetStartDir(CTransform* _player) = 0;
+	virtual bool Move(CTransform* _player) = 0;
+	virtual void WhileAttack(CTransform* _player) = 0;
 	void AttackEnd();
+
+	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
 protected:
 	int AttackPower() { return m_iAttackPower; }
 	CAnjanath* Parent() { return m_pParent; }

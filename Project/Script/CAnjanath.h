@@ -2,7 +2,7 @@
 #include <Engine/CScript.h>
 #include "CMainPlayerScript.h"
 #include "AnjAttackPicker.h"
-enum class ANJ_MOVE_DIR{LEFT, RIGHT, LEFT_BACK, RIGHT_BACK, BACK, SMALL_TURN};
+#include "AnjStruct.h"
 class CAnjanath :
 	public CScript
 {

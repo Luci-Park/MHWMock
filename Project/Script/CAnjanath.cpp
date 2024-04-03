@@ -144,12 +144,10 @@ void CAnjanath::tick()
 	if (!m_bAggroed)return;
 	if (m_iHP <= 0) return;
 	if (IsAttacking())return;
-
-	m_pCurrentAttack = m_pAttackPicker->PickAttack();
-	CheckPlayerPos();
-
-	// check playerPos
-	// if 
+	if (!m_pCurrentAttack)
+	{
+		m_pCurrentAttack = m_pAttackPicker->PickAttack();
+	}
 }
 
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)

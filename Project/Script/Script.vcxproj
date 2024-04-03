@@ -214,6 +214,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="AnjAttack.h" />
     <ClInclude Include="AnjAttackPicker.h" />
+    <ClInclude Include="AnjStruct.h" />
     <ClInclude Include="CAnjanath.h" />
     <ClInclude Include="CAnjanathBody.h" />
     <ClInclude Include="CAnjanathFire.h" />

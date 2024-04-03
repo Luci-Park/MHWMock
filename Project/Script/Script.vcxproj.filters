@@ -106,6 +106,9 @@
       <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
     <ClInclude Include="AnjAttackPicker.h" />
+    <ClInclude Include="AnjStruct.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
