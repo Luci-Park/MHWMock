@@ -70,6 +70,8 @@ void CBoxCollider::CreateColliderShape()
 	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(physx::PxBoxGeometry(vHalfExtent), *m_pMaterial, true);
 
 	AddRigidActor();
+
+	
 }
 
 void CBoxCollider::SaveToLevelFile(FILE* _File)
