@@ -54,10 +54,11 @@ PS_OUT PS_Canvas(VS_OUT _in) : SV_Target
     
     if (UseAlpha)
     {
+        //float fAlpha = pow(Alpha, 2);
+        
         output.ColorTex.x *= Alpha;
         output.ColorTex.y *= Alpha;
         output.ColorTex.z *= Alpha;
-        output.ColorTex.w *= Alpha;
     }
    
     return output;
