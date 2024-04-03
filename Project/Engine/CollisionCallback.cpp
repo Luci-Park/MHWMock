@@ -39,7 +39,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 
 		// 바닥 충돌 체크
 
-		PxContactPairPoint* contactPointBuffer = new PxContactPairPoint[16];
+		/*PxContactPairPoint* contactPointBuffer = new PxContactPairPoint[16];
 
 		UINT nCount = pairs[i].extractContacts(contactPointBuffer, 16);
 		
@@ -75,7 +75,7 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 				}
 			}
 		}
-		delete[] contactPointBuffer;
+		delete[] contactPointBuffer;*/
 
 		pCollider[0] = pUserData[0]->pCollider;
 		pCollider[1] = pUserData[1]->pCollider;
