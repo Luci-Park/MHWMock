@@ -1115,6 +1115,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
 
 	pShader->AddTexParam(TEX_0, "Output Texture");
+	pShader->AddScalarParam(INT_0, "UseAlpha");
+	pShader->AddScalarParam(FLOAT_0, "Alpha");
 
 	AddRes(pShader->GetKey(), pShader);
 }

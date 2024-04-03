@@ -7,9 +7,15 @@ class CCanvas :
 {
 private:
     Ptr<CTexture>   m_UITex;
+
+public:
+
+
+
 public:
     virtual void finaltick() override;
     virtual void render() override;
+
 public:
     virtual void SaveToLevelFile(FILE* _File);
     virtual void LoadFromLevelFile(FILE* _FILE);
