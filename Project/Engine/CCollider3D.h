@@ -14,6 +14,7 @@ protected:
     PxShape*            m_pShape;
     PxMaterial*         m_pMaterial;
     PxRigidActor*     m_pRigidActor;
+    PxRigidDynamic* m_RigidDynamic;
 
     PXUSERDATA  m_pUserData;
 

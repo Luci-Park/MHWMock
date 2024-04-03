@@ -101,7 +101,7 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 	Vector3 dis = vColliderPos - m_vRelativePos;
 
 	m_vRelativePos = _Pos - dis;
-	m_vRelativeRot = _Rot.ToEuler();
+	//m_vRelativeRot = _Rot.ToEuler();
 }
 
 void CTransform::BuildWorldMatrix()
