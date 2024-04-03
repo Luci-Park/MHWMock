@@ -3,6 +3,7 @@
 #include "CMainPlayerScript.h"
 #include "AnjAttackPicker.h"
 #include "AnjStruct.h"
+enum class ANJ_STATE{ATTACK, STAGGER, RAGE, NONE};
 class CAnjanath :
 	public CScript
 {
@@ -24,8 +25,8 @@ private:
 	int m_iHP;
 	int m_iRageGauge;
 	int m_iRageNumber;
+	ANJ_STATE m_state;
 	bool			m_bAggroed;
-	bool			m_bStaggered;
 	bool			m_bTailCut;
 
 	CGameObject* m_pNose;

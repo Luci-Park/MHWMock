@@ -22,7 +22,6 @@ CAnjanath::CAnjanath()
 	, m_iRageGauge(150)
 	, m_iRageNumber(0)
 	, m_bAggroed(false)
-	, m_bStaggered(false)
 	, m_bTailCut(false)
 {
 	m_pAttackPicker = new AnjAttackPicker(this);
