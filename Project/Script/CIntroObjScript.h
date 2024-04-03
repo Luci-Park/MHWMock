@@ -15,7 +15,9 @@ private:
     eStatus     m_Status;
     float       m_fTime;
     float       m_fAlpha;
+    float       m_fDuration;
     int          m_TexIdx;
+
 
     vector<Ptr<CTexture>>   m_vecTex;
 
@@ -26,6 +28,7 @@ public:
 public:
     void FadeIn();
     void FadeOut();
+    void NormalState();
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;
