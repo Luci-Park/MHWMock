@@ -19,20 +19,26 @@ CAnjanath::CAnjanath()
 	, m_iMaxRage(370)
 #pragma endregion
 	, m_iHP(3528)
+	, m_State(ANJ_STATE::PEACE)
 	, m_iRageGauge(150)
 	, m_iRageNumber(0)
-	, m_bAggroed(false)
 	, m_bTailCut(false)
 {
 	m_pAttackPicker = new AnjAttackPicker(this);
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
+	//AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
+	//AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
 }
 
 CAnjanath::~CAnjanath()
 {
 	delete m_pAttackPicker;
+}
+
+void CAnjanath::Aggroed()
+{
+	Animator3D()->SetBool(aggroed, true);
+	
 }
 
 void CAnjanath::CheckPlayerPos()
@@ -61,13 +67,14 @@ void CAnjanath::Death()
 	m_pWings->SetActive(false);
 }
 
+void CAnjanath::StopAttack()
+{
+}
+
 void CAnjanath::Attacked(int _damage)
 {
-	if (!m_bAggroed)
-	{
-		m_bAggroed = true;
-		Animator3D()->SetBool(aggroed, true);
-	}
+	if (ANJ_STATE::PEACE == m_State)
+		Aggroed();
 	m_iHP -= _damage;
 	Animator3D()->SetInt(hp, m_iHP);
 	if (m_iHP <= 0)
@@ -93,7 +100,8 @@ void CAnjanath::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
 
 void CAnjanath::NoseBreak()
 {
-	m_bStaggered = true;
+	if (m_State == ANJ_STATE::ATTACK) StopAttack();
+	m_State = ANJ_STATE::STAGGER;
 	Animator3D()->SetTrigger(stagger);
 	Animator3D()->SetInt(staggerType, 0);
 	Nose(false);
@@ -101,7 +109,8 @@ void CAnjanath::NoseBreak()
 
 void CAnjanath::FallOver()
 {
-	m_bStaggered = true;
+	if (m_State == ANJ_STATE::ATTACK) StopAttack();
+	m_State = ANJ_STATE::STAGGER;
 	Animator3D()->SetTrigger(stagger);
 	Animator3D()->SetInt(staggerType, 1);
 }
@@ -109,45 +118,44 @@ void CAnjanath::FallOver()
 void CAnjanath::TailCut()
 {
 	m_bTailCut = true;
-	m_bStaggered = true;
+	if (m_State == ANJ_STATE::ATTACK) StopAttack();
+	m_State = ANJ_STATE::STAGGER;
 	Animator3D()->SetTrigger(stagger);
 	Animator3D()->SetInt(staggerType, 1);
 }
 
 void CAnjanath::BodyShot()
 {
-	m_bStaggered = true;
+	if (m_State == ANJ_STATE::ATTACK) StopAttack();
+	m_State = ANJ_STATE::STAGGER;
 	Animator3D()->SetTrigger(stagger);
 	Animator3D()->SetInt(staggerType, 0);
 }
 
 void CAnjanath::Nose(bool _show)
 {
-	m_pNose->SetActive(_show);
+	if(m_pNose)
+		m_pNose->SetActive(_show);
 }
 
 void CAnjanath::Wing(bool _show)
 {
-	m_pWings->SetActive(_show);
+	if(m_pWings)
+		m_pWings->SetActive(_show);
 }
 
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(aggroed, false);
+	return;
 	m_pNose->SetActive(false);
 	m_pWings->SetActive(false);
 }
 
 void CAnjanath::tick()
 {
-	if (!m_bAggroed)return;
+	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
-	if (IsAttacking())return;
-	if (!m_pCurrentAttack)
-	{
-		m_pCurrentAttack = m_pAttackPicker->PickAttack();
-		m_pCurrentAttack->AttackStart();
-	}
 
 
 }
@@ -158,17 +166,18 @@ void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 
 void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
 {
-	if (_pState->GetName() == L"Stagger") m_bStaggered = false;
-	else if (_pState->GetName() == L"Show Nose") Nose(true);
-	else if (_pState->GetName() == L"Flash Wings") Wing(true);
-	else if (_pState->GetName() == L"Attack")
-	{
-		assert(m_pCurrentAttack != nullptr);
-		m_pCurrentAttack->AttackEnd();
-		m_pCurrentAttack = nullptr;
-	}
 }
 
 void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
 {
+}
+
+void CAnjanath::SaveToLevelFile(FILE* _File)
+{
+	SaveGameObjectParam(m_pPlayer, _File);
+}
+
+void CAnjanath::LoadFromLevelFile(FILE* _File)
+{
+	LoadGameObjectParam(0, _File);
 }
