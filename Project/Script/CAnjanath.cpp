@@ -147,7 +147,10 @@ void CAnjanath::tick()
 	if (!m_pCurrentAttack)
 	{
 		m_pCurrentAttack = m_pAttackPicker->PickAttack();
+		m_pCurrentAttack->AttackStart();
 	}
+
+
 }
 
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)

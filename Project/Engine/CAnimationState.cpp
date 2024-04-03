@@ -29,6 +29,7 @@ CAnimationState::~CAnimationState()
 void CAnimationState::SetClip(Ptr<CAnimationClip> _pClip)
 {
 	m_pClip = _pClip;
+	Reset(0, false);
 }
 
 double CAnimationState::GetDurationInSeconds()
@@ -73,15 +74,15 @@ KeyFrames& CAnimationState::GetBoneTransforms()
 	if (m_pClip == nullptr) return emptyFrames;
 
 	KeyFrames& frames = m_pClip->GetTransformsAtFrame(m_dTick);
-	if (m_bIsFirstTick)
-	{
-		m_prevRootFrame = m_FirstRootFrame;
-		m_bIsFirstTick = false;
-	}
 	auto rootKey = frames.find(L"Root");
 	if (rootKey != frames.end())
 	{
 		auto tempFrame = rootKey->second;
+		if (m_bIsFirstTick)
+		{
+			m_prevRootFrame = tempFrame;
+			m_bIsFirstTick = false;
+		}
 		rootKey->second.vPos -= m_prevRootFrame.vPos;
 
 		Quaternion prevCon;
