@@ -14,6 +14,7 @@
 
 CCanvas::CCanvas()
 	:CRenderComponent(COMPONENT_TYPE::CANVAS)
+	, m_bUseAlpha(0)
 {
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"CanvasMtrl"));
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
@@ -41,8 +42,11 @@ void CCanvas::render()
 	{
 		GetMaterial()->SetTexParam(TEX_0, m_UITex);
 	}
-
+	GetMaterial()->SetScalarParam(INT_0, &m_bUseAlpha);
+	GetMaterial()->SetScalarParam(FLOAT_0, &m_fAlpha);
+	
 	GetMaterial()->UpdateData();
+
 	// ·»´õ
 	GetMesh()->render();
 }
