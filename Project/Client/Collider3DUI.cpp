@@ -98,5 +98,7 @@ int Collider3DUI::render_update()
 	PxVec3 scale = bounds.getExtents();
 	ImGui::Text("Scale: X: %f Y: %f Z: %f", scale.x, scale.y, scale.z);
 
+	ComponentUI::RemoveComponent(); 
+
 	return TRUE;
 }
