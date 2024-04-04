@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CScriptMgr.h"
-
 #include "CAnjanath.h"
 #include "CAnjanathBody.h"
+#include "CAnjanathFire.h"
 #include "CAnjanathHead.h"
 #include "CAnjanathLeg.h"
 #include "CAnjanathTail.h"
@@ -24,6 +24,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnjanath");
 	_vec.push_back(L"CAnjanathBody");
+	_vec.push_back(L"CAnjanathFire");
 	_vec.push_back(L"CAnjanathHead");
 	_vec.push_back(L"CAnjanathLeg");
 	_vec.push_back(L"CAnjanathTail");
@@ -48,6 +49,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnjanath;
 	if (L"CAnjanathBody" == _strScriptName)
 		return new CAnjanathBody;
+	if (L"CAnjanathFire" == _strScriptName)
+		return new CAnjanathFire;
 	if (L"CAnjanathHead" == _strScriptName)
 		return new CAnjanathHead;
 	if (L"CAnjanathLeg" == _strScriptName)
@@ -93,6 +96,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHBODY:
 		return new CAnjanathBody;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHFIRE:
+		return new CAnjanathFire;
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHHEAD:
 		return new CAnjanathHead;
@@ -157,6 +163,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ANJANATHBODY:
 		return L"CAnjanathBody";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHFIRE:
+		return L"CAnjanathFire";
 		break;
 
 	case SCRIPT_TYPE::ANJANATHHEAD:

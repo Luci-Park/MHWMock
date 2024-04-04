@@ -117,6 +117,15 @@
     <ClInclude Include="CArenaScript.h">
       <Filter>Script\Arena</Filter>
     </ClInclude>
+    <ClInclude Include="AnjAttackPicker.h">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjStruct.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathFire.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -214,6 +223,42 @@
     </ClCompile>
     <ClCompile Include="CArenaScript.cpp">
       <Filter>Script\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="AnjAttackPicker.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Bite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="BodySlam.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinBite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Flame.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Rush.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="TailSlam.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="TailSweep.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakBite.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathFire.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="Claw.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardAtk.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

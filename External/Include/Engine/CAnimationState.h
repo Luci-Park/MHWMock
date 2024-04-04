@@ -14,7 +14,6 @@ private:
 	double							m_dDuration;
 	int								m_iRepeatNum;
 	tAnimationKeyFrame				m_prevRootFrame;
-	tAnimationKeyFrame				m_FirstRootFrame;
 	bool							m_bIsFirstTick;
 
 public:

@@ -3,3 +3,6 @@ stdafx.h
 CScriptMgr.h
 targetver.h
 CSceneSaveLoad.h
+AnjAttack.h
+AnjStruct.h
+AnjAttackPicker.h

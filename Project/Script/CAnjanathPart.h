@@ -23,6 +23,8 @@ protected:
 private:
 	bool CheckBody();
 public:
+	virtual void SaveToLevelFile(FILE* _File) override;
+	virtual void LoadFromLevelFile(FILE* _File) override;
 	CAnjanathPart(SCRIPT_TYPE _type, int _maxHP);
 	virtual ~CAnjanathPart();
 };

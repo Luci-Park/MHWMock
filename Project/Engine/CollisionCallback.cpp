@@ -114,6 +114,8 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 				tCollisionPair.pFirst = pCollider[0]->GetOwner();
 				tCollisionPair.pSecond = pCollider[1]->GetOwner();
 				CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
+
+
 			}
 		}
 	}

@@ -43,3 +43,14 @@ bool CAnjanathPart::CheckBody()
 	m_pAnj = m_pAnjObj->GetScript<CAnjanath>();
 	return m_pAnj != nullptr;
 }
+
+void CAnjanathPart::SaveToLevelFile(FILE* _File)
+{
+	SaveGameObjectParam(m_pAnjObj, _File);
+}
+
+void CAnjanathPart::LoadFromLevelFile(FILE* _File)
+{
+	LoadGameObjectParam(0, _File);
+}
+
