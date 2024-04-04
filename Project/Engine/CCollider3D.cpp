@@ -43,6 +43,10 @@ void CCollider3D::begin()
 
 void CCollider3D::finaltick()
 {
+	/*if (m_eActorType == ACTOR_TYPE::DYNAMIC)
+	{
+		SetRigidDynamicLockFlag(true);
+	}*/
 }
 
 void CCollider3D::SetGravity(bool _gravity)

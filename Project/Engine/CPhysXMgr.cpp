@@ -222,9 +222,6 @@ void CPhysXMgr::FetchResults()
 			case PxPairFlag::Enum::eNOTIFY_TOUCH_FOUND:
 				if (rPair.pFirst && rPair.pSecond)
 				{
-					rPair.pFirst->Collider3D()->SetRigidDynamicLockFlag(false);
-					rPair.pSecond->Collider3D()->SetRigidDynamicLockFlag(false);
-
 					rPair.pFirst->Collider3D()->OnCollisionEnter(rPair.pSecond->Collider3D());
 					rPair.pSecond->Collider3D()->OnCollisionEnter(rPair.pFirst->Collider3D());
 				}
