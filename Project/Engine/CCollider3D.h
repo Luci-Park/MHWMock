@@ -63,6 +63,9 @@ public:
     bool GetGround() { return m_bGround; }
     void SetGround(bool _Ground);
 
+    void SetRigidDynamicLockFlag(bool _Lock);
+
+
 public:
     void OnCollisionEnter(CCollider3D* _Other);
     void OnCollisionStay(CCollider3D* _Other);

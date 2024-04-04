@@ -30,7 +30,7 @@ void CPlayerCameraScript::begin()
 
 		vPos = vObjPos - vObjFront * m_fRadius;
 
-		//Transform()->SetRelativeRot(vRot);
+		Transform()->SetRelativeRot(vFront);
 		Transform()->SetRelativePos(vPos);
 	}
 }

@@ -236,6 +236,9 @@ void CPhysXMgr::FetchResults()
 			case PxPairFlag::Enum::eNOTIFY_TOUCH_LOST:
 				if (rPair.pFirst && rPair.pSecond)
 				{
+					rPair.pFirst->Collider3D()->SetRigidDynamicLockFlag(true);
+					rPair.pSecond->Collider3D()->SetRigidDynamicLockFlag(true);
+
 					rPair.pFirst->Collider3D()->OnCollisionExit(rPair.pSecond->Collider3D());
 					rPair.pSecond->Collider3D()->OnCollisionExit(rPair.pFirst->Collider3D());
 				}
