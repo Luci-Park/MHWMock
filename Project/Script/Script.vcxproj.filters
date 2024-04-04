@@ -40,6 +40,9 @@
     <Filter Include="Script\Intro">
       <UniqueIdentifier>{2de26b30-a555-482a-a7d2-9db18b0bfd40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\UI">
+      <UniqueIdentifier>{825393e3-4ef3-4080-a885-395cc1eb012c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="CIntroObjScript.h">
       <Filter>Script\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="CCompleteScript.h">
+      <Filter>Script\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="CIntroObjScript.cpp">
       <Filter>Script\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="CCompleteScript.cpp">
+      <Filter>Script\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

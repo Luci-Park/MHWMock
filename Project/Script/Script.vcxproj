@@ -220,6 +220,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CAnjanathPart.h" />
     <ClInclude Include="CAnjanathTail.h" />
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CCompleteScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CIntroObjScript.h" />
     <ClInclude Include="CMainPlayerScript.h" />
@@ -243,6 +244,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CAnjanathPart.cpp" />
     <ClCompile Include="CAnjanathTail.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CCompleteScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CIntroObjScript.cpp" />
     <ClCompile Include="CMainPlayerScript.cpp" />

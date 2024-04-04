@@ -4,6 +4,7 @@ CAnjanathHead
 CAnjanathLeg
 CAnjanathTail
 CCameraMoveScript
+CCompleteScript
 CGravityScript
 CIntroObjScript
 CMainPlayerScript

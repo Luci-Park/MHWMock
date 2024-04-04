@@ -54,10 +54,10 @@ void CIntroObjScript::tick()
 {
 	m_fTime += DT;
 
+	CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
 	if (m_fTime > 12.0f && m_TexIdx < m_vecTex.size())
 	{
 		m_fTime = 0.0f;
-		CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
 		if (pCanvas != nullptr)
 		{
 			pCanvas->SetUITexture(m_vecTex[m_TexIdx]);
@@ -66,7 +66,6 @@ void CIntroObjScript::tick()
 		}
 	}
 
-	CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
 	if (pCanvas != nullptr)
 	{
 		if (m_Status == eStatus::FadeIn)
