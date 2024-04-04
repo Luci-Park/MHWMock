@@ -299,7 +299,11 @@ void CPhysXMgr::SetTransformResult()
 			Vec3 pos = Vec3(position.x, position.y, position.z);
 			Quaternion rot = Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
 			// 자식인경우 자식이 아닌경우 예외처리 두고 Transform에 적용시켜야함.
-			obj->Transform()->UpdateSimulateResult(pos, rot);
+			
+			bool bGround = ((pPXUSERDATA)(ppDynamicActors[i]->userData))->bGround;
+			if(!bGround)
+				obj->Transform()->UpdateSimulateResult(pos, rot);
+			
 			//obj->Transform()->SetRelativePos(pos);
 		}
 

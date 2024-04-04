@@ -4,8 +4,11 @@ CAnjanathFire
 CAnjanathHead
 CAnjanathLeg
 CAnjanathTail
+CArenaScript
 CCameraMoveScript
+CCompleteScript
 CGravityScript
+CIntroObjScript
 CMainPlayerScript
 CMissileScript
 CMonsterScript

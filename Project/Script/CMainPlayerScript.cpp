@@ -16,6 +16,7 @@ CMainPlayerScript::CMainPlayerScript()
 	, _bSword(false)
 	, _bShield(false)
 	, _State()
+	, _Stack(0.0f)
 {
 	_State.Hp = 100;
 	_State.IsHitted = false;
@@ -99,11 +100,20 @@ void CMainPlayerScript::OnAnimationEndFinished(IAnimationState* _pState)
 
 void CMainPlayerScript::SaveToLevelFile(FILE* _File)
 {
+	//fwrite(&m_fSpeed, sizeof(float), 1, _File);
+	//SaveResRef(m_pPlayerTexture.Get(), _File);
+	//SaveGameObjectParam(m_pTargetObj, _File);
+
+	SaveGameObjectParam(_Camera, _File);
+	SaveGameObjectParam(_Sword, _File);
+	SaveGameObjectParam(_Shield, _File);
 }
 
 void CMainPlayerScript::LoadFromLevelFile(FILE* _FILE)
 {
-	begin();
+	LoadGameObjectParam(0, _FILE);
+	LoadGameObjectParam(1, _FILE);
+	LoadGameObjectParam(2, _FILE);
 }
 
 void CMainPlayerScript::Hitted(bool ishit, CGameObject* monster)

@@ -50,6 +50,8 @@ void ST_PLAYER_N_HIT::Exit(CGameObject* player, PlayerStateMachine* StateMachine
 	ChangeASTMParam(StateMachine, L"IsHit", A_FALSE);
 }
 
+
+
 //-------------------------------------------------------------------------------------
 //
 //											N_HIT_F
@@ -80,9 +82,19 @@ void ST_PLAYER_N_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMachi
 	ChangeASTMParam(StateMachine, L"Hit_Dir", A_NONE);
 }
 
+void ST_PLAYER_N_HIT_F::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
+}
+
 void ST_PLAYER_N_HIT_F::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = true;
+}
+
+void ST_PLAYER_N_HIT_F::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
+{
+
 }
 
 //-------------------------------------------------------------------------------------

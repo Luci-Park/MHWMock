@@ -52,7 +52,11 @@ void CPlayerShieldScript::tick()
 	}
 	else
 	{
-		if (GetASTMParam(L"IsAxe").BOOL || GetASTMParam(L"Bust_Attack").BOOL || GetASTMParam(L"Super_Bust_Attack").BOOL)
+		if (GetASTMParam(L"IsAxe").BOOL || GetASTMParam(L"Bust_Attack").BOOL 
+			|| GetASTMParam(L"Super_Bust_Attack").BOOL || GetASTMParam(L"Bottle_Charge").BOOL
+			|| _ASTM->GetCurrentState()->GetName() == L"Wp_Bottle_Charge_S" 
+			|| _ASTM->GetCurrentState()->GetName() == L"Wp_Bottle_Charge_F" 
+			|| _ASTM->GetCurrentState()->GetName() == L"Wp_Enchent_K")
 		{
 			if (m_eHandDir == HandDir::Left)
 			{

@@ -17,7 +17,8 @@ struct VS_OUT
 };
 
 #define InputTex   g_tex_0
-
+#define UseAlpha  g_int_0
+#define Alpha       g_float_0
 // =======================================
 // CANVAS
 // RasterizerState      : None
@@ -50,6 +51,18 @@ PS_OUT PS_Canvas(VS_OUT _in) : SV_Target
     {
         output.ColorTex = InputTex.Sample(g_sam_0, _in.vUV);
     }
+    
+    if (UseAlpha == 1)
+    {
+        output.ColorTex.x *= Alpha;
+        output.ColorTex.y *= Alpha;
+        output.ColorTex.z *= Alpha;
+    }
+    else if (UseAlpha == 2)
+    {
+        output.ColorTex.w *= Alpha;
+    }
+   
     return output;
 }
 #endif

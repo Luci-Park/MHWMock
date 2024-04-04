@@ -14,6 +14,7 @@ protected:
     PxShape*            m_pShape;
     PxMaterial*         m_pMaterial;
     PxRigidActor*     m_pRigidActor;
+    PxRigidDynamic* m_RigidDynamic;
 
     PXUSERDATA  m_pUserData;
 
@@ -24,7 +25,7 @@ protected:
     Matrix          m_matCollider3DInv;
     
     int             m_iCollisionCount;
-
+    bool            m_bGround;
 
 public:
     void CreateRigidActor();
@@ -58,6 +59,9 @@ public:
     PxRigidActor* GetRigidActor() { return m_pRigidActor; }
     ACTOR_TYPE GetActorType() { return m_eActorType; }
     SHAPE_TYPE GetShapeType() { return m_ShapeType; }
+
+    bool GetGround() { return m_bGround; }
+    void SetGround(bool _Ground);
 
 public:
     void OnCollisionEnter(CCollider3D* _Other);

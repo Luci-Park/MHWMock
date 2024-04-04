@@ -32,13 +32,13 @@ void CCapsuleCollider::begin()
 void CCapsuleCollider::finaltick()
 {
 	assert(0 <= m_iCollisionCount);
-	
+
 	m_matCollider3D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	m_matCollider3D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
-	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
 
 	const Matrix& matWorld = Transform()->GetWorldMat();
 	m_matCollider3D *= matWorld;
+	m_matCollider3DInv = XMMatrixInverse(nullptr, m_matCollider3D);
 
 	// DebugShape ¿äÃ»
 	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
@@ -60,13 +60,14 @@ void CCapsuleCollider::CreateColliderShape()
 	vPos.z = -vPos.z;
 	qRot.z = -qRot.z;
 
-	float fRadius = Transform()->GetRelativeScale().x / 2.0f;
-	float fHalfHeight = Transform()->GetRelativeScale().y / 2.0f;
+	float fRadius = Transform()->GetRelativeScale().x / 3.0f;
+	float fHalfHeight = Transform()->GetRelativeScale().y / 3.0f;
 
 	m_pMaterial = CPhysXMgr::GetInst()->GetDefaultMaterial();
+	PxMaterial* material = CPhysXMgr::GetInst()->GetPxPhysics()->createMaterial(0.0f, 0.0f, 0.0f);
 
 	//m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
-	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *m_pMaterial);
+	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(PxCapsuleGeometry(vScale.x / 2.0f, vScale.y / 2.0f), *material);
 
 	PxTransform relativePose(PxQuat(PxHalfPi, PxVec3(0.f, 0.f, 1.f)));
 

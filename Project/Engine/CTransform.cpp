@@ -67,41 +67,41 @@ void CTransform::UpdateSimulateResult(Vector3 _Pos, Quaternion _Rot)
 
 	if (pParent)
 	{
-		Matrix mParentWorldInv = pParent->Transform()->m_matWorldInv;
-		//Matrix mWorldMatrix = m_matWorld;
+		/*Matrix mColliderMat = Collider3D()->GetColliderWorldMat();
+
+		Vector3 vColliderPos = mColliderMat.Translation();
+		Vector3 dis = vColliderPos - m_vRelativePos;
+
+		GetOwner()->GetRoot()->Transform()->SetRelativePos(_Pos - dis);*/
+		//GetOwner()->GetRoot()->Transform()->SetRelativeRot(_Rot.ToEuler());
+
+		/*Matrix mParentWorldInv = pParent->Transform()->m_matWorldInv;
+		Matrix mWorldMatrix = m_matWorld;
 		Matrix mColliderMat = GetOwner()->Collider3D()->GetColliderWorldMat();
 		Matrix mColliderMatInv = GetOwner()->Collider3D()->GetColliderWorldMatInv();
-
-		mColliderMat.CreateTranslation(_Pos);
 		mColliderMat.CreateFromQuaternion(_Rot);
+		mColliderMat.CreateTranslation(_Pos);
 
-		Matrix mRelativeWorld = mColliderMat * mParentWorldInv * mColliderMatInv;
-		
+		Matrix mRelativeWorld = mColliderMat * mColliderMatInv;
+		mRelativeWorld *= mParentWorldInv;
+
 		Vector3 vRelativePos;
 		Vector3 vRelativeScale;
 		Quaternion qRelativeRot;
 		mRelativeWorld.Decompose(vRelativeScale, qRelativeRot, vRelativePos);
 
 		m_vRelativePos = vRelativePos;
-		m_vRelativeRot = qRelativeRot.ToEuler();
-
+		m_vRelativeRot = qRelativeRot.ToEuler();*/
 		return;
 	}
-	Matrix mColliderMat = GetOwner()->Collider3D()->GetColliderWorldMat();
-	Matrix mColliderMatInv = GetOwner()->Collider3D()->GetColliderWorldMatInv();
 
-	mColliderMat.CreateTranslation(_Pos);
-	mColliderMat.CreateFromQuaternion(_Rot);
+	Matrix mColliderMat = Collider3D()->GetColliderWorldMat();	
+	
+	Vector3 vColliderPos = mColliderMat.Translation();
+	Vector3 dis = vColliderPos - m_vRelativePos;
 
-	Matrix mRelativeWorld = mColliderMat * mColliderMatInv;
-
-	Vector3 vRelativePos;
-	Vector3 vRelativeScale;
-	Quaternion qRelativeRot;
-	mRelativeWorld.Decompose(vRelativeScale, qRelativeRot, vRelativePos);
-
-	m_vRelativePos = vRelativePos;
-	m_vRelativeRot = qRelativeRot.ToEuler();
+	m_vRelativePos = _Pos - dis;
+	//m_vRelativeRot = _Rot.ToEuler();
 }
 
 void CTransform::BuildWorldMatrix()

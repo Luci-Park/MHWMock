@@ -6,8 +6,11 @@
 #include "CAnjanathHead.h"
 #include "CAnjanathLeg.h"
 #include "CAnjanathTail.h"
+#include "CArenaScript.h"
 #include "CCameraMoveScript.h"
+#include "CCompleteScript.h"
 #include "CGravityScript.h"
+#include "CIntroObjScript.h"
 #include "CMainPlayerScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
@@ -16,7 +19,6 @@
 #include "CPlayerShieldScript.h"
 #include "CSwordScript.h"
 #include "CTestScript.h"
-#include "CWeaponScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -26,8 +28,11 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAnjanathHead");
 	_vec.push_back(L"CAnjanathLeg");
 	_vec.push_back(L"CAnjanathTail");
+	_vec.push_back(L"CArenaScript");
 	_vec.push_back(L"CCameraMoveScript");
+	_vec.push_back(L"CCompleteScript");
 	_vec.push_back(L"CGravityScript");
+	_vec.push_back(L"CIntroObjScript");
 	_vec.push_back(L"CMainPlayerScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
@@ -36,7 +41,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerShieldScript");
 	_vec.push_back(L"CSwordScript");
 	_vec.push_back(L"CTestScript");
-	_vec.push_back(L"CWeaponScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -53,10 +57,16 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnjanathLeg;
 	if (L"CAnjanathTail" == _strScriptName)
 		return new CAnjanathTail;
+	if (L"CArenaScript" == _strScriptName)
+		return new CArenaScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
+	if (L"CCompleteScript" == _strScriptName)
+		return new CCompleteScript;
 	if (L"CGravityScript" == _strScriptName)
 		return new CGravityScript;
+	if (L"CIntroObjScript" == _strScriptName)
+		return new CIntroObjScript;
 	if (L"CMainPlayerScript" == _strScriptName)
 		return new CMainPlayerScript;
 	if (L"CMissileScript" == _strScriptName)
@@ -73,8 +83,7 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
-	if (L"CWeaponScript" == _strScriptName)
-		return new CWeaponScript;
+
 	return nullptr;
 }
 
@@ -100,11 +109,20 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANJANATHTAIL:
 		return new CAnjanathTail;
 		break;
+	case (UINT)SCRIPT_TYPE::ARENASCRIPT:
+		return new CArenaScript;
+		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
 		break;
+	case (UINT)SCRIPT_TYPE::COMPLETESCRIPT:
+		return new CCompleteScript;
+		break;
 	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
 		return new CGravityScript;
+		break;
+	case (UINT)SCRIPT_TYPE::INTROOBJSCRIPT:
+		return new CIntroObjScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MAINPLAYERSCRIPT:
 		return new CMainPlayerScript;
@@ -130,9 +148,7 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
 		break;
-	case (UINT)SCRIPT_TYPE::WEAPONSCRIPT:
-		return new CWeaponScript;
-		break;
+
 	}
 	return nullptr;
 }
@@ -165,12 +181,24 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnjanathTail";
 		break;
 
+	case SCRIPT_TYPE::ARENASCRIPT:
+		return L"CArenaScript";
+		break;
+
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return L"CCameraMoveScript";
 		break;
 
+	case SCRIPT_TYPE::COMPLETESCRIPT:
+		return L"CCompleteScript";
+		break;
+
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
 		return L"CGravityScript";
+		break;
+
+	case SCRIPT_TYPE::INTROOBJSCRIPT:
+		return L"CIntroObjScript";
 		break;
 
 	case SCRIPT_TYPE::MAINPLAYERSCRIPT:
@@ -205,9 +233,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CTestScript";
 		break;
 
-	case SCRIPT_TYPE::WEAPONSCRIPT:
-		return L"CWeaponScript";
-		break;
 
 	}
 	return nullptr;
