@@ -71,8 +71,6 @@ void CCompleteScript::tick()
 			}
 		}
 	}
-
-
 }
 
 void CCompleteScript::FadeIn()

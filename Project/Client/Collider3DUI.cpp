@@ -11,6 +11,7 @@ Collider3DUI::Collider3DUI()
 	, _GravityFlag(true)
 	, _EditSize(false)
 	, _Gravity(false)
+	, _Ground(false)
 	, _Radius(1.f)
 	, _HalfHeight(1.f)
 	, _ScaleVec(Vec3(1.f, 1.f, 1.f))
@@ -92,6 +93,11 @@ int Collider3DUI::render_update()
 
 		auto velocity = actor->is<PxRigidDynamic>()->getLinearVelocity();
 		ImGui::Text("Velocity: X: %f Y: %f Z: %f", velocity.x, velocity.y, velocity.z);
+
+		_Ground = GetTarget()->Collider3D()->GetGround();
+		ImGui::Checkbox("NonSimulate", &_Ground);
+		GetTarget()->Collider3D()->SetGround(_Ground);
+		
 	}
 
 	PxBounds3 bounds = actor->getWorldBounds();
