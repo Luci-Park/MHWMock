@@ -30,3 +30,17 @@ void BodySlam::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR BodySlam::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool BodySlam::Move()
+{
+	return false;
+}
+
+void BodySlam::Tick()
+{
+}
+

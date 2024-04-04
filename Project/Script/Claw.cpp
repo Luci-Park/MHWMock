@@ -29,3 +29,17 @@ void Claw::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR Claw::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool Claw::Move()
+{
+	return false;
+}
+
+void Claw::Tick()
+{
+}
+

@@ -29,3 +29,17 @@ void ContinBite::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR ContinBite::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool ContinBite::Move()
+{
+	return false;
+}
+
+void ContinBite::Tick()
+{
+}
+

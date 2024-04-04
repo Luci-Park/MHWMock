@@ -30,3 +30,17 @@ void Bite::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR Bite::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool Bite::Move()
+{
+	return false;
+}
+
+void Bite::Tick()
+{
+}
+

@@ -29,3 +29,17 @@ void ForwardAtk::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR ForwardAtk::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool ForwardAtk::Move()
+{
+	return false;
+}
+
+void ForwardAtk::Tick()
+{
+}
+

@@ -31,3 +31,17 @@ void TailSlam::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR TailSlam::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool TailSlam::Move()
+{
+	return false;
+}
+
+void TailSlam::Tick()
+{
+}
+

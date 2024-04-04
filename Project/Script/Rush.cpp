@@ -28,3 +28,17 @@ void Rush::OnAttackEnd()
 {
 }
 
+ANJ_MOVE_DIR Rush::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool Rush::Move()
+{
+	return false;
+}
+
+void Rush::Tick()
+{
+}
+

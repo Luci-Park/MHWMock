@@ -31,3 +31,17 @@ void Flame::OnAttackEnd()
 	Parent()->Wing(false);
 }
 
+ANJ_MOVE_DIR Flame::GetDir()
+{
+	return ANJ_MOVE_DIR();
+}
+
+bool Flame::Move()
+{
+	return false;
+}
+
+void Flame::Tick()
+{
+}
+

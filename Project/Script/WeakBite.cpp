@@ -30,3 +30,16 @@ void WeakBite::OnAttackEnd()
 	m_bDirSet = false;
 }
 
+ANJ_MOVE_DIR WeakBite::GetDir()
+{
+}
+
+bool WeakBite::Move()
+{
+	return false;
+}
+
+void WeakBite::Tick()
+{
+}
+
