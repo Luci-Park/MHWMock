@@ -249,7 +249,8 @@ void PlayerStateMachine::IsInput()
 
 void PlayerStateMachine::IsAttack(bool attack)
 {
-	_Sword->GetScript<CSwordScript>()->IsAttack(attack);
+	if (_Sword != nullptr)
+		_Sword->GetScript<CSwordScript>()->IsAttack(attack);
 }
 
 void CMainPlayerScript::BottleCharge()
