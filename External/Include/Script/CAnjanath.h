@@ -35,10 +35,9 @@ private:
 	AnjAttack*		m_pCurrentAttack;
 
 	CGameObject*	m_pPlayer;
-
+	float testangle;
 private:
 	void Aggroed();
-	void CheckPlayerPos();
 	void ChooseAttack();
 	void EnRage();
 	void Death();
@@ -57,6 +56,9 @@ public:
 	bool OnFire() { return m_pWings->IsActive(); }
 	bool HasTail() { return !m_bTailCut; }
 
+	float GetPlayerAngle();
+	float GetPlayerDist();
+	Vec3 GetPlayerPos();
 public:
 	virtual void begin() override;
 	virtual void tick() override;

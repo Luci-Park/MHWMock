@@ -14,9 +14,7 @@ public:
 	ANJ_ATTACK GetType() { return m_type; }
 
 	void AttackStart();
-	virtual ANJ_MOVE_DIR GetStartDir(CTransform* _player) = 0;
-	virtual bool Move(CTransform* _player) = 0;
-	virtual void WhileAttack(CTransform* _player) = 0;
+	virtual void AttackTick() = 0;
 	void AttackEnd();
 
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);

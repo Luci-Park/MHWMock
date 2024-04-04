@@ -35,13 +35,15 @@ private:
 	AnjAttack*		m_pCurrentAttack;
 
 	CGameObject*	m_pPlayer;
-
+	float testangle;
 private:
 	void Aggroed();
 	void ChooseAttack();
+	void StopAttack();
 	void EnRage();
 	void Death();
-	void StopAttack();
+	void CheckWing(IAnimationState* _currentState, bool _start);
+	void CheckNose(IAnimationState* _currentState, bool _start);
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
@@ -56,7 +58,9 @@ public:
 	bool OnFire() { return m_pWings->IsActive(); }
 	bool HasTail() { return !m_bTailCut; }
 
-	void CheckPlayerPos(Vec3& _dist, float& _degrees);
+	float GetPlayerAngle();
+	float GetPlayerDist();
+	Vec3 GetPlayerPos();
 public:
 	virtual void begin() override;
 	virtual void tick() override;
