@@ -1,4 +1,6 @@
 #include "AnjAttack.h"
+#include "CAnjanath.h"
+
 
 Bite::Bite(CAnjanath* _parent)
 	: AnjAttack(ANJ_ATTACK::BITE, _parent, 65)
@@ -30,14 +32,28 @@ void Bite::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR Bite::GetDir()
+ANJ_MOVE_DIR Bite::GetRepositionDir()
 {
-	return ANJ_MOVE_DIR::FRONT;
+	float angle = Parent()->GetPlayerAngle();
+	ANJ_MOVE_DIR dir = ANJ_MOVE_DIR::SMALL_TURN;
+	if (abs(angle) < 180 - 25)
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT_BACK;
+		else dir = ANJ_MOVE_DIR::RIGHT_BACK;
+	}
+	else if (abs(angle) < 90) dir = ANJ_MOVE_DIR::SMALL_TURN;
+	else
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT;
+		else dir = ANJ_MOVE_DIR::RIGHT;
+	}
+	return dir;
 }
 
 bool Bite::Move()
 {
-	return false;
+	Parent()->Animator3D()->SetInt(Parent()->turnDir, (int)ANJ_MOVE_DIR::FRONT);
+	return Parent()->GetPlayerDist() > 2410.338;
 }
 
 void Bite::Tick()

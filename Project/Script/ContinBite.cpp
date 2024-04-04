@@ -1,4 +1,6 @@
 #include "AnjAttack.h"
+#include "CAnjanath.h"
+
 
 ContinBite::ContinBite(CAnjanath* _parent)
 	: AnjAttack(ANJ_ATTACK::CONTIN_BITE, _parent, 55)
@@ -29,14 +31,27 @@ void ContinBite::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR ContinBite::GetDir()
+ANJ_MOVE_DIR ContinBite::GetRepositionDir()
 {
-	return ANJ_MOVE_DIR::FRONT;
+	float angle = Parent()->GetPlayerAngle();
+	ANJ_MOVE_DIR dir = ANJ_MOVE_DIR::SMALL_TURN;
+	if (abs(angle) < 180 - 25)
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT_BACK;
+		else dir = ANJ_MOVE_DIR::RIGHT_BACK;
+	}
+	else if (abs(angle) < 90) dir = ANJ_MOVE_DIR::SMALL_TURN;
+	else
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT;
+		else dir = ANJ_MOVE_DIR::RIGHT;
+	}
+	return dir;
 }
 
 bool ContinBite::Move()
 {
-	return false;
+	return Parent()->GetPlayerDist() > 28461.244;
 }
 
 void ContinBite::Tick()

@@ -1,4 +1,5 @@
 #include "AnjAttack.h"
+#include "CAnjanath.h"
 
 WeakBite::WeakBite(CAnjanath* _parent)
 	: AnjAttack(ANJ_ATTACK::WEAK_BITE, _parent, 30)
@@ -28,15 +29,28 @@ void WeakBite::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR WeakBite::GetDir()
+ANJ_MOVE_DIR WeakBite::GetRepositionDir()
 {
-
-	return ANJ_MOVE_DIR::FRONT;
+	float angle = Parent()->GetPlayerAngle();
+	ANJ_MOVE_DIR dir = ANJ_MOVE_DIR::SMALL_TURN;
+	if (abs(angle) < 180 - 25)
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT_BACK;
+		else dir = ANJ_MOVE_DIR::RIGHT_BACK;
+	}
+	else if (abs(angle) < 90) dir = ANJ_MOVE_DIR::SMALL_TURN;
+	else
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT;
+		else dir = ANJ_MOVE_DIR::RIGHT;
+	}
+	return dir;
 }
 
 bool WeakBite::Move()
 {
-	return false;
+	Parent()->Animator3D()->SetInt(Parent()->turnDir, (int)ANJ_MOVE_DIR::FRONT);
+	return Parent()->GetPlayerDist() > 24043.f;
 }
 
 void WeakBite::Tick()

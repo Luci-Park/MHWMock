@@ -32,7 +32,7 @@ void TailSweep::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR TailSweep::GetDir()
+ANJ_MOVE_DIR TailSweep::GetRepositionDir()
 {
 	return ANJ_MOVE_DIR::FRONT;
 }

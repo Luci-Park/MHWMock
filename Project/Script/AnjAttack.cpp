@@ -25,7 +25,7 @@ void AnjAttack::AttackTick()
 {
 	if (m_State == ATK_STATE::DIR)
 	{
-		m_pParent->Animator3D()->SetInt(m_pParent->turnDir, (int)GetDir());
+		m_pParent->Animator3D()->SetInt(m_pParent->turnDir, (int)GetRepositionDir());
 		m_State = ATK_STATE::MOVE;
 	}
 	if (m_State == ATK_STATE::MOVE)

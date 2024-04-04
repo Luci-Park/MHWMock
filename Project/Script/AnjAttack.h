@@ -28,7 +28,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart) = 0;
 	virtual void OnAttackStart() = 0;
 	virtual void OnAttackEnd() = 0;
-	virtual ANJ_MOVE_DIR GetDir() = 0;
+	virtual ANJ_MOVE_DIR GetRepositionDir() = 0;
 	virtual bool Move() = 0;
 	virtual void Tick() = 0;
 
@@ -47,7 +47,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart()override;
 	virtual void OnAttackEnd() override;
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -63,7 +63,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -79,7 +79,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -95,7 +95,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -112,7 +112,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -128,7 +128,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -144,7 +144,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -160,7 +160,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -176,7 +176,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:
@@ -192,7 +192,7 @@ protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
 	virtual void OnAttackEnd();
-	virtual ANJ_MOVE_DIR GetDir() override;
+	virtual ANJ_MOVE_DIR GetRepositionDir() override;
 	virtual bool Move() override;
 	virtual void Tick() override;
 public:

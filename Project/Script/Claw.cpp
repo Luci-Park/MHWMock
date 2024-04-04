@@ -30,7 +30,7 @@ void Claw::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR Claw::GetDir()
+ANJ_MOVE_DIR Claw::GetRepositionDir()
 {
 	return ANJ_MOVE_DIR::FRONT;
 }

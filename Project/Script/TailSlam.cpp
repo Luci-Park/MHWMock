@@ -31,7 +31,7 @@ void TailSlam::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR TailSlam::GetDir()
+ANJ_MOVE_DIR TailSlam::GetRepositionDir()
 {
 	return ANJ_MOVE_DIR::FRONT;
 }

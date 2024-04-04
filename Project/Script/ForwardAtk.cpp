@@ -1,4 +1,6 @@
 #include "AnjAttack.h"
+#include "CAnjanath.h"
+
 
 ForwardAtk::ForwardAtk(CAnjanath* _parent)
 	: AnjAttack(ANJ_ATTACK::FORWARD, _parent, 50)
@@ -29,14 +31,27 @@ void ForwardAtk::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR ForwardAtk::GetDir()
+ANJ_MOVE_DIR ForwardAtk::GetRepositionDir()
 {
-	return ANJ_MOVE_DIR::FRONT;
+	float angle = Parent()->GetPlayerAngle();
+	ANJ_MOVE_DIR dir = ANJ_MOVE_DIR::SMALL_TURN;
+	if (abs(angle) < 180 - 25)
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT_BACK;
+		else dir = ANJ_MOVE_DIR::RIGHT_BACK;
+	}
+	else if (abs(angle) < 90) dir = ANJ_MOVE_DIR::SMALL_TURN;
+	else
+	{
+		if (angle < 0) dir = ANJ_MOVE_DIR::LEFT;
+		else dir = ANJ_MOVE_DIR::RIGHT;
+	}
+	return dir;
 }
 
 bool ForwardAtk::Move()
 {
-	return false;
+	return Parent()->GetPlayerDist() > 46908.770;
 }
 
 void ForwardAtk::Tick()

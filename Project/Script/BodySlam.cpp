@@ -30,7 +30,7 @@ void BodySlam::OnAttackEnd()
 {
 }
 
-ANJ_MOVE_DIR BodySlam::GetDir()
+ANJ_MOVE_DIR BodySlam::GetRepositionDir()
 {
 	return ANJ_MOVE_DIR::FRONT;
 }

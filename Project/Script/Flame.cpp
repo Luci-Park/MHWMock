@@ -31,7 +31,7 @@ void Flame::OnAttackEnd()
 	Parent()->Wing(false);
 }
 
-ANJ_MOVE_DIR Flame::GetDir()
+ANJ_MOVE_DIR Flame::GetRepositionDir()
 {
 	return ANJ_MOVE_DIR::FRONT;
 }
