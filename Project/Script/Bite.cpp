@@ -32,7 +32,7 @@ void Bite::OnAttackEnd()
 
 ANJ_MOVE_DIR Bite::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool Bite::Move()

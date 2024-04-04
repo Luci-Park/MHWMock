@@ -33,7 +33,7 @@ void TailSlam::OnAttackEnd()
 
 ANJ_MOVE_DIR TailSlam::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool TailSlam::Move()

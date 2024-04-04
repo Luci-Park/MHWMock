@@ -31,7 +31,7 @@ void ForwardAtk::OnAttackEnd()
 
 ANJ_MOVE_DIR ForwardAtk::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool ForwardAtk::Move()

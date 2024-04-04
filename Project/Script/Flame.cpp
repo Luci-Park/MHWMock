@@ -33,7 +33,7 @@ void Flame::OnAttackEnd()
 
 ANJ_MOVE_DIR Flame::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool Flame::Move()

@@ -34,7 +34,7 @@ void TailSweep::OnAttackEnd()
 
 ANJ_MOVE_DIR TailSweep::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool TailSweep::Move()

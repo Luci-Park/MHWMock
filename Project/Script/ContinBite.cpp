@@ -31,7 +31,7 @@ void ContinBite::OnAttackEnd()
 
 ANJ_MOVE_DIR ContinBite::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool ContinBite::Move()

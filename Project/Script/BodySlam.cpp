@@ -32,7 +32,7 @@ void BodySlam::OnAttackEnd()
 
 ANJ_MOVE_DIR BodySlam::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool BodySlam::Move()

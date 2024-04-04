@@ -30,7 +30,7 @@ void Rush::OnAttackEnd()
 
 ANJ_MOVE_DIR Rush::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool Rush::Move()

@@ -31,7 +31,7 @@ void Claw::OnAttackEnd()
 
 ANJ_MOVE_DIR Claw::GetDir()
 {
-	return ANJ_MOVE_DIR();
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool Claw::Move()

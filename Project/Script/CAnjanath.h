@@ -45,6 +45,7 @@ private:
 	void Death();
 	void CheckWing(IAnimationState* _currentState, bool _start);
 	void CheckNose(IAnimationState* _currentState, bool _start);
+	void LookAt();
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);

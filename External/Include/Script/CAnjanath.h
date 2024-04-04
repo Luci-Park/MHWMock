@@ -11,6 +11,7 @@ class CAnjanath :
 private:
 	const int m_iMaxHP;
 	const int m_iMaxRage;
+public:
 	const wstring aggroed;//bool
 	const wstring turnDir;//int
 	const wstring stopMove;//trigger
@@ -39,9 +40,12 @@ private:
 private:
 	void Aggroed();
 	void ChooseAttack();
+	void StopAttack();
 	void EnRage();
 	void Death();
-	void StopAttack();
+	void CheckWing(IAnimationState* _currentState, bool _start);
+	void CheckNose(IAnimationState* _currentState, bool _start);
+	void LookAt();
 public:
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);

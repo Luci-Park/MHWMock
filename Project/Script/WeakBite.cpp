@@ -22,16 +22,16 @@ int WeakBite::DamageContribution(SCRIPT_TYPE _attackPart)
 
 void WeakBite::OnAttackStart()
 {
-	m_bDirSet = false;
 }
 
 void WeakBite::OnAttackEnd()
 {
-	m_bDirSet = false;
 }
 
 ANJ_MOVE_DIR WeakBite::GetDir()
 {
+
+	return ANJ_MOVE_DIR::FRONT;
 }
 
 bool WeakBite::Move()

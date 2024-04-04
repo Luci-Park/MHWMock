@@ -31,6 +31,16 @@ CAnjanath::CAnjanath()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &testangle, "Angle");
 }
 
+float Angles(const Vector3& v1, const Vector3& v2)
+{
+	float dot = v1.Dot(v2);
+	float magprod = v1.Length() * v2.Length();
+	if (magprod == 0.0) return 0.0;
+	float cosAng = dot / magprod;
+	float rad = acos(cosAng);
+	return XMConvertToDegrees(rad);
+}
+
 CAnjanath::~CAnjanath()
 {
 	delete m_pAttackPicker;
@@ -39,17 +49,26 @@ CAnjanath::~CAnjanath()
 void CAnjanath::Aggroed()
 {
 	Animator3D()->SetBool(aggroed, true);
-	float angle = GetPlayerAngle();
-	//if at front
-	//if at left = left
-	//if at back = left back
-	//if at right = right
-	// if small, small and instant rotate
+	ANJ_MOVE_DIR dir;
+	Vector3 front = Transform()->GetWorldDir(DIR_TYPE::FRONT) * -1;
+	Vector3 playerDir = (m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos()).Normalize();
+	float angle = Angles(front, playerDir);
+	if (angle <= 10)
+		dir = ANJ_MOVE_DIR::FRONT;
+	else if (angle <= 45)
+		dir = ANJ_MOVE_DIR::SMALL_TURN;
+	else if (front.Cross(playerDir).y > 0)//right
+		dir = ANJ_MOVE_DIR::RIGHT;
+	else
+		dir = ANJ_MOVE_DIR::LEFT;
+
+	Animator3D()->SetInt(turnDir, (int)dir);
 }
 
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(aggroed, false);
+
 	return;
 	m_pNose->SetActive(false);
 	m_pWings->SetActive(false);
@@ -57,6 +76,9 @@ void CAnjanath::begin()
 
 void CAnjanath::tick()
 {
+	Aggroed();
+	Animator3D()->SetInt(hp, m_iHP);
+
 	//testangle = GetPlayerAngle();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
@@ -100,6 +122,7 @@ void CAnjanath::CheckWing(IAnimationState* _currentState, bool _start)
 	{
 		for (int i = 0; i < startanims.size(); i++)
 		{
+			if (_currentState->GetClip() == nullptr) continue;
 			if (startanims[i] == _currentState->GetClip()->GetKey()) 
 			{
 				Wing(true);
@@ -111,6 +134,7 @@ void CAnjanath::CheckWing(IAnimationState* _currentState, bool _start)
 	{
 		for (int i = 0; i < endanims.size(); i++)
 		{
+			if (_currentState->GetClip() == nullptr) continue;
 			if (endanims[i] == _currentState->GetClip()->GetKey())
 			{
 				Wing(false);
@@ -128,6 +152,7 @@ void CAnjanath::CheckNose(IAnimationState* _currentState, bool _start)
 	{
 		for (int i = 0; i < startanims.size(); i++)
 		{
+			if (_currentState->GetClip() == nullptr) continue;
 			if (startanims[i] == _currentState->GetClip()->GetKey())
 			{
 				Nose(true);
@@ -139,6 +164,7 @@ void CAnjanath::CheckNose(IAnimationState* _currentState, bool _start)
 	{
 		for (int i = 0; i < endanims.size(); i++)
 		{
+			if (_currentState->GetClip() == nullptr) continue;
 			if (endanims[i] == _currentState->GetClip()->GetKey())
 			{
 				Nose(false);
@@ -146,6 +172,14 @@ void CAnjanath::CheckNose(IAnimationState* _currentState, bool _start)
 			}
 		}
 	}
+}
+
+void CAnjanath::LookAt()
+{
+	Matrix mat = Matrix::CreateLookAt(Transform()->GetWorldPos(), m_pPlayer->Transform()->GetWorldPos(), Transform()->GetWorldDir(DIR_TYPE::UP));
+	Vector3 scale, pos; Quaternion rot;
+	mat.Decompose(scale, rot, pos);
+	Transform()->SetRelativeRot(rot);
 }
 
 void CAnjanath::StopAttack()
@@ -232,12 +266,14 @@ float CAnjanath::GetPlayerAngle()
 	float radian = std::atan2(cross, dot);
 
 	float degrees = XMConvertToDegrees(radian);
+	degrees = (degrees - 180) * -1;
 
-	// Adjust degrees to be between -180 and 180
-	while (degrees > 180.0f)
-		degrees -= 360.0f;
-	while (degrees < -180.0f)
-		degrees += 360.0f;
+	if (forward.Cross(direction).y > 0)
+	{
+		degrees += 180;
+	}
+	while (degrees >= 360)
+		degrees -= 360;
 	return degrees;
 }
 
@@ -253,11 +289,18 @@ Vec3 CAnjanath::GetPlayerPos()
 
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 {
+	CheckWing(_pState, true);
+	CheckNose(_pState, true);
+
 	if (_pState->GetType() == eAnimationNodeType::StateMachine && _pState->GetName() == L"Attack")	ChooseAttack();
+	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Move")	LookAt();
+	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Rotate Time") LookAt();
 }
 
 void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
 {
+	CheckWing(_pState, false);
+	CheckNose(_pState, false);
 	if (_pState->GetType() == eAnimationNodeType::StateMachine && _pState->GetName() == L"Attack")StopAttack();
 }
 
