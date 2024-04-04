@@ -27,7 +27,8 @@ CAnjanath::CAnjanath()
 {
 	m_pAttackPicker = new AnjAttackPicker(this);
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose1, "Nose1");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose2, "Nose2");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
 }
 
@@ -68,10 +69,8 @@ void CAnjanath::Aggroed()
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(aggroed, false);
-
-	return;
-	m_pNose->SetActive(false);
-	m_pWings->SetActive(false);
+	Nose(false);
+	Wing(false);
 }
 
 void CAnjanath::tick()
@@ -107,8 +106,8 @@ void CAnjanath::EnRage()
 
 void CAnjanath::Death()
 {
-	m_pNose->SetActive(false);
-	m_pWings->SetActive(false);
+	Nose(false);
+	Wing(false);
 }
 
 void CAnjanath::CheckWing(IAnimationState* _currentState, bool _start)
@@ -241,14 +240,13 @@ void CAnjanath::BodyShot()
 
 void CAnjanath::Nose(bool _show)
 {
-	if(m_pNose)
-		m_pNose->SetActive(_show);
+	m_pNose1->SetActive(_show);
+	m_pNose2->SetActive(_show);
 }
 
 void CAnjanath::Wing(bool _show)
 {
-	if(m_pWings)
-		m_pWings->SetActive(_show);
+	m_pWings->SetActive(_show);
 }
 
 float CAnjanath::GetPlayerAngle()
@@ -296,7 +294,8 @@ void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
 void CAnjanath::SaveToLevelFile(FILE* _File)
 {
 	SaveGameObjectParam(m_pPlayer, _File);
-	SaveGameObjectParam(m_pNose, _File);
+	SaveGameObjectParam(m_pNose1, _File);
+	SaveGameObjectParam(m_pNose2, _File);
 	SaveGameObjectParam(m_pWings, _File);
 }
 
@@ -305,4 +304,5 @@ void CAnjanath::LoadFromLevelFile(FILE* _File)
 	LoadGameObjectParam(0, _File);
 	LoadGameObjectParam(1, _File);
 	LoadGameObjectParam(2, _File);
+	LoadGameObjectParam(3, _File);
 }

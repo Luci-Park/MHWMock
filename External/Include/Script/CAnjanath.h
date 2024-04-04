@@ -30,7 +30,8 @@ private:
 	bool			m_bTailCut;
 	bool m_bMove;
 
-	CGameObject* m_pNose;
+	CGameObject* m_pNose1;
+	CGameObject* m_pNose2;
 	CGameObject* m_pWings;
 
 	AnjAttackPicker* m_pAttackPicker;
