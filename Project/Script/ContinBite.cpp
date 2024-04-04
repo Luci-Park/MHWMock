@@ -11,12 +11,8 @@ ContinBite::~ContinBite()
 
 bool ContinBite::Attackable()
 {
-	//if front (45 ~ 135)
-	return false;
-}
-
-void ContinBite::AttackTick()
-{
+	//안 맞으면 맞추는 타입
+	return true;
 }
 
 int ContinBite::DamageContribution(SCRIPT_TYPE _attackPart)

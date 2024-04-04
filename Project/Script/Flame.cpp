@@ -10,6 +10,12 @@ Flame::~Flame()
 {
 }
 
+bool Flame::Attackable()
+{
+	//fire stat
+	return false;
+}
+
 int Flame::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower() * (SCRIPT_TYPE::ANJANATHFIRE == _attackPart);

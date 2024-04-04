@@ -9,6 +9,12 @@ Claw::~Claw()
 {
 }
 
+bool Claw::Attackable()
+{
+	//if behind and near
+	return false;
+}
+
 int Claw::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower() * (SCRIPT_TYPE::ANJANATHLEG == _attackPart);

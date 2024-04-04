@@ -10,6 +10,12 @@ BodySlam::~BodySlam()
 {
 }
 
+bool BodySlam::Attackable()
+{
+	//if left and near
+	return false;
+}
+
 int BodySlam::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower() * (SCRIPT_TYPE::ANJANATHBODY == _attackPart);

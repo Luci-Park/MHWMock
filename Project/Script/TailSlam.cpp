@@ -10,6 +10,12 @@ TailSlam::~TailSlam()
 {
 }
 
+bool TailSlam::Attackable()
+{
+	//if behind and in range(45~)
+	return false;
+}
+
 int TailSlam::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	if (SCRIPT_TYPE::ANJANATHTAIL != _attackPart) return 0;

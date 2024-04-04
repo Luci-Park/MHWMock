@@ -9,6 +9,12 @@ ForwardAtk::~ForwardAtk()
 {
 }
 
+bool ForwardAtk::Attackable()
+{
+	//any time
+	return true;
+}
+
 int ForwardAtk::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower() * (SCRIPT_TYPE::ANJANATHHEAD == _attackPart);

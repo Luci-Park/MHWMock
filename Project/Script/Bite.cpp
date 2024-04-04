@@ -11,13 +11,10 @@ Bite::~Bite()
 
 bool Bite::Attackable()
 {
-	//if front and not back(0~180도) true
-	return false;
+	//안 맞으면 맞추는 타입
+	return true;
 }
 
-void Bite::AttackTick()
-{
-}
 
 int Bite::DamageContribution(SCRIPT_TYPE _attackPart)
 {

@@ -9,6 +9,11 @@ Rush::~Rush()
 {
 }
 
+bool Rush::Attackable()
+{
+	return true;
+}
+
 int Rush::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower();

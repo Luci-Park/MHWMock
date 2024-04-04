@@ -11,15 +11,8 @@ WeakBite::~WeakBite()
 
 bool WeakBite::Attackable()
 {
-	//true if near(위치만 맞으면 됨)
-	return false;
-}
-
-void WeakBite::AttackTick()
-{
-	if (m_bDirSet) return;
-	m_bDirSet = true;
-	//set dir
+	//안 맞으면 맞추는 타입
+	return true;
 }
 
 int WeakBite::DamageContribution(SCRIPT_TYPE _attackPart)
