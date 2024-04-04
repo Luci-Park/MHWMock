@@ -26,10 +26,9 @@ CAnjanath::CAnjanath()
 	, m_bMove(false)
 {
 	m_pAttackPicker = new AnjAttackPicker(this);
-	//AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
-	//AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pPlayer, "Player");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &testangle, "Angle");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pWings, "Wing");
 }
 
 float Angles(const Vector3& v1, const Vector3& v2)
@@ -78,7 +77,6 @@ void CAnjanath::begin()
 void CAnjanath::tick()
 {
 	Animator3D()->SetInt(hp, m_iHP);
-	testangle = GetPlayerAngle();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
 	if (m_pCurrentAttack) m_pCurrentAttack->AttackTick(); // set dir, Move
@@ -261,26 +259,6 @@ float CAnjanath::GetPlayerAngle()
 	if (front.Cross(playerDir).y > 0)//left
 		angles *= -1;
 	return angles;
-	//Vec3 playerPos = m_pPlayer->Transform()->GetWorldPos();
-	//Vec3 selfPos = Transform()->GetWorldPos();
-	//Vec3 forward = Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	//Vec3 direction = playerPos - selfPos;
-	//direction.Normalize();
-	//
-	//float dot = forward.Dot(direction);
-	//float cross = forward.Cross(direction).Length();
-	//float radian = std::atan2(cross, dot);
-	//
-	//float degrees = XMConvertToDegrees(radian);
-	//degrees = (degrees - 180) * -1;
-	//
-	//if (forward.Cross(direction).y > 0)
-	//{
-	//	degrees += 180;
-	//}
-	//while (degrees >= 360)
-	//	degrees -= 360;
-	//return degrees;
 }
 
 float CAnjanath::GetPlayerDist()
@@ -318,9 +296,13 @@ void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
 void CAnjanath::SaveToLevelFile(FILE* _File)
 {
 	SaveGameObjectParam(m_pPlayer, _File);
+	SaveGameObjectParam(m_pNose, _File);
+	SaveGameObjectParam(m_pWings, _File);
 }
 
 void CAnjanath::LoadFromLevelFile(FILE* _File)
 {
 	LoadGameObjectParam(0, _File);
+	LoadGameObjectParam(1, _File);
+	LoadGameObjectParam(2, _File);
 }

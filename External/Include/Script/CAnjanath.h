@@ -37,7 +37,6 @@ private:
 	AnjAttack*		m_pCurrentAttack;
 
 	CGameObject*	m_pPlayer;
-	float testangle;
 private:
 	void Aggroed();
 	void ChooseAttack();
