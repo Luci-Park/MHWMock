@@ -13,7 +13,7 @@ TailSweep::~TailSweep()
 bool TailSweep::Attackable()
 {
 	//if in range and behind(0 ~ 180)
-	return false;
+	return (abs(Parent()->GetPlayerAngle()) > 90.f && Parent()->GetPlayerDist() < 17133.066);
 }
 
 int TailSweep::DamageContribution(SCRIPT_TYPE _attackPart)

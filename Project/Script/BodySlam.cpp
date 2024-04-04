@@ -13,7 +13,7 @@ BodySlam::~BodySlam()
 bool BodySlam::Attackable()
 {
 	//if left and near
-	return false;
+	return abs(Parent()->GetPlayerAngle() <= 0 && Parent()->GetPlayerDist() < 13682.726);
 }
 
 int BodySlam::DamageContribution(SCRIPT_TYPE _attackPart)

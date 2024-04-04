@@ -1,4 +1,5 @@
 #include "AnjAttack.h"
+#include "CAnjanath.h"
 
 Claw::Claw(CAnjanath* _parent)
 	: AnjAttack(ANJ_ATTACK::CLAW, _parent, 20)
@@ -12,7 +13,7 @@ Claw::~Claw()
 bool Claw::Attackable()
 {
 	//if behind and near
-	return false;
+	return (abs(Parent()->GetPlayerAngle()) > 135.f && Parent()->GetPlayerDist() < 9162);
 }
 
 int Claw::DamageContribution(SCRIPT_TYPE _attackPart)

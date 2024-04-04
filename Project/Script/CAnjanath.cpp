@@ -78,7 +78,7 @@ void CAnjanath::begin()
 void CAnjanath::tick()
 {
 	Animator3D()->SetInt(hp, m_iHP);
-	//testangle = GetPlayerAngle();
+	testangle = GetPlayerAngle();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
 	if (m_pCurrentAttack) m_pCurrentAttack->AttackTick(); // set dir, Move
@@ -255,31 +255,37 @@ void CAnjanath::Wing(bool _show)
 
 float CAnjanath::GetPlayerAngle()
 {
-	Vec3 playerPos = m_pPlayer->Transform()->GetWorldPos();
-	Vec3 selfPos = Transform()->GetWorldPos();
-	Vec3 forward = Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	Vec3 direction = playerPos - selfPos;
-	direction.Normalize();
-
-	float dot = forward.Dot(direction);
-	float cross = forward.Cross(direction).Length();
-	float radian = std::atan2(cross, dot);
-
-	float degrees = XMConvertToDegrees(radian);
-	degrees = (degrees - 180) * -1;
-
-	if (forward.Cross(direction).y > 0)
-	{
-		degrees += 180;
-	}
-	while (degrees >= 360)
-		degrees -= 360;
-	return degrees;
+	Vector3 front = Transform()->GetWorldDir(DIR_TYPE::FRONT) * -1;
+	Vector3 playerDir = (m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos()).Normalize();
+	float angles = Angles(front, playerDir);
+	if (front.Cross(playerDir).y > 0)//left
+		angles *= -1;
+	return angles;
+	//Vec3 playerPos = m_pPlayer->Transform()->GetWorldPos();
+	//Vec3 selfPos = Transform()->GetWorldPos();
+	//Vec3 forward = Transform()->GetWorldDir(DIR_TYPE::FRONT);
+	//Vec3 direction = playerPos - selfPos;
+	//direction.Normalize();
+	//
+	//float dot = forward.Dot(direction);
+	//float cross = forward.Cross(direction).Length();
+	//float radian = std::atan2(cross, dot);
+	//
+	//float degrees = XMConvertToDegrees(radian);
+	//degrees = (degrees - 180) * -1;
+	//
+	//if (forward.Cross(direction).y > 0)
+	//{
+	//	degrees += 180;
+	//}
+	//while (degrees >= 360)
+	//	degrees -= 360;
+	//return degrees;
 }
 
 float CAnjanath::GetPlayerDist()
 {
-	return (m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos()).Length();
+	return Vec3::Distance(m_pPlayer->Transform()->GetWorldPos(), Transform()->GetWorldPos());
 }
 
 Vec3 CAnjanath::GetPlayerPos()

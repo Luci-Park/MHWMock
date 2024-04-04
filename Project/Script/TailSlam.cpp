@@ -13,7 +13,7 @@ TailSlam::~TailSlam()
 bool TailSlam::Attackable()
 {
 	//if behind and in range(45~)
-	return false;
+	return (abs(Parent()->GetPlayerAngle()) > 90.f && Parent()->GetPlayerDist() < 17133.066);
 }
 
 int TailSlam::DamageContribution(SCRIPT_TYPE _attackPart)
