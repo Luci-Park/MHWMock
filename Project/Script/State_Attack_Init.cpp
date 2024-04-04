@@ -1644,6 +1644,8 @@ void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 	//Rolling
 	if (KEY_TAP(KEY::SPACE))
 	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Rolling");
 	}
 
@@ -1982,6 +1984,8 @@ void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 		//Rolling
 		if (KEY_TAP(KEY::SPACE))
 		{
+			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+			ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 			StateMachine->ChangeState(L"Wp_AXE_Rolling");
 		}
 	}
@@ -2208,6 +2212,8 @@ void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine*
 	//Rolling
 	if (KEY_TAP(KEY::SPACE))
 	{
+		ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Rolling");
 	}
 	if (duration > 0.3 && _IsPlayed == false)
@@ -2408,6 +2414,7 @@ void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, 
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
 		StateMachine->ChangeScriptParam(L"Super_Bust_Attack", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 }
@@ -2474,6 +2481,8 @@ void ST_PLAYER_BUST_ATTACK::OnAnimationBegin(IAnimationState* _pState, PlayerSta
 	if (_pState->GetName() == L"bust_Attack_End")
 	{
 		_SubPlayed = true;
+		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeScriptParam(L"IsAxe", AnimParamType::BOOL, A_FALSE);
 	}
 }
 
@@ -2489,7 +2498,6 @@ void ST_PLAYER_BUST_ATTACK::OnAnimationEndStart(IAnimationState* _pState, Player
 			ChangeASTMParam(StateMachine, L"Bust", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsAxe", A_FALSE);
-			StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
 }

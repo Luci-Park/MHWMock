@@ -1194,7 +1194,6 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-			StateMachine->ChangeState(L"N_Idle");
 		}
 
 		if (KEY_TAP(KEY::SPACE))
@@ -1342,7 +1341,12 @@ void ST_PLAYER_WP_MOVE_Forward::OnAnimationBegin(IAnimationState* _pState, Playe
 }
 void ST_PLAYER_WP_MOVE_Forward::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		SoundPlay(L"sound\\Player\\08(Wp_off_End).mp3", 0.5f);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_MOVE_Forward::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1384,7 +1388,6 @@ void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* State
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-			StateMachine->ChangeState(L"N_Idle");
 		}
 
 		if (KEY_TAP(KEY::SPACE))
@@ -1532,7 +1535,12 @@ void ST_PLAYER_WP_MOVE_Left::OnAnimationBegin(IAnimationState* _pState, PlayerSt
 }
 void ST_PLAYER_WP_MOVE_Left::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		SoundPlay(L"sound\\Player\\08(Wp_off_End).mp3", 0.5f);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_MOVE_Left::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1575,7 +1583,6 @@ void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* Stat
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-			StateMachine->ChangeState(L"N_Idle");
 		}
 
 		if (KEY_TAP(KEY::SPACE))
@@ -1724,7 +1731,12 @@ void ST_PLAYER_WP_MOVE_Right::OnAnimationBegin(IAnimationState* _pState, PlayerS
 }
 void ST_PLAYER_WP_MOVE_Right::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		SoundPlay(L"sound\\Player\\08(Wp_off_End).mp3", 0.5f);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_MOVE_Right::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1768,7 +1780,6 @@ void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* S
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
-			StateMachine->ChangeState(L"N_Idle");
 		}
 
 		if (KEY_TAP(KEY::SPACE))
@@ -1914,7 +1925,12 @@ void ST_PLAYER_WP_MOVE_Backward::OnAnimationBegin(IAnimationState* _pState, Play
 }
 void ST_PLAYER_WP_MOVE_Backward::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-
+	if (_pState->GetName() == L"Wp_Off")
+	{
+		SoundPlay(L"sound\\Player\\08(Wp_off_End).mp3", 0.5f);
+		StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
+		StateMachine->ChangeState(L"N_Idle");
+	}
 }
 void ST_PLAYER_WP_MOVE_Backward::OnAnimationEndFinished(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {

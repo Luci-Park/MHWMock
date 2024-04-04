@@ -13,9 +13,9 @@ CSwordScript::CSwordScript()
 
 CSwordScript::~CSwordScript()
 {
-	_Player = nullptr;
-	_MainBone = nullptr;
-	_SubBone = nullptr;
+	//_Player = nullptr;
+	//_MainBone = nullptr;
+	//_SubBone = nullptr;
 }
 
 void CSwordScript::begin()
