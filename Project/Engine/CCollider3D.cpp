@@ -22,6 +22,7 @@ CCollider3D::CCollider3D()
 	, m_pMaterial(nullptr)
 	, m_pRigidActor(nullptr)
 	, m_pShape(nullptr)
+	, m_bGround(false)
 {
 }
 
@@ -96,32 +97,36 @@ void CCollider3D::CreateRigidActor()
 		m_pRigidActor->is<PxRigidDynamic>()->setMass(0.0f);
 	}
 	else
+	{
 		m_pRigidActor = CPhysXMgr::GetInst()->GetPxPhysics()->createRigidStatic(physx::PxTransform(pxPos, pxQuat));
-	
 
+		//m_pRigidActor->is<PxRigidBody>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+	}
+	
+	
 	PxMaterial* material = CPhysXMgr::GetInst()->GetPxPhysics()->createMaterial(0.0f, 0.0f, 0.0f);
 	m_pShape->setMaterials(&material, 1);
 
 	m_pUserData.pCollider = this;
-	m_pUserData.bGround = false;
+	m_pUserData.bGround = m_bGround;
 
 	m_pRigidActor->userData = (void*)&m_pUserData;
-	
+
 
 	// 물체의 회전 관련 속성 비활성화
 	// SetFilterData.
 	UINT iLayerIdx = GetOwner()->GetLayerIndex();
 	PxFilterData filter = CPhysXMgr::GetInst()->GetPxFilterData(iLayerIdx);
 	m_pShape->setSimulationFilterData(filter);
-
 	m_pShape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+
 
 	m_pRigidActor->attachShape(*m_pShape);
 
-	{	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
-
+	if (m_eActorType == ACTOR_TYPE::DYNAMIC)
+	{
 		m_pRigidActor->is<PxRigidDynamic>()->setMass(1.f);
-		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY,true);
+		m_pRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
 	}
 }
 
@@ -322,6 +327,13 @@ void CCollider3D::UpdateActorInfo()
 }
 
 
+void CCollider3D::SetGround(bool _Ground)
+{
+	m_bGround = _Ground;
+	((pPXUSERDATA)(m_pRigidActor->userData))->bGround = m_bGround;
+
+}
+
 void CCollider3D::OnCollisionEnter(CCollider3D* _Other)
 {
 	m_iCollisionCount += 1;
@@ -357,12 +369,12 @@ void CCollider3D::OnCollisionExit(CCollider3D* _Other)
 
 void CCollider3D::OnTriggerEnter(CCollider3D* _Other)
 {
-	
+	int a = 0;
 }
 
 void CCollider3D::OnTriggerExit(CCollider3D* _Other)
 {
-	
+	int a = 0;
 }
 
 void CCollider3D::SaveToLevelFile(FILE* _File)
@@ -372,6 +384,7 @@ void CCollider3D::SaveToLevelFile(FILE* _File)
 	fwrite(&m_ShapeType, sizeof(UINT), 1, _File);
 	fwrite(&m_eActorType, sizeof(UINT), 1, _File);
 	fwrite(&m_iCollisionCount, sizeof(int), 1, _File);
+	fwrite(&m_bGround, sizeof(bool), 1, _File);
 }
 
 void CCollider3D::LoadFromLevelFile(FILE* _File)
@@ -381,6 +394,7 @@ void CCollider3D::LoadFromLevelFile(FILE* _File)
 	fread(&m_ShapeType, sizeof(UINT), 1, _File);
 	fread(&m_eActorType, sizeof(UINT), 1, _File);
 	fread(&m_iCollisionCount, sizeof(int), 1, _File);
+	fread(&m_bGround, sizeof(bool), 1, _File);
 }
 
 

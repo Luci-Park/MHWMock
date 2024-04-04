@@ -11,6 +11,7 @@ private:
     bool    _Gravity;
     bool    _EditSize;
     bool    _GravityFlag;
+    bool    _Ground;
     
     float   _Radius;
     float   _HalfHeight;

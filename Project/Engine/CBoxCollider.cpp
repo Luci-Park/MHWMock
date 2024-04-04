@@ -68,7 +68,6 @@ void CBoxCollider::CreateColliderShape()
 
 	//Create BoxShape
 	m_pShape = CPhysXMgr::GetInst()->GetPxPhysics()->createShape(physx::PxBoxGeometry(vHalfExtent), *m_pMaterial, true);
-
 	AddRigidActor();
 
 	
