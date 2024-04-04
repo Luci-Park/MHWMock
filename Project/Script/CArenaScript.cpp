@@ -27,19 +27,19 @@ CArenaScript::~CArenaScript()
 
 void CArenaScript::begin()
 {
-	CResMgr::GetInst()->FindRes<CSound>(L"sound\\2-13 Arena Large Monsters Abound.mp3")->Play(100, 1.0, true);
+	//CResMgr::GetInst()->FindRes<CSound>(L"sound\\2-13 Arena Large Monsters Abound.mp3")->Play(100, 1.0, true);
 
 }
 
 void CArenaScript::tick()
 {
 
-	m_fTime += DT;
+	/*m_fTime += DT;
 	
 	if (m_fTime > 10.0f && !m_bComplete)
 	{
 		CompleteQuest();
-	}
+	}*/
 	
 }
 
