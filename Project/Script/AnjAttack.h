@@ -13,6 +13,7 @@ private:
 public:
 	ANJ_ATTACK GetType() { return m_type; }
 
+	virtual bool Attackable() = 0;
 	void AttackStart();
 	virtual void AttackTick() = 0;
 	void AttackEnd();
