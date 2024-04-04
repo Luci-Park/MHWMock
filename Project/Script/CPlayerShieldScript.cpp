@@ -107,6 +107,22 @@ void CPlayerShieldScript::OnTriggerExit(CCollider3D* _Other)
 {
 }
 
+void CPlayerShieldScript::SaveToLevelFile(FILE* _File)
+{
+	SaveGameObjectParam(m_pPlayer, _File);
+	SaveGameObjectParam(m_pLeftBone, _File);
+	SaveGameObjectParam(m_pRightBone, _File);
+	SaveGameObjectParam(m_pBackBone, _File);
+}
+
+void CPlayerShieldScript::LoadFromLevelFile(FILE* _FILE)
+{
+	LoadGameObjectParam(0, _FILE);
+	LoadGameObjectParam(1, _FILE);
+	LoadGameObjectParam(2, _FILE);
+	LoadGameObjectParam(3, _FILE);
+}
+
 void CPlayerShieldScript::ChangeParent(HandDir _HandDir)
 {
 	if (m_pLeftBone == nullptr || m_pRightBone == nullptr || m_pBackBone == nullptr)
@@ -165,10 +181,5 @@ void CPlayerShieldScript::SetASTMParam(std::wstring paramID, AnimParamType type,
 AnimParamUnion CPlayerShieldScript::GetASTMParam(std::wstring paramID)
 {
 	return _ASTM->GetParamByName(paramID)->value;
-}
-
-void CPlayerShieldScript::IsAttack(bool isattack)
-{
-
 }
 

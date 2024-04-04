@@ -24,7 +24,7 @@ private:
     CGameObject* m_pBackBone;
 
     HandDir         m_eHandDir;
-
+    bool            m_IsAttack;
 public:
     virtual void begin();
     virtual void tick();
@@ -40,13 +40,16 @@ public:
     virtual void OnAnimationEndStart(IAnimationState* _pState) {}
     virtual void OnAnimationEndFinished(IAnimationState* _pState) {}
 
+    virtual void SaveToLevelFile(FILE* _File) override;
+    virtual void LoadFromLevelFile(FILE* _FILE) override;
 public:
     void ChangeParent(HandDir _HandDir);
 
 public:
     void SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
     AnimParamUnion GetASTMParam(std::wstring paramID);
-
+    void IsAttack(bool isattack) { m_IsAttack = isattack; }
+    void IsShieldAttack(bool isattack) { m_IsAttack = isattack; }
 public:
     CPlayerShieldScript();
     ~CPlayerShieldScript();

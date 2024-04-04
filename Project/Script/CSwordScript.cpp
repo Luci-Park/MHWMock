@@ -101,11 +101,16 @@ void CSwordScript::OnAnimationEndFinished(IAnimationState* _pState)
 
 void CSwordScript::SaveToLevelFile(FILE* _File)
 {
+	SaveGameObjectParam(_Player, _File);
+	SaveGameObjectParam(_MainBone, _File);
+	SaveGameObjectParam(_SubBone, _File);
 }
 
 void CSwordScript::LoadFromLevelFile(FILE* _FILE)
 {
-
+	LoadGameObjectParam(0, _FILE);
+	LoadGameObjectParam(1, _FILE);
+	LoadGameObjectParam(2, _FILE);
 }
 
 void CSwordScript::SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param)

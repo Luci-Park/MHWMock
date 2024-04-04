@@ -40,6 +40,8 @@ public:
     virtual void OnAnimationEndStart(IAnimationState* _pState) {}
     virtual void OnAnimationEndFinished(IAnimationState* _pState) {}
 
+    virtual void SaveToLevelFile(FILE* _File) override;
+    virtual void LoadFromLevelFile(FILE* _FILE) override;
 public:
     void ChangeParent(HandDir _HandDir);
 
