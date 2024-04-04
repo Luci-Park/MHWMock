@@ -35,6 +35,8 @@ public:
 
 class WeakBite : public AnjAttack
 {
+private:
+	bool m_bDirSet;
 public:
 	virtual bool Attackable() override;
 	virtual void AttackTick() override;

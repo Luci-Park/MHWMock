@@ -9,6 +9,16 @@ ContinBite::~ContinBite()
 {
 }
 
+bool ContinBite::Attackable()
+{
+	//if front (45 ~ 135)
+	return false;
+}
+
+void ContinBite::AttackTick()
+{
+}
+
 int ContinBite::DamageContribution(SCRIPT_TYPE _attackPart)
 {
 	return AttackPower() * (SCRIPT_TYPE::ANJANATHHEAD == _attackPart);
