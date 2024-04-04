@@ -11,6 +11,7 @@ class CAnjanath :
 private:
 	const int m_iMaxHP;
 	const int m_iMaxRage;
+public:
 	const wstring aggroed;//bool
 	const wstring turnDir;//int
 	const wstring stopMove;//trigger

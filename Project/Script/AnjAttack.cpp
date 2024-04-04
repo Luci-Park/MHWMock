@@ -6,6 +6,7 @@ AnjAttack::AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent, int _power)
 	: m_type(_type)
 	, m_pParent(_parent)
 	, m_iAttackPower(_power)
+	, m_State(ATK_STATE::DIR)
 {
 }
 
@@ -16,7 +17,28 @@ AnjAttack::~AnjAttack()
 void AnjAttack::AttackStart()
 {
 	m_bAttacked = false;
+	m_State = ATK_STATE::DIR;
 	OnAttackStart();
+}
+
+void AnjAttack::AttackTick()
+{
+	if (m_State == ATK_STATE::DIR)
+	{
+		m_pParent->Animator3D()->SetInt(m_pParent->turnDir, (int)GetDir());
+		m_State = ATK_STATE::MOVE;
+	}
+	if (m_State == ATK_STATE::MOVE)
+	{
+		bool move = Move();
+		if (move) return;
+		m_pParent->Animator3D()->SetTrigger(m_pParent->stopMove);
+		m_State == ATK_STATE::TICK;
+	}
+	if (m_State == ATK_STATE::TICK)
+	{
+		Tick();
+	}
 }
 
 void AnjAttack::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)
