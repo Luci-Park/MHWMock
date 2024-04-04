@@ -63,6 +63,9 @@ public:
 
     int DeleteComponent(COMPONENT_TYPE _type);
 
+    template<typename T>
+    int DeleteScript();
+
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     CGameObject* GetChild(int _idx);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
@@ -141,6 +144,23 @@ inline T* CGameObject::GetScript()
         T* pScript = dynamic_cast<T*> (m_vecScript[i]);
         if (nullptr != pScript)
             return pScript;
+    }
+
+    return nullptr;
+}
+
+template<typename T>
+inline int CGameObject::DeleteScript()
+{
+    for (size_t i = 0; i < m_vecScript.size(); ++i)
+    {
+        T* pScript = dynamic_cast<T*> (m_vecScript[i]);
+        if (nullptr != pScript)
+        {            
+            delete pScript;
+            m_vecScript.erase(m_vecScript.begin() + i);
+            break;
+        }
     }
 
     return nullptr;

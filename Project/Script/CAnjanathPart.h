@@ -13,6 +13,7 @@ private:
 	CAnjanath* m_pAnj;
 public:
 	void Attacked(int _damage);
+	virtual void begin();
 	virtual void OnCollisionEnter(CCollider3D* _Other) override;
 protected:
 	virtual int OnAttacked(int _damage) = 0;
@@ -20,7 +21,7 @@ protected:
 	int HP() { return m_iHP; }
 	void ResetHP() { m_iHP = m_iMaxHP; }
 	CAnjanath* Parent() { return m_pAnj; }
-private:
+protected:
 	bool CheckBody();
 public:
 	virtual void SaveToLevelFile(FILE* _File) override;

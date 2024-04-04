@@ -30,8 +30,13 @@ void CAnjanathPart::Attacked(int _damage)
 
 	m_pAnj->Attacked(_damage);
 }
+void CAnjanathPart::begin()
+{
+	CheckBody();
+}
 void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
 {
+	if (!CheckBody()) return;
 	CMainPlayerScript* script = _Other->GetOwner()->GetScript<CMainPlayerScript>();
 	if(script)
 		Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType(), script);
