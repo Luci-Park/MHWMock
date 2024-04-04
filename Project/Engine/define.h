@@ -79,6 +79,8 @@ enum class LAYER_TYPE
 	Ground,
 	Player,
 	Monster,
+	Weapon,
+	MonsterBody,
 
 	ViewPortUI = 15,
 	END = 16,

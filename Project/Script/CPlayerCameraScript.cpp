@@ -2,10 +2,10 @@
 #include "CPlayerCameraScript.h"
 
 CPlayerCameraScript::CPlayerCameraScript()
-	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
+	: CScript((UINT)SCRIPT_TYPE::PLAYERCAMERASCRIPT)
 	, m_pTargetObj(nullptr)
-	, m_fRadius(15000.f)
-	, m_fRotationSpeed(20.f)
+	, m_fRadius(4000.f)
+	, m_fRotationSpeed(15.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRadius, "Radius");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRotationSpeed, "RotationSpeed");
