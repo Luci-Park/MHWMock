@@ -78,7 +78,7 @@ void CAnimator3D::SetTrigger(wstring _param, bool _value)
 
 void CAnimator3D::tick()
 {
-	return;
+	//return;
 	if (!BoneHolder()->IsReady())return;
 	m_pAnimationStateMachine->tick();
 	KeyFrames frames = m_pAnimationStateMachine->GetBoneTransforms();

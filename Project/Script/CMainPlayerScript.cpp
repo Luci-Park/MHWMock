@@ -43,9 +43,9 @@ void CMainPlayerScript::Attacked(int Damage, CGameObject* monster)
 
 void CMainPlayerScript::begin()
 {
-	CCollider3D* coll = (CCollider3D*)GetOwner()->GetComponent(COMPONENT_TYPE::COLLIDER3D);
-	if(coll != nullptr)
-		coll->SetGravity(true);
+	//CCollider3D* coll = (CCollider3D*)GetOwner()->GetComponent(COMPONENT_TYPE::COLLIDER3D);
+	//if(coll != nullptr)
+	//	coll->SetGravity(true);
 	_stateMachine->setPlayer(GetOwner());
 	_stateMachine->setCamera(_Camera);
 	_stateMachine->Begin();
