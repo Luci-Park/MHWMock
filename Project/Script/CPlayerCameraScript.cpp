@@ -70,8 +70,10 @@ void CPlayerCameraScript::tick()
 
 void CPlayerCameraScript::SaveToLevelFile(FILE* _File)
 {
+	SaveGameObjectParam(m_pTargetObj, _File);
 }
 
 void CPlayerCameraScript::LoadFromLevelFile(FILE* _FILE)
 {
+	LoadGameObjectParam(0, _FILE);
 }
