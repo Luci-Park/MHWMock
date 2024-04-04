@@ -247,6 +247,11 @@ void PlayerStateMachine::IsInput()
 	_curState->SetInput();
 }
 
+void PlayerStateMachine::IsAttack(bool attack)
+{
+	_Sword->GetScript<CSwordScript>()->IsAttack(attack);
+}
+
 void CMainPlayerScript::BottleCharge()
 {
 	_stateMachine->ChangeASTMParam(L"bottle", (AnimParamUnion)((int)_Stack));

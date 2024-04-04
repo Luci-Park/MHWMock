@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "CSwordScript.h"
+#include "CAnjanathPart.h"
 
 CSwordScript::CSwordScript()
 	: CScript((UINT)SCRIPT_TYPE::SWORDSCRIPT)
 	, _ASTM(nullptr)
 	, mode(Mode::None)
+	, _IsAttack(false)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Player, "Player");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_MainBone, "Main Bone");
@@ -55,6 +57,18 @@ void CSwordScript::tick()
 
 void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
 {
+	CAnjanathPart* coll = _Other->GetOwner()->GetScript<CAnjanathPart>();
+	if (coll != nullptr && _IsAttack == true)
+	{
+		coll->Attacked(10);
+		_IsAttack = false;
+	}
+
+	//if (_IsAttack)
+	//{
+	//	int a = 0;
+	//}
+
 }
 
 void CSwordScript::OnCollisionStay(CCollider3D* _Other)

@@ -57,6 +57,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Enter(CGameObject* player, PlayerStateMa
 	m_IsAnimationEnd = false;
 	SoundPlay(L"sound\\Player\\05(Attack).mp3",0.2f);
 	_IsPlayed = false;
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -73,6 +74,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		//Rolling
 		if (KEY_TAP(KEY::SPACE))
 		{
+			StateMachine->IsAttack(false);
 			StateMachine->ChangeState(L"Wp_Rolling");
 		}
 
@@ -93,6 +95,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 				if (KEY_TAP(KEY::TAB))
 				{
 					ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_SWITCH");
 				}
 				// ComboSlash02
@@ -254,6 +257,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 					// BottleCharge
 					ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 					ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_Bottle_Charge");
 					return;
 				}
@@ -273,6 +277,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 					ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
 					ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 					ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_Charge");
 				}
 			}
@@ -282,6 +287,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 		if (StateMachine->GetStateDuration() > 0.7 && _IsPlayed == false)
 		{
 			SoundPlay(L"sound\\Player\\13(Sword_End).mp3", 0.3f);
+			StateMachine->IsAttack(false);
 			_IsPlayed = true;
 		}
 	}
@@ -290,6 +296,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Exit(CGameObject* player, PlayerStateMac
 {
 	_IsInput = false;
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
@@ -329,6 +336,7 @@ ST_PLAYER_WP_ATTACK_COMBOSLASH_02::~ST_PLAYER_WP_ATTACK_COMBOSLASH_02()
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	m_IsAnimationEnd = false;
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -362,6 +370,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 			if (KEY_TAP(KEY::TAB))
 			{
 				ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+				StateMachine->IsAttack(false);
 				StateMachine->ChangeState(L"Wp_SWITCH");
 			}
 			// ComboSlash02
@@ -522,6 +531,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 				// BottleCharge
 				ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 				ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+				StateMachine->IsAttack(false);
 				StateMachine->ChangeState(L"Wp_Bottle_Charge");
 				return;
 			}
@@ -541,6 +551,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 				ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
 				ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 				ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+				StateMachine->IsAttack(false);
 				StateMachine->ChangeState(L"Wp_Charge");
 			}
 		}
@@ -550,6 +561,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_02::Tick(CGameObject* player, PlayerStateMac
 	if (StateMachine->GetStateDuration() > 0.7 && _IsPlayed == false)
 	{
 		SoundPlay(L"sound\\Player\\13(Sword_End).mp3", 0.3f);
+		StateMachine->IsAttack(false);
 		_IsPlayed = true;
 	}
 }
@@ -579,6 +591,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Enter(CGameObject* player, PlayerStateMa
 {
 	m_IsAnimationEnd = false;
 	_IsPlayed = false;
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -595,6 +608,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 		//Rolling
 		if (KEY_TAP(KEY::SPACE))
 		{
+			StateMachine->IsAttack(false);
 			StateMachine->ChangeState(L"Wp_Rolling");
 		}
 
@@ -622,6 +636,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 				if (KEY_TAP(KEY::TAB))
 				{
 					ChangeASTMParam(StateMachine, L"Switch_wp", A_TRUE);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_SWITCH");
 				}
 			}
@@ -777,6 +792,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 					// BottleCharge
 					ChangeASTMParam(StateMachine, L"R+S_Btn", A_TRUE);
 					ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_Bottle_Charge");
 					return;
 				}
@@ -797,6 +813,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 					ChangeASTMParam(StateMachine, L"Right_Btn", A_TRUE);
 					ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 					ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
+					StateMachine->IsAttack(false);
 					StateMachine->ChangeState(L"Wp_Charge");
 				}
 			}
@@ -806,6 +823,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 	if (StateMachine->GetStateDuration() > 0.7 && _IsPlayed == false)
 	{
 		SoundPlay(L"sound\\Player\\13(Sword_End).mp3", 0.3f);
+		StateMachine->IsAttack(false);
 		_IsPlayed = true;
 	}
 
@@ -814,6 +832,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Exit(CGameObject* player, PlayerStateMac
 {
 	_IsPlayed = false;
 	_IsInput = false;
+	StateMachine->IsAttack(false);
 }
 
 
@@ -1080,6 +1099,7 @@ ST_PLAYER_WP_DASH_ATTACK::~ST_PLAYER_WP_DASH_ATTACK()
 }
 void ST_PLAYER_WP_DASH_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1265,6 +1285,7 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 }
 void ST_PLAYER_WP_DASH_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_DASH_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1294,7 +1315,7 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Enter(CGameObject* player, PlayerStateMachine* 
 	StateMachine->ChangeScriptParam(L"OverLoad", AnimParamType::FLOAT, tmp);
 
 	player->GetScript<CMainPlayerScript>()->BottleCharge();
-
+	StateMachine->IsAttack(false);
 	SoundPlay(L"sound\\Player\\10(Merge).mp3");
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -1332,7 +1353,7 @@ void ST_PLAYER_WP_BOTTLE_CHARGE::Tick(CGameObject* player, PlayerStateMachine* S
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_BOTTLE_CHARGE::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1363,6 +1384,7 @@ ST_PLAYER_WP_CHARGE_K_ENCHENT::~ST_PLAYER_WP_CHARGE_K_ENCHENT()
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	SoundPlay(L"sound\\Player\\53(Enchent_k_Charge).mp3");
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1402,6 +1424,7 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_CHARGE_K_ENCHENT::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1430,7 +1453,7 @@ ST_PLAYER_WP_K_ENCHENT_ATTACK::~ST_PLAYER_WP_K_ENCHENT_ATTACK()
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	//enchent k
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1457,6 +1480,7 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_K_ENCHENT_ATTACK::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1486,6 +1510,7 @@ ST_PLAYER_WP_CHARGE::~ST_PLAYER_WP_CHARGE()
 void ST_PLAYER_WP_CHARGE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	//_IsPlayed == true;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_CHARGE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1526,6 +1551,7 @@ void ST_PLAYER_WP_CHARGE::Exit(CGameObject* player, PlayerStateMachine* StateMac
 {
 	_IsPlayed = false;
 	_IsInput = false;
+	StateMachine->IsAttack(false);
 }
 
 void ST_PLAYER_WP_CHARGE::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
@@ -1572,7 +1598,7 @@ ST_PLAYER_WP_DOUBLE_SLASH::~ST_PLAYER_WP_DOUBLE_SLASH()
 
 void ST_PLAYER_WP_DOUBLE_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1580,6 +1606,7 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 	if (StateMachine->GetStateDuration() > 0.2 && _IsPlayed == false)
 	{
 		SoundPlay(L"sound\\Player\\04(Big_Attack).mp3",0.3f);
+		StateMachine->IsAttack(true);
 		_IsPlayed = true;
 	}
 
@@ -1602,6 +1629,7 @@ void ST_PLAYER_WP_DOUBLE_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_WP_DOUBLE_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_DOUBLE_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1630,7 +1658,7 @@ ST_PLAYER_WP_UPPER_SLASH::~ST_PLAYER_WP_UPPER_SLASH()
 
 void ST_PLAYER_WP_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1650,7 +1678,7 @@ void ST_PLAYER_WP_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 }
 void ST_PLAYER_WP_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_WP_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -1674,7 +1702,7 @@ ST_PLAYER_WP_SLIDING_ATTACK_F::~ST_PLAYER_WP_SLIDING_ATTACK_F()
 
 void ST_PLAYER_WP_SLIDING_ATTACK_F::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_F::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1699,6 +1727,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_F::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_SLIDING_ATTACK_F::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 
@@ -1734,7 +1763,7 @@ ST_PLAYER_WP_SLIDING_ATTACK_L::~ST_PLAYER_WP_SLIDING_ATTACK_L()
 
 void ST_PLAYER_WP_SLIDING_ATTACK_L::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_L::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1759,6 +1788,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_L::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_SLIDING_ATTACK_L::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 
@@ -1794,7 +1824,7 @@ ST_PLAYER_WP_SLIDING_ATTACK_B::~ST_PLAYER_WP_SLIDING_ATTACK_B()
 
 void ST_PLAYER_WP_SLIDING_ATTACK_B::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_B::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1819,6 +1849,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_B::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_SLIDING_ATTACK_B::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 
@@ -1853,7 +1884,7 @@ ST_PLAYER_WP_SLIDING_ATTACK_R::~ST_PLAYER_WP_SLIDING_ATTACK_R()
 
 void ST_PLAYER_WP_SLIDING_ATTACK_R::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_WP_SLIDING_ATTACK_R::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1878,6 +1909,7 @@ void ST_PLAYER_WP_SLIDING_ATTACK_R::Tick(CGameObject* player, PlayerStateMachine
 void ST_PLAYER_WP_SLIDING_ATTACK_R::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 void ST_PLAYER_WP_SLIDING_ATTACK_R::OnAnimationBegin(IAnimationState* _pState, PlayerStateMachine* StateMachine)
@@ -1945,7 +1977,7 @@ ST_PLAYER_AXE_UPPER_SLASH::~ST_PLAYER_AXE_UPPER_SLASH()
 
 void ST_PLAYER_AXE_UPPER_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1995,6 +2027,7 @@ void ST_PLAYER_AXE_UPPER_SLASH::Tick(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_AXE_UPPER_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_AXE_UPPER_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {

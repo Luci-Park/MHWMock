@@ -15,9 +15,10 @@ private:
     };
     Mode mode;
     CAnimationStateMachine* _ASTM;
-    CGameObject* _Player;
-    CGameObject* _MainBone;
-    CGameObject* _SubBone;
+    CGameObject*    _Player;
+    CGameObject*    _MainBone;
+    CGameObject*    _SubBone;
+    bool            _IsAttack;
 public:
     CSwordScript();
     ~CSwordScript();
@@ -43,6 +44,7 @@ public:
     AnimParamUnion GetASTMParam(std::wstring paramID);
     void SetMainBone(int type);
     void SetSubBone();
+    void IsAttack(bool isattack) { _IsAttack = isattack; }
 public:
     CLONE(CSwordScript);
 };

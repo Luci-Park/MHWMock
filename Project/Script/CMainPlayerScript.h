@@ -125,6 +125,7 @@ public:
 public:
     void ChangeScriptParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
     void IsInput();
+    void IsAttack(bool attack);
 };
 
 class State
