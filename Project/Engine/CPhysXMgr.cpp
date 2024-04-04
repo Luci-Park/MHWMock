@@ -301,8 +301,8 @@ void CPhysXMgr::SetTransformResult()
 			// 자식인경우 자식이 아닌경우 예외처리 두고 Transform에 적용시켜야함.
 			
 			bool bGround = ((pPXUSERDATA)(ppDynamicActors[i]->userData))->bGround;
-			
-			obj->Transform()->UpdateSimulateResult(pos, rot);
+			if(!bGround)
+				obj->Transform()->UpdateSimulateResult(pos, rot);
 			
 			//obj->Transform()->SetRelativePos(pos);
 		}
