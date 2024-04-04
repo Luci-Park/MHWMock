@@ -213,8 +213,11 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnjAttack.h" />
+    <ClInclude Include="AnjAttackPicker.h" />
+    <ClInclude Include="AnjStruct.h" />
     <ClInclude Include="CAnjanath.h" />
     <ClInclude Include="CAnjanathBody.h" />
+    <ClInclude Include="CAnjanathFire.h" />
     <ClInclude Include="CAnjanathHead.h" />
     <ClInclude Include="CAnjanathLeg.h" />
     <ClInclude Include="CAnjanathPart.h" />
@@ -238,8 +241,12 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnjAttack.cpp" />
+    <ClCompile Include="AnjAttackPicker.cpp" />
+    <ClCompile Include="Bite.cpp" />
+    <ClCompile Include="BodySlam.cpp" />
     <ClCompile Include="CAnjanath.cpp" />
     <ClCompile Include="CAnjanathBody.cpp" />
+    <ClCompile Include="CAnjanathFire.cpp" />
     <ClCompile Include="CAnjanathHead.cpp" />
     <ClCompile Include="CAnjanathLeg.cpp" />
     <ClCompile Include="CAnjanathPart.cpp" />
@@ -249,21 +256,26 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCompleteScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CIntroObjScript.cpp" />
+    <ClCompile Include="Claw.cpp" />
     <ClCompile Include="CMainPlayerScript.cpp" />
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
+    <ClCompile Include="ContinBite.cpp" />
     <ClCompile Include="CPlayerCameraScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CPlayerShieldScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CSwordScript.cpp" />
     <ClCompile Include="CTestScript.cpp" />
+    <ClCompile Include="Flame.cpp" />
+    <ClCompile Include="ForwardAtk.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Rush.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="PlayerStateMachine.cpp" />
@@ -274,6 +286,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="State_Move_Init.cpp" />
     <ClCompile Include="State_Rolling_Init.cpp" />
     <ClCompile Include="State_Switch_Init.cpp" />
+    <ClCompile Include="TailSlam.cpp" />
+    <ClCompile Include="TailSweep.cpp" />
+    <ClCompile Include="WeakBite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
