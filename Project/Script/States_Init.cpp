@@ -182,6 +182,7 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Charge");
+			return;
 		}
 
 		//Rolling
