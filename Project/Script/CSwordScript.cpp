@@ -60,15 +60,9 @@ void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
 	CAnjanathPart* coll = _Other->GetOwner()->GetScript<CAnjanathPart>();
 	if (coll != nullptr && _IsAttack == true)
 	{
-		coll->Attacked(10);
+		coll->Attacked(20);
 		_IsAttack = false;
 	}
-
-	//if (_IsAttack)
-	//{
-	//	int a = 0;
-	//}
-
 }
 
 void CSwordScript::OnCollisionStay(CCollider3D* _Other)
