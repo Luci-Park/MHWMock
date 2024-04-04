@@ -3,6 +3,7 @@ CAnjanathBody
 CAnjanathHead
 CAnjanathLeg
 CAnjanathTail
+CArenaScript
 CCameraMoveScript
 CCompleteScript
 CGravityScript

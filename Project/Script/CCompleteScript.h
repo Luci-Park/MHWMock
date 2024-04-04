@@ -18,8 +18,6 @@ public:
 
 public:
     void FadeIn();
-    void FadeOut();
-    void NormalState();
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;

@@ -82,14 +82,6 @@ void CCompleteScript::FadeIn()
 	m_fAlpha = 0.0f;
 }
 
-void CCompleteScript::FadeOut()
-{
-}
-
-void CCompleteScript::NormalState()
-{
-}
-
 void CCompleteScript::SaveToLevelFile(FILE* _File)
 {
 	SaveResRef(m_Tex.Get(), _File);
