@@ -5,6 +5,9 @@
 #include <Engine/CRenderComponent.h>
 #include <Engine/CCanvas.h>
 
+#include <Engine/CKeyMgr.h>
+#include <Engine/CEventMgr.h>
+#include "../Client/CLevelSaveLoad.h"
 
 CIntroObjScript::CIntroObjScript()
 	: CScript((UINT)SCRIPT_TYPE::INTROOBJSCRIPT)
@@ -31,6 +34,8 @@ CIntroObjScript::~CIntroObjScript()
 
 void CIntroObjScript::begin()
 {
+	m_wNextLevelName = L"level\\Arena.lv";
+
 	if (m_vecTex[0] != nullptr)
 	{
 		CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
@@ -49,48 +54,84 @@ void CIntroObjScript::tick()
 {
 	m_fTime += DT;
 
-	if (m_fTime > 9.0f && m_TexIdx < m_vecTex.size())
+	CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
+	if (m_fTime > 12.0f && m_TexIdx < m_vecTex.size())
 	{
 		m_fTime = 0.0f;
-		CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
 		if (pCanvas != nullptr)
 		{
 			pCanvas->SetUITexture(m_vecTex[m_TexIdx]);
+			FadeIn();
 			m_TexIdx++;
 		}
 	}
 
-	CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
 	if (pCanvas != nullptr)
 	{
 		if (m_Status == eStatus::FadeIn)
 		{
-			if(m_fTime > 3.0f)
+			if (m_fAlpha > 1.0f)
+			{
+				pCanvas->SetAlpha(1.0f);
 				NormalState();
-
-			if (m_fAlpha < 1.0f)
-				m_fAlpha += (1.0f / (3.0f / DT));
+			}
+			else
+			{
+				m_fAlpha += (1.0f / 5.0f) * DT;
+			}
 
 			pCanvas->SetAlpha(m_fAlpha);
 		}
 		else if (m_Status == eStatus::FadeOut)
 		{
-			if (m_fTime > 3.0f)
-				FadeIn();
-
-			if(m_fAlpha > 0.0f)
-				m_fAlpha -= (1.0f / (3.0f / DT));
+			if (m_fAlpha <= 0.0f)
+			{
+				m_fAlpha = 0.0f;
+			}
+			else
+			{
+				m_fAlpha -= (1.0f / 5.0f) * DT;
+			}
 
 			pCanvas->SetAlpha(m_fAlpha);
 		}
 		else
 		{
-			if (m_fTime > 6.0f && m_TexIdx < m_vecTex.size())
+			if (m_fTime > 7.0f && m_TexIdx < m_vecTex.size())
 				FadeOut();
-
-			pCanvas->SetAlpha(1.0f);
 		}
 	}
+
+	if (m_TexIdx >= m_vecTex.size())
+	{
+		if (!m_bIsChanged)
+		{
+			CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-01 Main Theme - Stars at Our Backs.mp3")->Play(1, 1.0, true);
+
+			if (KEY_TAP(KEY::SPACE))
+			{
+				int a = 0;
+				// 다음레벨로 넘어가도록 처리
+				CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-01 Main Theme - Stars at Our Backs.mp3")->Stop();
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(m_wNextLevelName);
+
+				tEvent evn = {};
+				evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+				evn.wParam = (DWORD_PTR)pLoadedLevel;
+
+				CEventMgr::GetInst()->AddEvent(evn);
+				//pLoadedLevel->ChangeState(LEVEL_STATE::PLAY);
+				m_bIsChanged = true;
+			}
+		}
+		else
+		{
+			/*CLevel* CurLevel = CLevelMgr::GetInst()->GetCurLevel();
+			CurLevel->ChangeState(LEVEL_STATE::PLAY);*/
+		}
+		
+	}
+
 }
 
 void CIntroObjScript::FadeIn()
@@ -107,6 +148,7 @@ void CIntroObjScript::FadeOut()
 void CIntroObjScript::NormalState()
 {
 	m_Status = eStatus::None;
+
 }
 void CIntroObjScript::SaveToLevelFile(FILE* _File)
 {

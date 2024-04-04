@@ -1385,12 +1385,16 @@ void ST_PLAYER_WP_CHARGE_K_ENCHENT::Tick(CGameObject* player, PlayerStateMachine
 		{
 			ChangeASTMParam(StateMachine, L"Stack", A_0);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Charge_Off", AnimParamType::BOOL, A_TRUE);
+
 			StateMachine->ChangeState(L"Wp_Upper_Slash");
 		}
 		else
 		{
 			ChangeASTMParam(StateMachine, L"Stack", A_1);
 			ChangeASTMParam(StateMachine, L"IsHolding", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Charge_Off", AnimParamType::BOOL, A_TRUE);
+
 			StateMachine->ChangeState(L"Wp_K_Enchent_Attack");
 		}
 	}

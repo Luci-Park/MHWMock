@@ -17,6 +17,9 @@ private:
     float       m_fAlpha;
     float       m_fDuration;
     int          m_TexIdx;
+    bool        m_bIsChanged;
+
+    wstring     m_wNextLevelName;
 
 
     vector<Ptr<CTexture>>   m_vecTex;

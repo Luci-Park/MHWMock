@@ -15,6 +15,7 @@
 CCanvas::CCanvas()
 	:CRenderComponent(COMPONENT_TYPE::CANVAS)
 	, m_bUseAlpha(0)
+	, m_fAlpha(0.0f)
 {
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"CanvasMtrl"));
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));

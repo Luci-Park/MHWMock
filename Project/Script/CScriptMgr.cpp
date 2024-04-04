@@ -6,7 +6,9 @@
 #include "CAnjanathHead.h"
 #include "CAnjanathLeg.h"
 #include "CAnjanathTail.h"
+#include "CArenaScript.h"
 #include "CCameraMoveScript.h"
+#include "CCompleteScript.h"
 #include "CGravityScript.h"
 #include "CIntroObjScript.h"
 #include "CMainPlayerScript.h"
@@ -25,7 +27,9 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAnjanathHead");
 	_vec.push_back(L"CAnjanathLeg");
 	_vec.push_back(L"CAnjanathTail");
+	_vec.push_back(L"CArenaScript");
 	_vec.push_back(L"CCameraMoveScript");
+	_vec.push_back(L"CCompleteScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CIntroObjScript");
 	_vec.push_back(L"CMainPlayerScript");
@@ -50,8 +54,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnjanathLeg;
 	if (L"CAnjanathTail" == _strScriptName)
 		return new CAnjanathTail;
+	if (L"CArenaScript" == _strScriptName)
+		return new CArenaScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
+	if (L"CCompleteScript" == _strScriptName)
+		return new CCompleteScript;
 	if (L"CGravityScript" == _strScriptName)
 		return new CGravityScript;
 	if (L"CIntroObjScript" == _strScriptName)
@@ -72,6 +80,7 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
+
 	return nullptr;
 }
 
@@ -94,8 +103,14 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANJANATHTAIL:
 		return new CAnjanathTail;
 		break;
+	case (UINT)SCRIPT_TYPE::ARENASCRIPT:
+		return new CArenaScript;
+		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
+		break;
+	case (UINT)SCRIPT_TYPE::COMPLETESCRIPT:
+		return new CCompleteScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
 		return new CGravityScript;
@@ -156,8 +171,16 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnjanathTail";
 		break;
 
+	case SCRIPT_TYPE::ARENASCRIPT:
+		return L"CArenaScript";
+		break;
+
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return L"CCameraMoveScript";
+		break;
+
+	case SCRIPT_TYPE::COMPLETESCRIPT:
+		return L"CCompleteScript";
 		break;
 
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
@@ -199,6 +222,7 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
 		break;
+
 
 	}
 	return nullptr;

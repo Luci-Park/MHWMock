@@ -449,6 +449,11 @@ void CCamera::SaveToLevelFile(FILE* _File)
 	fwrite(&m_ProjType, sizeof(UINT), 1, _File);
 	fwrite(&m_iLayerMask, sizeof(UINT), 1, _File);
 	fwrite(&m_iCamIdx, sizeof(int), 1, _File);
+
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		fwrite(&m_iLayerMaskVis[i], sizeof(bool), 1, _File);
+	}
 }
 
 void CCamera::LoadFromLevelFile(FILE* _File)
@@ -462,4 +467,9 @@ void CCamera::LoadFromLevelFile(FILE* _File)
 	fread(&m_ProjType, sizeof(UINT), 1, _File);
 	fread(&m_iLayerMask, sizeof(UINT), 1, _File);
 	fread(&m_iCamIdx, sizeof(int), 1, _File);
+
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		fread(&m_iLayerMaskVis[i], sizeof(bool), 1, _File);
+	}
 }
