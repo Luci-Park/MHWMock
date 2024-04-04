@@ -48,6 +48,7 @@ private:
 	void CheckNose(IAnimationState* _currentState, bool _start);
 	void LookAt();
 public:
+	int HP() { return m_iHP; }
 	void Attacked(int _damage);
 	void AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player);
 	bool InStagger() { return m_State == ANJ_STATE::STAGGER; }
