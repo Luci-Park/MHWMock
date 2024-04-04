@@ -35,10 +35,13 @@ public:
 
 class WeakBite : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
-	virtual void OnAttackStart();
-	virtual void OnAttackEnd();
+	virtual void OnAttackStart()override;
+	virtual void OnAttackEnd() override;
 public:
 	WeakBite(CAnjanath* _parent);
 	virtual ~WeakBite();
@@ -46,6 +49,9 @@ public:
 
 class Bite : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -57,6 +63,9 @@ public:
 
 class ContinBite : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -68,6 +77,9 @@ public:
 
 class Claw : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -80,6 +92,9 @@ public:
 
 class TailSlam : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -91,6 +106,9 @@ public:
 
 class TailSweep : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -102,6 +120,9 @@ public:
 
 class BodySlam : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -113,6 +134,9 @@ public:
 
 class ForwardAtk : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -124,6 +148,9 @@ public:
 
 class Rush : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
@@ -135,6 +162,9 @@ public:
 
 class Flame : public AnjAttack
 {
+public:
+	virtual bool Attackable() override;
+	virtual void AttackTick() override;
 protected:
 	virtual int DamageContribution(SCRIPT_TYPE _attackPart);
 	virtual void OnAttackStart();
