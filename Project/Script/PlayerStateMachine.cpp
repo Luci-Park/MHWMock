@@ -249,8 +249,18 @@ void PlayerStateMachine::IsInput()
 
 void PlayerStateMachine::IsAttack(bool attack)
 {
-	if (_Sword != nullptr)
+	bool isAxe = _ASTM->GetParamByName(L"IsAxe")->value.BOOL;
+	
+	if (_Sword != nullptr && isAxe == false)
 		_Sword->GetScript<CSwordScript>()->IsAttack(attack);
+	else if (_Shield != nullptr && isAxe == true)
+		_Shield->GetScript<CPlayerShieldScript>()->IsAttack(attack);
+}
+
+void PlayerStateMachine::IsShieldAttack(bool attack)
+{
+	if (_Shield != nullptr)
+		_Shield->GetScript<CPlayerShieldScript>()->IsShieldAttack(attack);
 }
 
 void CMainPlayerScript::BottleCharge()

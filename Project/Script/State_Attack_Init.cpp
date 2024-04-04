@@ -874,6 +874,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Enter(CGameObject* player, PlayerStateMachine* S
 {
 	StateMachine->ChangeScriptParam(L"Shield_Attack", AnimParamType::TRIGGER, A_TRUE);
 	SoundPlay(L"sound\\Player\\32(Sheld_Attack,bottle).mp3");
+	StateMachine->IsShieldAttack(true);
 }
 void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -1059,6 +1060,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 void ST_PLAYER_WP_SHELD_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsInput = false;
+	StateMachine->IsShieldAttack(false);
 }
 
 
@@ -2055,7 +2057,7 @@ ST_PLAYER_AXE_DOWN_SLASH::~ST_PLAYER_AXE_DOWN_SLASH()
 
 void ST_PLAYER_AXE_DOWN_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -2104,6 +2106,7 @@ void ST_PLAYER_AXE_DOWN_SLASH::Tick(CGameObject* player, PlayerStateMachine* Sta
 void ST_PLAYER_AXE_DOWN_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_AXE_DOWN_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -2165,7 +2168,7 @@ ST_PLAYER_AXE_HORIZONTAL_SLASH::~ST_PLAYER_AXE_HORIZONTAL_SLASH()
 
 void ST_PLAYER_AXE_HORIZONTAL_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_AXE_HORIZONTAL_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -2202,6 +2205,7 @@ void ST_PLAYER_AXE_HORIZONTAL_SLASH::Tick(CGameObject* player, PlayerStateMachin
 void ST_PLAYER_AXE_HORIZONTAL_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_AXE_HORIZONTAL_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -2227,7 +2231,7 @@ ST_PLAYER_AXE_TURNNING_SLASH::~ST_PLAYER_AXE_TURNNING_SLASH()
 
 void ST_PLAYER_AXE_TURNNING_SLASH::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -2264,7 +2268,7 @@ void ST_PLAYER_AXE_TURNNING_SLASH::Tick(CGameObject* player, PlayerStateMachine*
 }
 void ST_PLAYER_AXE_TURNNING_SLASH::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-
+	StateMachine->IsAttack(false);
 }
 void ST_PLAYER_AXE_TURNNING_SLASH::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
@@ -2389,6 +2393,7 @@ void ST_PLAYER_SUPER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine*
 {
 	_SubPlayed = false;
 	_Flag = false;
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -2419,7 +2424,7 @@ void ST_PLAYER_SUPER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* 
 void ST_PLAYER_SUPER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
-
+	StateMachine->IsAttack(false);
 }
 
 
@@ -2469,6 +2474,7 @@ void ST_PLAYER_BUST_ATTACK::Enter(CGameObject* player, PlayerStateMachine* State
 {
 	_SubPlayed = false;
 	_Flag = false;
+	StateMachine->IsAttack(true);
 }
 void ST_PLAYER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
@@ -2499,6 +2505,7 @@ void ST_PLAYER_BUST_ATTACK::Tick(CGameObject* player, PlayerStateMachine* StateM
 void ST_PLAYER_BUST_ATTACK::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	_IsPlayed = false;
+	StateMachine->IsAttack(false);
 }
 
 

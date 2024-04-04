@@ -24,7 +24,7 @@ private:
     CGameObject* m_pBackBone;
 
     HandDir         m_eHandDir;
-
+    bool            m_IsAttack;
 public:
     virtual void begin();
     virtual void tick();
@@ -46,7 +46,8 @@ public:
 public:
     void SetASTMParam(std::wstring paramID, AnimParamType type, AnimParamUnion param);
     AnimParamUnion GetASTMParam(std::wstring paramID);
-
+    void IsAttack(bool isattack) { m_IsAttack = isattack; }
+    void IsShieldAttack(bool isattack) { m_IsAttack = isattack; }
 public:
     CPlayerShieldScript();
     ~CPlayerShieldScript();

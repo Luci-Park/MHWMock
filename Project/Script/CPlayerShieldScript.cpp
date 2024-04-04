@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlayerShieldScript.h"
 #include <Engine/CTransform.h>
+#include "CAnjanathPart.h"
 
 CPlayerShieldScript::CPlayerShieldScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSHIELDSCRIPT)
@@ -82,6 +83,12 @@ void CPlayerShieldScript::tick()
 
 void CPlayerShieldScript::OnCollisionEnter(CCollider3D* _Other)
 {
+	CAnjanathPart* coll = _Other->GetOwner()->GetScript<CAnjanathPart>();
+	if (coll != nullptr && m_IsAttack == true)
+	{
+		coll->Attacked(10);
+		m_IsAttack = false;
+	}
 }
 
 void CPlayerShieldScript::OnCollisionStay(CCollider3D* _Other)
@@ -160,4 +167,8 @@ AnimParamUnion CPlayerShieldScript::GetASTMParam(std::wstring paramID)
 	return _ASTM->GetParamByName(paramID)->value;
 }
 
+void CPlayerShieldScript::IsAttack(bool isattack)
+{
+
+}
 
