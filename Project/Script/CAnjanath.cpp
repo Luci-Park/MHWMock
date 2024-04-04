@@ -23,6 +23,7 @@ CAnjanath::CAnjanath()
 	, m_iRageGauge(150)
 	, m_iRageNumber(0)
 	, m_bTailCut(false)
+	, m_bMove(false)
 {
 	m_pAttackPicker = new AnjAttackPicker(this);
 	//AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pNose, "Nose");
@@ -76,13 +77,12 @@ void CAnjanath::begin()
 
 void CAnjanath::tick()
 {
-	Aggroed();
 	Animator3D()->SetInt(hp, m_iHP);
-
 	//testangle = GetPlayerAngle();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
 	if (m_pCurrentAttack) m_pCurrentAttack->AttackTick(); // set dir, Move
+	if (m_bMove)LookAt();
 
 }
 
@@ -293,7 +293,7 @@ void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 	CheckNose(_pState, true);
 
 	if (_pState->GetType() == eAnimationNodeType::StateMachine && _pState->GetName() == L"Attack")	ChooseAttack();
-	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Move")	LookAt();
+	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Move")	m_bMove = true;
 	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Rotate Time") LookAt();
 }
 
@@ -302,6 +302,7 @@ void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
 	CheckWing(_pState, false);
 	CheckNose(_pState, false);
 	if (_pState->GetType() == eAnimationNodeType::StateMachine && _pState->GetName() == L"Attack")StopAttack();
+	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Move")	m_bMove = false;
 }
 
 void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)

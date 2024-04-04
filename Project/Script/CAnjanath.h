@@ -28,6 +28,7 @@ private:
 	int m_iRageNumber;
 	ANJ_STATE m_State;
 	bool			m_bTailCut;
+	bool m_bMove;
 
 	CGameObject* m_pNose;
 	CGameObject* m_pWings;
