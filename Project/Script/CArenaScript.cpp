@@ -33,15 +33,14 @@ void CArenaScript::begin()
 
 void CArenaScript::tick()
 {
-	if (m_fTime <= 10.0f && m_fTime > 0.0f)
+
+	m_fTime += DT;
+	
+	if (m_fTime > 10.0f && !m_bComplete)
 	{
-		m_fTime += DT;
-	}
-	else
-	{
-		m_fTime = -100.0f;
 		CompleteQuest();
 	}
+	
 }
 
 
@@ -50,7 +49,7 @@ void CArenaScript::CompleteQuest()
 	m_bComplete = true;
 	CResMgr::GetInst()->FindRes<CSound>(L"sound\\2-13 Arena Large Monsters Abound.mp3")->Stop();
 
-	CCompleteScript* pCompleteScript = dynamic_cast<CCompleteScript*>(m_pCompleteObj->GetRenderComponent());
+	CCompleteScript* pCompleteScript = m_pCompleteObj->GetScript<CCompleteScript>();
 	if (pCompleteScript != nullptr)
 	{
 		pCompleteScript->FadeIn();

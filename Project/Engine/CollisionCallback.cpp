@@ -110,10 +110,23 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 		{
 			if (pCollider[0] != nullptr && pCollider[1] != nullptr)
 			{
+				/*PxActor* pActor = pairs[i].shapes[0]->getActor();
+				if (pairHeader.actors[0]->getType() == PxActorType::eRIGID_DYNAMIC 
+					|| (pairHeader.actors[1]->getType() == PxActorType::eRIGID_DYNAMIC))
+				{
+					pairHeader.actors[0]->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+					pairHeader.actors[0]->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+
+					pairHeader.actors[1]->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+					pairHeader.actors[1]->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+				}*/
+
 				tCollisionPair.ePairFlag = physx::PxPairFlag::eNOTIFY_TOUCH_LOST;
 				tCollisionPair.pFirst = pCollider[0]->GetOwner();
 				tCollisionPair.pSecond = pCollider[1]->GetOwner();
 				CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
+
+
 			}
 		}
 	}

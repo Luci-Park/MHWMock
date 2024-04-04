@@ -7,6 +7,7 @@ class CArenaScript :
 private:
     bool                m_bComplete;
     float                m_fTime;
+    bool                m_bUseComplete;
 
     CGameObject*   m_pCompleteObj;
 

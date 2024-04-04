@@ -95,6 +95,10 @@ void CCollider3D::CreateRigidActor()
 		m_pRigidActor->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
 		m_pRigidActor->is<PxRigidDynamic>()->setAngularDamping(0.0f);
 		m_pRigidActor->is<PxRigidDynamic>()->setMass(0.0f);
+
+		m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
+		m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
+		m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);
 	}
 	else
 	{
@@ -332,6 +336,28 @@ void CCollider3D::SetGround(bool _Ground)
 	m_bGround = _Ground;
 	((pPXUSERDATA)(m_pRigidActor->userData))->bGround = m_bGround;
 
+}
+
+void CCollider3D::SetRigidDynamicLockFlag(bool _Lock)
+{
+	if (m_eActorType != ACTOR_TYPE::DYNAMIC)
+		return;
+
+	if (_Lock)
+	{
+		m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+		m_pRigidActor->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
+
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, true);
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, true);
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, true);
+	}
+	else
+	{
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, false);
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, false);
+		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, false);
+	}
 }
 
 void CCollider3D::OnCollisionEnter(CCollider3D* _Other)
