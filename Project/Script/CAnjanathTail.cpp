@@ -37,3 +37,15 @@ void CAnjanathTail::begin()
 	if (m_pTail)m_pTail->SetActive(true);
 	Collider3D()->SetActive(true);
 }
+
+void CAnjanathTail::SaveToLevelFile(FILE* _File)
+{
+	CAnjanathPart::SaveToLevelFile(_File);
+	SaveGameObjectParam(m_pTail, _File);
+}
+
+void CAnjanathTail::LoadFromLevelFile(FILE* _File)
+{
+	CAnjanathPart::LoadFromLevelFile(_File);
+	LoadGameObjectParam(1, _File);
+}

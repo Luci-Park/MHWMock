@@ -44,3 +44,17 @@ void CAnjanathHead::begin()
 	if (m_pScar1) m_pScar1->SetActive(false);
 	if (m_pScar2) m_pScar2->SetActive(false);
 }
+
+void CAnjanathHead::SaveToLevelFile(FILE* _File)
+{
+	CAnjanathPart::SaveToLevelFile(_File);
+	SaveGameObjectParam(m_pScar1, _File);
+	SaveGameObjectParam(m_pScar2, _File);
+}
+
+void CAnjanathHead::LoadFromLevelFile(FILE* _File)
+{
+	CAnjanathPart::LoadFromLevelFile(_File);
+	LoadGameObjectParam(1, _File);
+	LoadGameObjectParam(2, _File);
+}

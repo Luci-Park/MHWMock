@@ -45,17 +45,6 @@ void CAnjanath::Aggroed()
 
 }
 
-void CAnjanath::CheckPlayerPos()
-{
-	if (m_pPlayer == nullptr) return;
-	Vec3 relativePos = m_pPlayer->Transform()->GetWorldPos() - Transform()->GetWorldPos();
-	Quaternion lookRotation;
-	Quaternion::LookRotation(relativePos, Vector3::Up, lookRotation);
-	Vec3 angles = lookRotation.ToEuler();
-
-
-}
-
 void CAnjanath::ChooseAttack()
 {
 	Animator3D()->SetInt(attackType, (int)ANJ_ATTACK::BITE);
@@ -148,6 +137,22 @@ void CAnjanath::Wing(bool _show)
 		m_pWings->SetActive(_show);
 }
 
+void CAnjanath::CheckPlayerPos(Vec3& _dist, float& _degrees)
+{
+	Vec3 playerPos = m_pPlayer->Transform()->GetWorldPos();
+	Vec3 selfPos = Transform()->GetWorldPos();
+	Vec3 forward = Transform()->GetWorldDir(DIR_TYPE::FRONT);
+	Vec3 direction;
+	_dist = playerPos - selfPos;
+	_dist.Normalize(direction);
+
+	float dot = forward.Dot(direction);
+	float cross = forward.Cross(direction).Length();
+	float radian = std::atan2(cross, dot);
+	
+	_degrees = XMConvertToDegrees(radian);
+}
+
 void CAnjanath::begin()
 {
 	Animator3D()->SetBool(aggroed, false);
@@ -158,7 +163,6 @@ void CAnjanath::begin()
 
 void CAnjanath::tick()
 {
-	CheckPlayerPos();
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
 

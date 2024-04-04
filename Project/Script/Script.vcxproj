@@ -286,6 +286,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="TailSweep.cpp" />
     <ClCompile Include="WeakBite.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

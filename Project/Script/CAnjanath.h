@@ -38,7 +38,6 @@ private:
 
 private:
 	void Aggroed();
-	void CheckPlayerPos();
 	void ChooseAttack();
 	void EnRage();
 	void Death();
@@ -57,6 +56,7 @@ public:
 	bool OnFire() { return m_pWings->IsActive(); }
 	bool HasTail() { return !m_bTailCut; }
 
+	void CheckPlayerPos(Vec3& _dist, float& _degrees);
 public:
 	virtual void begin() override;
 	virtual void tick() override;

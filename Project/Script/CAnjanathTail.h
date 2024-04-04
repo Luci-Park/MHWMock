@@ -12,6 +12,8 @@ protected:
 public:
 	virtual void begin() override;
 public:
+	virtual void SaveToLevelFile(FILE* _File) override;
+	virtual void LoadFromLevelFile(FILE* _File) override;
 	CLONE(CAnjanathTail)
 	CAnjanathTail();
 	CAnjanathTail(const CAnjanathTail& _other);

@@ -105,9 +105,11 @@
     <ClInclude Include="CAnjanathFire.h">
       <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
-    <ClInclude Include="AnjAttackPicker.h" />
     <ClInclude Include="AnjStruct.h">
       <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjAttackPicker.h">
+      <Filter>Script\Anjanath\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +236,11 @@
     <ClCompile Include="CAnjanathFire.cpp">
       <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
-    <ClCompile Include="AnjAttackPicker.cpp" />
+    <ClCompile Include="AnjAttackPicker.cpp">
+      <Filter>Script\Anjanath\Attack</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

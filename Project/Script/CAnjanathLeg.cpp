@@ -36,3 +36,15 @@ void CAnjanathLeg::begin()
 	if (m_pScar)m_pScar->SetActive(false);
 }
 
+void CAnjanathLeg::SaveToLevelFile(FILE* _File)
+{
+	CAnjanathPart::SaveToLevelFile(_File);
+	SaveGameObjectParam(m_pScar, _File);
+}
+
+void CAnjanathLeg::LoadFromLevelFile(FILE* _File)
+{
+	CAnjanathPart::LoadFromLevelFile(_File);
+	LoadGameObjectParam(1, _File);
+}
+
