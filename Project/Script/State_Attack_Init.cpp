@@ -2433,6 +2433,7 @@ void ST_PLAYER_SUPER_BUST_ATTACK::OnAnimationBegin(IAnimationState* _pState, Pla
 	if (_pState->GetName() == L"Super_Bust_Attack_End")
 	{
 		_SubPlayed = true;
+		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
 	}
 }
 
@@ -2514,6 +2515,7 @@ void ST_PLAYER_BUST_ATTACK::OnAnimationBegin(IAnimationState* _pState, PlayerSta
 	if (_pState->GetName() == L"bust_Attack_End")
 	{
 		_SubPlayed = true;
+		StateMachine->ChangeScriptParam(L"Bust_Attack", AnimParamType::BOOL, A_FALSE);
 	}
 }
 

@@ -105,6 +105,7 @@ ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE:: ~ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE()
 }
 void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Enter(CGameObject* player, PlayerStateMachine* StateMachine)
 {
+	SoundPlay(L"sound\\Player\\05(Attack).mp3", 0.2f);
 	m_IsAnimationEnd = false;
 }
 void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
@@ -112,6 +113,7 @@ void ST_PLAYER_WP_SWITCH_AXE_TO_KNIFE::Tick(CGameObject* player, PlayerStateMach
 	if (StateMachine->GetStateDuration() > 0.5f && _IsPlayed == false)
 	{
 		SoundPlay(L"sound\\Player\\24(Change_to_Sword_2).mp3", 0.3f);
+		
 		_IsPlayed = true;
 	}
 
