@@ -13,7 +13,7 @@ WeakBite::~WeakBite()
 bool WeakBite::Attackable()
 {
 	//안 맞으면 맞추는 타입
-	return true;
+	return false;
 }
 
 int WeakBite::DamageContribution(SCRIPT_TYPE _attackPart)
