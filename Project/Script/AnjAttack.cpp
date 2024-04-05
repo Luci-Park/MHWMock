@@ -30,8 +30,8 @@ void AnjAttack::AttackTick()
 	}
 	if (m_State == ATK_STATE::MOVE)
 	{
-		bool move = Move();
-		if (move) return;
+		//bool move = Move();
+		//if (move) return;
 		m_pParent->Animator3D()->SetTrigger(m_pParent->stopMove);
 		m_State == ATK_STATE::TICK;
 	}
@@ -39,6 +39,12 @@ void AnjAttack::AttackTick()
 	{
 		Tick();
 	}
+}
+
+ANJ_MOVE_DIR AnjAttack::GeneralDir()
+{
+	Parent()->LookAt();
+	return ANJ_MOVE_DIR::SMALL_TURN;
 }
 
 void AnjAttack::AttackSuccess(SCRIPT_TYPE _type, CMainPlayerScript* _player)

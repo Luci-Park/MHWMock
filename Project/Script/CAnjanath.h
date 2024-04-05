@@ -46,7 +46,6 @@ private:
 	void Death();
 	void CheckWing(IAnimationState* _currentState, bool _start);
 	void CheckNose(IAnimationState* _currentState, bool _start);
-	void LookAt();
 public:
 	int HP() { return m_iHP; }
 	void Attacked(int _damage);
@@ -65,6 +64,7 @@ public:
 	float GetPlayerAngle();
 	float GetPlayerDist();
 	Vec3 GetPlayerPos();
+	void LookAt();
 public:
 	virtual void begin() override;
 	virtual void tick() override;

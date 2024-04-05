@@ -32,6 +32,8 @@ protected:
 	virtual bool Move() = 0;
 	virtual void Tick() = 0;
 
+	ANJ_MOVE_DIR GeneralDir();
+
 
 public:
 	AnjAttack(ANJ_ATTACK _type, CAnjanath* _parent, int _power);

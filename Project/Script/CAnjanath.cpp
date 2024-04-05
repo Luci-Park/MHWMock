@@ -79,7 +79,7 @@ void CAnjanath::tick()
 	if (ANJ_STATE::PEACE == m_State) return;
 	if (m_iHP <= 0) return;
 	if (m_pCurrentAttack) m_pCurrentAttack->AttackTick(); // set dir, Move
-	if (m_bMove)LookAt();
+	else LookAt();
 
 }
 
