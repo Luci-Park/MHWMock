@@ -283,7 +283,7 @@ void ST_PLAYER_WP_HIT_F::Exit(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_F::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if(_pState->GetName() == L"wp_Hit_Front")
+	if(_pState->GetName() == L"wp_Hit_Front" || _pState->GetName() == L"Wp_Idle")
 		m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
@@ -317,7 +317,7 @@ void ST_PLAYER_WP_HIT_L::Exit(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_L::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if(_pState->GetName() == L"wp_Hit_Left")
+	if(_pState->GetName() == L"wp_Hit_Left" || _pState->GetName() == L"Wp_Idle")
 		m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
@@ -355,7 +355,7 @@ void ST_PLAYER_WP_HIT_B::Exit(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_B::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if(_pState->GetName() == L"wp_Hit_Back")
+	if(_pState->GetName() == L"wp_Hit_Back" || _pState->GetName() == L"Wp_Idle")
 		m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
@@ -389,7 +389,7 @@ void ST_PLAYER_WP_HIT_R::Exit(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_HIT_R::OnAnimationEndStart(IAnimationState* _pState, PlayerStateMachine* StateMachine)
 {
-	if(_pState->GetName() == L"Wp_Hit_Right")
+	if(_pState->GetName() == L"Wp_Hit_Right" || _pState->GetName() == L"Wp_Idle")
 		m_IsAnimationEnd = true;
 }
 //-------------------------------------------------------------------------------------
