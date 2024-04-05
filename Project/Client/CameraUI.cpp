@@ -49,12 +49,12 @@ int CameraUI::render_update()
                 ImGui::Checkbox(LAYER_TYPE_STR[i], &check[i]);
             }
         }
-    }
-    for (size_t i = 0; i < MAX_LAYER; i++)
-    {
-        if (LAYER_TYPE_STR[i] != "")
-            GetTarget()->Camera()->SetLayerMask(i, check[i]);
+        for (size_t i = 0; i < MAX_LAYER; i++)
+        {
+            if (LAYER_TYPE_STR[i] != "")
+                GetTarget()->Camera()->SetLayerMask(i, check[i]);
 
+        }
     }
 
     GetTarget()->Camera()->SetFar(vFar);
