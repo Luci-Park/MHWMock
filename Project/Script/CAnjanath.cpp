@@ -176,7 +176,10 @@ void CAnjanath::LookAt()
 	Matrix mat = Matrix::CreateLookAt(Transform()->GetWorldPos(), m_pPlayer->Transform()->GetWorldPos(), Transform()->GetWorldDir(DIR_TYPE::UP));
 	Vector3 scale, pos; Quaternion rot;
 	mat.Decompose(scale, rot, pos);
-	Transform()->SetRelativeRot(rot);
+	Vector3 vRot = Transform()->GetRelativeEulerRot();
+	vRot.y = rot.ToEuler().y;
+	
+	Transform()->SetRelativeRot(vRot);
 }
 
 void CAnjanath::StopAttack()
