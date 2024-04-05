@@ -133,16 +133,16 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
 						break;
 					case A_L:
-						ChangeASTMParam(StateMachine, L"Dir", A_3);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
+						ChangeASTMParam(StateMachine, L"Dir", A_1);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
 						break;
 					case A_B:
 						ChangeASTMParam(StateMachine, L"Dir", A_0);
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
 						break;
 					case A_R:
-						ChangeASTMParam(StateMachine, L"Dir", A_1);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
+						ChangeASTMParam(StateMachine, L"Dir", A_3);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
 						break;
 					default:
 						break;
@@ -166,16 +166,16 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
 						break;
 					case A_L:
-						ChangeASTMParam(StateMachine, L"Dir", A_2);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+						ChangeASTMParam(StateMachine, L"Dir", A_0);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
 						break;
 					case A_B:
 						ChangeASTMParam(StateMachine, L"Dir", A_3);
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
 						break;
 					case A_R:
-						ChangeASTMParam(StateMachine, L"Dir", A_0);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+						ChangeASTMParam(StateMachine, L"Dir", A_2);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
 						break;
 					default:
 						break;
@@ -198,16 +198,16 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_01::Tick(CGameObject* player, PlayerStateMac
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_R");
 						break;
 					case A_L:
-						ChangeASTMParam(StateMachine, L"Dir", A_0);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
+						ChangeASTMParam(StateMachine, L"Dir", A_2);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
 						break;
 					case A_B:
 						ChangeASTMParam(StateMachine, L"Dir", A_1);
 						StateMachine->ChangeState(L"Wp_Sliding_Attack_L");
 						break;
 					case A_R:
-						ChangeASTMParam(StateMachine, L"Dir", A_2);
-						StateMachine->ChangeState(L"Wp_Sliding_Attack_B");
+						ChangeASTMParam(StateMachine, L"Dir", A_0);
+						StateMachine->ChangeState(L"Wp_Sliding_Attack_F");
 						break;
 					default:
 						break;

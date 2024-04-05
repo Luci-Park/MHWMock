@@ -192,6 +192,7 @@ void ST_PLAYER_N_MOVE_FORWARD::Tick(CGameObject* player, PlayerStateMachine* Sta
 			ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
 
@@ -408,6 +409,7 @@ void ST_PLAYER_N_MOVE_LEFT::Tick(CGameObject* player, PlayerStateMachine* StateM
 			ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
 
@@ -617,6 +619,7 @@ void ST_PLAYER_N_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* St
 			ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
 
@@ -828,6 +831,7 @@ void ST_PLAYER_N_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* State
 			ChangeASTMParam(StateMachine, L"Wp_on", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsRun", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_TRUE);
 			StateMachine->ChangeState(L"Wp_Idle");
 		}
 
@@ -1184,9 +1188,9 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 	{
 		if (KEY_TAP(KEY::LBTN))
 		{
+			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			ChangeASTMParam(StateMachine, L"Left_Btn", A_TRUE);
 			ChangeASTMParam(StateMachine, L"IsAttack", A_TRUE);
-			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 			StateMachine->ChangeState(L"Wp_Attack");
 		}
 
@@ -1194,6 +1198,7 @@ void ST_PLAYER_WP_MOVE_Forward::Tick(CGameObject* player, PlayerStateMachine* St
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
 
@@ -1384,6 +1389,7 @@ void ST_PLAYER_WP_MOVE_Left::Tick(CGameObject* player, PlayerStateMachine* State
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
 
@@ -1575,6 +1581,7 @@ void ST_PLAYER_WP_MOVE_Right::Tick(CGameObject* player, PlayerStateMachine* Stat
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
 
@@ -1768,6 +1775,7 @@ void ST_PLAYER_WP_MOVE_Backward::Tick(CGameObject* player, PlayerStateMachine* S
 		{
 			ChangeASTMParam(StateMachine, L"Wp_on", A_FALSE);
 			ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
+			StateMachine->ChangeScriptParam(L"Wp_On", AnimParamType::BOOL, A_FALSE);
 			StateMachine->ChangeState(L"N_Idle");
 		}
 

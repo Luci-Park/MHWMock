@@ -105,8 +105,6 @@ void ST_PLAYER_WP_IDLE::Enter(CGameObject* player, PlayerStateMachine* StateMach
 }
 void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
-	if (_IsInput)
-	{
 		//Moving
 		if (KEY_PRESSED(KEY::W) ||
 			KEY_PRESSED(KEY::A) ||
@@ -190,7 +188,6 @@ void ST_PLAYER_WP_IDLE::Tick(CGameObject* player, PlayerStateMachine* StateMachi
 			ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
 			StateMachine->ChangeState(L"Wp_Rolling");
 		}
-	}
 }
 void ST_PLAYER_WP_IDLE::Exit(CGameObject* player, PlayerStateMachine* StateMachine)
 {

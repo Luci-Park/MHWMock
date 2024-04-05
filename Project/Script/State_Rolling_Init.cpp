@@ -267,13 +267,13 @@ void ST_PLAYER_WP_AXE_ROLLING::Enter(CGameObject* player, PlayerStateMachine* St
 	}
 
 	ChangeASTMParam(StateMachine, L"Rolling_Tg", A_TRUE);
+	ChangeASTMParam(StateMachine, L"IsMove", A_FALSE);
 	ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 }
 void ST_PLAYER_WP_AXE_ROLLING::Tick(CGameObject* player, PlayerStateMachine* StateMachine)
 {
 	if (m_IsAnimationEnd)
 	{
-		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_AXE_Idle");
 	}
 }
