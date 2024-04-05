@@ -90,6 +90,7 @@ void CAnjanath::ChooseAttack()
 		EnRage();
 		return;
 	}
+	LookAt();
 	m_pCurrentAttack = m_pAttackPicker->PickAttack();
 	m_pCurrentAttack->AttackStart();
 	Animator3D()->SetInt(attackType, (int)m_pCurrentAttack->GetType());
