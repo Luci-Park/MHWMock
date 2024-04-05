@@ -154,7 +154,7 @@ void CMainPlayerScript::Hitted(bool ishit, CGameObject* monster)
 
 	if (_stateMachine->GetASTMParam(L"Wp_on").BOOL)
 	{
-		if (_stateMachine->GetASTMParam(L"IsAxe").BOOL)
+		if (_stateMachine->GetASTMParam(L"IsAxe").BOOL == false)
 			_stateMachine->ChangeState(L"Wp_HIT");
 		else
 			_stateMachine->ChangeState(L"Wp_AXE_HIT");
