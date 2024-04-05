@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CSwordScript.h"
 #include "CAnjanathPart.h"
+#include "Engine\CSound.h"
+#include "Engine\CResMgr.h"
 
 CSwordScript::CSwordScript()
 	: CScript((UINT)SCRIPT_TYPE::SWORDSCRIPT)
@@ -60,6 +62,7 @@ void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
 	CAnjanathPart* coll = _Other->GetOwner()->GetScript<CAnjanathPart>();
 	if (coll != nullptr && _IsAttack == true)
 	{
+		CResMgr::GetInst()->FindRes<CSound>(L"sound\\Player\\26(Attacked_Effect_Sound).mp3")->Play(1,0.3f,true);
 		coll->Attacked(20);
 		_IsAttack = false;
 	}
