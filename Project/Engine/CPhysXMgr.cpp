@@ -241,6 +241,20 @@ void CPhysXMgr::FetchResults()
 
 					rPair.pFirst->Collider3D()->OnCollisionExit(rPair.pSecond->Collider3D());
 					rPair.pSecond->Collider3D()->OnCollisionExit(rPair.pFirst->Collider3D());
+					
+				}
+				else
+				{
+					if (rPair.pFirst == nullptr)
+					{
+						rPair.pSecond->Collider3D()->SetRigidDynamicLockFlag(true);
+						rPair.pSecond->Collider3D()->OnCollisionExit(rPair.pFirst->Collider3D());
+					}
+					else
+					{
+						rPair.pFirst->Collider3D()->SetRigidDynamicLockFlag(true);
+						rPair.pFirst->Collider3D()->OnCollisionExit(rPair.pSecond->Collider3D());
+					}
 				}
 				break;
 			default:
