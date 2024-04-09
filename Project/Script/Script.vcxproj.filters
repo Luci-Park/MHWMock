@@ -90,24 +90,6 @@
     <ClInclude Include="CSwordScript.h">
       <Filter>Script\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="AnjAttack.h">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathBody.h">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathHead.h">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathLeg.h">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathPart.h">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathTail.h">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClInclude>
     <ClInclude Include="CIntroObjScript.h">
       <Filter>Script\Intro</Filter>
     </ClInclude>
@@ -116,15 +98,6 @@
     </ClInclude>
     <ClInclude Include="CArenaScript.h">
       <Filter>Script\Arena</Filter>
-    </ClInclude>
-    <ClInclude Include="AnjAttackPicker.h">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="AnjStruct.h">
-      <Filter>Script\Anjanath</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnjanathFire.h">
-      <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,24 +170,6 @@
     <ClCompile Include="CPlayerShieldScript.cpp">
       <Filter>Script\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="AnjAttack.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathBody.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathHead.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathLeg.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathPart.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathTail.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
     <ClCompile Include="CIntroObjScript.cpp">
       <Filter>Script\Intro</Filter>
     </ClCompile>
@@ -223,42 +178,6 @@
     </ClCompile>
     <ClCompile Include="CArenaScript.cpp">
       <Filter>Script\Arena</Filter>
-    </ClCompile>
-    <ClCompile Include="AnjAttackPicker.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Bite.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="BodySlam.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="ContinBite.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Flame.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Rush.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="TailSlam.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="TailSweep.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="WeakBite.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnjanathFire.cpp">
-      <Filter>Script\Anjanath\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="Claw.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="ForwardAtk.cpp">
-      <Filter>Script\Anjanath\Attack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

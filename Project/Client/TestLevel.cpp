@@ -45,10 +45,10 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
-	//pMainCam->AddComponent(new CCameraMoveScript);
+	pMainCam->AddComponent(new CCameraMoveScript);
 	pMainCam->Transform()->SetRelativePos(0, 0, -50000);
 	pMainCam->Camera()->SetFar(100000.f);
-	pMainCam->AddComponent(new CPlayerCameraScript);
+	//pMainCam->AddComponent(new CPlayerCameraScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		

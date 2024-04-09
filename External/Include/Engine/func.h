@@ -125,3 +125,5 @@ wstring GetAnimParamWStr(AnimParamType _type);
 
 string GetAnimConditionStr(AnimConditionType _type);
 wstring GetAnimCondtionWstr(AnimConditionType _type);
+
+float Angles(const Vector3& v1, const Vector3& v2);

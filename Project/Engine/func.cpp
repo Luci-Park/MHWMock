@@ -414,3 +414,15 @@ wstring GetAnimCondtionWstr(AnimConditionType _type)
 	}
 	return L"none";
 }
+
+float Angles(const Vector3& v1, const Vector3& v2)
+{
+	float dot = v1.Dot(v2);
+	float magprod = v1.Length() * v2.Length();
+	if (magprod == 0.0) return 0.0;
+	
+	float cosAng = dot / magprod;
+	cosAng = max(-1.0f, min(1.0f, cosAng));
+	float rad = acos(cosAng);
+	return XMConvertToDegrees(rad);
+}
