@@ -2,6 +2,8 @@
 #include "CAnimationState.h"
 #include "CAnimationTransition.h"
 #include "CAnimationStateMachine.h"
+#include "CAnimator3D.h"
+#include "CTransform.h"
 #include "CTimeMgr.h"
 
 CAnimationState::CAnimationState(CAnimator3D* _animator3D, CAnimationStateMachine* _root, CAnimationStateMachine* _parent)
@@ -77,12 +79,24 @@ KeyFrames& CAnimationState::GetBoneTransforms()
 	auto rootKey = frames.find(L"Root");
 	if (rootKey != frames.end())
 	{
-		auto tempFrame = rootKey->second;
 		if (m_bIsFirstTick)
 		{
+			for (int i = 0; i < 3; i++)
+				m_vWorldDir[i] = m_pAnimator->Transform()->GetRelativeDir((DIR_TYPE)i);
+		}
+
+		rootKey->second.vPos = m_vWorldDir[(int)DIR_TYPE::RIGHT] * rootKey->second.vPos.x
+			+ m_vWorldDir[(int)DIR_TYPE::UP] * rootKey->second.vPos.y
+			+ m_vWorldDir[(int)DIR_TYPE::FRONT] * rootKey->second.vPos.z;
+
+		auto tempFrame = rootKey->second;
+
+		if (m_bIsFirstTick)
+		{ 
 			m_prevRootFrame = tempFrame;
 			m_bIsFirstTick = false;
 		}
+
 		rootKey->second.vPos -= m_prevRootFrame.vPos;
 
 		Quaternion prevCon;

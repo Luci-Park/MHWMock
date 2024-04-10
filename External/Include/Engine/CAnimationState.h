@@ -15,6 +15,7 @@ private:
 	int								m_iRepeatNum;
 	tAnimationKeyFrame				m_prevRootFrame;
 	bool							m_bIsFirstTick;
+	Vec3							m_vWorldDir[3];
 
 public:
 	void SetClip(Ptr<CAnimationClip> _pClip);

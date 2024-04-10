@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CAnjanath.h"
+#include <Engine/CTimeMgr.h>
 
 
 CAnjanath::CAnjanath()
@@ -26,7 +27,7 @@ void CAnjanath::RotateTowardsPlayer()
 	Vector3 playerDir = (playerPos - myPos).Normalize();
 	m_fAngle = Angles(front, playerDir);
 	Vector3 rotation = Transform()->GetRelativeEulerRot();
-	rotation.y += m_fAngle * (front.Cross(playerDir).y < 0 ? -1 : 1);
+	rotation.y += (front.Cross(playerDir).y < 0 ? -1 : 1) * m_fAngle * CTimeMgr::GetInst()->GetDeltaTime();
 
 	Transform()->SetRelativeRot(rotation);
 
