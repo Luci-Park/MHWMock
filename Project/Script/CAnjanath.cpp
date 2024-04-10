@@ -2,6 +2,7 @@
 #include "CAnjanath.h"
 #include <Engine/CTimeMgr.h>
 
+enum class REPOS_DIR {FARLEFT, FARRIGHT, FARLEFTBACK, FARRIGHTBACK, LEFT, RIGHT, LEFTBACK, RIGHTBACK, VRYNEAR, NONE};
 
 CAnjanath::CAnjanath()
 	:CScript(SCRIPT_TYPE::ANJANATH)
@@ -38,11 +39,6 @@ void CAnjanath::tick()
 {
 	m_fDistance = Vector3::Distance(m_pPlayer->Transform()->GetWorldPos(), Transform()->GetWorldPos());
 	RotateTowardsPlayer();
-
-	//if (m_fDistance >= 100)
-	//{
-	//	Animator3D()->SetTrigger(L"Stop Move");
-	//}
 }
 
 void CAnjanath::SaveToLevelFile(FILE* _File)
