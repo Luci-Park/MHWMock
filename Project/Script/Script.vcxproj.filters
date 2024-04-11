@@ -34,9 +34,6 @@
     <Filter Include="Script\Anjanath\Body">
       <UniqueIdentifier>{7063d274-2d89-4641-b9c8-f837858720a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\Anjanath\Attack">
-      <UniqueIdentifier>{b72515df-182a-445a-a239-a586c9cbfaea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\Intro">
       <UniqueIdentifier>{2de26b30-a555-482a-a7d2-9db18b0bfd40}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,9 @@
     </Filter>
     <Filter Include="Script\Arena">
       <UniqueIdentifier>{707136cb-58d6-493f-b14f-0795e1eed71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Anjanath\Action">
+      <UniqueIdentifier>{83263cde-c622-44bf-b5b2-5029595186c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +98,15 @@
     </ClInclude>
     <ClInclude Include="CArenaScript.h">
       <Filter>Script\Arena</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjAction.h">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjStruct.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
+    <ClInclude Include="AnjActionPicker.h">
+      <Filter>Script\Anjanath\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="CArenaScript.cpp">
       <Filter>Script\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="AnjAction.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="AnjActionPicker.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_Roar.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

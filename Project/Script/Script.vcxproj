@@ -212,6 +212,9 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnjAction.h" />
+    <ClInclude Include="AnjActionPicker.h" />
+    <ClInclude Include="AnjStruct.h" />
     <ClInclude Include="CAnjanath.h" />
     <ClInclude Include="CArenaScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
@@ -231,6 +234,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnjAction.cpp" />
+    <ClCompile Include="AnjActionPicker.cpp" />
     <ClCompile Include="CAnjanath.cpp" />
     <ClCompile Include="CArenaScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
@@ -252,6 +257,7 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Anj_Roar.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="PlayerStateMachine.cpp" />

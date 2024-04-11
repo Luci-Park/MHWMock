@@ -5,4 +5,5 @@ targetver.h
 CSceneSaveLoad.h
 AnjAttack.h
 AnjStruct.h
-AnjAttackPicker.h
+AnjActionPicker.h
+AnjAction.h
