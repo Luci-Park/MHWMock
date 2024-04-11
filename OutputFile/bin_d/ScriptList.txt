@@ -1,9 +1,4 @@
 CAnjanath
-CAnjanathBody
-CAnjanathFire
-CAnjanathHead
-CAnjanathLeg
-CAnjanathTail
 CArenaScript
 CCameraMoveScript
 CCompleteScript
@@ -17,4 +12,3 @@ CPlayerScript
 CPlayerShieldScript
 CSwordScript
 CTestScript
-CWeaponScript

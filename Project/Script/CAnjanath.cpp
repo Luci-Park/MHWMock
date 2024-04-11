@@ -64,6 +64,14 @@ float CAnjanath::GetDistanceBetweenPlayer()
 	return Vector3::Distance(playerPos, myPos);
 }
 
+void CAnjanath::LookAtPlayer()
+{
+	float angle = GetAngleBetweenPlayer();
+	Vector3 rotation = Transform()->GetRelativeEulerRot();
+	rotation.y += angle;
+	Transform()->SetRelativeRot(rotation);
+}
+
 void CAnjanath::tick()
 {
 	if (m_bMoving) RotateTowardsPlayer();
@@ -83,7 +91,8 @@ void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 	{
 		OnPickAction();
 	}
-
+	if (_pState->GetClip() != nullptr && m_pCurrentAction != nullptr)
+		m_pCurrentAction->CheckAnimation(_pState->GetClip()->GetName());
 }
 
 void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)

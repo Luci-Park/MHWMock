@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CScriptMgr.h"
+
 #include "CAnjanath.h"
 #include "CArenaScript.h"
 #include "CCameraMoveScript.h"
@@ -63,7 +64,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSwordScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
-
 	return nullptr;
 }
 
@@ -113,7 +113,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
 		break;
-
 	}
 	return nullptr;
 }
@@ -125,6 +124,7 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::ANJANATH:
 		return L"CAnjanath";
 		break;
+
 	case SCRIPT_TYPE::ARENASCRIPT:
 		return L"CArenaScript";
 		break;
@@ -176,7 +176,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
 		break;
-
 
 	}
 	return nullptr;

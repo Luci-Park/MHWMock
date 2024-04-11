@@ -23,6 +23,7 @@ private:
 public:
 	float GetAngleBetweenPlayer();
 	float GetDistanceBetweenPlayer();
+	void LookAtPlayer();
 	
 	virtual void tick() override;
 
