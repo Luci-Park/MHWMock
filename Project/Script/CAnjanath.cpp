@@ -6,7 +6,7 @@
 CAnjanath::CAnjanath()
 	:CScript(SCRIPT_TYPE::ANJANATH)
 	, m_pPlayer(nullptr)
-	, m_fRotateSpeed(30.f)
+	, m_fRotateSpeed(90.f)
 {
 	m_pPicker = new AnjActionPicker(this);
 
@@ -25,10 +25,10 @@ void CAnjanath::OnPickAction(ANJ_ACTION _action)
 {
 	m_pCurrentAction = m_pPicker->PickAction(_action);
 	REPOS_DIR dir = m_pCurrentAction->TurnDir();
-	m_bMoving = m_pCurrentAction->KeepMoving();
 	Animator3D()->SetInt(L"Action Type", (int)m_pCurrentAction->GetType());
 	Animator3D()->SetInt(L"Turn Dir", (int)dir);
-	if (!m_bMoving) Animator3D()->SetTrigger(L"Stop Move");
+	bool move = m_pCurrentAction->KeepMoving();
+	Animator3D()->SetTrigger(L"Stop Move", move);
 }
 
 void CAnjanath::RotateTowardsPlayer()
@@ -75,11 +75,13 @@ void CAnjanath::LookAtPlayer()
 
 void CAnjanath::tick()
 {
-	if (m_bMoving) RotateTowardsPlayer();
-	if (m_pCurrentAction && m_bMoving)
+	double percentage;
+	auto clip = Animator3D()->GetCurrentAnimation(percentage);
+	if (clip != nullptr&& clip->GetName() == L"Animation 036") RotateTowardsPlayer();
+	if (m_pCurrentAction)
 	{
-		m_bMoving = m_pCurrentAction->KeepMoving();
-		if(!m_bMoving) Animator3D()->SetTrigger(L"Stop Move");
+		bool move = m_pCurrentAction->KeepMoving();
+		Animator3D()->SetTrigger(L"Stop Move", move);
 	}
 }
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
@@ -89,6 +91,10 @@ void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 		OnPickAction(ANJ_ACTION::ROAR);
 	}
 	if (_pState->GetType() == eAnimationNodeType::StateMachine && _pState->GetName() == L"Action")
+	{
+		OnPickAction();
+	}
+	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Check Action")
 	{
 		OnPickAction();
 	}

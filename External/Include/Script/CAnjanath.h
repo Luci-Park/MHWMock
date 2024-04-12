@@ -11,8 +11,6 @@ private:
 	float m_fDistance;
 	float m_fAngle;
 
-	bool m_bMoving;
-
 	AnjActionPicker* m_pPicker;
 	AnjAction* m_pCurrentAction;
 

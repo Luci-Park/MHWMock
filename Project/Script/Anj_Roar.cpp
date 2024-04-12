@@ -28,7 +28,7 @@ REPOS_DIR Anj_Roar::TurnDir()
 
 	if (abs(angle) < 45.f) return REPOS_DIR::FRONT;
 	if (abs(angle) < 135.f) return angle < 0 ? REPOS_DIR::LEFT : REPOS_DIR::RIGHT;
-	return angle < 0 ? REPOS_DIR::LEFTBACK : REPOS_DIR::RIGHTBACK;
+	return REPOS_DIR::LEFTBACK;//angle < 0 ? REPOS_DIR::LEFTBACK : REPOS_DIR::RIGHTBACK;
 
 }
 
