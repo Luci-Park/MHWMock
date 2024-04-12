@@ -6,6 +6,7 @@
 CAnjanath::CAnjanath()
 	:CScript(SCRIPT_TYPE::ANJANATH)
 	, m_pPlayer(nullptr)
+	, m_fRotateSpeed(30.f)
 {
 	m_pPicker = new AnjActionPicker(this);
 
@@ -25,7 +26,7 @@ void CAnjanath::OnPickAction(ANJ_ACTION _action)
 	m_pCurrentAction = m_pPicker->PickAction(_action);
 	REPOS_DIR dir = m_pCurrentAction->TurnDir();
 	m_bMoving = m_pCurrentAction->KeepMoving();
-	Animator3D()->SetInt(L"Action Type", (int)_action);
+	Animator3D()->SetInt(L"Action Type", (int)m_pCurrentAction->GetType());
 	Animator3D()->SetInt(L"Turn Dir", (int)dir);
 	if (!m_bMoving) Animator3D()->SetTrigger(L"Stop Move");
 }
