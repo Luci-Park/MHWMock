@@ -6,6 +6,7 @@ AnjActionPicker::AnjActionPicker(CAnjanath* _parent)
     : m_pParent(_parent)
 {
     m_Actions[(int)ANJ_ACTION::ROAR] = new Anj_Roar(_parent);
+    m_Actions[(int)ANJ_ACTION::BITE] = new Anj_Bite(_parent);
 }
 
 AnjActionPicker::~AnjActionPicker()

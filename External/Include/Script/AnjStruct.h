@@ -6,4 +6,4 @@ enum class REPOS_DIR { FRONT,
 	VRYNEAR, NONE 
 };
 
-enum class ANJ_ACTION { ROAR, NONE };
+enum class ANJ_ACTION { ROAR, BITE, NONE };

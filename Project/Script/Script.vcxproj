@@ -236,6 +236,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="AnjAction.cpp" />
     <ClCompile Include="AnjActionPicker.cpp" />
+    <ClCompile Include="Anj_Bite.cpp" />
     <ClCompile Include="CAnjanath.cpp" />
     <ClCompile Include="CArenaScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />

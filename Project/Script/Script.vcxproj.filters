@@ -197,5 +197,8 @@
     <ClCompile Include="Anj_Roar.cpp">
       <Filter>Script\Anjanath\Action</Filter>
     </ClCompile>
+    <ClCompile Include="Anj_Bite.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
