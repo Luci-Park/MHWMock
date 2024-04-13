@@ -31,6 +31,9 @@ public:
 	float GetDistanceBetweenPlayer();
 	void LookAtPlayer();
 	
+	void Stagger();
+
+	virtual void begin() override;
 	virtual void tick() override;
 
 	virtual void OnAnimationBegin(IAnimationState* _pState) override;

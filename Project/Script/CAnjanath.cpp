@@ -34,6 +34,12 @@ void CAnjanath::OnDamaged(int _damge)
 	Animator3D()->SetBool(L"Aggroed", true);
 }
 
+void CAnjanath::Stagger()
+{
+	m_bStagger = true;
+	Animator3D()->SetTrigger(L"Stagger");
+}
+
 void CAnjanath::OnPickAction(ANJ_ACTION _action)
 {
 	if (m_pCurrentAction != nullptr) m_pCurrentAction->AttackEnd();
@@ -88,6 +94,11 @@ void CAnjanath::LookAtPlayer()
 	Vector3 rotation = Transform()->GetRelativeEulerRot();
 	rotation.y += angle;
 	Transform()->SetRelativeRot(rotation);
+}
+
+void CAnjanath::begin()
+{
+	OnDamaged(0);
 }
 
 void CAnjanath::tick()

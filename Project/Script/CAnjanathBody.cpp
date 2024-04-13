@@ -17,7 +17,7 @@ int CAnjanathBody::OnAttacked(int _damage)
 
 void CAnjanathBody::OnHPZero()
 {
-	//Parent()->BodyShot();
+	Anj()->Stagger();
 }
 
 void CAnjanathBody::SaveToLevelFile(FILE* _File)

@@ -22,6 +22,7 @@ void CAnjanathTail::OnHPZero()
 {
 	if (m_pTail)m_pTail->SetActive(false);
 	Anj()->OnDamaged(350);
+	Anj()->Stagger();
 }
 
 void CAnjanathTail::begin()

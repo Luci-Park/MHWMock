@@ -23,7 +23,7 @@ int CAnjanathHead::OnAttacked(int _damage)
 
 void CAnjanathHead::OnHPZero()
 {
-	//Parent()->NoseBreak();
+	Anj()->Stagger();
 	Anj()->OnDamaged(480);
 	
 	if (m_pScar1) m_pScar1->SetActive(true);
