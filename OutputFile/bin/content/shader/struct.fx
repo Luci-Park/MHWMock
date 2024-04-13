@@ -114,4 +114,13 @@ struct tSkinningInfo
     float3 vBinormal;
     float3 vNormal;
 };
+
+struct tParticleAnime
+{
+    float2  vLeftTop;
+    float2  vSize;
+    bool    bIsAnime;
+    float2  padding;
+    float   padding2;
+};
 #endif

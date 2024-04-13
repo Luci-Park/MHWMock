@@ -191,11 +191,21 @@ void CreateTestLevel()
 	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
 	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 3);
+
+	//CGameObject* pObject3 = new CGameObject;
+	//pObject3->SetName(L"Particle");
+	//pObject3->AddComponent(new CTransform);
+	//pObject3->AddComponent(new CParticleSystem);
+
+	//CParticleSystem* ps = (CParticleSystem*)pObject3->GetComponent(COMPONENT_TYPE::PARTICLESYSTEM);
+	//ps->IsAnime(true);
+	//ps->AnimeXY(Vec2(8, 3));
+	//SpawnGameObject(pObject3,Vec3(0.f,0.f,0.f),4);
+
 }
 
 void testtick()
 {
-
 	DrawDebugSphere(Vec3(10, 10, 10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
 	DrawDebugSphere(Vec3(-10, -10, -10), 1.f, Vec4(1, 1, 1, 1), Vec3(0, 0, 0));
 
