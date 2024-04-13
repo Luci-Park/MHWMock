@@ -7,3 +7,5 @@ AnjAttack.h
 AnjStruct.h
 AnjActionPicker.h
 AnjAction.h
+CAnjanathPart.h
+CAnjanathLeg.h

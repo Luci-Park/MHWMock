@@ -108,6 +108,27 @@
     <ClInclude Include="AnjActionPicker.h">
       <Filter>Script\Anjanath\Action</Filter>
     </ClInclude>
+    <ClInclude Include="CAnjanathPart.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathBody.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathHead.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathLeftLeg.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathLeg.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathRightLeg.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnjanathTail.h">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -199,6 +220,48 @@
     </ClCompile>
     <ClCompile Include="Anj_Bite.cpp">
       <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_ContinBite.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_ClawScratch.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_TailSlam.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_TailSweep.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_ForwardAtk.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_Rush.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Anj_BodySlam.cpp">
+      <Filter>Script\Anjanath\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathPart.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathBody.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathHead.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathLeftLeg.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathLeg.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathRightLeg.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathTail.cpp">
+      <Filter>Script\Anjanath\Body</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

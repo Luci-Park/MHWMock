@@ -1,4 +1,9 @@
 CAnjanath
+CAnjanathBody
+CAnjanathHead
+CAnjanathLeftLeg
+CAnjanathRightLeg
+CAnjanathTail
 CArenaScript
 CCameraMoveScript
 CCompleteScript

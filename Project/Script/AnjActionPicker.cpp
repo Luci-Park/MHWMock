@@ -4,9 +4,17 @@
 
 AnjActionPicker::AnjActionPicker(CAnjanath* _parent)
     : m_pParent(_parent)
+    , m_prevAction(ANJ_ACTION::NONE)
 {
     m_Actions[(int)ANJ_ACTION::ROAR] = new Anj_Roar(_parent);
     m_Actions[(int)ANJ_ACTION::BITE] = new Anj_Bite(_parent);
+    m_Actions[(int)ANJ_ACTION::CONTIN_BITE] = new Anj_ContinBite(_parent);
+    m_Actions[(int)ANJ_ACTION::CLAW_SCRATCH] = new Anj_ClawScratch(_parent);
+    m_Actions[(int)ANJ_ACTION::TAIL_SLAM] = new Anj_TailSlam(_parent);
+    m_Actions[(int)ANJ_ACTION::TAIL_SWEEP] = new Anj_TailSweep(_parent);
+    m_Actions[(int)ANJ_ACTION::BODY_SLAM] = new Anj_BodySlam(_parent);
+    m_Actions[(int)ANJ_ACTION::FORWARD_ATK] = new Anj_ForwardAtk(_parent);
+    m_Actions[(int)ANJ_ACTION::RUSH] = new Anj_Rush(_parent);
 }
 
 AnjActionPicker::~AnjActionPicker()
@@ -16,7 +24,11 @@ AnjActionPicker::~AnjActionPicker()
 
 AnjAction* AnjActionPicker::PickAction(ANJ_ACTION _action)
 {
-	if (_action != ANJ_ACTION::NONE) return m_Actions[(int)_action];
+    if (_action != ANJ_ACTION::NONE)
+    {
+        m_prevAction = _action;
+        return m_Actions[(int)_action];
+    }
 
     vector<AnjAction*>vecActions;
     for (int i = 0; i < (UINT)ANJ_ACTION::NONE; i++)
@@ -30,5 +42,9 @@ AnjAction* AnjActionPicker::PickAction(ANJ_ACTION _action)
 
     // Generate a random index
     int randomIndex = dis(gen);
+    while (vecActions.size() > 1 && vecActions[randomIndex]->GetType() != m_prevAction)
+        randomIndex = dis(gen);
+
+    m_prevAction = vecActions[randomIndex]->GetType();
     return vecActions[randomIndex];
 }
