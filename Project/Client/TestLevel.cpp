@@ -18,7 +18,6 @@
 
 #include "CLevelSaveLoad.h"
 
-
 #include <Engine/CSetColorShader.h>
 
 #include <Engine\CCanvas.h>
@@ -108,6 +107,34 @@ void CreateTestLevel()
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.f, 0.f, 0.f));
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
+
+	// LandScape Object
+	CGameObject* pLandScape = new CGameObject;
+	pLandScape->SetName(L"LandScape");
+
+	pLandScape->AddComponent(new CTransform);
+	pLandScape->AddComponent(new CLandScape);
+
+	pLandScape->Transform()->SetRelativeScale(Vec3(500.f, 3000.f, 500.f));
+
+	pLandScape->LandScape()->SetFace(64, 64);
+	pLandScape->LandScape()->SetFrustumCheck(false);
+
+	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+
+	//Ptr<CTexture> tex;
+
+	//vector<Ptr<CTexture>>_vecTex;
+
+	//_vecTex.push_back(0);
+	//_vecTex.push_back(0);
+	//_vecTex.push_back(0);
+	//_vecTex[0] = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\DXT1_gnd02_soil_17_BML.dds");
+	//_vecTex[1] = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\BC5_gnd02_soil_17_NM.dds");
+	//_vecTex[2] = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\BC7_gnd02_soil_17_RMT.dds");
+
+	//tex->CreateArrayTexture(_vecTex, 8);
+	//tex->Save(L"texture\\tile");
 
 	//CGameObject* pParentObj = new CGameObject;
 	//pParentObj->SetName(L"Parent");

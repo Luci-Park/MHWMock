@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CLandScape.h"
 
+#include "CRenderMgr.h"
+#include "CCamera.h"
 #include "CResMgr.h"
 #include "CTransform.h"
 
@@ -11,6 +13,12 @@ CLandScape::CLandScape()
 {
 	CreateMesh();
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"LandScapeMtrl"));
+	
+	// 알맞은 Texture넣어주기
+	//m_HeightMap = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\DXT1_gnd02_soil_17_BML.dds");
+
+	m_pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_ARRR.dds");
+	m_pTileArrTex->GenerateMip(8);
 }
 
 CLandScape::~CLandScape()
@@ -34,7 +42,30 @@ void CLandScape::render()
 	GetMaterial()->SetScalarParam(INT_1, &m_iFaceZ);
 	GetMaterial()->SetTexParam(TEX_2, m_HeightMap);
 
+	//Vec2 vResolution = Vec2(m_HeightMap->Width(), m_HeightMap->Height());
+	//GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, &vResolution);
+	//GetMaterial()->SetTexParam(TEX_PARAM::TEX_2, m_HeightMap);
+
+	//// 가중치 버퍼 해상도 전달
+	//Vec2 vWeightMapResolution = Vec2((float)m_iWeightWidth, (float)m_iWeightHeight);
+	//GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, &vWeightMapResolution);
+
+	// 타일 배열 개수 전달
+	float m_fTileCount = float(m_pTileArrTex->GetArraySize() / 2); // 색상, 노말 합쳐져있어서 나누기 2 해줌
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, &m_fTileCount);
+
+	// 타일 텍스쳐 전달
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_ARR_0, m_pTileArrTex);
+
+	// Camera World Pos 전달
+	Vec3 vCamWorldPos = CRenderMgr::GetInst()->GetMainCam()->Transform()->GetWorldPos();
+	GetMaterial()->SetScalarParam(VEC4_0, &vCamWorldPos);
+
+
+	// 재질 바인딩(업데이트)
 	GetMaterial()->UpdateData();
+
+	// 렌더
 	GetMesh()->render();
 }
 

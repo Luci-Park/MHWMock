@@ -629,6 +629,9 @@
     <Filter Include="Source\06. Component\2. Collider\ConvexCollider">
       <UniqueIdentifier>{4c194dee-b72f-4f56-af5d-3437c11c049a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\Compute\LandScape">
+      <UniqueIdentifier>{6f74e1c7-1edd-49fd-8d1f-5baeeb3f5b32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
