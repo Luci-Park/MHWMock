@@ -4,7 +4,7 @@
 #define DISTANCE 54731
 
 Anj_BodySlam::Anj_BodySlam(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::BITE, _parent)
+	: AnjAction(ANJ_ACTION::BITE, _parent, 30)
 {
 }
 
@@ -33,8 +33,20 @@ bool Anj_BodySlam::KeepMoving()
 	return false;
 }
 
-void Anj_BodySlam::CheckAnimation(wstring _animationName)
+bool Anj_BodySlam::IsStartAnimation(wstring _animationName)
 {
+	return _animationName == L"Animation 187.002";
+}
+
+bool Anj_BodySlam::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 187.002";
+}
+
+int Anj_BodySlam::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHBODY && _type != SCRIPT_TYPE::ANJANATHTAIL && _type != SCRIPT_TYPE::ANJANATHLEFTLEG) return 0;
+	return AttackPower();
 }
 
 

@@ -4,7 +4,7 @@
 #define DISTANCE 68532.f
 
 Anj_TailSlam::Anj_TailSlam(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::TAIL_SLAM, _parent)
+	: AnjAction(ANJ_ACTION::TAIL_SLAM, _parent, 30)
 {
 }
 
@@ -33,8 +33,20 @@ bool Anj_TailSlam::KeepMoving()
 	return false;
 }
 
-void Anj_TailSlam::CheckAnimation(wstring _animationName)
+bool Anj_TailSlam::IsStartAnimation(wstring _animationName)
 {
+	return _animationName == L"Animation 003.003";
+}
+
+bool Anj_TailSlam::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 003.003";
+}
+
+int Anj_TailSlam::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHTAIL) return 0;
+	return AttackPower();
 }
 
 

@@ -23,34 +23,18 @@ void CAnjanathPart::Damaged(int _damage)
 
 	_damage = OnAttacked(_damage);
 	m_iHP -= _damage;
-	if (m_iHP <= 0 && !m_bHPZeroReached/* && !m_pAnj->InStagger()*/)
+	if (m_iHP <= 0 && !m_bHPZeroReached && !m_pAnj->InStagger())
 	{
 		OnHPZero();
 		m_bHPZeroReached = true;
 	}
 
-	//m_pAnj->Attacked(_damage);
+	m_pAnj->OnDamaged(_damage);
 }
 
 void CAnjanathPart::begin()
 {
 	CheckAnj();
-}
-
-void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
-{
-	if (!CheckAnj()) return;
-	CMainPlayerScript* script = _Other->GetOwner()->GetScript<CMainPlayerScript>();
-	//if (script)
-	//	Parent()->AttackSuccess((SCRIPT_TYPE)GetScriptType(), script);
-}
-
-void CAnjanathPart::SaveToLevelFile(FILE* _File)
-{
-}
-
-void CAnjanathPart::LoadFromLevelFile(FILE* _File)
-{
 }
 
 bool CAnjanathPart::CheckAnj()
@@ -59,4 +43,22 @@ bool CAnjanathPart::CheckAnj()
 	if (!m_pAnjObj) return false;
 	m_pAnj = m_pAnjObj->GetScript<CAnjanath>();
 	return m_pAnj != nullptr;
+}
+
+void CAnjanathPart::OnCollisionEnter(CCollider3D* _Other)
+{
+	if (!CheckAnj()) return;
+	CMainPlayerScript* script = _Other->GetOwner()->GetScript<CMainPlayerScript>();
+	if (script)
+		Anj()->AttackHit((SCRIPT_TYPE)GetScriptType(), script);
+}
+
+void CAnjanathPart::SaveToLevelFile(FILE* _File)
+{
+	SaveGameObjectParam(m_pAnjObj, _File);
+}
+
+void CAnjanathPart::LoadFromLevelFile(FILE* _File)
+{
+	LoadGameObjectParam(0, _File);
 }

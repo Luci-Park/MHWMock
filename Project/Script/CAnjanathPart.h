@@ -20,7 +20,7 @@ protected:
 	virtual void OnHPZero() = 0;
 	int HP() { return m_iHP; }
 	void ResetHP() { m_iHP = m_iMaxHP; }
-	CAnjanath* Parent() { return m_pAnj; }
+	CAnjanath* Anj() { return m_pAnj; }
 
 public:
 	void Damaged(int _damage);

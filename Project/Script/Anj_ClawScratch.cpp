@@ -4,7 +4,7 @@
 #define DISTANCE 36648.f
 
 Anj_ClawScratch::Anj_ClawScratch(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::CLAW_SCRATCH, _parent)
+	: AnjAction(ANJ_ACTION::CLAW_SCRATCH, _parent, 20)
 {
 }
 
@@ -33,8 +33,20 @@ bool Anj_ClawScratch::KeepMoving()
 	return false;
 }
 
-void Anj_ClawScratch::CheckAnimation(wstring _animationName)
+bool Anj_ClawScratch::IsStartAnimation(wstring _animationName)
 {
+	return _animationName == L"Animation 178.002";
+}
+
+bool Anj_ClawScratch::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 178.002";
+}
+
+int Anj_ClawScratch::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHLEFTLEG) return 0;
+	return AttackPower();
 }
 
 

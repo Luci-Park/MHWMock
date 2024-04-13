@@ -4,7 +4,7 @@
 #define DISTANCE 113800.f
 
 Anj_ContinBite::Anj_ContinBite(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::CONTIN_BITE, _parent)
+	: AnjAction(ANJ_ACTION::CONTIN_BITE, _parent, 55)
 {
 }
 
@@ -51,11 +51,27 @@ bool Anj_ContinBite::KeepMoving()
 	return Parent()->GetDistanceBetweenPlayer() > targetDistance;
 }
 
-void Anj_ContinBite::CheckAnimation(wstring _animationName)
+void Anj_ContinBite::OnAnimationStart(wstring _animationName)
 {
-	if (_animationName == L"Animation 030")
+	AnjAction::OnAnimationStart(_animationName);
+	if(IsStartAnimation(_animationName))
 		Parent()->LookAtPlayer();
 }
 
+int Anj_ContinBite::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHHEAD) return 0;
+	return AttackPower();
+}
 
+
+bool Anj_ContinBite::IsStartAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 030";
+}
+
+bool Anj_ContinBite::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 030";
+}
 

@@ -4,7 +4,7 @@
 #define DISTANCE 80000.f
 
 Anj_Bite::Anj_Bite(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::BITE, _parent)
+	: AnjAction(ANJ_ACTION::BITE, _parent, 65)
 {
 }
 
@@ -51,10 +51,27 @@ bool Anj_Bite::KeepMoving()
 	return Parent()->GetDistanceBetweenPlayer() > targetDistance;
 }
 
-void Anj_Bite::CheckAnimation(wstring _animationName)
+void Anj_Bite::OnAnimationStart(wstring _animationName)
 {
-	if (_animationName == L"Animation 199.002")
+	AnjAction::OnAnimationStart(_animationName);
+	if (IsStartAnimation(_animationName))
 		Parent()->LookAtPlayer();
+}
+
+bool Anj_Bite::IsStartAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 199.002";
+}
+
+bool Anj_Bite::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 199.002";
+}
+
+int Anj_Bite::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if(_type != SCRIPT_TYPE::ANJANATHHEAD) return 0;
+	return AttackPower();
 }
 
 

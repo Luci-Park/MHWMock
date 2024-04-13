@@ -2,23 +2,31 @@
 #include <Engine/CScript.h>
 #include "AnjStruct.h"
 #include "AnjActionPicker.h"
+
+class CMainPlayerScript;
 class CAnjanath :
 	public CScript
 {
 private:
-	CGameObject* m_pPlayer;
-	float m_fRotateSpeed;
-	float m_fDistance;
-	float m_fAngle;
+	const int			m_iMaxHP;
+	int					m_iHP;
+	float				m_fRotateSpeed;
+	bool				m_bStagger;
 
-	AnjActionPicker* m_pPicker;
-	AnjAction* m_pCurrentAction;
+	AnjActionPicker*	m_pPicker;
+	AnjAction*			m_pCurrentAction;
 
+	CGameObject*		m_pPlayer;
+public:
+	void AttackHit(SCRIPT_TYPE _type, CMainPlayerScript* _player);
+	void OnDamaged(int _damge);
+	bool InStagger() { return m_bStagger; }
 	
 private:
 	void OnPickAction(ANJ_ACTION _action = ANJ_ACTION::NONE);
 	void RotateTowardsPlayer();
 public:
+
 	float GetAngleBetweenPlayer();
 	float GetDistanceBetweenPlayer();
 	void LookAtPlayer();

@@ -37,8 +37,24 @@ bool Anj_Roar::KeepMoving()
 	return false;
 }
 
-void Anj_Roar::CheckAnimation(wstring _animationName)
+void Anj_Roar::OnAnimationStart(wstring _animationName)
 {
-	if (_animationName == L"Animation 001.002")
+	AnjAction::OnAnimationStart(_animationName);
+	if(IsStartAnimation(_animationName))
 		Parent()->LookAtPlayer();
+}
+
+int Anj_Roar::CalculateDamage(SCRIPT_TYPE _type)
+{
+	return 0;
+}
+
+bool Anj_Roar::IsStartAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 001.002";
+}
+
+bool Anj_Roar::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 001.002";
 }

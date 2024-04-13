@@ -4,7 +4,7 @@
 #define DISTANCE 187635.f
 
 Anj_ForwardAtk::Anj_ForwardAtk(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::FORWARD_ATK, _parent)
+	: AnjAction(ANJ_ACTION::FORWARD_ATK, _parent, 50)
 {
 }
 
@@ -51,10 +51,27 @@ bool Anj_ForwardAtk::KeepMoving()
 	return Parent()->GetDistanceBetweenPlayer() > targetDistance;
 }
 
-void Anj_ForwardAtk::CheckAnimation(wstring _animationName)
+void Anj_ForwardAtk::OnAnimationStart(wstring _animationName)
 {
-	if (_animationName == L"Animation 222.002")
+	AnjAction::OnAnimationStart(_animationName);
+	if (IsStartAnimation(_animationName))
 		Parent()->LookAtPlayer();
+}
+
+bool Anj_ForwardAtk::IsStartAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 222.002";
+}
+
+bool Anj_ForwardAtk::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 222.002";
+}
+
+int Anj_ForwardAtk::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHBODY && _type != SCRIPT_TYPE::ANJANATHHEAD) return 0;
+	return AttackPower();
 }
 
 

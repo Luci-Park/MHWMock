@@ -9,13 +9,6 @@ CAnjanathTail::CAnjanathTail()
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pTail, "TailMesh");
 }
 
-CAnjanathTail::CAnjanathTail(const CAnjanathTail& _other)
-	:CAnjanathPart(SCRIPT_TYPE::ANJANATHTAIL, 200)
-	, m_pTail(nullptr)
-{
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pTail, "TailMesh");
-}
-
 CAnjanathTail::~CAnjanathTail()
 {
 }
@@ -28,7 +21,7 @@ int CAnjanathTail::OnAttacked(int _damage)
 void CAnjanathTail::OnHPZero()
 {
 	if (m_pTail)m_pTail->SetActive(false);
-	//Parent()->Attacked(350);
+	Anj()->OnDamaged(350);
 }
 
 void CAnjanathTail::begin()

@@ -4,7 +4,7 @@
 #define DISTANCE 68532.f
 
 Anj_TailSweep::Anj_TailSweep(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::TAIL_SWEEP, _parent)
+	: AnjAction(ANJ_ACTION::TAIL_SWEEP, _parent, 35)
 {
 }
 
@@ -32,8 +32,20 @@ bool Anj_TailSweep::KeepMoving()
 	return false;
 }
 
-void Anj_TailSweep::CheckAnimation(wstring _animationName)
+bool Anj_TailSweep::IsStartAnimation(wstring _animationName)
 {
+	return _animationName == L"Animation 047.002";
+}
+
+bool Anj_TailSweep::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 047.002";
+}
+
+int Anj_TailSweep::CalculateDamage(SCRIPT_TYPE _type)
+{
+	if (_type != SCRIPT_TYPE::ANJANATHTAIL) return 0;
+	return AttackPower();
 }
 
 

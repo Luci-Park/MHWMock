@@ -4,7 +4,7 @@
 #define DISTANCE 351760.f
 
 Anj_Rush::Anj_Rush(CAnjanath* _parent)
-	: AnjAction(ANJ_ACTION::RUSH, _parent)
+	: AnjAction(ANJ_ACTION::RUSH, _parent, 60)
 {
 }
 
@@ -51,10 +51,26 @@ bool Anj_Rush::KeepMoving()
 	return Parent()->GetDistanceBetweenPlayer() > targetDistance;
 }
 
-void Anj_Rush::CheckAnimation(wstring _animationName)
+void Anj_Rush::OnAnimationStart(wstring _animationName)
 {
-	if (_animationName == L"Animation 144")
+	AnjAction::OnAnimationStart(_animationName);
+	if (IsStartAnimation(_animationName))
 		Parent()->LookAtPlayer();
+}
+
+bool Anj_Rush::IsStartAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 144";
+}
+
+bool Anj_Rush::IsEndAnimation(wstring _animationName)
+{
+	return _animationName == L"Animation 146";
+}
+
+int Anj_Rush::CalculateDamage(SCRIPT_TYPE _type)
+{
+	return AttackPower();
 }
 
 
