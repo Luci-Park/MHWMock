@@ -8,13 +8,22 @@
 #include "CTransform.h"
 #include "CTimeMgr.h"
 
+#include "CKeyMgr.h"
+
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_ParticleBuffer(nullptr)
 	, m_RWBuffer(nullptr)
 	, m_ModuleData{}
+	, m_AnimeData{}
 	, m_AccTime(0.f)
 	, m_ParticleTexture(nullptr)
+	, m_IsAnime(false)
+	, m_AnimeDataBuffer(nullptr)
+	, m_Frames{}
+	, m_AnimeIdx(0)
+	, m_ActiveTime(0)
+	, m_DeadTime(3.f)
 {
 	m_ModuleData.iMaxParticleCount = 3000;
 	
@@ -59,8 +68,8 @@ CParticleSystem::CParticleSystem()
 	m_ModuleData.vMaxVelocityScale = Vec3(15.f, 1.f, 1.f);
 	m_ModuleData.vMaxSpeed = 500.f;
 
-
-	
+	m_AnimeData.vSize = Vec2(1.f, 1.f);
+	m_AnimeData.vLeftTop = Vec2(0.f, 0.f);
 
 	// 입자 메쉬
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
@@ -82,6 +91,9 @@ CParticleSystem::CParticleSystem()
 	// 모듈 활성화 및 모듈 설정 정보 버퍼
 	m_ModuleDataBuffer = new CStructuredBuffer;
 	m_ModuleDataBuffer->Create(sizeof(tParticleModule), 1, SB_TYPE::READ_ONLY, true);
+
+	m_AnimeDataBuffer = new CStructuredBuffer;
+	m_AnimeDataBuffer->Create(sizeof(tParticleAnime), 1, SB_TYPE::READ_ONLY, true);
 }
 
 CParticleSystem::~CParticleSystem()
@@ -118,6 +130,27 @@ void CParticleSystem::finaltick()
 		m_RWBuffer->SetData(&rwbuffer);
 	}
 
+	if (m_IsAnime)
+	{
+
+		if (m_ActiveTime >= m_DeadTime)
+			DestroyObject(GetOwner());
+
+		m_ActiveTime += DT;
+
+		//update anime data
+		Vec2 Resolution = Vec2(m_ParticleTexture->Width(), m_ParticleTexture->Height());
+		m_Frames.clear();
+		for (int i = 0; i < m_AnimeXY.x; i++)
+		{
+			AnimeFrame frame = {};
+			frame.vSize = (Resolution/ m_AnimeXY) / Resolution;
+			frame.vLeftTop.x = frame.vSize.x * i;
+			frame.vLeftTop.y = 0;
+			frame.fDuration = 1 / m_AnimeXY.x;
+			m_Frames.push_back(frame);
+		}
+	}
 
 	// 파티클 업데이트 컴퓨트 쉐이더
 	m_ModuleDataBuffer->SetData(&m_ModuleData);
@@ -135,11 +168,35 @@ void CParticleSystem::render()
 {
 	Transform()->UpdateData();
 
+	if (m_IsAnime)
+	{
+		//update anime data
+		m_AnimeTime += DT;
+		if (m_AnimeTime > m_Frames[m_AnimeIdx].fDuration)
+		{
+			if (m_AnimeIdx < m_AnimeXY.x-1)
+				m_AnimeIdx++;
+			else
+				m_AnimeIdx = 0;
+			m_AnimeTime = 0;
+		}
+
+		m_AnimeData.bIsAnime = m_IsAnime;
+		m_AnimeData.vLeftTop = m_Frames[m_AnimeIdx].vLeftTop;
+		m_AnimeData.vSize = m_Frames[m_AnimeIdx].vSize;
+
+		//Set Particle anim data
+		m_AnimeDataBuffer->SetData(&m_AnimeData);
+	}
+
 	// 파티클버퍼 t20 에 바인딩
 	m_ParticleBuffer->UpdateData(20, PIPELINE_STAGE::PXS_ALL);
 
 	// 모듈 데이터 t21 에 바인딩
 	m_ModuleDataBuffer->UpdateData(21, PIPELINE_STAGE::PS_GEOMETRY);
+
+	//Particle anime data bind at t22
+	m_AnimeDataBuffer->UpdateData(22, PIPELINE_STAGE::PXS_ALL);
 
 	// Particle Render	
 	GetMaterial()->SetTexParam(TEX_0, m_ParticleTexture);
@@ -150,6 +207,7 @@ void CParticleSystem::render()
 	// 파티클 버퍼 바인딩 해제
 	m_ParticleBuffer->Clear();
 	m_ModuleDataBuffer->Clear();
+	m_AnimeDataBuffer->Clear();
 }
 
 void CParticleSystem::SaveToLevelFile(FILE* _File)

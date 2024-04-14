@@ -9,6 +9,7 @@ CSwordScript::CSwordScript()
 	, _ASTM(nullptr)
 	, mode(Mode::None)
 	, _IsAttack(false)
+	, _LightingParticle(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_Player, "Player");
 	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &_MainBone, "Main Bone");
@@ -27,6 +28,8 @@ void CSwordScript::begin()
 	_ASTM = GetOwner()->Animator3D()->GetStateMachine();
 	if (_SubBone != nullptr)
 		SetSubBone();
+
+	//LightingEffect();
 }
 
 void CSwordScript::tick()
@@ -60,11 +63,17 @@ void CSwordScript::tick()
 void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
 {
 	CAnjanathPart* coll = _Other->GetOwner()->GetScript<CAnjanathPart>();
+	if (_IsAttack == true)
+	{
+		LightingEffect();
+	}
+
 	if (coll != nullptr && _IsAttack == true)
 	{
 		CResMgr::GetInst()->FindRes<CSound>(L"sound\\Player\\26(Attacked_Effect_Sound).mp3")->Play(1,0.3f,true);
 		coll->Damaged(20);
 		_IsAttack = false;
+		LightingEffect();
 	}
 }
 
@@ -163,4 +172,20 @@ void CSwordScript::SetSubBone()
 	GetOwner()->Transform()->SetRelativeRot(Vec3(180.f, 0.f, 0.f));
 	GetOwner()->Transform()->SetRelativeScale(Vec3(0.005f, 0.005f, 0.005f));
 	mode = Mode::None;
+}
+
+void CSwordScript::LightingEffect()
+{
+	CGameObject* LightingParticle = new CGameObject;
+	LightingParticle->AddComponent(new CTransform);
+	LightingParticle->AddComponent(new CParticleSystem);
+	CParticleSystem* ps = (CParticleSystem*)LightingParticle->GetComponent(COMPONENT_TYPE::PARTICLESYSTEM);
+	ps->IsAnime(true);
+	ps->AnimeXY(Vec2(8, 3));
+	ps->SetParticleTexture(CResMgr::GetInst()->Load<CTexture>(L"texture\\BC7S_cm_elec_900_BM.dds", L"texture\\BC7S_cm_elec_900_BM.dds"));
+	ps->DeadTime(3.5f);
+	ps->SetSpawnInitialStartScale(400.f);
+	ps->SetSpawnInitialSpeed(2.f);
+	ps->SetSpawnInitialRate(2.f);
+	SpawnGameObject(LightingParticle,GetOwner()->Transform()->GetWorldPos(), 0);
 }

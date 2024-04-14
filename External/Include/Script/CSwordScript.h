@@ -18,6 +18,7 @@ private:
     CGameObject*    _Player;
     CGameObject*    _MainBone;
     CGameObject*    _SubBone;
+    CGameObject*    _LightingParticle;
     bool            _IsAttack;
 public:
     CSwordScript();
@@ -45,6 +46,8 @@ public:
     void SetMainBone(int type);
     void SetSubBone();
     void IsAttack(bool isattack) { _IsAttack = isattack; }
+
+    void LightingEffect();
 public:
     CLONE(CSwordScript);
 };

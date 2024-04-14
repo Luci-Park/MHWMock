@@ -15,6 +15,8 @@
 
 StructuredBuffer<tParticle>         ParticleBuffer : register(t20);
 StructuredBuffer<tParticleModule>   ParticleModuleData : register(t21);
+StructuredBuffer<tParticleAnime>    ParticleAnimeDataBuffer : register(t22);
+
 #define ModuleData                  ParticleModuleData[0]
 
 struct VS_IN
@@ -126,25 +128,44 @@ void GS_ParticleRender (point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outst
         }        
     }
     
-    
     GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
     
-    output[0].vPosition = mul(float4(NewPos[0] + vParticleViewPos, 1.f), g_matProj);
-    output[0].vUV = float2(0.f, 0.f);
-    output[0].iInstID = id;
+    if (ParticleAnimeDataBuffer[0].bIsAnime)
+    {
+        output[0].vPosition = mul(float4(NewPos[0] + vParticleViewPos, 1.f), g_matProj);
+        output[0].vUV = float2(ParticleAnimeDataBuffer[0].vLeftTop.x, ParticleAnimeDataBuffer[0].vLeftTop.y);
+        output[0].iInstID = id;
     
-    output[1].vPosition = mul(float4(NewPos[1] + vParticleViewPos, 1.f), g_matProj);
-    output[1].vUV = float2(1.f, 0.f);
-    output[1].iInstID = id;
+        output[1].vPosition = mul(float4(NewPos[1] + vParticleViewPos, 1.f), g_matProj);
+        output[1].vUV = float2(ParticleAnimeDataBuffer[0].vLeftTop.x + ParticleAnimeDataBuffer[0].vSize.x, ParticleAnimeDataBuffer[0].vLeftTop.y);
+        output[1].iInstID = id;
     
-    output[2].vPosition = mul(float4(NewPos[2] + vParticleViewPos, 1.f), g_matProj);
-    output[2].vUV = float2(1.f, 1.f);
-    output[2].iInstID = id;
+        output[2].vPosition = mul(float4(NewPos[2] + vParticleViewPos, 1.f), g_matProj);
+        output[2].vUV = float2(ParticleAnimeDataBuffer[0].vLeftTop.x + ParticleAnimeDataBuffer[0].vSize.x, ParticleAnimeDataBuffer[0].vLeftTop.y + ParticleAnimeDataBuffer[0].vSize.y);
+        output[2].iInstID = id;
     
-    output[3].vPosition = mul(float4(NewPos[3] + vParticleViewPos, 1.f), g_matProj);
-    output[3].vUV = float2(0.f, 1.f);
-    output[3].iInstID = id;
+        output[3].vPosition = mul(float4(NewPos[3] + vParticleViewPos, 1.f), g_matProj);
+        output[3].vUV = float2(ParticleAnimeDataBuffer[0].vLeftTop.x, ParticleAnimeDataBuffer[0].vLeftTop.y + ParticleAnimeDataBuffer[0].vSize.y);
+        output[3].iInstID = id;
+    }
+    else
+    {
+        output[0].vPosition = mul(float4(NewPos[0] + vParticleViewPos, 1.f), g_matProj);
+        output[0].vUV = float2(0.f, 0.f);
+        output[0].iInstID = id;
     
+        output[1].vPosition = mul(float4(NewPos[1] + vParticleViewPos, 1.f), g_matProj);
+        output[1].vUV = float2(1.f, 0.f);
+        output[1].iInstID = id;
+    
+        output[2].vPosition = mul(float4(NewPos[2] + vParticleViewPos, 1.f), g_matProj);
+        output[2].vUV = float2(1.f, 1.f);
+        output[2].iInstID = id;
+    
+        output[3].vPosition = mul(float4(NewPos[3] + vParticleViewPos, 1.f), g_matProj);
+        output[3].vUV = float2(0.f, 1.f);
+        output[3].iInstID = id;
+    }
     
     // 정점 생성
     _outstream.Append(output[0]);
@@ -165,8 +186,8 @@ float4 PS_ParticleRender(GS_OUT _in) : SV_Target
     
     if(g_btex_0)
     {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);        
-        vOutColor.rgb *= ParticleBuffer[_in.iInstID].vColor.rgb;
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor.rgb = ParticleBuffer[_in.iInstID].vColor.rgb;
     }
     
     return vOutColor;

@@ -188,6 +188,16 @@ struct tParticleModule
 	// Module Check
 	int		ModuleCheck[(UINT)PARTICLE_MODULE::END];
 };
+
+struct tParticleAnime
+{
+	Vec2	vLeftTop;
+	Vec2	vSize;
+	bool	bIsAnime;
+	Vec2	padding;
+	float	padding2;
+};
+
 struct tVecAnimationKey
 {
 	double	time;//in ticks.
