@@ -98,7 +98,8 @@ void CAnjanath::LookAtPlayer()
 
 void CAnjanath::begin()
 {
-	OnDamaged(0);
+	Animator3D()->SetInt(L"HP", m_iHP);
+	Animator3D()->SetBool(L"Aggroed", false);
 }
 
 void CAnjanath::tick()

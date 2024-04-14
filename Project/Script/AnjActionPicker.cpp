@@ -42,7 +42,7 @@ AnjAction* AnjActionPicker::PickAction(ANJ_ACTION _action)
 
     // Generate a random index
     int randomIndex = dis(gen);
-    while (vecActions.size() > 1 && vecActions[randomIndex]->GetType() != m_prevAction)
+    while (vecActions.size() > 1 && vecActions[randomIndex]->GetType() == m_prevAction)
         randomIndex = dis(gen);
 
     m_prevAction = vecActions[randomIndex]->GetType();
