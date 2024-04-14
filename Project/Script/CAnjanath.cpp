@@ -7,10 +7,10 @@ CAnjanath::CAnjanath()
 	:CScript(SCRIPT_TYPE::ANJANATH)
 	, m_pPlayer(nullptr)
 	, m_fRotateSpeed(90.f)
-	, m_iMaxHP(3500)
-	, m_iHP(3500)
+	, m_iMaxHP(2200)
 	, m_bStagger(false)
 {
+	m_iHP = m_iMaxHP;
 	m_pPicker = new AnjActionPicker(this);
 
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRotateSpeed, "Rotate Speed");
