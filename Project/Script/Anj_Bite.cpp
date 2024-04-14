@@ -45,10 +45,11 @@ REPOS_DIR Anj_Bite::TurnDir()
 
 bool Anj_Bite::KeepMoving()
 {
-	float scale = Parent()->Transform()->GetWorldScale().x;
-	float targetDistance = DISTANCE * scale;
+	//float scale = Parent()->Transform()->GetWorldScale().x;
+	//float targetDistance = DISTANCE * scale;
 
-	return Parent()->GetDistanceBetweenPlayer() > targetDistance;
+	//return Parent()->GetDistanceBetweenPlayer() > targetDistance;
+	return false;
 }
 
 void Anj_Bite::OnAnimationStart(wstring _animationName)
