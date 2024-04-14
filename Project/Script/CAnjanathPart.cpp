@@ -19,7 +19,7 @@ CAnjanathPart::~CAnjanathPart()
 
 void CAnjanathPart::Damaged(int _damage)
 {
-	if (CheckAnj()) return;
+	if (!CheckAnj()) return;
 
 	_damage = OnAttacked(_damage);
 	m_iHP -= _damage;
