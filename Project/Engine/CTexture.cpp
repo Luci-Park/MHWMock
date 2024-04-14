@@ -264,6 +264,133 @@ int CTexture::Create(ComPtr<ID3D11Texture2D> _tex2D)
 	return S_OK;
 }
 
+int CTexture::CreateArrayTexture(const vector<Ptr<CTexture>>& _vecTex, int _iMapLevel)
+{
+	m_Desc = _vecTex[0]->GetDesc();
+	m_Desc.ArraySize = (UINT)_vecTex.size();
+	m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	m_Desc.MipLevels = _iMapLevel;
+
+	HRESULT hr = DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf());
+	if (FAILED(hr))
+		return hr;
+
+	// 원본데이터(밉맵 레벨 0) 를 각 칸에 옮긴다.	
+	for (int i = 0; i < _vecTex.size(); ++i)
+	{
+		UINT iOffset = D3D11CalcSubresource(0, i, _iMapLevel);
+		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iOffset, nullptr, _vecTex[i]->GetSysMem()
+			, _vecTex[i]->GetRowPitch(), _vecTex[i]->GetSlicePitch());
+	}
+
+	// Shader Resource View 생성
+	D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
+	viewdesc.Format = m_Desc.Format;
+	viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+	viewdesc.Texture2DArray.MipLevels = _iMapLevel;
+	viewdesc.Texture2DArray.MostDetailedMip = 0;
+	viewdesc.Texture2DArray.ArraySize = _vecTex.size();
+
+	DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
+
+	// 밉맵 생성
+	CONTEXT->GenerateMips(m_SRV.Get());
+	m_Tex2D->GetDesc(&m_Desc);
+
+	return hr;
+}
+
+void CTexture::GenerateMip(UINT _iMipLevel)
+{
+	m_Tex2D = nullptr;
+	m_SRV = nullptr;
+	m_RTV = nullptr;
+	m_DSV = nullptr;
+	m_UAV = nullptr;
+
+	// Texture2D 생성
+	D3D11_TEXTURE2D_DESC tDesc = {};
+	tDesc.Format = m_Image.GetMetadata().format;
+
+	if (m_Image.GetMetadata().IsCubemap())
+	{
+		tDesc.MipLevels = 1;	// 0 ==> 가능한 모든 밉맵이 저장 될 수 있는 공간이 만들어짐
+		tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		tDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+	}
+	else
+	{
+		tDesc.MipLevels = _iMipLevel;// MAX_MIP;	// 0 ==> 가능한 모든 밉맵이 저장 될 수 있는 공간이 만들어짐	
+		tDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		tDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	}
+
+	tDesc.ArraySize = m_Image.GetMetadata().arraySize;
+
+	tDesc.SampleDesc.Count = 1;
+	tDesc.SampleDesc.Quality = 0;
+
+	tDesc.Usage = D3D11_USAGE_DEFAULT;
+	tDesc.CPUAccessFlags = 0;
+
+	tDesc.Width = m_Image.GetMetadata().width;
+	tDesc.Height = m_Image.GetMetadata().height;
+
+	HRESULT hr = DEVICE->CreateTexture2D(&tDesc, nullptr, m_Tex2D.GetAddressOf());
+
+	// 원본데이터(밉맵 레벨 0) 를 각 칸에 옮긴다.	
+	for (int i = 0; i < tDesc.ArraySize; ++i)
+	{
+		// GPU 에 데이터 옮기기(밉맵 포함)
+		UINT iSubresIdx = D3D11CalcSubresource(0, i, tDesc.MipLevels);
+
+		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubresIdx, nullptr
+			, m_Image.GetImage(0, i, 0)->pixels
+			, m_Image.GetImage(0, i, 0)->rowPitch
+			, m_Image.GetImage(0, i, 0)->slicePitch);
+	}
+
+	// SRV 생성
+	D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
+	viewdesc.Format = tDesc.Format;
+
+	if (m_Image.GetMetadata().IsCubemap())
+	{
+		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+	}
+	else if (1 < tDesc.ArraySize)
+	{
+		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+	}
+	else
+	{
+		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	}
+
+	if (1 < tDesc.ArraySize)
+	{
+		viewdesc.Texture2DArray.ArraySize = tDesc.ArraySize;
+		viewdesc.Texture2DArray.MipLevels = tDesc.MipLevels;
+		viewdesc.Texture2DArray.MostDetailedMip = 0;
+	}
+	else
+	{
+		viewdesc.Texture2DArray.ArraySize = 1;
+		viewdesc.Texture2D.MipLevels = tDesc.MipLevels;
+		viewdesc.Texture2D.MostDetailedMip = 0;
+	}
+
+	DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
+
+	// 밉맵 생성
+	if (false == m_Image.GetMetadata().IsCubemap())
+	{
+		CONTEXT->GenerateMips(m_SRV.Get());
+	}
+
+	m_Tex2D->GetDesc(&m_Desc);
+}
+
 
 
 

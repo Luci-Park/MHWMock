@@ -222,6 +222,9 @@ void CPhysXMgr::FetchResults()
 			case PxPairFlag::Enum::eNOTIFY_TOUCH_FOUND:
 				if (rPair.pFirst && rPair.pSecond)
 				{
+					rPair.pFirst->Collider3D()->SetRigidDynamicLockFlag(false);
+					rPair.pSecond->Collider3D()->SetRigidDynamicLockFlag(false);
+
 					rPair.pFirst->Collider3D()->OnCollisionEnter(rPair.pSecond->Collider3D());
 					rPair.pSecond->Collider3D()->OnCollisionEnter(rPair.pFirst->Collider3D());
 				}
@@ -241,6 +244,20 @@ void CPhysXMgr::FetchResults()
 
 					rPair.pFirst->Collider3D()->OnCollisionExit(rPair.pSecond->Collider3D());
 					rPair.pSecond->Collider3D()->OnCollisionExit(rPair.pFirst->Collider3D());
+					
+				}
+				else
+				{
+					if (rPair.pFirst == nullptr)
+					{
+						rPair.pSecond->Collider3D()->SetRigidDynamicLockFlag(true);
+						rPair.pSecond->Collider3D()->OnCollisionExit(nullptr);
+					}
+					else
+					{
+						rPair.pFirst->Collider3D()->SetRigidDynamicLockFlag(true);
+						rPair.pFirst->Collider3D()->OnCollisionExit(nullptr);
+					}
 				}
 				break;
 			default:

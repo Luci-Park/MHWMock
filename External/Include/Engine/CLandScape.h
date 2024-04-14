@@ -9,6 +9,10 @@ private:
 	UINT			m_iFaceZ;
 
 	Ptr<CTexture>	m_HeightMap;
+	Ptr<CTexture>	m_BML;
+	Ptr<CTexture>	m_NM;
+	Ptr<CTexture>	m_RMT;
+	Ptr<CTexture> m_pTileArrTex;    
 
 public:
 	void SetFace(UINT _iFaceX, UINT _iFaceZ);

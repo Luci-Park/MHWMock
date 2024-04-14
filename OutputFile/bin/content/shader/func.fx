@@ -226,4 +226,22 @@ void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinorma
     _vNormal = normalize(info.vNormal);
 }
 
+float GetTessFactor(float _Length, int _iMinLevel, int _iMaxLevel, float _MinDistance, float _MaxDistance)
+{
+    if (_MaxDistance < _Length)
+    {
+        return 0.f;
+    }
+    else if (_Length < _MinDistance)
+    {
+        return _iMaxLevel;
+    }
+    else
+    {
+        float fLevel = _iMaxLevel - (_iMaxLevel - _iMinLevel) * ((_Length - _MinDistance) / (_MaxDistance - _MinDistance));
+
+        return fLevel;
+    }
+}
+
 #endif

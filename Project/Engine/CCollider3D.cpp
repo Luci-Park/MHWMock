@@ -351,16 +351,13 @@ void CCollider3D::SetRigidDynamicLockFlag(bool _Lock)
 	{
 		m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(0.0f, 0.0f, 0.0f));
 		m_pRigidActor->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
-
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, true);
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, true);
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, true);
 	}
 	else
 	{
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, false);
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, false);
-		//m_pRigidActor->is<PxRigidDynamic>()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, false);
+		//PxVec3 vVelocity = m_pRigidActor->is<PxRigidDynamic>()->getLinearVelocity();
+		//m_pRigidActor->is<PxRigidDynamic>()->setLinearVelocity(vVelocity * 10000.f);
+
+		//m_pRigidActor->is<PxRigidDynamic>()->setAngularVelocity(PxVec3(0.0f, 0.0f, 0.0f));
 	}
 }
 

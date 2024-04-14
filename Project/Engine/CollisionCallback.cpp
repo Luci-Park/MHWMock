@@ -31,51 +31,15 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 
 	for(UINT i = 0; i< nbPairs; ++i)
 	{
+		const PxContactPair& cp = pairs[i];
+
+
 		pUserData[0] = (pPXUSERDATA)pairHeader.actors[0]->userData;
 		pUserData[1] = (pPXUSERDATA)pairHeader.actors[1]->userData;
 	
 		if (nullptr == pUserData[0] || nullptr == pUserData[1])
 			continue;
-
-		// 바닥 충돌 체크
-
-		/*PxContactPairPoint* contactPointBuffer = new PxContactPairPoint[16];
-
-		UINT nCount = pairs[i].extractContacts(contactPointBuffer, 16);
 		
-		if (physx::PxPairFlag::eNOTIFY_TOUCH_FOUND == pairs[i].events || physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS == pairs[i].events)
-		{
-			if (((pPXUSERDATA)(pairs[i].shapes[0]->getActor()->userData))->bGround == false)
-			{
-				for (UINT j = 0; j < nCount; ++j)
-				{
-					if (contactPointBuffer[j].normal.y >= 0.9f)
-					{
-						PxActor* pActor = pairs[i].shapes[0]->getActor();
-						((pPXUSERDATA)(pActor->userData))->bGround = true;
-						break;
-					}
-				}
-			}
-		}
-		else
-		{
-			if (((pPXUSERDATA)(pairs[i].shapes[0]->getActor()->userData))->bGround == true)
-			{
-				if (0 == nCount)
-					((pPXUSERDATA)(pairs[i].shapes[0]->getActor()->userData))->bGround = false;
-
-				for (UINT j = 0; j < nCount; ++j)
-				{
-					if (contactPointBuffer[j].normal.y >= 0.9f)
-					{
-						((pPXUSERDATA)(pairs[i].shapes[0]->getActor()->userData))->bGround = false;
-						break;
-					}
-				}
-			}
-		}
-		delete[] contactPointBuffer;*/
 
 		pCollider[0] = pUserData[0]->pCollider;
 		pCollider[1] = pUserData[1]->pCollider;
@@ -83,6 +47,23 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 		CPhysXMgr::COLLISIONPAIR tCollisionPair;
 		tCollisionPair.bTrigger = false;
 
+
+		if (cp.flags & PxContactPairFlag::eREMOVED_SHAPE_0)
+		{
+			tCollisionPair.ePairFlag = physx::PxPairFlag::eNOTIFY_TOUCH_LOST;
+			tCollisionPair.pFirst = nullptr;
+			tCollisionPair.pSecond = pCollider[1]->GetOwner();
+			CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
+			return;
+		}
+		else if (cp.flags & PxContactPairFlag::eREMOVED_SHAPE_1)
+		{
+			tCollisionPair.ePairFlag = physx::PxPairFlag::eNOTIFY_TOUCH_LOST;
+			tCollisionPair.pFirst = pCollider[0]->GetOwner();
+			tCollisionPair.pSecond = nullptr;
+			CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
+			return;
+		}
 
 
 		if (physx::PxPairFlag::eNOTIFY_TOUCH_FOUND == (UINT)pairs[i].events)
@@ -114,8 +95,6 @@ void CollisionCallback::onContact(const physx::PxContactPairHeader& pairHeader, 
 				tCollisionPair.pFirst = pCollider[0]->GetOwner();
 				tCollisionPair.pSecond = pCollider[1]->GetOwner();
 				CPhysXMgr::GetInst()->AddCallbackPair(tCollisionPair);
-
-
 			}
 		}
 	}
