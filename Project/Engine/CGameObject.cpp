@@ -186,6 +186,7 @@ void CGameObject::Release()
 
 void CGameObject::AddComponent(CComponent* _Component)
 {
+	if (_Component == nullptr) return;
 	_Component->m_pOwner = this;
 
 	// 컴포넌트가 스크립트인 경우

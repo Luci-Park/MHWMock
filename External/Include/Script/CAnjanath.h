@@ -18,6 +18,7 @@ private:
 
 	CGameObject*		m_pPlayer;
 public:
+	int HP() { return m_iHP; }
 	void AttackHit(SCRIPT_TYPE _type, CMainPlayerScript* _player);
 	void OnDamaged(int _damge);
 	bool InStagger() { return m_bStagger; }
