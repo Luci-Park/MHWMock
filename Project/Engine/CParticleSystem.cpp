@@ -22,6 +22,8 @@ CParticleSystem::CParticleSystem()
 	, m_AnimeDataBuffer(nullptr)
 	, m_Frames{}
 	, m_AnimeIdx(0)
+	, m_ActiveTime(0)
+	, m_DeadTime(3.f)
 {
 	m_ModuleData.iMaxParticleCount = 3000;
 	
@@ -130,6 +132,12 @@ void CParticleSystem::finaltick()
 
 	if (m_IsAnime)
 	{
+
+		if (m_ActiveTime >= m_DeadTime)
+			DestroyObject(GetOwner());
+
+		m_ActiveTime += DT;
+
 		//update anime data
 		Vec2 Resolution = Vec2(m_ParticleTexture->Width(), m_ParticleTexture->Height());
 		m_Frames.clear();
@@ -170,7 +178,6 @@ void CParticleSystem::render()
 				m_AnimeIdx++;
 			else
 				m_AnimeIdx = 0;
-
 			m_AnimeTime = 0;
 		}
 

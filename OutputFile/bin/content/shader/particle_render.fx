@@ -186,8 +186,8 @@ float4 PS_ParticleRender(GS_OUT _in) : SV_Target
     
     if(g_btex_0)
     {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);        
-        vOutColor.rgb *= ParticleBuffer[_in.iInstID].vColor.rgb;
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor.rgb = ParticleBuffer[_in.iInstID].vColor.rgb;
     }
     
     return vOutColor;

@@ -599,6 +599,7 @@ void ST_PLAYER_WP_ATTACK_COMBOSLASH_03::Tick(CGameObject* player, PlayerStateMac
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"Combo_Stack", A_0);
+		StateMachine->IsAttack(false);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
@@ -882,6 +883,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
+		StateMachine->IsAttack(false);
 	}
 
 	if (_IsInput)
@@ -896,6 +898,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Tick(CGameObject* player, PlayerStateMachine* St
 		double duration = StateMachine->GetStateDuration();
 		if (duration > 0.4)
 		{
+			StateMachine->IsAttack(false);
 			if (KEY_PRESSED(KEY::TAB))
 			{
 				if (KEY_TAP(KEY::RBTN))
@@ -1061,6 +1064,7 @@ void ST_PLAYER_WP_SHELD_ATTACK::Exit(CGameObject* player, PlayerStateMachine* St
 {
 	_IsInput = false;
 	StateMachine->IsShieldAttack(false);
+	StateMachine->IsAttack(false);
 }
 
 
@@ -1110,17 +1114,20 @@ void ST_PLAYER_WP_DASH_ATTACK::Tick(CGameObject* player, PlayerStateMachine* Sta
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		StateMachine->ChangeState(L"Wp_Idle");
+		StateMachine->IsAttack(false);
 	}
 
 	//Rolling
 	if (KEY_TAP(KEY::SPACE))
 	{
 		StateMachine->ChangeState(L"Wp_Rolling");
+		StateMachine->IsAttack(false);
 	}
 
 	double duration = StateMachine->GetStateDuration();
 	if (duration > 0.5)
 	{
+		StateMachine->IsAttack(false);
 		if (KEY_TAP(KEY::RBTN))
 		{
 			if (KEY_TAP(KEY::LBTN))
@@ -1462,6 +1469,7 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 	if (StateMachine->GetStateDuration() > 0.3 && _IsPlayed == false)
 	{
 		SoundPlay(L"sound\\Player\\51(Enchent_k_Smash).mp3");
+		StateMachine->IsAttack(false);
 		_IsPlayed = true;
 	}
 
@@ -1469,12 +1477,14 @@ void ST_PLAYER_WP_K_ENCHENT_ATTACK::Tick(CGameObject* player, PlayerStateMachine
 	{
 		ChangeASTMParam(StateMachine, L"IsAttack", A_FALSE);
 		ChangeASTMParam(StateMachine, L"OverLoad", (AnimParamUnion)0.f);
+		StateMachine->IsAttack(false);
 		StateMachine->ChangeState(L"Wp_Idle");
 	}
 
 	//Rolling
 	if (KEY_TAP(KEY::SPACE))
 	{
+		StateMachine->IsAttack(false);
 		StateMachine->ChangeState(L"Wp_Rolling");
 	}
 

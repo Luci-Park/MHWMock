@@ -22,6 +22,12 @@ int ParticleSystemUI::render_update()
         return FALSE;
     tParticleModule pModule = GetTarget()->ParticleSystem()->GetModuleData();
     Ptr<CTexture> pTexture = GetTarget()->ParticleSystem()->GetParticleTexture();
+
+    bool isAnime = GetTarget()->ParticleSystem()->IsAnime();
+    Vec2 AnimXY = GetTarget()->ParticleSystem()->AnimeXY();
+    float deadTime = GetTarget()->ParticleSystem()->DeadTime();
+
+
     if (ImGui::CollapsingHeader("Spawn Module"))
     {
         ImGui::Text("Color          ");
@@ -177,6 +183,22 @@ int ParticleSystemUI::render_update()
             // 항목 선택시 호출받을 델리게이트 등록
             pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&ParticleSystemUI::SelectTexture);
         }
+
+    }
+    if (ImGui::CollapsingHeader("Animation"))
+    {
+        ImGui::Checkbox("IsAnime", &isAnime);
+        ImGui::Text("X");
+        ImGui::SameLine();
+        ImGui::DragFloat("##X", &AnimXY.x, 1,1,20);
+        ImGui::Text("Y");
+        ImGui::SameLine();
+        ImGui::DragFloat("##Y", &AnimXY.y, 1,1,20);
+        ImGui::DragFloat("DeadTime", &deadTime,1,1);
+
+        GetTarget()->ParticleSystem()->IsAnime(isAnime);
+        GetTarget()->ParticleSystem()->AnimeXY(AnimXY);
+        GetTarget()->ParticleSystem()->DeadTime(deadTime);
 
     }
 
