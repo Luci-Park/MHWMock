@@ -110,7 +110,7 @@ void CAnjanath::tick()
 	if (m_pCurrentAction)
 	{
 		bool move = m_pCurrentAction->KeepMoving();
-		Animator3D()->SetTrigger(L"Stop Move", move);
+		Animator3D()->SetTrigger(L"Stop Move", !move);
 	}
 }
 void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
@@ -133,16 +133,12 @@ void CAnjanath::OnAnimationBegin(IAnimationState* _pState)
 
 void CAnjanath::OnAnimationEndStart(IAnimationState* _pState)
 {
-	if (_pState->GetClip() != nullptr && m_pCurrentAction != nullptr)
-		m_pCurrentAction->OnAnimationEnd(_pState->GetClip()->GetName());
-	if (_pState->GetType() == eAnimationNodeType::State && _pState->GetName() == L"Check Action")
-	{
-		m_pCurrentAction = nullptr;
-	}
 }
 
 void CAnjanath::OnAnimationEndFinished(IAnimationState* _pState)
 {
+	if (_pState->GetClip() != nullptr && m_pCurrentAction != nullptr)
+		m_pCurrentAction->OnAnimationEnd(_pState->GetClip()->GetName());
 }
 
 

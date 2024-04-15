@@ -32,7 +32,11 @@ void AnjAction::OnAttack(SCRIPT_TYPE _type, CMainPlayerScript* _player)
 
 void AnjAction::OnAnimationStart(wstring _animationName)
 {
-	if (IsStartAnimation(_animationName)) m_bAttacking = true;
+	if (IsStartAnimation(_animationName))
+	{
+		m_bAttacking = true;
+		m_bAttacked = false;
+	}
 }
 
 void AnjAction::OnAnimationEnd(wstring _animationName)
