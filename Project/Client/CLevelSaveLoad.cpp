@@ -284,6 +284,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			break;
 		}
 
+		if (Component == nullptr) return;
 		pObject->AddComponent(Component);
 		Component->LoadFromLevelFile(_File);
 	}
