@@ -9,12 +9,14 @@
 #include <Engine/CEventMgr.h>
 #include "../Client/CLevelSaveLoad.h"
 #include "CCompleteScript.h"
+#include "CAnjanath.h"
 
 CArenaScript::CArenaScript()
 	: CScript((UINT)SCRIPT_TYPE::ARENASCRIPT)
 	, m_fTime(0.0f)
 {
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pCompleteObj, "Target Obj");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pCompleteObj, "Complete Obj");
+	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_Monster, "Monster Obj");
 
 }
 
@@ -32,14 +34,13 @@ void CArenaScript::begin()
 
 void CArenaScript::tick()
 {
-
-	/*m_fTime += DT;
+	CAnjanath* pMonsterScript = m_Monster->GetScript<CAnjanath>();
+	int iMonsterHp = pMonsterScript->HP();
 	
-	if (m_fTime > 10.0f && !m_bComplete)
+	if (iMonsterHp < 0)
 	{
 		CompleteQuest();
-	}*/
-	
+	}
 }
 
 
@@ -58,10 +59,12 @@ void CArenaScript::CompleteQuest()
 void CArenaScript::SaveToLevelFile(FILE* _File)
 {
 	SaveGameObjectParam(m_pCompleteObj, _File);
+	SaveGameObjectParam(m_Monster, _File);
 }
 
 void CArenaScript::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadGameObjectParam(0, _FILE);
+	//LoadGameObjectParam(1, _FILE);
 }
 

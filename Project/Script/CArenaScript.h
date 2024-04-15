@@ -10,6 +10,7 @@ private:
     bool                m_bUseComplete;
 
     CGameObject*   m_pCompleteObj;
+    CGameObject*   m_Monster;
 
 
 public:
