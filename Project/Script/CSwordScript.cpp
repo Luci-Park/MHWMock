@@ -71,7 +71,7 @@ void CSwordScript::OnCollisionEnter(CCollider3D* _Other)
 	if (coll != nullptr && _IsAttack == true)
 	{
 		CResMgr::GetInst()->FindRes<CSound>(L"sound\\Player\\26(Attacked_Effect_Sound).mp3")->Play(1,0.3f,true);
-		coll->Damaged(30);
+		coll->Damaged(60);
 		_IsAttack = false;
 		LightingEffect();
 	}

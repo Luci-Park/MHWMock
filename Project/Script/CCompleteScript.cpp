@@ -42,7 +42,7 @@ void CCompleteScript::update()
 		if (!m_bIsPlayed)
 		{
 			m_bIsPlayed = true;
-			CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-17 Quest Complete! (Proof of a Hero version).mp3")->Play(1, 1.0, true);
+			CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-17 Quest Complete! (Proof of a Hero version).mp3")->Play(1, 0.3, true);
 
 		}
 		if (m_bFadeIn)

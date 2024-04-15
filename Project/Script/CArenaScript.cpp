@@ -37,7 +37,7 @@ void CArenaScript::update()
 	CAnjanath* pMonsterScript = m_Monster->GetScript<CAnjanath>();
 	int iMonsterHp = pMonsterScript->HP();
 	
-	if (iMonsterHp < 0)
+	if (iMonsterHp <= 0)
 	{
 		CompleteQuest();
 	}
