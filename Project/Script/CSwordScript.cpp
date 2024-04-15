@@ -32,7 +32,7 @@ void CSwordScript::begin()
 	//LightingEffect();
 }
 
-void CSwordScript::tick()
+void CSwordScript::update()
 {
 	bool bWpOn = _ASTM->GetParamByName(L"Wp_On")->value.BOOL;
 	if (bWpOn)

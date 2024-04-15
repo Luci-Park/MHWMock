@@ -50,7 +50,7 @@ void CIntroObjScript::begin()
 	}
 }
 
-void CIntroObjScript::tick()
+void CIntroObjScript::update()
 {
 	m_fTime += DT;
 

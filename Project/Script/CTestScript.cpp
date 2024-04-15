@@ -16,7 +16,7 @@ void CTestScript::begin()
 {
 }
 
-void CTestScript::tick()
+void CTestScript::update()
 {
 }
 

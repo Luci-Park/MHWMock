@@ -27,7 +27,7 @@ private:
     bool            m_IsAttack;
 public:
     virtual void begin();
-    virtual void tick();
+    virtual void update();
 
     virtual void OnCollisionEnter(CCollider3D* _Other) override;
     virtual void OnCollisionStay(CCollider3D* _Other) override;

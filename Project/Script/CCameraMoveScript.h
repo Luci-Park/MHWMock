@@ -8,7 +8,7 @@ private:
     float       m_fCamSpeed;
 
 public:
-    virtual void tick() override;
+    virtual void update() override;
 
 private:
     void Camera2DMove();

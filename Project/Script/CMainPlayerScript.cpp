@@ -51,7 +51,7 @@ void CMainPlayerScript::begin()
 	_stateMachine->Begin();
 }
 
-void CMainPlayerScript::tick()
+void CMainPlayerScript::update()
 {
 	_stateMachine->Tick();
 

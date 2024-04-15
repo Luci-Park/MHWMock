@@ -19,7 +19,7 @@ void CMissileScript::begin()
 	m_TargetObject = CLevelMgr::GetInst()->FindObjectByName(L"Monster");
 }
 
-void CMissileScript::tick()
+void CMissileScript::update()
 {
 	// 미사일 본인의 위치값을 알아낸다.
 	Vec3 vPos = Transform()->GetRelativePos();

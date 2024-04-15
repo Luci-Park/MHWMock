@@ -11,7 +11,7 @@ CMonsterScript::~CMonsterScript()
 {
 }
 
-void CMonsterScript::tick()
+void CMonsterScript::update()
 {
 }
 

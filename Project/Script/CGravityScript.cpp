@@ -11,7 +11,7 @@ CGravityScript::~CGravityScript()
 }
 
 
-void CGravityScript::tick()
+void CGravityScript::update()
 {
 }
 

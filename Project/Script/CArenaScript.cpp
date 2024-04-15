@@ -32,7 +32,7 @@ void CArenaScript::begin()
 	CResMgr::GetInst()->FindRes<CSound>(L"sound\\2-13 Arena Large Monsters Abound.mp3")->Play(100, 0.1f, true);
 }
 
-void CArenaScript::tick()
+void CArenaScript::update()
 {
 	CAnjanath* pMonsterScript = m_Monster->GetScript<CAnjanath>();
 	int iMonsterHp = pMonsterScript->HP();

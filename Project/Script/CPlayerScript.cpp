@@ -29,7 +29,7 @@ void CPlayerScript::begin()
 	//MeshRender()->GetDynamicMaterial();
 }
 
-void CPlayerScript::tick()
+void CPlayerScript::update()
 {
 	Vec3 vCurPos = Transform()->GetRelativePos();
 

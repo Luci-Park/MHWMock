@@ -50,6 +50,8 @@ public:
     const vector<tScriptParam>& GetScriptParam() { return m_vecParam; }
 
 public:
+    virtual void tick() final;
+    virtual void update() {}
     virtual void finaltick() final;
     virtual void OnCollisionEnter(CCollider3D* _Other) {}
     virtual void OnCollisionStay(CCollider3D* _Other) {}

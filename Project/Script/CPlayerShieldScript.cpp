@@ -29,7 +29,7 @@ void CPlayerShieldScript::begin()
 
 }
 
-void CPlayerShieldScript::tick()
+void CPlayerShieldScript::update()
 {
 	if (m_eHandDir == HandDir::None && m_pBackBone != nullptr)
 	{

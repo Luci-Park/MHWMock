@@ -35,7 +35,7 @@ void CCompleteScript::begin()
 	//FadeIn();
 }
 
-void CCompleteScript::tick()
+void CCompleteScript::update()
 {
 	if (m_bUseObj)
 	{

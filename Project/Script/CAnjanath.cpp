@@ -102,7 +102,7 @@ void CAnjanath::begin()
 	Animator3D()->SetBool(L"Aggroed", false);
 }
 
-void CAnjanath::tick()
+void CAnjanath::update()
 {
 	double percentage;
 	auto clip = Animator3D()->GetCurrentAnimation(percentage);

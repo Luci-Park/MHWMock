@@ -56,7 +56,7 @@ private:
     bool _bShield;
 public:
     virtual void begin() override;
-    virtual void tick() override;
+    virtual void update() override;
 
     virtual void OnCollisionEnter(CCollider3D* _Other) override;
 

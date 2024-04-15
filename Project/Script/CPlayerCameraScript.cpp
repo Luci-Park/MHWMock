@@ -35,7 +35,7 @@ void CPlayerCameraScript::begin()
 	}
 }
 
-void CPlayerCameraScript::tick()
+void CPlayerCameraScript::update()
 {
 	if (CKeyMgr::GetInst()->GetKeyState(KEY::P) == KEY_STATE::PRESSED)
 	{

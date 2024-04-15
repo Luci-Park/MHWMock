@@ -14,7 +14,7 @@ CCameraMoveScript::~CCameraMoveScript()
 {
 }
 
-void CCameraMoveScript::tick()
+void CCameraMoveScript::update()
 {
 	if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
 		Camera2DMove();

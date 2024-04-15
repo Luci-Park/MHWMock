@@ -4,7 +4,7 @@ class CGravityScript :
     public CScript
 {
 public:
-    virtual void tick() override;
+    virtual void update() override;
 
 private:
     CLONE(CGravityScript);

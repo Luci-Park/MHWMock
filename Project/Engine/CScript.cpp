@@ -23,6 +23,11 @@ void CScript::AddScriptParam(SCRIPT_PARAM eParam, void* _pData, const string& _D
 		m_vecGameObjParams.resize(m_vecParamObjs.size());
 	}
 }
+void CScript::tick()
+{
+	FindGameObject();
+	update();
+}
 void CScript::finaltick()
 {
 	FindGameObject();
