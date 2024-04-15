@@ -65,6 +65,6 @@ void CArenaScript::SaveToLevelFile(FILE* _File)
 void CArenaScript::LoadFromLevelFile(FILE* _FILE)
 {
 	LoadGameObjectParam(0, _FILE);
-	//LoadGameObjectParam(1, _FILE);
+	LoadGameObjectParam(1, _FILE);
 }
 

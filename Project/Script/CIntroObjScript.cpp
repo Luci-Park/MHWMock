@@ -55,7 +55,7 @@ void CIntroObjScript::tick()
 	m_fTime += DT;
 
 	CCanvas* pCanvas = dynamic_cast<CCanvas*>(GetOwner()->GetRenderComponent());
-	if (m_fTime > 12.0f && m_TexIdx < m_vecTex.size())
+	if (m_fTime > 6.0f && m_TexIdx < m_vecTex.size())
 	{
 		m_fTime = 0.0f;
 		if (pCanvas != nullptr)
@@ -77,7 +77,7 @@ void CIntroObjScript::tick()
 			}
 			else
 			{
-				m_fAlpha += (1.0f / 5.0f) * DT;
+				m_fAlpha += (1.0f / 2.0f) * DT;
 			}
 
 			pCanvas->SetAlpha(m_fAlpha);
@@ -90,14 +90,14 @@ void CIntroObjScript::tick()
 			}
 			else
 			{
-				m_fAlpha -= (1.0f / 5.0f) * DT;
+				m_fAlpha -= (1.0f / 2.0f) * DT;
 			}
 
 			pCanvas->SetAlpha(m_fAlpha);
 		}
 		else
 		{
-			if (m_fTime > 7.0f && m_TexIdx < m_vecTex.size())
+			if (m_fTime > 4.0f && m_TexIdx < m_vecTex.size())
 				FadeOut();
 		}
 	}
@@ -106,7 +106,7 @@ void CIntroObjScript::tick()
 	{
 		if (!m_bIsChanged)
 		{
-			CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-01 Main Theme - Stars at Our Backs.mp3")->Play(1, 1.0, true);
+			CResMgr::GetInst()->FindRes<CSound>(L"sound\\1-01 Main Theme - Stars at Our Backs.mp3")->Play(1, 0.2f, true);
 
 			if (KEY_TAP(KEY::SPACE))
 			{

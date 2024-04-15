@@ -151,7 +151,7 @@ void CEventMgr::tick()
 			CLevel* Level = (CLevel*)m_vecEvent[i].wParam;
 			CLevelMgr::GetInst()->ChangeLevel(Level);
 			CRenderMgr::GetInst()->ClearCamera();
-			//Level->ChangeState(LEVEL_STATE::PLAY);
+			Level->ChangeState(LEVEL_STATE::PLAY);
 			m_LevelChanged = true;
 		}
 			break;
