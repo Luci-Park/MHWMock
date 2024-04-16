@@ -3,9 +3,7 @@
 
 CAnjanathLeg::CAnjanathLeg(SCRIPT_TYPE _type)
 	: CAnjanathPart(_type, 100)
-	, m_pScar(nullptr)
 {
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pScar, "Scar");
 }
 
 CAnjanathLeg::~CAnjanathLeg()
@@ -22,22 +20,18 @@ void CAnjanathLeg::OnHPZero()
 {
 	Anj()->Stagger();
 	Anj()->OnDamaged(100);
-	m_pScar->SetActive(true);
 }
 
 void CAnjanathLeg::begin()
 {
-	if (m_pScar)m_pScar->SetActive(false);
 }
 
 void CAnjanathLeg::SaveToLevelFile(FILE* _File)
 {
 	CAnjanathPart::SaveToLevelFile(_File);
-	SaveGameObjectParam(m_pScar, _File);
 }
 
 void CAnjanathLeg::LoadFromLevelFile(FILE* _File)
 {
 	CAnjanathPart::LoadFromLevelFile(_File);
-	LoadGameObjectParam(1, _File);
 }

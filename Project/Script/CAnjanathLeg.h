@@ -5,7 +5,6 @@ class CAnjanathLeg :
 	public CAnjanathPart
 {
 private:
-	CGameObject* m_pScar;
 protected:
 	virtual int OnAttacked(int _damage) override;
 	virtual void OnHPZero() override;

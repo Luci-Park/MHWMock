@@ -12,6 +12,7 @@ private:
 	int					m_iHP;
 	float				m_fRotateSpeed;
 	bool				m_bStagger;
+	bool				m_bAggroed;
 
 	AnjActionPicker*	m_pPicker;
 	AnjAction*			m_pCurrentAction;

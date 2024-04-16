@@ -5,7 +5,6 @@ class CAnjanathTail :
 	public CAnjanathPart
 {
 private:
-	CGameObject* m_pTail;
 protected:
 	virtual int OnAttacked(int _damage) override;
 	virtual void OnHPZero() override;

@@ -3,9 +3,6 @@
 class CAnjanathHead :
 	public CAnjanathPart
 {
-private:
-	CGameObject* m_pScar1;
-	CGameObject* m_pScar2;
 protected:
 	virtual int OnAttacked(int _damage) override;
 	virtual void OnHPZero() override;

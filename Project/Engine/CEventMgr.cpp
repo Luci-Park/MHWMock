@@ -71,14 +71,11 @@ void CEventMgr::tick()
 			CGameObject* pDestObj = (CGameObject*)m_vecEvent[i].wParam;
 			CGameObject* pSrcObj = (CGameObject*)m_vecEvent[i].lParam;
 
-			// �θ�� ������ ������Ʈ�� ������, Child ������Ʈ�� �ֻ��� �θ� ������Ʈ�� �ȴ�.
 			if (nullptr == pDestObj)
 			{
 				if (pSrcObj->GetParent())
 				{
-					// ���� �θ���� ���� ����
 					pSrcObj->DisconnectFromParent();
-					// �ֻ��� �θ� ������Ʈ��, �Ҽ� ���̾ ���
 					pSrcObj->AddParentList();
 				}
 			}
@@ -151,7 +148,7 @@ void CEventMgr::tick()
 			CLevel* Level = (CLevel*)m_vecEvent[i].wParam;
 			CLevelMgr::GetInst()->ChangeLevel(Level);
 			CRenderMgr::GetInst()->ClearCamera();
-			Level->ChangeState(LEVEL_STATE::PLAY);
+			//Level->ChangeState(LEVEL_STATE::PLAY);
 			m_LevelChanged = true;
 		}
 			break;

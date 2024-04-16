@@ -9,6 +9,7 @@ CAnjanath::CAnjanath()
 	, m_fRotateSpeed(90.f)
 	, m_iMaxHP(2200)
 	, m_bStagger(false)
+	, m_bAggroed(false)
 {
 	m_iHP = m_iMaxHP;
 	m_pPicker = new AnjActionPicker(this);
@@ -32,6 +33,7 @@ void CAnjanath::OnDamaged(int _damge)
 	m_iHP -= _damge;
 	Animator3D()->SetInt(L"HP", m_iHP);
 	Animator3D()->SetBool(L"Aggroed", true);
+	m_bAggroed = true;
 }
 
 void CAnjanath::Stagger()
@@ -100,13 +102,14 @@ void CAnjanath::begin()
 {
 	Animator3D()->SetInt(L"HP", m_iHP);
 	Animator3D()->SetBool(L"Aggroed", false);
+	m_bAggroed = false;
 }
 
 void CAnjanath::update()
 {
 	double percentage;
 	auto clip = Animator3D()->GetCurrentAnimation(percentage);
-	if (clip != nullptr&& clip->GetName() == L"Animation 036") RotateTowardsPlayer();
+	if (m_bAggroed && clip != nullptr&& clip->GetName() == L"Animation 036") RotateTowardsPlayer();
 	if (m_pCurrentAction)
 	{
 		bool move = m_pCurrentAction->KeepMoving();

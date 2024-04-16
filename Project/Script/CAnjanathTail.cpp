@@ -4,9 +4,7 @@
 
 CAnjanathTail::CAnjanathTail()
 	: CAnjanathPart(SCRIPT_TYPE::ANJANATHTAIL, 200)
-	, m_pTail(nullptr)
 {
-	AddScriptParam(SCRIPT_PARAM::GAMEOBJECT, &m_pTail, "TailMesh");
 }
 
 CAnjanathTail::~CAnjanathTail()
@@ -20,25 +18,21 @@ int CAnjanathTail::OnAttacked(int _damage)
 
 void CAnjanathTail::OnHPZero()
 {
-	if (m_pTail)m_pTail->SetActive(false);
 	Anj()->OnDamaged(350);
 	Anj()->Stagger();
 }
 
 void CAnjanathTail::begin()
 {
-	if (m_pTail)m_pTail->SetActive(true);
 	//Collider3D()->SetActive(true);
 }
 
 void CAnjanathTail::SaveToLevelFile(FILE* _File)
 {
 	CAnjanathPart::SaveToLevelFile(_File);
-	SaveGameObjectParam(m_pTail, _File);
 }
 
 void CAnjanathTail::LoadFromLevelFile(FILE* _File)
 {
 	CAnjanathPart::LoadFromLevelFile(_File);
-	LoadGameObjectParam(1, _File);
 }
