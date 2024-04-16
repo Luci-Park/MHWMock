@@ -89,11 +89,11 @@ PS_OUT PS_DirLightShader(VS_OUT _in)
         float fDepth = vLightProj.z / vLightProj.w;
         float fLightDepth = ShadowMapTargetTex.Sample(g_sam_1, vShadowMapUV);
     
-        if (fLightDepth + 0.002f <= fDepth)
-        {
-            // 그림자
-            fShadowPow = 0.9f;
-        }
+        //if (fLightDepth + 0.002f <= fDepth)
+        //{
+        //    // 그림자
+        //    fShadowPow = 0.9f;
+        //}
     }
     
    // 계산된 최종 광원의 세기를 각 타겟(Diffuse, Specular) 에 출력
