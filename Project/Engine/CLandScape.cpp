@@ -37,6 +37,12 @@ void CLandScape::finaltick()
 		m_eMod = LANDSCAPE_MOD::HEIGHT_MAP;
 	else if (KEY_TAP(KEY::NUM_2))
 		m_eMod = LANDSCAPE_MOD::SPLAT;
+	else if (KEY_TAP(KEY::NUM_3))
+	{
+		m_iWeightIdx++;
+		if (3 <= m_iWeightIdx)
+			m_iWeightIdx = 0;
+	}
 
 	if (LANDSCAPE_MOD::NONE == m_eMod)
 	{

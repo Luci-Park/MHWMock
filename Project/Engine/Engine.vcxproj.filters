@@ -224,6 +224,9 @@
     <ClInclude Include="CRayCastShader.h">
       <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
     </ClInclude>
+    <ClInclude Include="CWeightMapShader.h">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -439,6 +442,9 @@
       <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
     </ClCompile>
     <ClCompile Include="CRayCastShader.cpp">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
+    </ClCompile>
+    <ClCompile Include="CWeightMapShader.cpp">
       <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
     </ClCompile>
   </ItemGroup>
@@ -719,6 +725,9 @@
       <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
     <FxCompile Include="raycast.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="weightmap.fx">
       <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
   </ItemGroup>
