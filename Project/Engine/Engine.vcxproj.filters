@@ -218,6 +218,12 @@
     <ClInclude Include="IAnimationState.h">
       <Filter>Source\06. Component\6. Animator\Animator3D\AnimationState</Filter>
     </ClInclude>
+    <ClInclude Include="CHeightMapShader.h">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
+    </ClInclude>
+    <ClInclude Include="CRayCastShader.h">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -425,6 +431,15 @@
     </ClCompile>
     <ClCompile Include="CEntity.cpp">
       <Filter>Source\09. Module</Filter>
+    </ClCompile>
+    <ClCompile Include="CHeightMapShader.cpp">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
+    </ClCompile>
+    <ClCompile Include="CLandScape_init.cpp">
+      <Filter>Source\06. Component\RenderComponent\5. Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="CRayCastShader.cpp">
+      <Filter>Source\08. ShaderCode\Compute\LandScape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -699,6 +714,12 @@
     </FxCompile>
     <FxCompile Include="canvas.fx">
       <Filter>Source\08. ShaderCode\Render\2D</Filter>
+    </FxCompile>
+    <FxCompile Include="heightmap.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
+    </FxCompile>
+    <FxCompile Include="raycast.fx">
+      <Filter>Source\08. ShaderCode\Render\3D</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

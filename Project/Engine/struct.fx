@@ -123,4 +123,13 @@ struct tParticleAnime
     float2  padding;
     float   padding2;
 };
+
+struct tRaycastOut
+{
+    float2 vUV;
+    float fDist;
+    int success;
+};
+
+
 #endif

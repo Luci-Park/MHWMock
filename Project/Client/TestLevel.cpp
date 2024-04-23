@@ -94,6 +94,7 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
+	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
 	pLightObj->SetName(L"Directional Light");
 
@@ -108,19 +109,6 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, Vec3(-2000, 2000.f, -2000.f), 0);
 
-	// LandScape Object
-	CGameObject* pLandScape = new CGameObject;
-	pLandScape->SetName(L"LandScape");
-
-	pLandScape->AddComponent(new CTransform);
-	pLandScape->AddComponent(new CLandScape);
-
-	pLandScape->Transform()->SetRelativeScale(Vec3(500.f, 3000.f, 500.f));
-
-	pLandScape->LandScape()->SetFace(64, 64);
-	pLandScape->LandScape()->SetFrustumCheck(false);
-
-	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
 	//Ptr<CTexture> tex;
 
@@ -176,20 +164,19 @@ void CreateTestLevel()
 	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
 	// LandScape Object
-	//CGameObject* pLandScape = new CGameObject;
-	//pLandScape->SetName(L"LandScape");
-	//
-	//pLandScape->AddComponent(new CTransform);
-	//pLandScape->AddComponent(new CLandScape);
-	//
-	//pLandScape->Transform()->SetRelativeScale(Vec3(200.f, 1000.f, 200.f));
-	//
-	//pLandScape->LandScape()->SetFace(32, 32);
-	//pLandScape->LandScape()->SetFrustumCheck(false);
+	CGameObject* pLandScape = new CGameObject;
+	pLandScape->SetName(L"LandScape");
+
+	pLandScape->AddComponent(new CTransform);
+	pLandScape->AddComponent(new CLandScape);
+
+	pLandScape->Transform()->SetRelativeScale(Vec3(500.f, 3000.f, 500.f));
+
+	pLandScape->LandScape()->SetFace(64, 64);
+	pLandScape->LandScape()->SetFrustumCheck(false);
 	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	//pLandScape->LandScape()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
-	//
-	//SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
+
+	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);
 
 	//Ptr<CModel> model = CResMgr::GetInst()->FindRes<CModel>(L"model\\playerMerge_W_Animation\\playerMerge_W_Animation.model");
 	//auto gc = model->CreateGameObjectFromModel();
@@ -199,7 +186,7 @@ void CreateTestLevel()
 
 
 
-	CGameObject* pObject1 = new CGameObject;
+	/*CGameObject* pObject1 = new CGameObject;
 	pObject1->SetName(L"Player1");
 	pObject1->AddComponent(new CTransform);
 	pObject1->AddComponent(new CMeshRender);
@@ -217,7 +204,7 @@ void CreateTestLevel()
 	pObject2->Transform()->SetRelativeScale(Vector3(100.f, 100.f, 100.f));
 	pObject2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject2->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"));
-	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 3);
+	SpawnGameObject(pObject2, Vec3(50.f, 0.f, 0.f), 3);*/
 
 	CGameObject* pObject3 = new CGameObject;
 	pObject3->SetName(L"Particle");

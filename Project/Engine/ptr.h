@@ -4,7 +4,7 @@ template<typename T>
 class Ptr
 {
 private:
-	T*		m_Res;
+	T* m_Res;
 
 
 public:
@@ -39,7 +39,7 @@ public:
 
 	bool operator == (T* _Other)
 	{
-		return m_Res == _Other;			
+		return m_Res == _Other;
 	}
 
 	bool operator != (T* _Other)

@@ -1079,7 +1079,6 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"LandScapeShader");
-	pShader->SetName(L"LandScapeShader");
 	pShader->CreateVertexShader(L"shader\\landscape.fx", "VS_LandScape");
 	pShader->CreateHullShader(L"shader\\landscape.fx", "HS_LandScape");
 	pShader->CreateDomainShader(L"shader\\landscape.fx", "DS_LandScape");
@@ -1290,7 +1289,6 @@ void CResMgr::CreateDefaultMaterial()
 	// LandScapeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LandScapeShader"));
-	pMtrl->SetName(L"LandScapeMtrl");
 	AddRes(L"LandScapeMtrl", pMtrl);
 
 	// CanvasMtrl

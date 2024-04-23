@@ -113,6 +113,23 @@ void CRenderMgr::SetRenderFunc(bool _IsPlay)
         RENDER_FUNC = &CRenderMgr::render_editor;
 }
 
+#include "CLevelMgr.h"
+#include "CLevel.h"
+CCamera* CRenderMgr::GetMainCam()
+{
+    if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
+    {
+        if (m_vecCam.empty())
+            return nullptr;
+
+        return m_vecCam[0];
+    }
+    else
+    {
+        return m_pEditorCam;
+    }
+}
+
 void CRenderMgr::CopyRenderTarget()
 {
     Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");

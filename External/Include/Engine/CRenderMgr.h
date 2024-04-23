@@ -77,13 +77,7 @@ public:
     const vector<CLight2D*>& GetLight2D() { return m_vecLight2D; }
     const vector<CLight3D*>& GetLight3D() { return m_vecLight3D; }
 
-    CCamera* GetMainCam() 
-    { 
-        if (m_vecCam.empty())
-            return nullptr;
-
-        return m_vecCam[0];
-    }
+    CCamera* GetMainCam();
 
     CCamera* GetEditorCam()
     {

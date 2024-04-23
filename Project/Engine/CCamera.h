@@ -33,7 +33,7 @@ private:
     bool        m_iLayerMaskVis[MAX_LAYER];
 
     int         m_iCamIdx;          // 카메라 우선순위
-
+    tRay                    m_ray;      // 마우스 방향을 향하는 직선
 
     vector<CGameObject*>    m_vecDeferred;
     vector<CGameObject*>    m_vecDeferredDecal;
@@ -81,6 +81,8 @@ public:
 
     void SetCameraIndex(int _idx);
 
+    const tRay& GetRay() { return m_ray; }
+
     const Matrix& GetViewMat() { return m_matView; }
     const Matrix& GetProjMat() { return m_matProj; }
 
@@ -98,6 +100,8 @@ public:
     virtual void begin() override;
     virtual void finaltick() override;
 
+protected:
+    void CalRay();  // 마우스 방향으로 광선 연산
 
 private:
     void clear();
