@@ -49,6 +49,8 @@ public:
     void SetSpawnInitialStartScale(float _Scale) { m_ModuleData.StartScale = _Scale; }
     void SetSpawnInitialEndScale(float _Scale) { m_ModuleData.EndScale = _Scale; }
     void SetSpawnInitialRate(float rate) { m_ModuleData.SpawnRate = rate; }
+    void SetStartColor(Vec3 _vStartColor) { m_ModuleData.vStartColor = _vStartColor; }
+    void SetEndColor(Vec3 _vEndColor) { m_ModuleData.vStartColor = _vEndColor; }
 
     void SetModuleData(tParticleModule _Module) { m_ModuleData = _Module; }
     tParticleModule GetModuleData() { return m_ModuleData; }

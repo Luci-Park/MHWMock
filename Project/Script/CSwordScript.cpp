@@ -188,5 +188,7 @@ void CSwordScript::LightingEffect()
 	ps->SetSpawnInitialSpeed(2.f);
 	ps->SetSpawnInitialRate(2.f);
 	ps->SetSpawnInitialColor(Vec3(1.f, 1.f, 0.f));
+	ps->SetStartColor(Vec3(1.f, 1.f, 0.f));
+	ps->SetEndColor(Vec3(1.f, 1.f, 0.f));
 	SpawnGameObject(LightingParticle,GetOwner()->Transform()->GetWorldPos(), 0);
 }
