@@ -2,6 +2,7 @@
 #include "CTexture.h"
 
 #include "CDevice.h"
+#include "CPathMgr.h"
 
 CTexture::CTexture(bool _bEngine)
 	: CRes(RES_TYPE::TEXTURE, _bEngine)
@@ -298,7 +299,9 @@ int CTexture::CreateArrayTexture(const vector<Ptr<CTexture>>& _vecTex, int _iMap
 	m_Tex2D->GetDesc(&m_Desc);
 
 	return hr;
+	return 0;
 }
+
 
 void CTexture::GenerateMip(UINT _iMipLevel)
 {
