@@ -53,28 +53,28 @@ void CLandScape::finaltick()
 	{
 		Raycasting();
 
-		if (LANDSCAPE_MOD::HEIGHT_MAP == m_eMod)
-		{
-			// 교점 위치정보를 토대로 높이를 수정 함
-			m_pCSHeightMap->SetInputBuffer(m_pCrossBuffer); // 픽킹 정보를 HeightMapShader 에 세팅
+		//if (LANDSCAPE_MOD::HEIGHT_MAP == m_eMod)
+		//{
+		//	// 교점 위치정보를 토대로 높이를 수정 함
+		//	m_pCSHeightMap->SetInputBuffer(m_pCrossBuffer); // 픽킹 정보를 HeightMapShader 에 세팅
 
-			m_pCSHeightMap->SetBrushTex(m_pBrushTex);		// 사용할 브러쉬 텍스쳐 세팅
-			m_pCSHeightMap->SetBrushIndex(0);				// 브러쉬 인덱스 설정
-			m_pCSHeightMap->SetBrushScale(m_vBrushScale);   // 브러쉬 크기
-			m_pCSHeightMap->SetHeightMap(m_HeightMap);
-			m_pCSHeightMap->Execute();
-		}
-		else if (LANDSCAPE_MOD::SPLAT == m_eMod)
-		{
-			// 교점 위치정보를 토대로 가중치를 수정함	
-			m_pCSWeightMap->SetInputBuffer(m_pCrossBuffer); // 레이 캐스트 위치
-			m_pCSWeightMap->SetBrushArrTex(m_pBrushTex);
-			m_pCSWeightMap->SetBrushIndex(0);
-			m_pCSWeightMap->SetBrushScale(m_vBrushScale); // 브러쉬 크기
-			m_pCSWeightMap->SetWeightMap(m_pWeightMapBuffer, m_iWeightWidth, m_iWeightHeight); // 가중치맵, 가로 세로 개수			
-			m_pCSWeightMap->SetWeightIdx(m_iWeightIdx);
-			m_pCSWeightMap->Execute();
-		}
+		//	m_pCSHeightMap->SetBrushTex(m_pBrushTex);		// 사용할 브러쉬 텍스쳐 세팅
+		//	m_pCSHeightMap->SetBrushIndex(0);				// 브러쉬 인덱스 설정
+		//	m_pCSHeightMap->SetBrushScale(m_vBrushScale);   // 브러쉬 크기
+		//	m_pCSHeightMap->SetHeightMap(m_HeightMap);
+		//	m_pCSHeightMap->Execute();
+		//}
+		//else if (LANDSCAPE_MOD::SPLAT == m_eMod)
+		//{
+		//	// 교점 위치정보를 토대로 가중치를 수정함	
+		//	m_pCSWeightMap->SetInputBuffer(m_pCrossBuffer); // 레이 캐스트 위치
+		//	m_pCSWeightMap->SetBrushArrTex(m_pBrushTex);
+		//	m_pCSWeightMap->SetBrushIndex(0);
+		//	m_pCSWeightMap->SetBrushScale(m_vBrushScale); // 브러쉬 크기
+		//	m_pCSWeightMap->SetWeightMap(m_pWeightMapBuffer, m_iWeightWidth, m_iWeightHeight); // 가중치맵, 가로 세로 개수			
+		//	m_pCSWeightMap->SetWeightIdx(m_iWeightIdx);
+		//	m_pCSWeightMap->Execute();
+		//}
 	}
 }
 
