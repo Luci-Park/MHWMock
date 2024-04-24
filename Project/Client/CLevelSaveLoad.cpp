@@ -104,7 +104,8 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 		}
 
 		// 컴포넌트 정보 저장
-		Com->SaveToLevelFile(_File);
+		if ((COMPONENT_TYPE)i != COMPONENT_TYPE::LANDSCAPE)
+			Com->SaveToLevelFile(_File);
 	}
 
 	// 스크립트	
@@ -268,7 +269,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			Component = new CTileMap;
 			break;
 		case COMPONENT_TYPE::LANDSCAPE:	
-			//Component = new CLandScape;
+			Component = new CLandScape;
 			break;
 		case COMPONENT_TYPE::SKYBOX:
 			Component = new CSkyBox;
@@ -286,6 +287,8 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 
 		if (Component == nullptr) continue;
 		pObject->AddComponent(Component);
+
+		if ((COMPONENT_TYPE)ComponentType != COMPONENT_TYPE::LANDSCAPE)
 		Component->LoadFromLevelFile(_File);
 	}
 

@@ -17,6 +17,7 @@ CLandScape::CLandScape()
 	, m_vBrushScale(Vec2(0.2f, 0.2f))
 {
 	init();
+	SetFace(64, 64);
 }
 
 CLandScape::~CLandScape()
@@ -51,7 +52,7 @@ void CLandScape::finaltick()
 
 	if (KEY_PRESSED(KEY::LBTN))
 	{
-		Raycasting();
+		//Raycasting();
 
 		//if (LANDSCAPE_MOD::HEIGHT_MAP == m_eMod)
 		//{
