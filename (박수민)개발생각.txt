@@ -1,29 +1,31 @@
-1/3
-1. level creation => load level
-2. MenuUI에서 Save Level, Load level 이름 지정.
+1. Idle
+	- 여러 idle 그르릉 소리를 오른쪽 볼때마다 실행
+		- 25, 31, 8, 66 voice
+	- walk = 1, 2 sfx
+2. 포효
+	= 30을 두번 한다.
+3. 공격
+	- Bite
+		- 하고 쩝쩝 거리는 느낌
+	- scratch
+		- 때릴 때 으르렁
+	- tail slam
+		- 
+	- tail sweep
+	- body slam
+		- 21 fsx
+	- forward attack
+	- rush
+4. death
 
-how to change
-1. Create Level
-2. Load Level => show all levels
-	=> Done At Content UI
-	=> 로드한 레벨만 이름 설정이 가능하면 ok.
-3. save Level => Get Current LEvel
-	- ok, but needs to save better, no errors but.. doesn't come up correctly.
+- 5 : 포효?
+- 7, 11 : aggressive
 
+- 12 : 그르릉
+- 15: 절뚝
+- 18: breath
 
-Save Currently ok
-1. Resource는 key와 path로 저장을 한다.
-Key와 이름을 바꿔야 할 땐 어떻게 해야 하는 가.
-2. Script param은 저장=> ptr 타입은 어캐 하징
-
-Save Currently ok
-1. Resource는 key와 path로 저장을 한다.
-Key와 이름을 바꿔야 할 땐 어떻게 해야 하는 가.
-2. Script param은 저장=> ptr 타입은 어캐 하징
-
-1/10
-- anjanath animation
-	- mMeshes
-	- mMaterials
-	- mAnimations
-	=> 애초에 스켈레톤은 없다.
+- 19: roar
+- 26
+- 30 : 젤 중요한거(roar) => 두번 한다.
+- 
