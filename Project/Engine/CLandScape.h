@@ -44,7 +44,9 @@ private:
     LANDSCAPE_MOD           m_eMod; 	        // 지형 툴모드에서 상태값
 
     Ptr<CTexture>           m_pTileArrTex;      // 타일 배열 텍스쳐
-
+    Ptr<CTexture>           m_pBML;      // 타일 배열 텍스쳐
+    Ptr<CTexture>           m_pNM;      // 타일 배열 텍스쳐
+    
 public:
     void SetFace(UINT _iFaceX, UINT _iFaceZ);
     void SetHeightMap(Ptr<CTexture> _HeightMap) { m_HeightMap = _HeightMap; }

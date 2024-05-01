@@ -173,7 +173,7 @@ void CreateTestLevel()
 	pLandScape->Transform()->SetRelativeScale(Vec3(500.f, 3000.f, 500.f));
 
 	//pLandScape->LandScape()->SetFace(64, 64);
-	pLandScape->LandScape()->SetFrustumCheck(false);
+	//pLandScape->LandScape()->SetFrustumCheck(false);
 	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
 
 	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), 0);

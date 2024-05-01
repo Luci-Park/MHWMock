@@ -25,8 +25,17 @@ void CLandScape::init()
 	// Å¸ÀÏ ÅØ½ºÃÄ(Color, Normal È¥ÇÕ, ÃÑ 6Àå)	
 	//m_pTileArrTex = CResMgr::GetInst()->Load<CTexture>(L"texture\\tile\\TILE_ARRR.dds", L"texture\\tile\\TILE_ARRR.dds");
 	//m_pTileArrTex = CResMgr::GetInst()->LoadTexture(L"texture\\tile\\TILE_ARRR.dds", L"texture\\tile\\TILE_ARRR.dds", 8);
-	m_pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_ARRR.dds");
+	//m_pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\TILE_ARRR.dds");
+	//m_pTileArrTex->GenerateMip(8);
+
+	m_pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\DXT1_gnd02_soil_17_BML.png");
 	m_pTileArrTex->GenerateMip(8);
+
+	m_pBML = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\DXT1_gnd02_soil_17_BML.png");
+	m_pBML->GenerateMip(8);
+
+	m_pNM = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\tile\\BC5_gnd02_soil_17_NM.png");
+	m_pNM->GenerateMip(8);
 }
 
 void CLandScape::CreateMesh()

@@ -14,11 +14,15 @@
 #define                     ColorTexture                    g_tex_0
 #define                     NormalTexture                   g_tex_1
 #define                     HeightMap                       g_tex_2
+#define                     BML                       g_tex_3
+#define                     NM                       g_tex_4
 
 #define                     TileCount                       g_float_1   // 배열 개수
 #define                     WeightMapResolution             g_vec2_1    // 가중치 버퍼 해상도
 
 #define                     TileTexArr                      g_arrtex_0  // Tile 배열 택스쳐
+#define     SpecCoeff   g_float_0
+
 StructuredBuffer<float4> WEIGHT_MAP : register(t17); // 가중치 버퍼
 // ========================================================================================
 
@@ -230,20 +234,32 @@ PS_OUT PS_LandScape(DS_OUT _in)
         //}
         
             iMaxWeightIdx = 0;
-            vColor += TileTexArr.SampleGrad(g_sam_0, float3(_in.vUV, 0), derivX, derivY);
+            //vColor += TileTexArr.SampleGrad(g_sam_0, float3(_in.vUV, 0), derivX, derivY);
+            vColor += BML.SampleGrad(g_sam_0, _in.vUV, derivX, derivY);
             //vColor += TileTexArr.SampleLevel(g_sam_0, float3(_in.vUV, i), 0) * vWeight[i];
         
             output.vColor = float4(vColor.rgb, 1.f);
 
             // 타일 노말
-            float3 vTangentSpaceNormal = TileTexArr.SampleGrad(g_sam_0, float3(_in.vUV, iMaxWeightIdx + TileCount), derivX, derivY).xyz;
+            //float3 vTangentSpaceNormal = TileTexArr.SampleGrad(g_sam_0, float3(_in.vUV, iMaxWeightIdx + TileCount), derivX, derivY).xyz;
             //float3 vTangentSpaceNormal = TileTexArr.SampleLevel(g_sam_0, float3(_in.vUV, iMaxWeightIdx + TileCount), 0).xyz;
-            vTangentSpaceNormal = vTangentSpaceNormal * 2.f - 1.f;
+            //vTangentSpaceNormal = vTangentSpaceNormal * 2.f - 1.f;
 
-            float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
-            vViewNormal = normalize(mul(vTangentSpaceNormal, matTBN));
+            //float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
+            //vViewNormal = normalize(mul(vTangentSpaceNormal, matTBN));
+        
+        
+        float3 vTangentSpaceNormal = NM.SampleGrad(g_sam_0, _in.vUV, derivX, derivY).xyz;
+
+        float3 vnormal;
+        vnormal.xy = vTangentSpaceNormal.xy * 2 - 1;
+        vnormal.z = sqrt(1 - vnormal.x * vnormal.x - vnormal.y * vnormal.y);
+        vnormal.z *= -1;
+        
+        vViewNormal = normalize(mul(float4(vnormal, 0.f), g_matView));
         
     }
+    output.vColor.a = saturate(0.3f);
 
     output.vNormal = float4(vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);

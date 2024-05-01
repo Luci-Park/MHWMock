@@ -18,6 +18,7 @@ CLandScape::CLandScape()
 {
 	init();
 	SetFace(64, 64);
+	SetFrustumCheck(false);
 }
 
 CLandScape::~CLandScape()
@@ -95,6 +96,8 @@ void CLandScape::render()
 	Vec2 vResolution = Vec2(m_HeightMap->Width(), m_HeightMap->Height());
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, &vResolution);
 	GetMaterial()->SetTexParam(TEX_PARAM::TEX_2, m_HeightMap);
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_3, m_pBML);
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_4, m_pNM);
 
 	// 가중치 버퍼 전달
 	m_pWeightMapBuffer->UpdateData(17, PIPELINE_STAGE::PS_PIXEL);
