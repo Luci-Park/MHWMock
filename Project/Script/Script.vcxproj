@@ -222,6 +222,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CAnjanathLeg.h" />
     <ClInclude Include="CAnjanathPart.h" />
     <ClInclude Include="CAnjanathRightLeg.h" />
+    <ClInclude Include="CAnjanathSoundController.h" />
     <ClInclude Include="CAnjanathTail.h" />
     <ClInclude Include="CArenaScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
@@ -258,6 +259,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CAnjanathLeg.cpp" />
     <ClCompile Include="CAnjanathPart.cpp" />
     <ClCompile Include="CAnjanathRightLeg.cpp" />
+    <ClCompile Include="CAnjanathSoundController.cpp" />
     <ClCompile Include="CAnjanathTail.cpp" />
     <ClCompile Include="CArenaScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />

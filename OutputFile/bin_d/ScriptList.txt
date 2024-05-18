@@ -3,6 +3,7 @@ CAnjanathBody
 CAnjanathHead
 CAnjanathLeftLeg
 CAnjanathRightLeg
+CAnjanathSoundController
 CAnjanathTail
 CArenaScript
 CCameraMoveScript

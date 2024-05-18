@@ -129,6 +129,9 @@
     <ClInclude Include="CAnjanathTail.h">
       <Filter>Script\Anjanath\Body</Filter>
     </ClInclude>
+    <ClInclude Include="CAnjanathSoundController.h">
+      <Filter>Script\Anjanath</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="CAnjanathTail.cpp">
       <Filter>Script\Anjanath\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnjanathSoundController.cpp">
+      <Filter>Script\Anjanath</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

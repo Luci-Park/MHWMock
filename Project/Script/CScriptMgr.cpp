@@ -6,6 +6,7 @@
 #include "CAnjanathHead.h"
 #include "CAnjanathLeftLeg.h"
 #include "CAnjanathRightLeg.h"
+#include "CAnjanathSoundController.h"
 #include "CAnjanathTail.h"
 #include "CArenaScript.h"
 #include "CCameraMoveScript.h"
@@ -28,6 +29,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAnjanathHead");
 	_vec.push_back(L"CAnjanathLeftLeg");
 	_vec.push_back(L"CAnjanathRightLeg");
+	_vec.push_back(L"CAnjanathSoundController");
 	_vec.push_back(L"CAnjanathTail");
 	_vec.push_back(L"CArenaScript");
 	_vec.push_back(L"CCameraMoveScript");
@@ -56,6 +58,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnjanathLeftLeg;
 	if (L"CAnjanathRightLeg" == _strScriptName)
 		return new CAnjanathRightLeg;
+	if (L"CAnjanathSoundController" == _strScriptName)
+		return new CAnjanathSoundController;
 	if (L"CAnjanathTail" == _strScriptName)
 		return new CAnjanathTail;
 	if (L"CArenaScript" == _strScriptName)
@@ -105,6 +109,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHRIGHTLEG:
 		return new CAnjanathRightLeg;
+		break;
+	case (UINT)SCRIPT_TYPE::ANJANATHSOUNDCONTROLLER:
+		return new CAnjanathSoundController;
 		break;
 	case (UINT)SCRIPT_TYPE::ANJANATHTAIL:
 		return new CAnjanathTail;
@@ -174,6 +181,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ANJANATHRIGHTLEG:
 		return L"CAnjanathRightLeg";
+		break;
+
+	case SCRIPT_TYPE::ANJANATHSOUNDCONTROLLER:
+		return L"CAnjanathSoundController";
 		break;
 
 	case SCRIPT_TYPE::ANJANATHTAIL:
